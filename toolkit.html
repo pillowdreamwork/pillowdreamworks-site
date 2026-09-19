@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Psychology Toolkit | A Calmer Mind, A Brighter Tomorrow — PillowDreamWorks Foundation</title>
+  <meta name="description" content="A practical psychology and emotional-wellbeing workbook by Manish Garg with guided exercises, reflection prompts, worksheets, trackers and tools for self-awareness, mindset, anxiety, relationships, habits and personal growth.">
+  <meta name="keywords" content="psychology workbook, psychology toolkit, mental wellbeing workbook, emotional awareness workbook, self-reflection workbook, anxiety workbook, mindset workbook, personal growth workbook, habit tracker workbook, relationship boundaries workbook, psychology exercises, wellbeing exercises">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="The Psychology Toolkit | A Calmer Mind, A Brighter Tomorrow">
+  <meta property="og:description" content="A practical psychology and emotional-wellbeing workbook with guided exercises, reflection prompts, worksheets, and trackers.">
+  <meta property="og:type" content="book">
+
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              50: '#f0f4f8',
+              100: '#d9e2ec',
+              200: '#bcccdc',
+              300: '#9fb3c8',
+              400: '#829ab1',
+              500: '#627d98',
+              600: '#486581',
+              700: '#334e68',
+              800: '#243b53',
+              900: '#102a43',
+              950: '#0b1d30'
+            },
+            sage: {
+              50: '#f4f7f5',
+              100: '#e5ece7',
+              200: '#cddbd1',
+              300: '#a7c1b1',
+              400: '#7ea38c',
+              500: '#5c866c',
+              600: '#466c54',
+              700: '#385643',
+              800: '#2f4537',
+              900: '#273a2f'
+            },
+            gold: {
+              50: '#fffbea',
+              100: '#fff3c4',
+              200: '#fce588',
+              300: '#fadb5f',
+              400: '#f7c948',
+              500: '#f0b429',
+              600: '#de911d',
+              700: '#cb6e17',
+              800: '#b44d12',
+              900: '#8d2b0b'
+            },
+            cream: '#fdf8f0',
+            skysoft: '#e0f2fe',
+            peachsoft: '#ffedd5'
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            script: ['"Playfair Display"', 'Georgia', 'cursive', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* Editorial styling & custom slide animation */
+    body { font-family: 'Inter', system-ui, sans-serif; background-color: #fdf8f0; }
+    .serif-display { font-family: 'Georgia', 'Cambria', serif; }
+    .script-quote { font-family: 'Georgia', serif; font-style: italic; }
+    
+    /* A4 page ratio: 1 : 1.414 */
+    .a4-page {
+      aspect-ratio: 1 / 1.414;
+      box-shadow: 0 16px 40px -10px rgba(16, 42, 67, 0.15), 0 0 0 1px rgba(16, 42, 67, 0.08);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    /* Carousel slide transitions */
+    .slide-item {
+      display: none;
+      opacity: 0;
+      transform: scale(0.97) translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .slide-item.active {
+      display: block;
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* Soft pulse badge */
+    @keyframes subtlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+    .pulse-badge {
+      animation: subtlePulse 3s infinite ease-in-out;
+    }
+
+    /* Gradient cards */
+    .hero-gradient {
+      background: radial-gradient(circle at 10% 20%, rgba(224, 242, 254, 0.7) 0%, rgba(253, 248, 240, 0.9) 60%),
+                  radial-gradient(circle at 90% 80%, rgba(205, 219, 209, 0.5) 0%, rgba(253, 248, 240, 1) 70%);
+    }
+
+    .modal-backdrop {
+      background: rgba(11, 29, 48, 0.75);
+      backdrop-filter: blur(8px);
+    }
+  </style>
+</head>
+<body class="text-gray-900 flex flex-col min-h-screen">
+
+  <!-- TOP ANNOUNCEMENT BAR WITH LAUNCH OFFER & CURRENCY SWITCHER -->
+  <div class="bg-navy-950 text-white text-xs py-2 px-4 border-b border-navy-800 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      
+      <div class="flex items-center gap-2">
+        <span class="bg-gold-500 text-navy-950 px-2 py-0.5 rounded font-extrabold text-[10px] tracking-wider uppercase">Launch Offer</span>
+        <span class="text-navy-100 hidden sm:inline">Graphotherapy Master Pack 77% OFF for limited time!</span>
+        <a href="#pricing-section" class="text-gold-300 font-bold hover:underline">Claim Now &rarr;</a>
+      </div>
+
+      <!-- Currency Toggle in Bar -->
+      <div class="flex items-center gap-3">
+        <span class="text-navy-300 text-[11px] font-medium hidden md:inline">Select Market:</span>
+        <div class="inline-flex rounded-lg p-0.5 bg-navy-900 border border-navy-700 text-[11px]">
+          <button type="button" onclick="setGlobalCurrency('INR')" id="top-curr-inr" class="px-2.5 py-0.5 rounded-md font-bold transition-all bg-gold-400 text-navy-950 shadow-xs flex items-center gap-1">
+            <span>🇮🇳</span> INR (₹)
+          </button>
+          <button type="button" onclick="setGlobalCurrency('USD')" id="top-curr-usd" class="px-2.5 py-0.5 rounded-md font-semibold text-navy-200 hover:text-white transition-all flex items-center gap-1">
+            <span>🌐</span> USD ($)
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MAIN HEADER / NAVBAR -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-gray-200/80 sticky top-8 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/logo.svg" alt="PillowDreamWorks" class="h-10 w-auto">
+        <div>
+          <span class="font-serif font-bold text-lg text-navy-900 leading-none block">PillowDreamWorks</span>
+          <span class="text-[10px] uppercase tracking-widest text-sage-600 font-semibold block mt-0.5">Foundation</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-7 text-xs font-semibold text-navy-700">
+        <a href="#the-book" class="hover:text-navy-900 transition-colors">The Book</a>
+        <a href="#why-this-book" class="hover:text-navy-900 transition-colors">Philosophy</a>
+        <a href="#chapters-section" class="hover:text-navy-900 transition-colors">5 Chapters</a>
+        <a href="#preview-gallery" class="hover:text-navy-900 transition-colors">Page Preview</a>
+        <a href="#pricing-section" class="hover:text-navy-900 transition-colors">Pricing &amp; Tiers</a>
+        <a href="#partnerships-section" class="hover:text-navy-900 transition-colors">Partnerships</a>
+        <a href="#author-section" class="hover:text-navy-900 transition-colors">Author</a>
+      </nav>
+
+      <!-- Header Action -->
+      <div class="flex items-center gap-3">
+        <a href="testing.html" class="hidden sm:inline-flex text-xs font-semibold text-navy-700 hover:text-navy-900 bg-navy-50 hover:bg-navy-100 px-3.5 py-2 rounded-xl transition-all">
+          100+ Assessments
+        </a>
+        <a href="#pricing-section" class="px-5 py-2.5 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-xl text-xs shadow-md transition-all">
+          Get Workbook &rarr;
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- 1. HERO SECTION -->
+  <section class="hero-gradient py-16 sm:py-24 relative overflow-hidden border-b border-gray-200/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Left Hero Content -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-navy-100 shadow-xs text-xs font-bold text-navy-800">
+            <span class="w-2 h-2 rounded-full bg-sage-500"></span>
+            A4 Printable Workbook • Digital PDF
+          </div>
+
+          <div class="space-y-2">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-navy-950 tracking-tight leading-tight">
+              THE PSYCHOLOGY TOOLKIT
+            </h1>
+            <p class="text-lg sm:text-xl font-serif text-sage-700 italic">
+              A Calmer Mind, A Brighter Tomorrow
+            </p>
+          </div>
+
+          <p class="text-sm sm:text-base text-gray-700 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+            A practical psychology and emotional-wellbeing workbook designed to help you understand yourself, work with your thoughts and emotions, build healthier habits, strengthen relationships, and take intentional steps toward lasting peace.
+          </p>
+
+          <!-- Badges & Motifs -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs font-semibold text-navy-800">
+            <span class="px-3 py-1 bg-white/90 rounded-lg border border-navy-100">🧠 Psychology Education</span>
+            <span class="px-3 py-1 bg-white/90 rounded-lg border border-navy-100">🌿 Emotional Wellbeing</span>
+            <span class="px-3 py-1 bg-white/90 rounded-lg border border-navy-100">✍️ 80+ Guided Worksheets</span>
+            <span class="px-3 py-1 bg-white/90 rounded-lg border border-navy-100">📊 Trackers &amp; Frameworks</span>
+          </div>
+
+          <!-- Hero CTAs -->
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            <a href="#pricing-section" class="w-full sm:w-auto px-8 py-4 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-xl text-sm shadow-xl hover:shadow-2xl transition-all text-center">
+              GET THE WORKBOOK &rarr;
+            </a>
+            <a href="#preview-gallery" class="w-full sm:w-auto px-7 py-4 bg-white hover:bg-navy-50 text-navy-900 font-bold rounded-xl text-sm border border-navy-200 shadow-sm transition-all text-center flex items-center justify-center gap-2">
+              <i data-lucide="book-open" class="w-4 h-4 text-navy-700"></i>
+              PREVIEW THE BOOK
+            </a>
+          </div>
+
+          <!-- Subtle Educational Disclaimer -->
+          <p class="text-[11px] text-gray-500 italic max-w-xl mx-auto lg:mx-0">
+            * This workbook is educational and self-development material, and is not a substitute for clinical psychiatric care or therapy.
+          </p>
+
+        </div>
+
+        <!-- Right Hero Mockup & Slide Preview Anchor -->
+        <div class="lg:col-span-5 flex justify-center relative">
+          
+          <!-- Background Decorative Elements -->
+          <div class="absolute -top-6 -right-6 w-64 h-64 bg-sage-200/50 rounded-full filter blur-2xl -z-10"></div>
+          <div class="absolute -bottom-6 -left-6 w-64 h-64 bg-skysoft rounded-full filter blur-2xl -z-10"></div>
+
+          <!-- Premium A4 Book Mockup Card -->
+          <div class="relative a4-page w-full max-w-sm bg-white rounded-2xl p-7 border border-navy-100/80 flex flex-col justify-between overflow-hidden shadow-2xl">
+            
+            <!-- Book Spine Accent -->
+            <div class="absolute top-0 left-0 bottom-0 w-3 bg-gradient-to-r from-navy-950 via-navy-800 to-navy-700"></div>
+
+            <!-- Page Header -->
+            <div class="pl-3">
+              <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+                <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold">PillowDreamWorks Foundation</span>
+                <span class="text-[9px] font-bold text-sage-600 bg-sage-50 px-2 py-0.5 rounded">Printable A4</span>
+              </div>
+
+              <!-- Cover Visual Artwork Simulation -->
+              <div class="mt-6 text-center space-y-3">
+                <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-navy-900 via-navy-800 to-sage-600 flex items-center justify-center text-white shadow-inner">
+                  <i data-lucide="compass" class="w-10 h-10 text-gold-300"></i>
+                </div>
+                
+                <h3 class="text-2xl font-serif font-bold text-navy-950 tracking-tight">THE PSYCHOLOGY TOOLKIT</h3>
+                <p class="text-xs font-serif italic text-sage-700">A Calmer Mind, A Brighter Tomorrow</p>
+                <div class="w-12 h-0.5 bg-gold-400 mx-auto my-2"></div>
+                <p class="text-[11px] text-gray-500">By Manish Garg</p>
+              </div>
+            </div>
+
+            <!-- Interactive Preview Trigger inside Card -->
+            <div class="pl-3 pt-6 border-t border-gray-100 text-center space-y-2">
+              <div class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">
+                PRACTICE • REFLECT • GROW • THRIVE
+              </div>
+              <button onclick="scrollToPreview()" class="w-full py-2.5 bg-sage-50 hover:bg-sage-100 text-sage-800 font-bold rounded-xl text-xs border border-sage-200 transition-all flex items-center justify-center gap-1.5">
+                <i data-lucide="eye" class="w-3.5 h-3.5"></i> Launch Interactive Slide Preview
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. "WHY THIS BOOK?" & 4 PILLARS -->
+  <section id="why-this-book" class="py-20 bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="text-xs uppercase tracking-widest font-bold text-sage-600 bg-sage-50 px-3.5 py-1 rounded-full border border-sage-200">Core Philosophy</span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-navy-950">
+          Psychology You Can Actually Use.
+        </h2>
+        <p class="text-sm sm:text-base text-gray-600 leading-relaxed">
+          The Psychology Toolkit brings psychology concepts out of clinical abstraction and into everyday life through practical exercises, reflective prompts, trackers, and structured worksheets.
+        </p>
+      </div>
+
+      <!-- 4 Visual Transformation Pillars -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Pillar 1 -->
+        <div class="bg-cream rounded-2xl p-7 border border-navy-100/60 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-skysoft text-navy-900 flex items-center justify-center font-bold text-xl">1</div>
+            <h3 class="text-lg font-serif font-bold text-navy-950">UNDERSTAND</h3>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              Learn what is actually happening inside your mind, nervous system, and emotions when stress strikes.
+            </p>
+          </div>
+          <span class="text-[11px] font-semibold text-sage-700">&bull; Emotional Awareness</span>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="bg-cream rounded-2xl p-7 border border-navy-100/60 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-peachsoft text-navy-900 flex items-center justify-center font-bold text-xl">2</div>
+            <h3 class="text-lg font-serif font-bold text-navy-950">REFLECT</h3>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              Pause and gently notice your unhelpful thinking patterns, emotional triggers, and subconscious beliefs.
+            </p>
+          </div>
+          <span class="text-[11px] font-semibold text-sage-700">&bull; Thought Reframing</span>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="bg-cream rounded-2xl p-7 border border-navy-100/60 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-sage-100 text-navy-900 flex items-center justify-center font-bold text-xl">3</div>
+            <h3 class="text-lg font-serif font-bold text-navy-950">PRACTICE</h3>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              Use guided worksheets, boundary scripts, and breathing exercises in real-time everyday situations.
+            </p>
+          </div>
+          <span class="text-[11px] font-semibold text-sage-700">&bull; Daily Exercises</span>
+        </div>
+
+        <!-- Pillar 4 -->
+        <div class="bg-cream rounded-2xl p-7 border border-navy-100/60 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-gold-100 text-navy-900 flex items-center justify-center font-bold text-xl">4</div>
+            <h3 class="text-lg font-serif font-bold text-navy-950">GROW</h3>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              Build tiny sustainable habits, stronger relationships, and deeper resilience that compounds over time.
+            </p>
+          </div>
+          <span class="text-[11px] font-semibold text-sage-700">&bull; Lasting Change</span>
+        </div>
+
+      </div>
+
+      <!-- Transformation Comparison Card -->
+      <div class="bg-navy-900 text-white rounded-3xl p-8 sm:p-10 shadow-xl grid md:grid-cols-2 gap-8 items-center">
+        <div class="space-y-3 border-b md:border-b-0 md:border-r border-navy-800 pb-6 md:pb-0 md:pr-8">
+          <span class="text-xs font-bold text-red-300 uppercase tracking-widest block">Moving From</span>
+          <ul class="text-xs text-navy-200 space-y-2">
+            <li class="flex items-center gap-2"><i data-lucide="x-circle" class="w-4 h-4 text-red-400 shrink-0"></i> Emotional confusion &amp; overthinking loops</li>
+            <li class="flex items-center gap-2"><i data-lucide="x-circle" class="w-4 h-4 text-red-400 shrink-0"></i> Reactive behaviour &amp; harsh self-criticism</li>
+            <li class="flex items-center gap-2"><i data-lucide="x-circle" class="w-4 h-4 text-red-400 shrink-0"></i> Unclear boundaries &amp; people-pleasing guilt</li>
+            <li class="flex items-center gap-2"><i data-lucide="x-circle" class="w-4 h-4 text-red-400 shrink-0"></i> Inconsistent habits &amp; overwhelm</li>
+          </ul>
+        </div>
+
+        <div class="space-y-3 md:pl-4">
+          <span class="text-xs font-bold text-gold-400 uppercase tracking-widest block">Moving Toward</span>
+          <ul class="text-xs text-navy-100 space-y-2">
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-gold-400 shrink-0"></i> Greater emotional awareness &amp; clear thinking</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-gold-400 shrink-0"></i> Calmer physiological responses &amp; self-compassion</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-gold-400 shrink-0"></i> Stronger boundaries &amp; respectful communication</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-gold-400 shrink-0"></i> Sustainable tiny habits &amp; purposeful growth</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. "WHAT YOU'LL EXPLORE" (FIVE CHAPTER CARDS) -->
+  <section id="chapters-section" class="py-20 bg-cream border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="text-xs uppercase tracking-widest font-bold text-sage-600 bg-white px-3.5 py-1 rounded-full border border-gray-200">Curriculum &amp; Content</span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-navy-950">
+          Five Foundational Chapters
+        </h2>
+        <p class="text-sm text-gray-600">
+          Step-by-step guidance designed to be explored at your own pace, one exercise at a time.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Chapter 1 -->
+        <div class="bg-white rounded-2xl p-7 border border-gray-200 shadow-xs card-hover flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 bg-skysoft text-navy-900 rounded-full text-xs font-extrabold uppercase">Chapter 1</span>
+              <i data-lucide="heart-pulse" class="w-5 h-5 text-navy-600"></i>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-navy-950">Understanding Yourself</h3>
+            <p class="text-xs font-medium text-sage-700">Emotional Awareness &amp; Self-Discovery</p>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              Every meaningful change begins with awareness. Learn the purpose of emotions, mind-body links, and reacting vs responding.
+            </p>
+            <ul class="text-[11px] text-gray-500 space-y-1 pt-2 border-t border-gray-100">
+              <li>✓ The Emotion Wheel Worksheet</li>
+              <li>✓ Daily Feelings Tracker</li>
+              <li>✓ Trigger to Response Planner</li>
+              <li>✓ Sarah's Emotional Journey</li>
+            </ul>
+          </div>
+          <button onclick="goToSlide(1)" class="text-xs font-bold text-navy-700 hover:text-navy-950 flex items-center gap-1">
+            Preview Chapter 1 Pages &rarr;
+          </button>
+        </div>
+
+        <!-- Chapter 2 -->
+        <div class="bg-white rounded-2xl p-7 border border-gray-200 shadow-xs card-hover flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 bg-peachsoft text-navy-900 rounded-full text-xs font-extrabold uppercase">Chapter 2</span>
+              <i data-lucide="brain" class="w-5 h-5 text-navy-600"></i>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-navy-950">Thoughts &amp; Mindset</h3>
+            <p class="text-xs font-medium text-sage-700">Understand Your Thinking. Create A Brighter Tomorrow.</p>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              Unpack cognitive distortions, quiet the harsh inner critic, embrace self-compassion, and transition from fixed to growth mindset.
+            </p>
+            <ul class="text-[11px] text-gray-500 space-y-1 pt-2 border-t border-gray-100">
+              <li>✓ Thought Record Worksheet</li>
+              <li>✓ Limiting Beliefs Challenge</li>
+              <li>✓ Self-Compassion Exercise</li>
+              <li>✓ Emma's Perfectionism Story</li>
+            </ul>
+          </div>
+          <button onclick="goToSlide(4)" class="text-xs font-bold text-navy-700 hover:text-navy-950 flex items-center gap-1">
+            Preview Chapter 2 Pages &rarr;
+          </button>
+        </div>
+
+        <!-- Chapter 3 -->
+        <div class="bg-white rounded-2xl p-7 border border-gray-200 shadow-xs card-hover flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 bg-sage-100 text-navy-900 rounded-full text-xs font-extrabold uppercase">Chapter 3</span>
+              <i data-lucide="wind" class="w-5 h-5 text-navy-600"></i>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-navy-950">Anxiety &amp; Stress</h3>
+            <p class="text-xs font-medium text-sage-700">Understand. Manage. Find Calm.</p>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              Demystify the fight/flight/freeze response, understand stress vs anxiety, practice somatic breathing, and break the overthinking loop.
+            </p>
+            <ul class="text-[11px] text-gray-500 space-y-1 pt-2 border-t border-gray-100">
+              <li>✓ Anxiety Intensity Tracker</li>
+              <li>✓ Coping Strategy Planner</li>
+              <li>✓ 4-7-8 Breathing Technique</li>
+              <li>✓ Anxiety Action Plan</li>
+            </ul>
+          </div>
+          <button onclick="goToSlide(5)" class="text-xs font-bold text-navy-700 hover:text-navy-950 flex items-center gap-1">
+            Preview Chapter 3 Pages &rarr;
+          </button>
+        </div>
+
+        <!-- Chapter 4 -->
+        <div class="bg-white rounded-2xl p-7 border border-gray-200 shadow-xs card-hover flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 bg-gold-100 text-navy-900 rounded-full text-xs font-extrabold uppercase">Chapter 4</span>
+              <i data-lucide="shield" class="w-5 h-5 text-navy-600"></i>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-navy-950">Relationships &amp; Boundaries</h3>
+            <p class="text-xs font-medium text-sage-700">Healthier Connections. A Brighter You.</p>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              Explore adult attachment styles, learn to say no without guilt, map your support circle, and use frameworks for difficult conversations.
+            </p>
+            <ul class="text-[11px] text-gray-500 space-y-1 pt-2 border-t border-gray-100">
+              <li>✓ Boundary Script Worksheet</li>
+              <li>✓ Relationship Audit</li>
+              <li>✓ Support Circle Map</li>
+              <li>✓ Difficult Conversation Guide</li>
+            </ul>
+          </div>
+          <button onclick="goToSlide(7)" class="text-xs font-bold text-navy-700 hover:text-navy-950 flex items-center gap-1">
+            Preview Chapter 4 Pages &rarr;
+          </button>
+        </div>
+
+        <!-- Chapter 5 -->
+        <div class="bg-white rounded-2xl p-7 border border-gray-200 shadow-xs card-hover flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 bg-skysoft text-navy-900 rounded-full text-xs font-extrabold uppercase">Chapter 5</span>
+              <i data-lucide="sparkles" class="w-5 h-5 text-navy-600"></i>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-navy-950">Habits &amp; Personal Growth</h3>
+            <p class="text-xs font-medium text-sage-700">Small Steps. Big Changes. A Brighter You.</p>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              Harness habit loops (cue, routine, reward), master the Tiny Habits method, clarify core values, and plan morning/evening routines.
+            </p>
+            <ul class="text-[11px] text-gray-500 space-y-1 pt-2 border-t border-gray-100">
+              <li>✓ The SMART Goal Framework</li>
+              <li>✓ 30-Day Habit Tracker</li>
+              <li>✓ Morning &amp; Evening Routine</li>
+              <li>✓ 30-Day Purpose Review</li>
+            </ul>
+          </div>
+          <button onclick="goToSlide(9)" class="text-xs font-bold text-navy-700 hover:text-navy-950 flex items-center gap-1">
+            Preview Chapter 5 Pages &rarr;
+          </button>
+        </div>
+
+        <!-- Resources & Closing -->
+        <div class="bg-navy-900 text-white rounded-2xl p-7 border border-navy-800 shadow-xs flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 bg-gold-400 text-navy-950 rounded-full text-xs font-extrabold uppercase">Integration</span>
+              <i data-lucide="bookmark" class="w-5 h-5 text-gold-300"></i>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-white">Resources &amp; Closing</h3>
+            <p class="text-xs font-medium text-gold-300">Sustainable Long-Term Wellbeing</p>
+            <p class="text-xs text-navy-200 leading-relaxed">
+              Consolidate your progress with the Psychology Tools Index, recommended reading list, and final personal commitment.
+            </p>
+            <ul class="text-[11px] text-navy-300 space-y-1 pt-2 border-t border-navy-800">
+              <li>✓ Comprehensive Psychology Tools Index</li>
+              <li>✓ 30-Day Purpose Commitment</li>
+              <li>✓ QR Code Resource Vault</li>
+            </ul>
+          </div>
+          <a href="#pricing-section" class="text-xs font-bold text-gold-300 hover:text-gold-200 flex items-center gap-1">
+            Get Complete Toolkit &rarr;
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. "INSIDE THE WORKBOOK" — INTERACTIVE A4 SLIDE ANIMATION & LIGHTBOX -->
+  <section id="preview-gallery" class="py-20 bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="text-xs uppercase tracking-widest font-bold text-sage-600 bg-sage-50 px-3.5 py-1 rounded-full border border-sage-200">Visual Experience</span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-navy-950">
+          Inside The Workbook
+        </h2>
+        <p class="text-sm text-gray-600">
+          The Psychology Toolkit is an interactive A4 printable workbook. Explore actual preview pages below using the slide animation viewer.
+        </p>
+      </div>
+
+      <!-- Slide Navigation Category Filter Tabs -->
+      <div class="flex flex-wrap items-center justify-center gap-2">
+        <button type="button" onclick="goToSlide(0)" class="preview-tab px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-navy-900 text-white" data-index="0">Cover</button>
+        <button type="button" onclick="goToSlide(1)" class="preview-tab px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:text-navy-900 bg-gray-100 transition-all" data-index="1">Emotion Wheel</button>
+        <button type="button" onclick="goToSlide(2)" class="preview-tab px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:text-navy-900 bg-gray-100 transition-all" data-index="2">Feelings Tracker</button>
+        <button type="button" onclick="goToSlide(3)" class="preview-tab px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:text-navy-900 bg-gray-100 transition-all" data-index="3">Trigger Planner</button>
+        <button type="button" onclick="goToSlide(4)" class="preview-tab px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:text-navy-900 bg-gray-100 transition-all" data-index="4">Thought Record</button>
+        <button type="button" onclick="goToSlide(5)" class="preview-tab px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:text-navy-900 bg-gray-100 transition-all" data-index="5">Anxiety Tracker</button>
+        <button type="button" onclick="goToSlide(6)" class="preview-tab px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:text-navy-900 bg-gray-100 transition-all" data-index="6">Coping Planner</button>
+        <button type="button" onclick="goToSlide(7)" class="preview-tab px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:text-navy-900 bg-gray-100 transition-all" data-index="7">Boundary Script</button>
+        <button type="button" onclick="goToSlide(8)" class="preview-tab px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:text-navy-900 bg-gray-100 transition-all" data-index="8">Support Circle</button>
+        <button type="button" onclick="goToSlide(9)" class="preview-tab px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:text-navy-900 bg-gray-100 transition-all" data-index="9">SMART Goals</button>
+        <button type="button" onclick="goToSlide(10)" class="preview-tab px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:text-navy-900 bg-gray-100 transition-all" data-index="10">Purpose Review</button>
+      </div>
+
+      <!-- MAIN INTERACTIVE A4 SLIDE VIEWER -->
+      <div class="relative max-w-2xl mx-auto bg-gray-50 p-4 sm:p-8 rounded-3xl border border-gray-200 shadow-inner">
+        
+        <!-- Controls: Prev, Next, Lightbox, Slide Counter -->
+        <div class="flex items-center justify-between mb-4 px-2">
+          <div class="text-xs font-bold text-navy-800" id="slide-info-display">
+            Page 1 of 11 • Cover
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="prevSlide()" class="w-8 h-8 rounded-full bg-white hover:bg-navy-50 border border-gray-200 flex items-center justify-center text-navy-800 transition-all shadow-xs" aria-label="Previous Page">
+              <i data-lucide="chevron-left" class="w-4 h-4"></i>
+            </button>
+            <button onclick="nextSlide()" class="w-8 h-8 rounded-full bg-white hover:bg-navy-50 border border-gray-200 flex items-center justify-center text-navy-800 transition-all shadow-xs" aria-label="Next Page">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+            <button onclick="openLightbox()" class="w-8 h-8 rounded-full bg-navy-900 hover:bg-navy-800 text-white flex items-center justify-center transition-all shadow-xs" title="Expand Fullscreen Preview">
+              <i data-lucide="maximize-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- THE A4 DISPLAY STAGE -->
+        <div id="slides-container" class="relative overflow-hidden flex justify-center">
+          
+          <!-- SLIDE 0: COVER -->
+          <div class="slide-item active a4-page w-full max-w-md bg-white rounded-xl p-8 sm:p-10 border border-navy-100 flex flex-col justify-between text-center relative">
+            <div class="space-y-4">
+              <span class="text-[10px] uppercase tracking-widest text-gray-400 font-bold">PillowDreamWorks Foundation</span>
+              <div class="w-16 h-16 mx-auto rounded-full bg-navy-900 text-gold-400 flex items-center justify-center shadow-md">
+                <i data-lucide="sparkles" class="w-8 h-8"></i>
+              </div>
+              <h4 class="text-3xl font-serif font-extrabold text-navy-950 leading-tight">THE PSYCHOLOGY TOOLKIT</h4>
+              <p class="text-sm font-serif italic text-sage-700">A Calmer Mind, A Brighter Tomorrow</p>
+              <div class="w-16 h-0.5 bg-gold-400 mx-auto"></div>
+            </div>
+            <div class="space-y-2 py-8 text-xs text-gray-600">
+              <p class="font-medium">An Original Psychology &amp; Emotional-Wellbeing Workbook</p>
+              <p class="text-gray-400">A4 Printable Format • Guided Exercises &amp; Worksheets</p>
+            </div>
+            <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] text-gray-400">
+              <span>Author: <strong>Manish Garg</strong></span>
+              <span>80+ Pages</span>
+            </div>
+          </div>
+
+          <!-- SLIDE 1: EMOTION WHEEL -->
+          <div class="slide-item a4-page w-full max-w-md bg-white rounded-xl p-8 sm:p-10 border border-navy-100 flex flex-col justify-between text-left">
+            <div>
+              <div class="flex items-center justify-between border-b pb-2 text-[10px] text-gray-400 font-bold uppercase">
+                <span>Chapter 1: Understanding Yourself</span>
+                <span>Page 16</span>
+              </div>
+              <h4 class="text-xl font-serif font-bold text-navy-950 mt-4">The Emotion Wheel Worksheet</h4>
+              <p class="text-xs text-sage-700 italic">Explore • Identify • Understand • Express</p>
+              <p class="text-[11px] text-gray-600 mt-2 leading-relaxed">
+                Emotions are physiological signals containing information. Use the three emotional zones below to identify your precise feelings right now:
+              </p>
+              <div class="my-5 p-4 rounded-xl bg-cream border border-navy-100 space-y-2">
+                <div class="text-xs font-bold text-navy-900">Primary Core Feeling:</div>
+                <div class="grid grid-cols-3 gap-1 text-[10px] text-center font-medium">
+                  <span class="p-1 bg-white rounded border">Joy / Calm</span>
+                  <span class="p-1 bg-white rounded border">Fear / Anxiety</span>
+                  <span class="p-1 bg-white rounded border">Sadness / Grief</span>
+                </div>
+                <div class="pt-2 text-xs font-bold text-navy-900">Secondary Nuance:</div>
+                <div class="p-2 bg-white rounded border text-[10px] text-gray-500 italic">
+                  "I feel overwhelmed because my workload feels uncertain..."
+                </div>
+              </div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 text-[10px] text-gray-400 text-center">
+              PRACTICE | REFLECT | GROW | THRIVE
+            </div>
+          </div>
+
+          <!-- SLIDE 2: DAILY FEELINGS TRACKER -->
+          <div class="slide-item a4-page w-full max-w-md bg-white rounded-xl p-8 sm:p-10 border border-navy-100 flex flex-col justify-between text-left">
+            <div>
+              <div class="flex items-center justify-between border-b pb-2 text-[10px] text-gray-400 font-bold uppercase">
+                <span>Chapter 1: Self-Awareness</span>
+                <span>Page 17</span>
+              </div>
+              <h4 class="text-xl font-serif font-bold text-navy-950 mt-4">Daily Feelings Tracker</h4>
+              <p class="text-xs text-sage-700 italic">Check In • Be Curious • Build A Calmer You</p>
+              <div class="mt-4 space-y-3 text-xs">
+                <div class="p-3 bg-skysoft rounded-xl space-y-1">
+                  <span class="font-bold text-navy-900 block text-[11px]">🌅 Morning Check-in:</span>
+                  <p class="text-[10px] text-navy-800">Physical Energy: [ 1 2 3 4 5 ] • Dominant Mood: Calm / Restless</p>
+                </div>
+                <div class="p-3 bg-peachsoft rounded-xl space-y-1">
+                  <span class="font-bold text-navy-900 block text-[11px]">☀️ Afternoon Pause:</span>
+                  <p class="text-[10px] text-navy-800">Stress Level: [ 1 2 3 4 5 ] • What did my mind need today?</p>
+                </div>
+                <div class="p-3 bg-cream rounded-xl space-y-1 border">
+                  <span class="font-bold text-navy-900 block text-[11px]">🌙 Evening Reflection:</span>
+                  <p class="text-[10px] text-gray-700">One moment of gratitude: _________________________</p>
+                </div>
+              </div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 text-[10px] text-gray-400 text-center">
+              The Psychology Toolkit • A4 Printable Daily Page
+            </div>
+          </div>
+
+          <!-- SLIDE 3: TRIGGER TO RESPONSE PLANNER -->
+          <div class="slide-item a4-page w-full max-w-md bg-white rounded-xl p-8 sm:p-10 border border-navy-100 flex flex-col justify-between text-left">
+            <div>
+              <div class="flex items-center justify-between border-b pb-2 text-[10px] text-gray-400 font-bold uppercase">
+                <span>Chapter 1: Response Agility</span>
+                <span>Page 18</span>
+              </div>
+              <h4 class="text-xl font-serif font-bold text-navy-950 mt-4">Trigger to Response Planner</h4>
+              <p class="text-xs text-sage-700 italic">Become Aware • Pause • Choose Healthier Response</p>
+              <div class="mt-4 space-y-2.5 text-[11px]">
+                <div class="p-2.5 bg-gray-50 border rounded-lg">
+                  <strong>1. The Trigger:</strong> What external event or thought sparked the reaction?
+                </div>
+                <div class="p-2.5 bg-red-50 text-red-900 border border-red-100 rounded-lg">
+                  <strong>2. The Automatic Urge:</strong> To yell, withdraw, or scroll mindlessly?
+                </div>
+                <div class="p-2.5 bg-skysoft text-navy-900 border border-sky-200 rounded-lg">
+                  <strong>3. The 10-Second Pause:</strong> Take 3 slow diaphragmatic breaths.
+                </div>
+                <div class="p-2.5 bg-emerald-50 text-emerald-900 border border-emerald-100 rounded-lg">
+                  <strong>4. Chosen Response:</strong> What aligns with my values and dignity?
+                </div>
+              </div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 text-[10px] text-gray-400 text-center">
+              Between stimulus and response, there is a space. In that space is our power.
+            </div>
+          </div>
+
+          <!-- SLIDE 4: THOUGHT RECORD -->
+          <div class="slide-item a4-page w-full max-w-md bg-white rounded-xl p-8 sm:p-10 border border-navy-100 flex flex-col justify-between text-left">
+            <div>
+              <div class="flex items-center justify-between border-b pb-2 text-[10px] text-gray-400 font-bold uppercase">
+                <span>Chapter 2: Thoughts &amp; Mindset</span>
+                <span>Page 31</span>
+              </div>
+              <h4 class="text-xl font-serif font-bold text-navy-950 mt-4">Thought Record Worksheet</h4>
+              <p class="text-xs text-sage-700 italic">Identify Cognitive Distortions &amp; Reframe</p>
+              <div class="mt-4 border rounded-xl overflow-hidden text-[10px]">
+                <div class="grid grid-cols-3 bg-navy-900 text-white font-bold p-2 text-center">
+                  <span>Automatic Thought</span>
+                  <span>Distortion</span>
+                  <span>Balanced View</span>
+                </div>
+                <div class="grid grid-cols-3 p-2 bg-cream border-t gap-1">
+                  <span>"I will fail this presentation."</span>
+                  <span class="text-amber-700 font-semibold">Catastrophizing</span>
+                  <span>"I am prepared. Even if imperfect, I can communicate clearly."</span>
+                </div>
+              </div>
+              <div class="mt-4 p-3 bg-sage-50 rounded-xl border border-sage-200 text-[11px] text-sage-900">
+                💡 <strong>Mindset Tip:</strong> Thoughts are hypotheses, not proven facts.
+              </div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 text-[10px] text-gray-400 text-center">
+              PRACTICE | REFLECT | GROW | THRIVE
+            </div>
+          </div>
+
+          <!-- SLIDE 5: ANXIETY INTENSITY TRACKER -->
+          <div class="slide-item a4-page w-full max-w-md bg-white rounded-xl p-8 sm:p-10 border border-navy-100 flex flex-col justify-between text-left">
+            <div>
+              <div class="flex items-center justify-between border-b pb-2 text-[10px] text-gray-400 font-bold uppercase">
+                <span>Chapter 3: Anxiety &amp; Stress</span>
+                <span>Page 47</span>
+              </div>
+              <h4 class="text-xl font-serif font-bold text-navy-950 mt-4">Anxiety Intensity Tracker</h4>
+              <p class="text-xs text-sage-700 italic">Notice Nervous System Arousal Patterns</p>
+              <div class="mt-4 space-y-2 text-[11px]">
+                <div class="flex items-center justify-between p-2 bg-red-50 rounded-lg border border-red-100 text-red-900 font-bold">
+                  <span>Level 8-10: High Panic / Overwhelm</span>
+                  <span>Somatic Grounding</span>
+                </div>
+                <div class="flex items-center justify-between p-2 bg-amber-50 rounded-lg border border-amber-100 text-amber-900 font-bold">
+                  <span>Level 4-7: Moderate Tension / Worry</span>
+                  <span>Thought Reframe</span>
+                </div>
+                <div class="flex items-center justify-between p-2 bg-emerald-50 rounded-lg border border-emerald-100 text-emerald-900 font-bold">
+                  <span>Level 1-3: Baseline Calm / Grounded</span>
+                  <span>Rest &amp; Restore</span>
+                </div>
+              </div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 text-[10px] text-gray-400 text-center">
+              Anxiety is a natural biological alarm, not a defect.
+            </div>
+          </div>
+
+          <!-- SLIDE 6: COPING STRATEGY PLANNER -->
+          <div class="slide-item a4-page w-full max-w-md bg-white rounded-xl p-8 sm:p-10 border border-navy-100 flex flex-col justify-between text-left">
+            <div>
+              <div class="flex items-center justify-between border-b pb-2 text-[10px] text-gray-400 font-bold uppercase">
+                <span>Chapter 3: Somatic Tools</span>
+                <span>Page 49</span>
+              </div>
+              <h4 class="text-xl font-serif font-bold text-navy-950 mt-4">Coping Strategy Planner</h4>
+              <p class="text-xs text-sage-700 italic">Sensory, Mental &amp; Physical Calming</p>
+              <div class="mt-4 grid grid-cols-2 gap-2 text-[10px]">
+                <div class="p-3 bg-skysoft rounded-xl border border-sky-100">
+                  <strong class="block text-navy-950 mb-1">5-4-3-2-1 Sensory:</strong>
+                  5 Things you see<br>4 Things you touch<br>3 Things you hear<br>2 Things you smell<br>1 Deep exhale
+                </div>
+                <div class="p-3 bg-sage-50 rounded-xl border border-sage-100">
+                  <strong class="block text-sage-950 mb-1">Physical Release:</strong>
+                  • Progressive muscle relaxation<br>• Cold water on wrists<br>• 10-minute quiet walk
+                </div>
+              </div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 text-[10px] text-gray-400 text-center">
+              PRACTICE | REFLECT | GROW | THRIVE
+            </div>
+          </div>
+
+          <!-- SLIDE 7: BOUNDARY SCRIPT WORKSHEET -->
+          <div class="slide-item a4-page w-full max-w-md bg-white rounded-xl p-8 sm:p-10 border border-navy-100 flex flex-col justify-between text-left">
+            <div>
+              <div class="flex items-center justify-between border-b pb-2 text-[10px] text-gray-400 font-bold uppercase">
+                <span>Chapter 4: Boundaries</span>
+                <span>Page 62</span>
+              </div>
+              <h4 class="text-xl font-serif font-bold text-navy-950 mt-4">Boundary Script Worksheet</h4>
+              <p class="text-xs text-sage-700 italic">Saying 'No' Without Guilt</p>
+              <div class="mt-4 space-y-2 text-[10px]">
+                <div class="p-2.5 bg-cream rounded-lg border">
+                  <strong>Workplace Script:</strong><br>
+                  "I want to ensure high quality on my current priorities, so I won't be able to take on this additional task right now."
+                </div>
+                <div class="p-2.5 bg-cream rounded-lg border">
+                  <strong>Personal Relationships Script:</strong><br>
+                  "I love you, but I don't have the emotional bandwidth for this conversation tonight. Let's speak tomorrow morning."
+                </div>
+              </div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 text-[10px] text-gray-400 text-center">
+              Boundaries are the distance at which I can love you and me simultaneously.
+            </div>
+          </div>
+
+          <!-- SLIDE 8: SUPPORT CIRCLE MAP -->
+          <div class="slide-item a4-page w-full max-w-md bg-white rounded-xl p-8 sm:p-10 border border-navy-100 flex flex-col justify-between text-left">
+            <div>
+              <div class="flex items-center justify-between border-b pb-2 text-[10px] text-gray-400 font-bold uppercase">
+                <span>Chapter 4: Connections</span>
+                <span>Page 64</span>
+              </div>
+              <h4 class="text-xl font-serif font-bold text-navy-950 mt-4">Support Circle Map</h4>
+              <p class="text-xs text-sage-700 italic">Identify Core, Secondary &amp; Community Ties</p>
+              <div class="my-4 text-center">
+                <div class="w-36 h-36 mx-auto rounded-full border-2 border-dashed border-sage-300 flex items-center justify-center p-2">
+                  <div class="w-24 h-24 rounded-full border-2 border-dashed border-sky-300 flex items-center justify-center p-2">
+                    <div class="w-12 h-12 rounded-full bg-navy-900 text-white flex items-center justify-center text-[10px] font-bold">
+                      YOU
+                    </div>
+                  </div>
+                </div>
+                <p class="text-[10px] text-gray-500 mt-2">Inner Core (Safe Vulnerability) &bull; Middle Circle &bull; Outer Community</p>
+              </div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 text-[10px] text-gray-400 text-center">
+              PRACTICE | REFLECT | GROW | THRIVE
+            </div>
+          </div>
+
+          <!-- SLIDE 9: SMART GOAL FRAMEWORK -->
+          <div class="slide-item a4-page w-full max-w-md bg-white rounded-xl p-8 sm:p-10 border border-navy-100 flex flex-col justify-between text-left">
+            <div>
+              <div class="flex items-center justify-between border-b pb-2 text-[10px] text-gray-400 font-bold uppercase">
+                <span>Chapter 5: Personal Growth</span>
+                <span>Page 71</span>
+              </div>
+              <h4 class="text-xl font-serif font-bold text-navy-950 mt-4">SMART Goal &amp; Tiny Habit Sheet</h4>
+              <p class="text-xs text-sage-700 italic">Values-Driven, Frictionless Progress</p>
+              <div class="mt-4 space-y-1.5 text-[10px]">
+                <div class="p-2 bg-gray-50 rounded border"><strong>S (Specific):</strong> What exact behavior will happen?</div>
+                <div class="p-2 bg-gray-50 rounded border"><strong>M (Measurable):</strong> How will you know it is done?</div>
+                <div class="p-2 bg-gray-50 rounded border"><strong>A (Achievable):</strong> Is it tiny enough to do on low-energy days?</div>
+                <div class="p-2 bg-gray-50 rounded border"><strong>R (Relevant):</strong> Does it align with core wellbeing?</div>
+                <div class="p-2 bg-gray-50 rounded border"><strong>T (Time-bound):</strong> Daily trigger: "After I brew coffee..."</div>
+              </div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 text-[10px] text-gray-400 text-center">
+              Small steps matter. Consistency beats intensity.
+            </div>
+          </div>
+
+          <!-- SLIDE 10: 30-DAY PURPOSE REVIEW -->
+          <div class="slide-item a4-page w-full max-w-md bg-white rounded-xl p-8 sm:p-10 border border-navy-100 flex flex-col justify-between text-left">
+            <div>
+              <div class="flex items-center justify-between border-b pb-2 text-[10px] text-gray-400 font-bold uppercase">
+                <span>Closing Integration</span>
+                <span>Page 78</span>
+              </div>
+              <h4 class="text-xl font-serif font-bold text-navy-950 mt-4">30-Day Purpose Review</h4>
+              <p class="text-xs text-sage-700 italic">Reflect • Acknowledge Growth • Commit</p>
+              <div class="mt-4 p-4 bg-cream rounded-xl border space-y-2 text-[11px] text-gray-700">
+                <p><strong>1. Biggest Shift in Self-Awareness:</strong></p>
+                <div class="h-6 border-b border-gray-300"></div>
+                <p><strong>2. Habit That Brought Most Peace:</strong></p>
+                <div class="h-6 border-b border-gray-300"></div>
+                <p><strong>3. My Ongoing Compassionate Commitment:</strong></p>
+                <div class="h-6 border-b border-gray-300"></div>
+              </div>
+            </div>
+            <div class="border-t border-gray-100 pt-3 text-[10px] text-gray-400 text-center font-serif italic">
+              A calmer mind creates a brighter tomorrow.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Dot Indicators -->
+        <div class="flex justify-center gap-1.5 mt-6" id="slide-dots">
+          <!-- Populated by JS -->
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. INTERACTIVE FEATURES & TOOLKIT HIGHLIGHTS -->
+  <section class="py-16 bg-cream border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <h3 class="text-2xl sm:text-3xl font-serif font-bold text-navy-950">Designed to be Used, Not Just Read</h3>
+        <p class="text-xs sm:text-sm text-gray-600">The Psychology Toolkit is an active therapeutic companion.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center sm:text-left">
+        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs space-y-2">
+          <span class="text-2xl">📝</span>
+          <h4 class="font-bold text-navy-900 text-sm">Worksheets</h4>
+          <p class="text-xs text-gray-600">Guided exercises with dedicated writing lines and thoughtful reflection space.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs space-y-2">
+          <span class="text-2xl">📈</span>
+          <h4 class="font-bold text-navy-900 text-sm">Trackers</h4>
+          <p class="text-xs text-gray-600">Daily mood, anxiety intensity, stress logs, and 30-day habit grids.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs space-y-2">
+          <span class="text-2xl">🧭</span>
+          <h4 class="font-bold text-navy-900 text-sm">Frameworks</h4>
+          <p class="text-xs text-gray-600">Cognitive reframing, Tiny Habits, SMART goals, and boundary script templates.</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs space-y-2">
+          <span class="text-2xl">📖</span>
+          <h4 class="font-bold text-navy-900 text-sm">Stories &amp; Cases</h4>
+          <p class="text-xs text-gray-600">Relatable case journeys including Sarah's emotional triggers and Emma's perfectionism.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. PRICING SECTION — DYNAMIC DUAL CURRENCY (INDIA INR vs GLOBAL USD) -->
+  <section id="pricing-section" class="py-20 bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto space-y-4">
+        <span class="text-xs uppercase tracking-widest font-bold text-gold-700 bg-gold-50 px-3.5 py-1 rounded-full border border-gold-200">
+          Official Release &bull; September 2024
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-navy-950">
+          Choose Your Pathway to Growth
+        </h2>
+        <p class="text-sm text-gray-600 max-w-xl mx-auto">
+          We are selling access to a comprehensive mental-wellbeing platform, not just a book. Select your commitment tier or combine both books for maximum synergy.
+        </p>
+
+        <!-- MARKET DUAL CURRENCY SWITCHER -->
+        <div class="inline-flex items-center gap-3 p-1.5 bg-gray-100 rounded-2xl border border-gray-300 shadow-xs mt-4">
+          <button type="button" onclick="setGlobalCurrency('INR')" id="main-curr-inr" class="px-5 py-2.5 rounded-xl font-bold text-xs transition-all bg-navy-900 text-white shadow-md flex items-center gap-2">
+            <span>🇮🇳</span> Indian Market (INR ₹)
+          </button>
+          <button type="button" onclick="setGlobalCurrency('USD')" id="main-curr-usd" class="px-5 py-2.5 rounded-xl font-semibold text-xs text-gray-600 hover:text-navy-900 transition-all flex items-center gap-2">
+            <span>🌐</span> Global Market (USD $)
+          </button>
+        </div>
+        <p class="text-[11px] text-gray-400">
+          * Indian prices are locally optimized for domestic purchasing power. Global prices apply worldwide.
+        </p>
+      </div>
+
+      <!-- LAUNCH OFFER BANNER: GRAPHOTHERAPY MASTER PACK (77% OFF) -->
+      <div class="bg-gradient-to-r from-navy-950 via-navy-900 to-navy-800 text-white rounded-3xl p-8 sm:p-10 border-2 border-gold-400 shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-12 -right-12 w-48 h-48 bg-gold-400/20 rounded-full filter blur-2xl"></div>
+        
+        <div class="grid lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-8 space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 bg-gold-400 text-navy-950 font-extrabold rounded-full text-xs uppercase tracking-wider pulse-badge">
+              🔥 Launch Offer &bull; Limited-Time Only (Save Up To 77%)
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-serif font-bold text-white">
+              Graphotherapy Master Package
+            </h3>
+            <p class="text-xs text-navy-200 leading-relaxed max-w-2xl">
+              Combines handwriting psychology analysis with both therapeutic workbooks. Lock in complete platform access at our special launch price to provide early feedback and case studies.
+            </p>
+            <div class="grid sm:grid-cols-2 gap-2 text-xs text-navy-100 pt-2">
+              <div>✓ 1-on-1 Graphology Analysis Session with Manish Garg</div>
+              <div>✓ <em>Finding The Centre</em> Physical Paperback</div>
+              <div>✓ <em>The Psychology Toolkit</em> Premium Tier 2 Access</div>
+              <div>✓ Graphotherapy Daily Stroke Tracking Drills</div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-4 text-center lg:text-right space-y-3 bg-navy-900/60 p-6 rounded-2xl border border-navy-700">
+            <div class="text-xs text-gray-400 line-through" id="pack-old-price">Regular Value: ₹5,197 ($241)</div>
+            <div class="text-3xl sm:text-4xl font-extrabold text-gold-300" id="pack-deal-price">₹1,199</div>
+            <div class="text-[11px] text-emerald-400 font-bold" id="pack-savings">You Save ₹3,998 (77% OFF)</div>
+            <button onclick="openToolkitCheckout('grapho_pack')" class="w-full py-3.5 bg-gold-400 hover:bg-gold-300 text-navy-950 font-extrabold rounded-xl text-xs shadow-lg transition-all">
+              Claim Launch Pack &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. INDIVIDUAL TIERS: THE PSYCHOLOGY TOOLKIT (3 TIERS) -->
+      <div class="space-y-6">
+        <div class="text-center space-y-1">
+          <h3 class="text-2xl font-serif font-bold text-navy-900">1. Individual Product Tiers</h3>
+          <p class="text-xs text-gray-500">Stand-alone access to The Psychology Toolkit workbook and therapeutic support.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          
+          <!-- TIER 1: STANDARD -->
+          <div class="bg-white rounded-2xl p-7 border border-gray-200 shadow-xs flex flex-col justify-between space-y-6">
+            <div class="space-y-4">
+              <span class="text-xs font-bold text-gray-500 uppercase tracking-wider block">Tier 1: Standard</span>
+              <h4 class="text-xl font-serif font-bold text-navy-950">Self-Help Seeker</h4>
+              <p class="text-xs text-gray-500">Start your psychology journey with foundational worksheets and tests.</p>
+              
+              <div class="pt-2">
+                <span class="text-3xl font-extrabold text-navy-950 tier-price-1">₹999</span>
+                <span class="text-xs text-gray-400 ml-1">one-time</span>
+              </div>
+
+              <ul class="text-xs text-gray-600 space-y-2.5 pt-4 border-t border-gray-100">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-sage-600 shrink-0 mt-0.5"></i> 80-page Psychology Toolkit (Printable A4 PDF)</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-sage-600 shrink-0 mt-0.5"></i> 100+ Psychological Self-Assessments</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-sage-600 shrink-0 mt-0.5"></i> 1 Free Consultation Session (30 min)</li>
+                <li class="flex items-start gap-2 text-gray-400"><i data-lucide="minus" class="w-4 h-4 shrink-0 mt-0.5"></i> Live monthly therapy sessions</li>
+                <li class="flex items-start gap-2 text-gray-400"><i data-lucide="minus" class="w-4 h-4 shrink-0 mt-0.5"></i> Graphology analysis</li>
+              </ul>
+            </div>
+
+            <button onclick="openToolkitCheckout('tier_1')" class="w-full py-3 bg-navy-50 hover:bg-navy-100 text-navy-900 font-bold rounded-xl text-xs border border-navy-200 transition-all">
+              Choose Tier 1 &rarr;
+            </button>
+          </div>
+
+          <!-- TIER 2: PREMIUM (RECOMMENDED) -->
+          <div class="bg-white rounded-2xl p-7 border-2 border-gold-400 shadow-xl relative flex flex-col justify-between space-y-6">
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold-400 text-navy-950 px-3.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider">
+              ⭐ Recommended &bull; Most Popular
+            </div>
+
+            <div class="space-y-4">
+              <span class="text-xs font-bold text-gold-700 uppercase tracking-wider block">Tier 2: Premium</span>
+              <h4 class="text-xl font-serif font-bold text-navy-950">Professional Guidance</h4>
+              <p class="text-xs text-gray-500">Best value for serious learners seeking live 1-on-1 counseling support.</p>
+              
+              <div class="pt-2">
+                <span class="text-3xl font-extrabold text-navy-950 tier-price-2">₹1,499</span>
+                <span class="text-xs text-gray-400 ml-1">one-time</span>
+              </div>
+
+              <ul class="text-xs text-gray-700 space-y-2.5 pt-4 border-t border-gray-100">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-gold-600 shrink-0 mt-0.5"></i> <strong>Everything in Tier 1</strong></li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-gold-600 shrink-0 mt-0.5"></i> <strong>4 Counseling Sessions/mo</strong> (30 min each)</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-gold-600 shrink-0 mt-0.5"></i> Crisis Line Direct Access</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-gold-600 shrink-0 mt-0.5"></i> Graphology Handwriting Analysis Option</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-gold-600 shrink-0 mt-0.5"></i> Access to Guided Meditation Library</li>
+              </ul>
+            </div>
+
+            <button onclick="openToolkitCheckout('tier_2')" class="w-full py-3.5 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-xl text-xs shadow-md transition-all">
+              Choose Premium Tier 2 &rarr;
+            </button>
+          </div>
+
+          <!-- TIER 3: VIP -->
+          <div class="bg-white rounded-2xl p-7 border border-gray-200 shadow-xs flex flex-col justify-between space-y-6">
+            <div class="space-y-4">
+              <span class="text-xs font-bold text-navy-600 uppercase tracking-wider block">Tier 3: VIP</span>
+              <h4 class="text-xl font-serif font-bold text-navy-950">Full Commitment</h4>
+              <p class="text-xs text-gray-500">Therapist-recommended full transformation package with personalized path.</p>
+              
+              <div class="pt-2">
+                <span class="text-3xl font-extrabold text-navy-950 tier-price-3">₹2,499</span>
+                <span class="text-xs text-gray-400 ml-1">one-time</span>
+              </div>
+
+              <ul class="text-xs text-gray-600 space-y-2.5 pt-4 border-t border-gray-100">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-sage-600 shrink-0 mt-0.5"></i> <strong>Everything in Tier 2</strong></li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-sage-600 shrink-0 mt-0.5"></i> <strong>8 Counseling Sessions/mo</strong> (instead of 4)</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-sage-600 shrink-0 mt-0.5"></i> Priority Crisis Hotline Access</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-sage-600 shrink-0 mt-0.5"></i> Personalized Therapy Path Mapping</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-sage-600 shrink-0 mt-0.5"></i> Monthly Group Growth Circles &amp; 1:1 Reviews</li>
+              </ul>
+            </div>
+
+            <button onclick="openToolkitCheckout('tier_3')" class="w-full py-3 bg-navy-50 hover:bg-navy-100 text-navy-900 font-bold rounded-xl text-xs border border-navy-200 transition-all">
+              Choose VIP Tier 3 &rarr;
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 2. COLLABORATION BUNDLES (BOTH BOOKS) -->
+      <div class="space-y-6 pt-6 border-t border-gray-200">
+        <div class="text-center space-y-1">
+          <span class="text-[11px] font-bold text-sage-600 uppercase tracking-wider">Synergistic Power of Both Workbooks</span>
+          <h3 class="text-2xl font-serif font-bold text-navy-900">2. Collaboration Bundles (Save Up To 32%)</h3>
+          <p class="text-xs text-gray-500">Pair <em>Finding The Centre</em> (Therapeutic Coloring) with <em>The Psychology Toolkit</em>.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          
+          <!-- BUNDLE A: CORE -->
+          <div class="bg-cream rounded-2xl p-7 border border-gray-200 shadow-xs flex flex-col justify-between space-y-5">
+            <div class="space-y-3">
+              <span class="text-xs font-bold text-navy-600 uppercase tracking-wider block">Bundle A: Core</span>
+              <h4 class="text-lg font-serif font-bold text-navy-950">Complete Mindfulness &amp; Mental Health</h4>
+              <p class="text-xs text-gray-500">Finding The Centre (eBook) + Psychology Toolkit Tier 1.</p>
+              
+              <div class="pt-2">
+                <span class="text-xs text-gray-400 line-through bundle-val-a">Value: ₹1,798</span>
+                <div class="text-2xl font-extrabold text-navy-950 bundle-price-a">₹1,299</div>
+                <span class="text-[11px] font-bold text-emerald-600 bundle-save-a">Save 28% OFF</span>
+              </div>
+            </div>
+
+            <button onclick="openToolkitCheckout('bundle_a')" class="w-full py-2.5 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-xl text-xs transition-all">
+              Get Bundle A &rarr;
+            </button>
+          </div>
+
+          <!-- BUNDLE B: PREMIUM -->
+          <div class="bg-cream rounded-2xl p-7 border-2 border-sage-500 shadow-md flex flex-col justify-between space-y-5 relative">
+            <span class="absolute -top-2.5 right-6 bg-sage-600 text-white px-3 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider">Best Synergy</span>
+            <div class="space-y-3">
+              <span class="text-xs font-bold text-sage-700 uppercase tracking-wider block">Bundle B: Premium</span>
+              <h4 class="text-lg font-serif font-bold text-navy-950">Advanced Psychology + Therapy</h4>
+              <p class="text-xs text-gray-500">Finding The Centre (Paperback) + Toolkit Tier 2 (4 sessions).</p>
+              
+              <div class="pt-2">
+                <span class="text-xs text-gray-400 line-through bundle-val-b">Value: ₹2,698</span>
+                <div class="text-2xl font-extrabold text-navy-950 bundle-price-b">₹1,999</div>
+                <span class="text-[11px] font-bold text-emerald-600 bundle-save-b">Save 26% OFF</span>
+              </div>
+            </div>
+
+            <button onclick="openToolkitCheckout('bundle_b')" class="w-full py-2.5 bg-sage-700 hover:bg-sage-800 text-white font-bold rounded-xl text-xs transition-all">
+              Get Bundle B &rarr;
+            </button>
+          </div>
+
+          <!-- BUNDLE C: DELUXE -->
+          <div class="bg-cream rounded-2xl p-7 border border-gray-200 shadow-xs flex flex-col justify-between space-y-5">
+            <div class="space-y-3">
+              <span class="text-xs font-bold text-gold-700 uppercase tracking-wider block">Bundle C: Deluxe</span>
+              <h4 class="text-lg font-serif font-bold text-navy-950">Complete Wellness Transformation</h4>
+              <p class="text-xs text-gray-500">Finding The Centre (Hardcover) + Toolkit Tier 3 VIP + Priority Support.</p>
+              
+              <div class="pt-2">
+                <span class="text-xs text-gray-400 line-through bundle-val-c">Value: ₹4,098</span>
+                <div class="text-2xl font-extrabold text-navy-950 bundle-price-c">₹2,799</div>
+                <span class="text-[11px] font-bold text-emerald-600 bundle-save-c">Save 32% OFF</span>
+              </div>
+            </div>
+
+            <button onclick="openToolkitCheckout('bundle_c')" class="w-full py-2.5 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-xl text-xs transition-all">
+              Get Deluxe Bundle &rarr;
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. B2B / CREATOR PARTNERSHIPS SECTION -->
+  <section id="partnerships-section" class="py-20 bg-navy-950 text-white border-b border-navy-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <div class="grid lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-8 space-y-4">
+          <span class="text-xs uppercase tracking-widest font-bold text-gold-400 bg-navy-900 px-3.5 py-1 rounded-full border border-navy-700">
+            For Psychologists, Creators &amp; Organisations
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white leading-tight">
+            BRING THE PSYCHOLOGY TOOLKIT TO YOUR AUDIENCE
+          </h2>
+          <p class="text-sm text-navy-200 leading-relaxed max-w-2xl">
+            The Psychology Toolkit is suitable for psychology-focused creators, coaches, educators, wellbeing organizations, and mental-health professionals looking to share an evidence-informed reflection resource with their clients or community.
+          </p>
+          <div class="grid sm:grid-cols-2 gap-3 text-xs text-navy-300 pt-2">
+            <div>✓ 70% Partner Commission Model for Certified Professionals</div>
+            <div>✓ Supplementary clinical homework exercise worksheets</div>
+            <div>✓ Bulk licensing for schools, institutions &amp; clinics</div>
+            <div>✓ Co-branded educational workshops</div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-4 bg-navy-900 p-7 rounded-3xl border border-navy-800 text-center space-y-4">
+          <h4 class="font-serif font-bold text-lg text-white">Partner Enquiry</h4>
+          <p class="text-xs text-navy-300">Connect directly with Manish Garg's team to discuss institutional access or affiliate partnerships.</p>
+          <a href="mailto:mgmanishgarg3@gmail.com?subject=Partnership%20Enquiry%20-%20The%20Psychology%20Toolkit" class="w-full py-3.5 bg-gold-400 hover:bg-gold-300 text-navy-950 font-extrabold rounded-xl text-xs block transition-all">
+            SUBMIT PARTNERSHIP ENQUIRY &rarr;
+          </a>
+          <span class="text-[11px] text-gray-400 block">Direct Email: mgmanishgarg3@gmail.com</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 8. AUTHOR & MISSION SECTION -->
+  <section id="author-section" class="py-20 bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Author Portrait Card -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="bg-cream rounded-3xl p-6 border border-gray-200 shadow-xl max-w-sm w-full text-center space-y-4">
+            <div class="w-32 h-32 mx-auto rounded-2xl bg-gradient-to-tr from-navy-900 to-sage-600 flex items-center justify-center text-white text-3xl font-serif font-bold shadow-md">
+              MG
+            </div>
+            <div>
+              <h3 class="text-2xl font-serif font-bold text-navy-950">Manish Garg</h3>
+              <p class="text-xs font-semibold text-sage-700 mt-0.5">Clinical Psychology Student &bull; Founder</p>
+              <p class="text-xs text-gray-500">PillowDreamWorks Foundation</p>
+            </div>
+            
+            <div class="pt-3 border-t border-gray-200 flex justify-center gap-4 text-xs font-semibold">
+              <a href="https://www.linkedin.com/in/manish-garg-11757b238" target="_blank" rel="noopener noreferrer" class="text-navy-700 hover:text-navy-950 flex items-center gap-1.5 underline">
+                <i data-lucide="linkedin" class="w-3.5 h-3.5 text-blue-600"></i> LinkedIn Profile
+              </a>
+              <a href="https://instagram.com/manish082_1" target="_blank" rel="noopener noreferrer" class="text-navy-700 hover:text-navy-950 flex items-center gap-1.5 underline">
+                <i data-lucide="instagram" class="w-3.5 h-3.5 text-pink-600"></i> @manish082_1
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Author Biography & Philosophy -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <div class="space-y-2">
+            <span class="text-xs uppercase tracking-widest font-bold text-sage-600 bg-sage-50 px-3 py-1 rounded-full border border-sage-200">About The Author</span>
+            <h2 class="text-3xl sm:text-4xl font-serif font-bold text-navy-950">
+              "Practical psychology should be accessible in everyday life."
+            </h2>
+          </div>
+
+          <div class="space-y-4 text-sm text-gray-600 leading-relaxed">
+            <p>
+              "I’m Manish Garg, a Clinical Psychology student and the founder of PillowDreamWorks Foundation. I created this workbook with a simple belief — that practical psychology tools should be accessible to everyone, not just within therapy rooms, but in everyday life."
+            </p>
+            <p>
+              "Through psychology education, reflective practices, and compassionate guidance, this workbook is designed to help readers better understand themselves, build healthier habits, and create a calmer, more fulfilling life."
+            </p>
+          </div>
+
+          <!-- Mission Panel in Soft Blue -->
+          <div class="bg-skysoft/80 border border-sky-200 rounded-2xl p-6 space-y-2">
+            <span class="text-xs font-bold text-navy-800 uppercase tracking-wider block">My Mission</span>
+            <p class="text-sm font-serif italic text-navy-950 leading-relaxed">
+              "To empower individuals with practical psychology tools that make a real difference in their daily lives, and to create resources that inspire self-awareness, resilience, and lasting wellbeing."
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 9. FOOTER -->
+  <footer class="bg-navy-950 text-white py-12 border-t border-navy-900 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-navy-800 text-center md:text-left">
+        <div>
+          <span class="text-lg font-serif font-bold text-white block">PillowDreamWorks Foundation</span>
+          <span class="text-xs text-gold-400 font-serif italic block mt-0.5">The Psychology Toolkit • A Calmer Mind, A Brighter Tomorrow</span>
+          <span class="text-[11px] text-navy-400 block mt-1">Psychology • Education • Emotional Wellbeing</span>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-6 text-navy-300 font-medium">
+          <a href="index.html" class="hover:text-white transition-colors">Home</a>
+          <a href="#the-book" class="hover:text-white transition-colors">The Book</a>
+          <a href="#chapters-section" class="hover:text-white transition-colors">Chapters</a>
+          <a href="#preview-gallery" class="hover:text-white transition-colors">Preview</a>
+          <a href="#pricing-section" class="hover:text-white transition-colors">Pricing</a>
+          <a href="#partnerships-section" class="hover:text-white transition-colors">Partnerships</a>
+          <a href="testing.html" class="hover:text-white transition-colors">Assessments</a>
+        </div>
+      </div>
+
+      <!-- Legal & Disclaimer -->
+      <div class="text-center space-y-3 text-navy-400 text-[11px] max-w-3xl mx-auto">
+        <p>
+          <strong>Educational Disclaimer:</strong> This workbook is intended for educational and personal-development purposes. It is not a substitute for diagnosis, treatment, or professional mental-health care.
+        </p>
+        <p>
+          Contact: <a href="mailto:mgmanishgarg3@gmail.com" class="text-gold-300 hover:underline">mgmanishgarg3@gmail.com</a> • LinkedIn: <a href="https://www.linkedin.com/in/manish-garg-11757b238" target="_blank" rel="noopener noreferrer" class="text-gold-300 hover:underline">https://www.linkedin.com/in/manish-garg-11757b238</a> • Instagram: @manish082_1
+        </p>
+        <p class="text-navy-500">
+          &copy; 2024 PillowDreamWorks Foundation by Manish Garg. All rights reserved.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- LIGHTBOX MODAL FOR FULLSCREEN A4 PREVIEW -->
+  <div id="preview-lightbox-modal" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-4" role="dialog" aria-modal="true">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 relative overflow-y-auto max-h-[95vh] shadow-2xl">
+      <button onclick="closeLightbox()" class="absolute top-4 right-4 w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors" aria-label="Close Lightbox">
+        <i data-lucide="x" class="w-4 h-4 text-gray-700"></i>
+      </button>
+      <div id="lightbox-content-target" class="pt-4 flex justify-center"></div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL FOR THE PSYCHOLOGY TOOLKIT -->
+  <div id="toolkit-checkout-modal" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-4" role="dialog" aria-modal="true">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative overflow-y-auto max-h-[90vh]">
+      <button onclick="closeToolkitCheckout()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700" aria-label="Close Checkout Modal">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="border-b pb-4 mb-4">
+        <span class="text-xs font-bold text-sage-600 uppercase" id="tk-modal-badge">PillowDreamWorks Foundation</span>
+        <h3 class="text-xl font-serif font-bold text-navy-950 mt-1" id="tk-modal-title">Get The Psychology Toolkit</h3>
+        <p class="text-sm font-extrabold text-navy-900 mt-1" id="tk-modal-price"></p>
+      </div>
+
+      <form onsubmit="processToolkitOrder(event)" class="space-y-4">
+        <input type="hidden" id="tk-selected-sku">
+        
+        <div>
+          <label for="tk-cust-name" class="block text-xs font-semibold text-gray-700 mb-1">Your Full Name</label>
+          <input type="text" id="tk-cust-name" required class="w-full px-4 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-navy-600 outline-none" placeholder="e.g. Manish Garg">
+        </div>
+
+        <div>
+          <label for="tk-cust-email" class="block text-xs font-semibold text-gray-700 mb-1">Email Address (For Instant Workbook Delivery)</label>
+          <input type="email" id="tk-cust-email" required class="w-full px-4 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-navy-600 outline-none" placeholder="name@example.com">
+        </div>
+
+        <div>
+          <label for="tk-cust-phone" class="block text-xs font-semibold text-gray-700 mb-1">WhatsApp / Phone (For Session Booking &amp; Updates)</label>
+          <input type="tel" id="tk-cust-phone" required class="w-full px-4 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-navy-600 outline-none" placeholder="+91 98765 43210">
+        </div>
+
+        <!-- Order Summary Box -->
+        <div class="p-4 bg-navy-50 rounded-xl border border-navy-100 text-xs space-y-1">
+          <div class="flex justify-between font-semibold text-navy-900">
+            <span id="tk-summary-item">Toolkit Selection</span>
+            <span id="tk-summary-amount">₹0</span>
+          </div>
+          <p class="text-[11px] text-gray-500">Includes instant printable A4 PDF + bonus assessments &amp; support access.</p>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-xl shadow-md text-sm transition-all">
+          Confirm Order &amp; Access Materials &rarr;
+        </button>
+
+        <p class="text-[10px] text-gray-400 text-center">
+          🔒 Secure 256-bit checkout • Instant PDF digital download link sent via email.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: SLIDE ANIMATION, DUAL CURRENCY TOGGLE & CHECKOUT -->
+  <script>
+    // ═══════════════════════════════════════════════
+    // DUAL CURRENCY ENGINE (INR vs USD)
+    // ═══════════════════════════════════════════════
+    let currentCurrency = 'INR';
+
+    const PRICING_DATA = {
+      INR: {
+        symbol: '₹',
+        tier1: '₹999',
+        tier2: '₹1,499',
+        tier3: '₹2,499',
+        bundleValA: 'Value: ₹1,798',
+        bundlePriceA: '₹1,299',
+        bundleSaveA: 'Save ₹499 (28% OFF)',
+        bundleValB: 'Value: ₹2,698',
+        bundlePriceB: '₹1,999',
+        bundleSaveB: 'Save ₹699 (26% OFF)',
+        bundleValC: 'Value: ₹4,098',
+        bundlePriceC: '₹2,799',
+        bundleSaveC: 'Save ₹1,299 (32% OFF)',
+        packOld: 'Regular Value: ₹5,197',
+        packDeal: '₹1,199',
+        packSave: 'You Save ₹3,998 (77% OFF)'
+      },
+      USD: {
+        symbol: '$',
+        tier1: '$127',
+        tier2: '$197',
+        tier3: '$297',
+        bundleValA: 'Value: $137',
+        bundlePriceA: '$165',
+        bundleSaveA: 'Save $33 (20% OFF)',
+        bundleValB: 'Value: $211',
+        bundlePriceB: '$254',
+        bundleSaveB: 'Save $43 (17% OFF)',
+        bundleValC: 'Value: $316',
+        bundlePriceC: '$357',
+        bundleSaveC: 'Save $76 (21% OFF)',
+        packOld: 'Regular Value: $241',
+        packDeal: '$15',
+        packSave: 'You Save $226 (93% OFF)'
+      }
+    };
+
+    function setGlobalCurrency(currency) {
+      currentCurrency = currency;
+      const data = PRICING_DATA[currency];
+
+      // Update Tiers
+      document.querySelectorAll('.tier-price-1').forEach(el => el.innerText = data.tier1);
+      document.querySelectorAll('.tier-price-2').forEach(el => el.innerText = data.tier2);
+      document.querySelectorAll('.tier-price-3').forEach(el => el.innerText = data.tier3);
+
+      // Update Bundles
+      document.querySelectorAll('.bundle-val-a').forEach(el => el.innerText = data.bundleValA);
+      document.querySelectorAll('.bundle-price-a').forEach(el => el.innerText = data.bundlePriceA);
+      document.querySelectorAll('.bundle-save-a').forEach(el => el.innerText = data.bundleSaveA);
+
+      document.querySelectorAll('.bundle-val-b').forEach(el => el.innerText = data.bundleValB);
+      document.querySelectorAll('.bundle-price-b').forEach(el => el.innerText = data.bundlePriceB);
+      document.querySelectorAll('.bundle-save-b').forEach(el => el.innerText = data.bundleSaveB);
+
+      document.querySelectorAll('.bundle-val-c').forEach(el => el.innerText = data.bundleValC);
+      document.querySelectorAll('.bundle-price-c').forEach(el => el.innerText = data.bundlePriceC);
+      document.querySelectorAll('.bundle-save-c').forEach(el => el.innerText = data.bundleSaveC);
+
+      // Update Launch Pack
+      const pOld = document.getElementById('pack-old-price');
+      const pDeal = document.getElementById('pack-deal-price');
+      const pSave = document.getElementById('pack-savings');
+      if (pOld) pOld.innerText = data.packOld;
+      if (pDeal) pDeal.innerText = data.packDeal;
+      if (pSave) pSave.innerText = data.packSave;
+
+      // Update Button Styles
+      const inrTop = document.getElementById('top-curr-inr');
+      const usdTop = document.getElementById('top-curr-usd');
+      const inrMain = document.getElementById('main-curr-inr');
+      const usdMain = document.getElementById('main-curr-usd');
+
+      if (currency === 'INR') {
+        if (inrTop) inrTop.className = 'px-2.5 py-0.5 rounded-md font-bold transition-all bg-gold-400 text-navy-950 shadow-xs flex items-center gap-1';
+        if (usdTop) usdTop.className = 'px-2.5 py-0.5 rounded-md font-semibold text-navy-200 hover:text-white transition-all flex items-center gap-1';
+        if (inrMain) inrMain.className = 'px-5 py-2.5 rounded-xl font-bold text-xs transition-all bg-navy-900 text-white shadow-md flex items-center gap-2';
+        if (usdMain) usdMain.className = 'px-5 py-2.5 rounded-xl font-semibold text-xs text-gray-600 hover:text-navy-900 transition-all flex items-center gap-2';
+      } else {
+        if (usdTop) usdTop.className = 'px-2.5 py-0.5 rounded-md font-bold transition-all bg-gold-400 text-navy-950 shadow-xs flex items-center gap-1';
+        if (inrTop) inrTop.className = 'px-2.5 py-0.5 rounded-md font-semibold text-navy-200 hover:text-white transition-all flex items-center gap-1';
+        if (usdMain) usdMain.className = 'px-5 py-2.5 rounded-xl font-bold text-xs transition-all bg-navy-900 text-white shadow-md flex items-center gap-2';
+        if (inrMain) inrMain.className = 'px-5 py-2.5 rounded-xl font-semibold text-xs text-gray-600 hover:text-navy-900 transition-all flex items-center gap-2';
+      }
+    }
+
+    // ═══════════════════════════════════════════════
+    // SLIDE ANIMATION & A4 WORKBOOK CAROUSEL
+    // ═══════════════════════════════════════════════
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide-item');
+    const totalSlides = slides.length;
+    const slideTitles = [
+      "Page 1: Workbook Cover",
+      "Page 16: Emotion Wheel Worksheet",
+      "Page 17: Daily Feelings Tracker",
+      "Page 18: Trigger to Response Planner",
+      "Page 31: Thought Record Worksheet",
+      "Page 47: Anxiety Intensity Tracker",
+      "Page 49: Coping Strategy Planner",
+      "Page 62: Boundary Script Worksheet",
+      "Page 64: Support Circle Map",
+      "Page 71: SMART Goal Framework",
+      "Page 78: 30-Day Purpose Review"
+    ];
+
+    function initSlideDots() {
+      const dotsContainer = document.getElementById('slide-dots');
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = `w-2.5 h-2.5 rounded-full transition-all ${i === 0 ? 'bg-navy-900 w-6' : 'bg-gray-300 hover:bg-gray-400'}`;
+        dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        dot.onclick = () => goToSlide(i);
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function goToSlide(index) {
+      if (index < 0) index = totalSlides - 1;
+      if (index >= totalSlides) index = 0;
+      currentSlide = index;
+
+      slides.forEach((s, idx) => {
+        if (idx === currentSlide) {
+          s.classList.add('active');
+        } else {
+          s.classList.remove('active');
+        }
+      });
+
+      // Update slide info text
+      const info = document.getElementById('slide-info-display');
+      if (info) info.innerText = `Page ${currentSlide + 1} of ${totalSlides} • ${slideTitles[currentSlide]}`;
+
+      // Update dots
+      const dots = document.querySelectorAll('#slide-dots button');
+      dots.forEach((d, idx) => {
+        if (idx === currentSlide) {
+          d.className = 'w-6 h-2.5 rounded-full bg-navy-900 transition-all';
+        } else {
+          d.className = 'w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all';
+        }
+      });
+
+      // Update tabs
+      const tabs = document.querySelectorAll('.preview-tab');
+      tabs.forEach(t => {
+        if (parseInt(t.getAttribute('data-index')) === currentSlide) {
+          t.className = 'preview-tab px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-navy-900 text-white';
+        } else {
+          t.className = 'preview-tab px-3.5 py-1.5 rounded-full text-xs font-semibold text-gray-600 hover:text-navy-900 bg-gray-100 transition-all';
+        }
+      });
+    }
+
+    function nextSlide() { goToSlide(currentSlide + 1); }
+    function prevSlide() { goToSlide(currentSlide - 1); }
+
+    function scrollToPreview() {
+      const section = document.getElementById('preview-gallery');
+      if (section) section.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Lightbox modal handler
+    function openLightbox() {
+      const modal = document.getElementById('preview-lightbox-modal');
+      const target = document.getElementById('lightbox-content-target');
+      if (!modal || !target) return;
+
+      const activeSlide = slides[currentSlide];
+      if (activeSlide) {
+        target.innerHTML = activeSlide.outerHTML;
+        target.querySelector('.slide-item').classList.add('active');
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('preview-lightbox-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // ═══════════════════════════════════════════════
+    // CHECKOUT MODAL HANDLER
+    // ═══════════════════════════════════════════════
+    const SKU_NAMES = {
+      tier_1: { title: 'The Psychology Toolkit (Tier 1: Standard)', inr: '₹999', usd: '$127' },
+      tier_2: { title: 'The Psychology Toolkit (Tier 2: Premium ⭐)', inr: '₹1,499', usd: '$197' },
+      tier_3: { title: 'The Psychology Toolkit (Tier 3: VIP)', inr: '₹2,499', usd: '$297' },
+      bundle_a: { title: 'Mindfulness & Mental Health Bundle (Bundle A)', inr: '₹1,299', usd: '$165' },
+      bundle_b: { title: 'Advanced Psychology & Therapy Bundle (Bundle B ⭐)', inr: '₹1,999', usd: '$254' },
+      bundle_c: { title: 'Complete Wellness Transformation Bundle (Bundle C)', inr: '₹2,799', usd: '$357' },
+      grapho_pack: { title: 'Graphotherapy Master Package (Launch Offer)', inr: '₹1,199', usd: '$15' }
+    };
+
+    function openToolkitCheckout(sku) {
+      const modal = document.getElementById('toolkit-checkout-modal');
+      if (!modal) return;
+
+      const item = SKU_NAMES[sku] || SKU_NAMES['tier_2'];
+      const price = currentCurrency === 'INR' ? item.inr : item.usd;
+
+      document.getElementById('tk-selected-sku').value = sku;
+      document.getElementById('tk-modal-title').innerText = item.title;
+      document.getElementById('tk-modal-price').innerText = `Total: ${price} (${currentCurrency})`;
+      document.getElementById('tk-summary-item').innerText = item.title;
+      document.getElementById('tk-summary-amount').innerText = price;
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeToolkitCheckout() {
+      const modal = document.getElementById('toolkit-checkout-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function processToolkitOrder(event) {
+      event.preventDefault();
+      const sku = document.getElementById('tk-selected-sku').value;
+      const name = document.getElementById('tk-cust-name').value;
+      const email = document.getElementById('tk-cust-email').value;
+      const phone = document.getElementById('tk-cust-phone').value;
+
+      const item = SKU_NAMES[sku] || SKU_NAMES['tier_2'];
+      const price = currentCurrency === 'INR' ? item.inr : item.usd;
+
+      alert(`Thank you, ${name}!\n\nYour order for "${item.title}" (${price}) has been received.\n\nInstant digital workbook download access has been sent to: ${email}.\nOur consultation coordinator will reach out to ${phone}.`);
+      closeToolkitCheckout();
+    }
+
+    // Auto-initialize on load
+    document.addEventListener('DOMContentLoaded', () => {
+      initSlideDots();
+      setGlobalCurrency('INR');
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

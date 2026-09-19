@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Which Healing Path Do You Need? — PillowDreamWorks Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-cream text-gray-900 flex flex-col min-h-screen">
+
+  <header class="bg-white border-b border-purple-100 py-4 px-6 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="assets/logo.svg" alt="PillowDreamWorks" class="h-10 w-auto">
+      </a>
+      <a href="index.html" class="text-sm text-purple-700 font-semibold hover:underline">&larr; Back to Main Site</a>
+    </div>
+  </header>
+
+  <section class="py-16 max-w-3xl mx-auto px-4 text-center">
+    <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Interactive Quiz</span>
+    <h1 class="text-3xl font-bold font-serif text-gray-900 mt-2">Which Healing Tool Matches Your Current Energy?</h1>
+    <p class="text-sm text-gray-600 mt-1">Answer 3 simple questions to uncover whether coloring, graphotherapy, video courses, or 1-on-1 counselling is your best starting point.</p>
+
+    <div class="bg-white p-8 rounded-3xl border border-purple-100 shadow-xl mt-8 text-left space-y-6">
+      
+      <form id="healing-quiz-form" onsubmit="event.preventDefault(); showQuizResult();">
+        
+        <div>
+          <label class="block font-bold text-gray-800 text-sm mb-2">1. What is your biggest challenge right now?</label>
+          <div class="space-y-2">
+            <label class="block p-3 border rounded-xl hover:bg-purple-50 cursor-pointer text-sm"><input type="radio" name="qz1" value="book" required class="mr-2"> Overthinking before sleep &amp; mind restlessness</label>
+            <label class="block p-3 border rounded-xl hover:bg-purple-50 cursor-pointer text-sm"><input type="radio" name="qz1" value="grapho" class="mr-2"> Repeating negative patterns &amp; subconscious blocks</label>
+            <label class="block p-3 border rounded-xl hover:bg-purple-50 cursor-pointer text-sm"><input type="radio" name="qz1" value="counselling" class="mr-2"> Acute anxiety, grief, or relationship stress</label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-gray-800 text-sm mb-2">2. How do you prefer to learn and process emotions?</label>
+          <div class="space-y-2">
+            <label class="block p-3 border rounded-xl hover:bg-purple-50 cursor-pointer text-sm"><input type="radio" name="qz2" value="book" required class="mr-2"> Hands-on creative expression (coloring &amp; writing)</label>
+            <label class="block p-3 border rounded-xl hover:bg-purple-50 cursor-pointer text-sm"><input type="radio" name="qz2" value="course" class="mr-2"> Watching structured video lessons &amp; workbooks</label>
+            <label class="block p-3 border rounded-xl hover:bg-purple-50 cursor-pointer text-sm"><input type="radio" name="qz2" value="counselling" class="mr-2"> Talking directly with a compassionate practitioner</label>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t">
+          <button type="submit" class="w-full py-3.5 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl">
+            Reveal My Recommended Path
+          </button>
+        </div>
+
+      </form>
+
+      <div id="quiz-result-area"></div>
+
+    </div>
+  </section>
+
+  <script src="js/main.js"></script>
+  <script>
+    function showQuizResult() {
+      const q1 = document.querySelector('input[name="qz1"]:checked')?.value;
+      const resArea = document.getElementById('quiz-result-area');
+      
+      let html = '';
+      if (q1 === 'book') {
+        html = `
+          <div class="p-6 bg-purple-50 rounded-2xl border border-purple-200">
+            <h3 class="text-xl font-bold text-purple-900">Your Match: 'Finding The Centre' Workbook</h3>
+            <p class="text-sm text-gray-700 mt-2">Coloring & reflection is your ideal entry point for quieting an overactive mind and building daily calm.</p>
+            <a href="book.html" class="inline-block mt-4 px-6 py-2.5 bg-purple-600 text-white font-bold rounded-xl text-sm">Get the Workbook (₹799) &rarr;</a>
+          </div>
+        `;
+      } else if (q1 === 'grapho') {
+        html = `
+          <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-200">
+            <h3 class="text-xl font-bold text-emerald-900">Your Match: Graphotherapy Handwriting Realignment</h3>
+            <p class="text-sm text-gray-700 mt-2">Analyzing your handwriting strokes will expose subconscious triggers and provide direct stroke corrective exercises.</p>
+            <a href="services.html#graphotherapy" class="inline-block mt-4 px-6 py-2.5 bg-emerald-600 text-white font-bold rounded-xl text-sm">Explore Graphotherapy Tiers ($5-$15) &rarr;</a>
+          </div>
+        `;
+      } else {
+        html = `
+          <div class="p-6 bg-indigo-50 rounded-2xl border border-indigo-200">
+            <h3 class="text-xl font-bold text-indigo-900">Your Match: 1-on-1 Counselling with Manish Garg</h3>
+            <p class="text-sm text-gray-700 mt-2">Direct conversation will provide the immediate clarity, relief, and personalized reframing you need right now.</p>
+            <a href="services.html#counselling" class="inline-block mt-4 px-6 py-2.5 bg-indigo-600 text-white font-bold rounded-xl text-sm">Book 1-on-1 Session (₹1,499) &rarr;</a>
+          </div>
+        `;
+      }
+      resArea.innerHTML = html;
+    }
+    lucide.createIcons();
+  </script>
+</body>
+</html>

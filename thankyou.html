@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation &amp; Special Upgrade — PillowDreamWorks</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-cream text-gray-900 flex flex-col min-h-screen">
+
+  <header class="bg-white border-b border-purple-100 py-4 px-6">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="assets/logo.svg" alt="PillowDreamWorks" class="h-10 w-auto">
+      </a>
+    </div>
+  </header>
+
+  <section class="py-16 max-w-3xl mx-auto px-4 text-center">
+    
+    <!-- Order Success Pill -->
+    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+      <i data-lucide="check-circle" class="w-10 h-10"></i>
+    </div>
+
+    <h1 class="text-3xl font-bold font-serif text-gray-900">Thank You For Your Order!</h1>
+    <p class="text-sm text-gray-600 mt-2">Your receipt and access link have been sent to your email address.</p>
+
+    <!-- Post-Purchase Upsell Box -->
+    <div class="bg-white rounded-3xl p-8 border-2 border-purple-500 shadow-2xl mt-10 text-left space-y-6 relative overflow-hidden">
+      
+      <div class="bg-amber-400 text-purple-950 font-bold text-xs uppercase px-3 py-1 rounded-full inline-block">
+        One-Time Post-Purchase Upsell (50% Off)
+      </div>
+
+      <h2 class="text-2xl font-bold text-gray-900">
+        Accelerate Your Transformation: Add a Graphology Analysis Report for only ₹399 (Normally ₹799)
+      </h2>
+
+      <p class="text-sm text-gray-600 leading-relaxed">
+        Since you just invested in <strong>Finding The Centre</strong>, supercharge your workbook practice! Submit a single page photo of your handwriting to receive a personalized subconscious profile &amp; targeted stroke correction guide from Manish Garg.
+      </p>
+
+      <div class="p-4 bg-purple-50 rounded-2xl flex items-center justify-between border border-purple-100">
+        <div>
+          <span class="text-xs text-gray-500 line-through">Regular Price: ₹799 / $10</span>
+          <div class="text-2xl font-bold text-purple-900">Special Price: ₹399</div>
+        </div>
+        <button onclick="alert('Added Graphology Analysis to your order! Check your email for upload instructions.')" class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl text-sm shadow-md">
+          Yes! Add Graphology Reading (₹399)
+        </button>
+      </div>
+
+      <div class="text-center pt-2">
+        <a href="index.html" class="text-xs text-gray-400 hover:text-gray-600 underline">No thanks, take me back to homepage</a>
+      </div>
+
+    </div>
+
+  </section>
+
+  <script src="js/main.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
