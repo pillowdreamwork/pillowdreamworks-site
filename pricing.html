@@ -126,7 +126,7 @@
   <!-- STICKY LAUNCH OFFER BANNER -->
   <div class="announcement-bar" style="position: sticky; top: 0; z-index: 90;">
     <span><strong>Launch Offer</strong></span>
-    <span class="hidden sm:inline">Graphotherapy Master Pack &mdash; full platform access for <strong>₹1,199 / $15</strong> <span style="color:#9bb0bc;">(value ₹5,197)</span></span>
+    <span class="hidden sm:inline">Graphotherapy Master Pack &mdash; full platform access for <strong>$15 / ₹1,199</strong> <span style="color:#9bb0bc;">(value $241)</span></span>
     <a href="#launch-offer">Claim Offer &rarr;</a>
   </div>
 
@@ -236,7 +236,7 @@
               <span class="price" data-inr="₹1,499" data-usd="$197">₹1,499</span>
               <small class="currency">one-time</small>
             </div>
-            <p class="tier-value">Recommended by practitioners</p>
+            <p class="tier-value">Our most complete everyday tier</p>
             <ul class="tier-list">
               <li><i data-lucide="check" aria-hidden="true"></i> Everything in Standard</li>
               <li><i data-lucide="check" aria-hidden="true"></i> 4 counselling sessions / month</li>
@@ -390,7 +390,7 @@
         <div class="text-center max-w-2xl mx-auto mb-10 section-heading">
           <span class="eyebrow" style="justify-content:center;">Better together</span>
           <h2>Book &amp; toolkit bundles</h2>
-          <p class="section-lead mx-auto mt-3">Pair <em>Finding The Centre</em> with the Psychology Toolkit and save up to 32%.</p>
+          <p class="section-lead mx-auto mt-3">Pair <em>Finding The Centre</em> with the Psychology Toolkit and save when you buy them together.</p>
         </div>
 
         <div class="bundle-grid">
@@ -623,9 +623,19 @@
           Payments are processed securely through Lemon Squeezy. Purchasing-power pricing (ParityDeals) is applied on the payment page for eligible regions, so your final amount may be lower than shown.
         </p>
 
-        <a id="pc-continue" href="#" class="btn btn-primary btn-block">
-          <i data-lucide="lock" class="w-4 h-4" aria-hidden="true"></i> Continue to secure payment
-        </a>
+        <button type="button" id="pc-continue" class="btn btn-primary btn-block">
+          <i data-lucide="lock" class="w-4 h-4" aria-hidden="true"></i> Continue to Lemon Squeezy
+        </button>
+
+        <div id="pc-pending" style="display:none;">
+          <div class="safety-note" style="margin-bottom: 1rem;">
+            Online checkout for this item is being finalised. Email us to complete your purchase and we'll send a secure Lemon Squeezy payment link.
+          </div>
+          <a href="mailto:mgmanishgarg3@gmail.com" class="btn btn-primary btn-block">
+            <i data-lucide="mail" class="w-4 h-4" aria-hidden="true"></i> Email to purchase
+          </a>
+        </div>
+
         <p class="text-xs text-muted text-center" style="margin-top: 0.75rem;">
           Questions first? <a href="contact.html" class="soft-underline" style="font-weight:600;">Contact us</a>.
         </p>
@@ -639,23 +649,36 @@
 
   <script src="js/main.js"></script>
   <script>
-    /* ---------- Currency toggle ---------- */
-    var pdwCurrency = 'inr';
+    /* ---------- Currency toggle ----------
+       Global-first: USD is the default currency (source-of-truth §18 — do not
+       show every visitor the Indian price). ParityDeals applies purchasing-power
+       pricing per region at the Lemon Squeezy checkout. */
+    var pdwCurrency = 'usd';
 
     function setCurrency(cur) {
-      pdwCurrency = (cur === 'usd') ? 'usd' : 'inr';
+      pdwCurrency = (cur === 'inr') ? 'inr' : 'usd';
       document.querySelectorAll('[data-inr][data-usd]').forEach(function (el) {
         var val = el.getAttribute('data-' + pdwCurrency);
         if (val !== null) el.textContent = val;
       });
+
+      /* USD bundle reference values in the source of truth are lower than the
+         bundle price (an unresolved data conflict, flagged for review), so we
+         only show the crossed-out value + savings in INR, where the figures are
+         internally consistent. The launch offer is consistent in both currencies
+         and is intentionally not affected. */
+      var usd = pdwCurrency === 'usd';
+      document.querySelectorAll('.bundle-card .bundle-value, .bundle-card .save-badge').forEach(function (el) {
+        el.style.display = usd ? 'none' : '';
+      });
+
       var inrBtn = document.getElementById('cur-inr');
       var usdBtn = document.getElementById('cur-usd');
       if (inrBtn && usdBtn) {
-        var isInr = pdwCurrency === 'inr';
-        inrBtn.classList.toggle('active', isInr);
-        usdBtn.classList.toggle('active', !isInr);
-        inrBtn.setAttribute('aria-pressed', String(isInr));
-        usdBtn.setAttribute('aria-pressed', String(!isInr));
+        inrBtn.classList.toggle('active', !usd);
+        usdBtn.classList.toggle('active', usd);
+        inrBtn.setAttribute('aria-pressed', String(!usd));
+        usdBtn.setAttribute('aria-pressed', String(usd));
       }
     }
 
@@ -676,30 +699,50 @@
       if (cards[idx]) cards[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    /* ---------- Pricing checkout ---------- */
-    var PRICING_SKUS = {
-      'psychology-tier1': { title: 'Psychology Toolkit — Standard', inr: '₹999', usd: '$127' },
-      'psychology-tier2': { title: 'Psychology Toolkit — Premium', inr: '₹1,499', usd: '$197' },
-      'psychology-tier3': { title: 'Psychology Toolkit — VIP', inr: '₹2,499', usd: '$297' },
-      'bundle-core': { title: 'Core Collaboration Bundle', inr: '₹1,299', usd: '$165' },
-      'bundle-premium': { title: 'Premium Collaboration Bundle', inr: '₹1,999', usd: '$254' },
-      'bundle-deluxe': { title: 'Deluxe Collaboration Bundle', inr: '₹2,799', usd: '$357' },
-      'graphotherapy-pack': { title: 'Graphotherapy Master Pack', inr: '₹1,199', usd: '$15' }
+    /* ---------- Central product + checkout configuration ----------
+       Single source of truth for this page. Each logical product id maps to its
+       display prices and one real Lemon Squeezy checkout URL.
+
+       IMPORTANT: `checkoutUrl` must be a real Lemon Squeezy product/variant URL.
+       These are intentionally left blank — never invent them. Fill each one with
+       the store's actual checkout link. Until a link is set, the button falls
+       back to an email-to-purchase flow (no fake payment/confirmation logic).
+
+       Regional (purchasing-power) pricing is handled by ParityDeals on the
+       Lemon Squeezy checkout, not hard-coded here. */
+    var PDW_PRODUCTS = {
+      'psychology-tier1':  { title: 'Psychology Toolkit — Standard',        inr: '₹999',   usd: '$127', checkoutUrl: '' },
+      'psychology-tier2':  { title: 'Psychology Toolkit — Premium',         inr: '₹1,499', usd: '$197', checkoutUrl: '' },
+      'psychology-tier3':  { title: 'Psychology Toolkit — VIP',             inr: '₹2,499', usd: '$297', checkoutUrl: '' },
+      'bundle-core':       { title: 'Core Collaboration Bundle',            inr: '₹1,299', usd: '$165', checkoutUrl: '' },
+      'bundle-premium':    { title: 'Premium Collaboration Bundle',         inr: '₹1,999', usd: '$254', checkoutUrl: '' },
+      'bundle-deluxe':     { title: 'Deluxe Collaboration Bundle',          inr: '₹2,799', usd: '$357', checkoutUrl: '' },
+      'graphotherapy-pack':{ title: 'Graphotherapy Master Pack',            inr: '₹1,199', usd: '$15',  checkoutUrl: '' }
     };
 
-    function openPricingCheckout(sku) {
-      var data = PRICING_SKUS[sku];
+    var pdwActiveCheckoutUrl = '';
+
+    function openPricingCheckout(id) {
+      var data = PDW_PRODUCTS[id];
       if (!data) return;
       var modal = document.getElementById('pricing-checkout-modal');
       if (!modal) return;
+
       var itemEl = document.getElementById('pc-item');
       var priceEl = document.getElementById('pc-price');
       var descEl = document.getElementById('pc-desc');
       var continueEl = document.getElementById('pc-continue');
+      var pendingEl = document.getElementById('pc-pending');
+
       if (itemEl) itemEl.textContent = data.title;
       if (priceEl) priceEl.textContent = (pdwCurrency === 'usd') ? data.usd : data.inr;
       if (descEl) descEl.textContent = 'You\'re purchasing: ' + data.title + '.';
-      if (continueEl) continueEl.setAttribute('href', 'thankyou.html?sku=' + encodeURIComponent(sku));
+
+      pdwActiveCheckoutUrl = data.checkoutUrl || '';
+      var ready = !!pdwActiveCheckoutUrl;
+      if (continueEl) continueEl.style.display = ready ? '' : 'none';
+      if (pendingEl) pendingEl.style.display = ready ? 'none' : '';
+
       if (typeof openModal === 'function') {
         openModal(modal);
       } else {
@@ -709,11 +752,24 @@
       if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 
+    function goToCheckout() {
+      if (!pdwActiveCheckoutUrl) return;
+      /* Open in a new tab when embedded in an iframe (e.g. previews), otherwise
+         navigate in place. */
+      if (window.self !== window.top) {
+        window.open(pdwActiveCheckoutUrl, '_blank', 'noopener');
+      } else {
+        window.location.href = pdwActiveCheckoutUrl;
+      }
+    }
+
     /* Alias kept for parity with the documented checkout hook. */
     window.openCheckoutModal = window.openCheckoutModal || openPricingCheckout;
 
     document.addEventListener('DOMContentLoaded', function () {
-      setCurrency('inr');
+      setCurrency('usd');
+      var continueEl = document.getElementById('pc-continue');
+      if (continueEl) continueEl.addEventListener('click', goToCheckout);
       if (typeof lucide !== 'undefined') lucide.createIcons();
     });
   </script>
