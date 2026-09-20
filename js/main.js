@@ -415,6 +415,99 @@ function launchAssessmentModal(testId) {
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
+function safeNumber(value, fallback = 0) {
+  const numericValue = Number(value);
+  return Number.isFinite(numericValue) ? numericValue : fallback;
+}
+
+function calculatePercentage(score, maxScore) {
+  const parsedScore = safeNumber(score, 0);
+  const parsedMax = safeNumber(maxScore, 0);
+  if (!parsedMax) return 0;
+  const pct = (parsedScore / parsedMax) * 100;
+  return Number.isFinite(pct) ? pct : 0;
+}
+
+function buildScoreRingSVG(score, maxScore, percentage) {
+  const safeScore = Math.max(0, safeNumber(score, 0));
+  const safeMax = Math.max(1, safeNumber(maxScore, 1));
+  const safePct = Number.isFinite(percentage) ? Math.max(0, Math.min(100, percentage)) : 0;
+  const radius = 52;
+  const circumference = 2 * Math.PI * radius;
+  const dashOffset = circumference - (safePct / 100) * circumference;
+
+  return `
+    <div class="relative h-40 w-40">
+      <svg viewBox="0 0 140 140" class="h-full w-full -rotate-90" role="img" aria-label="Score visualization showing ${safeScore} out of ${safeMax}">
+        <circle cx="70" cy="70" r="52" stroke="#e5e7eb" stroke-width="12" fill="none"></circle>
+        <circle cx="70" cy="70" r="52" stroke="#102a43" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${circumference}" stroke-dashoffset="${dashOffset}" class="transition-all duration-300"></circle>
+      </svg>
+      <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+        <span class="text-[10px] font-semibold uppercase tracking-[0.2em] text-navy-500">Score</span>
+        <span class="text-xl font-bold text-navy-900">${safeScore}</span>
+        <span class="text-[11px] text-gray-500">/ ${safeMax}</span>
+      </div>
+    </div>`;
+}
+
+function buildAssessmentInterpretation(item, result, percentage) {
+  const score = safeNumber(result.score, 0);
+  const maxScore = safeNumber(result.maxScore, 0) || 1;
+  const levelLabel = result.level ? String(result.level) : 'Current range';
+  const safePercentage = Number.isFinite(percentage) ? percentage : calculatePercentage(score, maxScore);
+  const normalisedSummary = `${score} out of ${maxScore}`;
+
+  const titleLine = `Your score is ${normalisedSummary}.`;
+  const statement = `According to this assessment's current scoring range, this falls within the ${levelLabel} range.`;
+  const discussion = item.description ? `This result is designed to support reflective self-understanding for ${item.title.toLowerCase()}. It offers a practical way to notice patterns and consider where your responses sit within the assessment's current scoring framework.` : 'This result is intended for educational self-reflection and is not a formal diagnosis.';
+
+  return {
+    title: titleLine,
+    statement,
+    discussion,
+    note: 'This is an educational screening tool and does not constitute a formal diagnosis. For professional evaluation and personalised guidance, consider booking a session with Manish Garg.'
+  };
+}
+
+async function persistAssessmentResultToGoogleSheets(payload) {
+  const endpoint = window.GOOGLE_SHEETS_WEB_APP_URL || window.GOOGLE_SHEETS_ENDPOINT || window.GOOGLE_APPS_SCRIPT_URL || '';
+  if (!endpoint) {
+    return { ok: false, reason: 'No Google Sheets endpoint configured.' };
+  }
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: payload.name || '',
+      age: payload.age || '',
+      gender: payload.gender || '',
+      email: payload.email || '',
+      assessmentId: payload.assessmentId || '',
+      assessmentName: payload.assessmentName || '',
+      score: safeNumber(payload.score, 0),
+      maxScore: safeNumber(payload.maxScore, 0),
+      percentage: safeNumber(payload.percentage, 0),
+      interpretation: payload.interpretation || '',
+      consent: true
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  return { ok: true, response };
+}
+
+function showResultSaveNotice(message, type = 'info') {
+  const saveNotice = document.getElementById('assessment-save-status');
+  if (!saveNotice) return;
+  saveNotice.textContent = message;
+  saveNotice.className = `mt-3 rounded-xl border px-3 py-2 text-[11px] ${type === 'error' ? 'border-amber-200 bg-amber-50 text-amber-800' : 'border-emerald-200 bg-emerald-50 text-emerald-800'}`;
+}
+
 function submitAssessmentResults(event, testId) {
   event.preventDefault();
   const item = allCatalogAssessments.find(a => a.id === testId);
@@ -423,35 +516,117 @@ function submitAssessmentResults(event, testId) {
 
   const form = event.currentTarget;
   const formData = new FormData(form);
-  let scores = [];
-  for (const pair of formData.entries()) scores.push(parseInt(pair[1], 10));
+  const scores = [];
+  for (const pair of formData.entries()) {
+    const numericValue = Number.parseInt(pair[1], 10);
+    if (!Number.isNaN(numericValue)) scores.push(numericValue);
+  }
+
   if (scores.length < item.questions.length) {
     alert('Please answer all questions to generate your results.');
     return;
   }
 
   const result = item.scoring(scores);
+  const score = safeNumber(result.score, 0);
+  const maxScore = safeNumber(result.maxScore, 0) || 1;
+  const percentage = calculatePercentage(score, maxScore);
   const userName = userIntakeProfile ? userIntakeProfile.name : 'Valued Visitor';
+  const interpretation = buildAssessmentInterpretation(item, result, percentage);
+  const scoreRingSvg = buildScoreRingSVG(score, maxScore, percentage);
 
   output.innerHTML = `
-    <div class="p-6 bg-white rounded-2xl border-2 border-navy-200 shadow-xl mt-6 space-y-4 animate-slideUp" aria-live="polite">
-      <div class="flex items-center justify-between border-b pb-3">
-        <div>
-          <span class="text-[11px] text-gray-400 font-semibold block">${escapeHtml(item.breadcrumb)}</span>
-          <h4 class="text-lg font-bold text-navy-900">Results for ${escapeHtml(userName)}</h4>
+    <div class="mt-6 rounded-2xl border border-navy-200 bg-white p-5 shadow-xl animate-slideUp" aria-live="polite">
+      <div class="flex flex-col gap-4 border-b border-gray-200 pb-4">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <span class="block text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">${escapeHtml(item.breadcrumb)}</span>
+            <h4 class="mt-1 text-xl font-bold text-navy-900">${escapeHtml(item.title)}</h4>
+          </div>
+          <span class="inline-flex items-center rounded-full px-3 py-1.5 text-[11px] font-bold ${result.badge || 'bg-navy-100 text-navy-800'}">${escapeHtml(result.level || 'Current range')}</span>
         </div>
-        <span class="px-3 py-1.5 rounded-full text-xs font-bold ${result.badge}">${escapeHtml(result.level)}</span>
+        <p class="text-sm text-gray-600">Results for ${escapeHtml(userName)}</p>
       </div>
-      <div class="p-4 bg-navy-50 rounded-xl text-sm text-navy-900 font-semibold">Score: ${result.score} / ${result.maxScore}</div>
-      <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 space-y-2">
+
+      <div class="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1.2fr)_220px] lg:items-center">
+        <div class="space-y-4">
+          <div class="rounded-2xl bg-navy-50 border border-navy-100 p-4">
+            <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">Score</div>
+            <div class="mt-2 text-2xl font-bold text-navy-900">${score} / ${maxScore}</div>
+            <div class="mt-1 text-xs text-gray-600">${Number.isFinite(percentage) ? `${percentage.toFixed(1)}% of total` : 'Score recorded'}</div>
+          </div>
+
+          <div class="rounded-2xl bg-cream border border-amber-200 p-4">
+            <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-700">What your score shows</div>
+            <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.title)}</p>
+            <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.statement)}</p>
+          </div>
+        </div>
+
+        <div class="flex justify-center">
+          ${scoreRingSvg}
+        </div>
+      </div>
+
+      <div class="mt-5 grid gap-4 md:grid-cols-2">
+        <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+          <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">Discussion</div>
+          <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.discussion)}</p>
+        </div>
+        <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+          <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">Assessment context</div>
+          <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(item.description || 'This self-assessment is designed for reflection and awareness-building.')}</p>
+        </div>
+      </div>
+
+      <div class="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs text-amber-900 space-y-2">
         <h5 class="font-bold flex items-center gap-1.5"><svg class="w-4 h-4 text-amber-600" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Important Note</h5>
-        <p class="leading-relaxed">This is an educational screening tool and does not constitute a formal diagnosis. For professional evaluation and personalised guidance, consider booking a session with <strong>Manish Garg</strong>.</p>
+        <p class="leading-relaxed">${escapeHtml(interpretation.note)}</p>
       </div>
-      <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
+
+      <div id="assessment-save-status" class="mt-3 hidden"></div>
+
+      <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+        <button type="button" onclick="closeActiveAssessmentModal()" class="w-full sm:w-auto px-5 py-3 bg-white border border-navy-200 text-navy-800 font-bold rounded-xl text-xs text-center shadow-sm transition-all hover:bg-navy-50">Take another assessment</button>
         <a href="index.html#services" class="w-full sm:w-auto px-6 py-3 bg-navy hover:bg-navy-900 text-white font-bold rounded-xl text-xs text-center shadow-md transition-all">Book Counselling Session (₹1,499)</a>
-        <a href="index.html#services" class="w-full sm:w-auto px-5 py-3 bg-crisis hover:bg-red-700 text-white font-bold rounded-xl text-xs text-center shadow-md transition-all">Crisis Support (₹399)</a>
+        <a href="index.html#services" class="w-full sm:w-auto px-5 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs text-center shadow-md transition-all">Crisis Support (₹399)</a>
       </div>
     </div>`;
+
+  const savePayload = {
+    name: userIntakeProfile?.name || '',
+    age: userIntakeProfile?.age || '',
+    gender: userIntakeProfile?.gender || '',
+    email: userIntakeProfile?.email || '',
+    assessmentId: item.id,
+    assessmentName: item.title,
+    score,
+    maxScore,
+    percentage,
+    interpretation: `${interpretation.title} ${interpretation.statement} ${interpretation.discussion}`.trim()
+  };
+
+  persistAssessmentResultToGoogleSheets(savePayload)
+    .then((result) => {
+      if (result && result.ok) {
+        const saveNotice = document.getElementById('assessment-save-status');
+        if (saveNotice) {
+          saveNotice.textContent = 'Assessment result saved successfully.';
+          saveNotice.className = 'mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-[11px] text-emerald-800';
+          saveNotice.classList.remove('hidden');
+        }
+      }
+    })
+    .catch((error) => {
+      const saveNotice = document.getElementById('assessment-save-status');
+      if (saveNotice) {
+        saveNotice.textContent = 'Result rendered successfully. Google Sheets sync is unavailable in this environment.';
+        saveNotice.className = 'mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] text-amber-800';
+        saveNotice.classList.remove('hidden');
+      }
+      console.warn('Google Sheets save skipped:', error && error.message ? error.message : error);
+    });
+
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
