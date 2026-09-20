@@ -403,11 +403,13 @@ function launchAssessmentModal(testId) {
       <h3 class="text-xl sm:text-2xl font-bold text-navy-900 mt-1">${escapeHtml(item.title)}</h3>
       <p class="text-xs text-gray-500 mt-1">${escapeHtml(item.whoCanTake)} · Self-Administered · Free</p>
     </div>
-    <form onsubmit="submitAssessmentResults(event, '${item.id}')" class="space-y-5">${optionsHtml}</form>
+    <form onsubmit="submitAssessmentResults(event, '${item.id}')" class="space-y-5">
+      ${optionsHtml}
+      <button type="submit" class="w-full py-3.5 bg-navy hover:bg-navy-900 text-white font-bold rounded-xl shadow-md text-sm transition-all">
+        Submit Assessment →
+      </button>
+    </form>
     <div id="active-test-results-output"></div>`;
-
-  const firstForm = modalContent.querySelector('form');
-  if (firstForm) firstForm.addEventListener('submit', (event) => submitAssessmentResults(event, item.id));
 
   openModal(modal);
   if (typeof lucide !== 'undefined') lucide.createIcons();
