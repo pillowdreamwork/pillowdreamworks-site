@@ -732,8 +732,13 @@
               </div>
 
               <label class="flex items-start gap-2 text-xs text-muted cursor-pointer pt-1">
-                <input type="checkbox" class="mt-0.5 rounded" style="accent-color: #466C54;">
+                <input type="checkbox" id="contact-minor-consent" class="mt-0.5 rounded" style="accent-color: #466C54;">
                 <span>For minors under 18: I confirm parent/guardian consent for counselling/CentreLine support.</span>
+              </label>
+
+              <label class="flex items-start gap-2 text-xs text-muted cursor-pointer pt-1">
+                <input type="checkbox" id="contact-privacy-consent" required class="mt-0.5 rounded" style="accent-color: #466C54;">
+                <span>I consent to PillowDreamWorks using my name, email, phone number, and message to respond to this inquiry and manage the requested service. I have read the <a href="privacy-policy.html" class="underline text-sage-700">Privacy Policy</a> and <a href="form-consent-notice.html" class="underline text-sage-700">Form Consent Notice</a>.</span>
               </label>
 
               <button type="submit" class="btn btn-primary w-full">Send Message</button>
@@ -827,10 +832,11 @@
         <div>
           <h4 class="footer-heading">Legal &amp; Support</h4>
           <ul class="footer-links space-y-2">
-            <li><button onclick="openPolicyModal('privacy-modal')">Privacy Policy</button></li>
-            <li><button onclick="openPolicyModal('terms-modal')">Terms of Use</button></li>
-            <li><button onclick="openPolicyModal('refund-modal')">Refund Policy</button></li>
-            <li><button onclick="openPolicyModal('disclaimer-modal')">Medical Disclaimer</button></li>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="cookie-policy.html">Cookie Policy</a></li>
+            <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
+            <li><a href="refund-cancellation-policy.html">Refund &amp; Cancellation</a></li>
+            <li><a href="form-consent-notice.html">Form Consent Notice</a></li>
             <li><a href="#emergency" style="color: #F2B7AE;">Emergency Resources</a></li>
           </ul>
         </div>

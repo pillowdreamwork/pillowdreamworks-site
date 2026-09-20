@@ -195,6 +195,12 @@ function processCheckout(event) {
     return;
   }
 
+  const consentEl = document.getElementById('checkout-privacy-consent');
+  if (consentEl && !consentEl.checked) {
+    alert('Please confirm the privacy consent before completing your order.');
+    return;
+  }
+
   const bumpPrice = hasOrderBump ? 299 : 0;
   const totalAmount = (currentPrice * bookQuantity) + bumpPrice;
   window.location.href = `thankyou.html?format=${currentBookFormat}&qty=${bookQuantity}&price=${totalAmount}&bump=${hasOrderBump ? 'yes' : 'no'}&cust=${encodeURIComponent(name)}`;
@@ -211,7 +217,12 @@ function saveIntakeProfile(event) {
   const email = form.querySelector('#intake-email')?.value.trim() || '';
   const age = form.querySelector('#intake-age')?.value.trim() || '';
   const gender = form.querySelector('#intake-gender')?.value || '';
+  const consentEl = document.getElementById('intake-privacy-consent');
   if (!name || !email || !age) return;
+  if (consentEl && !consentEl.checked) {
+    alert('Please confirm the assessment privacy consent before continuing.');
+    return;
+  }
 
   userIntakeProfile = { name, email, age, gender };
   const gate = document.getElementById('intake-gate-container');
@@ -482,8 +493,13 @@ function submitBatteryBooking(event) {
   const name = document.getElementById('b-cust-name')?.value.trim() || '';
   const phone = document.getElementById('b-cust-phone')?.value.trim() || '';
   const date = document.getElementById('b-preferred-date')?.value || '';
+  const consentEl = document.getElementById('battery-booking-consent');
   if (!name || !phone || !date) {
     alert('Please complete all required booking fields.');
+    return;
+  }
+  if (consentEl && !consentEl.checked) {
+    alert('Please confirm the privacy consent before booking the assessment.');
     return;
   }
   const item = allCatalogAssessments.find(a => a.id === batteryId);
@@ -575,8 +591,13 @@ function processToolkitOrder(event) {
   const name = document.getElementById('tk-cust-name')?.value.trim() || '';
   const email = document.getElementById('tk-cust-email')?.value.trim() || '';
   const phone = document.getElementById('tk-cust-phone')?.value.trim() || '';
+  const consentEl = document.getElementById('toolkit-privacy-consent');
   if (!name || !email || !phone) {
     alert('Please complete all fields.');
+    return;
+  }
+  if (consentEl && !consentEl.checked) {
+    alert('Please confirm the privacy consent before placing the order.');
     return;
   }
   const skuDict = typeof SKU_NAMES !== 'undefined' ? SKU_NAMES : TOOLKIT_SKU_DEFAULTS;
@@ -598,9 +619,15 @@ function submitContactForm(event) {
   const name = form.querySelector('#contact-name')?.value.trim() || '';
   const email = form.querySelector('#contact-email')?.value.trim() || '';
   const service = form.querySelector('#contact-service')?.value || 'general';
+  const consentEl = document.getElementById('contact-privacy-consent');
 
   if (!name || !email) {
     alert('Please enter your name and email address.');
+    return;
+  }
+
+  if (consentEl && !consentEl.checked) {
+    alert('Please confirm the privacy consent before sending your message.');
     return;
   }
 
