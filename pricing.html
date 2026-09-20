@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing &amp; Tiers | The Psychology Toolkit — PillowDreamWorks Foundation</title>
+  <meta name="description" content="Compare the Psychology Toolkit tiers, book bundles, and the limited Graphotherapy Master Pack. Transparent INR and USD pricing with purchasing-power adjustment.">
+  <meta name="theme-color" content="#0B1D30">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Pricing &amp; Tiers | The Psychology Toolkit">
+  <meta property="og:description" content="Standard, Premium and VIP tiers, book bundles, and the limited-time Graphotherapy Master Pack.">
+  <meta property="og:type" content="website">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            foundation: { 950: '#0B1D30', 900: '#132B43', 800: '#1E3A5F', 700: '#2A4B6F', 600: '#3A6389', 500: '#5A7FA3', 400: '#7A9BBF', 300: '#A3BDD4', 200: '#C7D4E2', 100: '#DCE8EA', 50: '#EDF2F5' },
+            cloud: { ivory: '#F7F4ED', white: '#FFFDFA', mist: '#F0EFEA' },
+            sage: { 500: '#7E9C8B', 600: '#466C54', 100: '#EDF3EF', 200: '#D5E5DB' },
+            gold: { 500: '#C79A4B', 400: '#D8B16B', 300: '#EAD3A2' },
+            crisis: { DEFAULT: '#9F3E35', light: '#FBEFEC', dark: '#7E2E28' }
+          },
+          fontFamily: {
+            serif: ['Fraunces', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ---------- Pricing-specific components (mapped to foundation tokens) ---------- */
+
+    /* Currency toggle */
+    .cur-toggle { display: inline-flex; align-items: center; gap: 2px; padding: 4px; border: 1px solid var(--border); border-radius: 999px; background: var(--cloud-white); box-shadow: var(--shadow-sm); }
+    .cur-toggle button { border: 0; background: transparent; padding: 0.5rem 1.1rem; border-radius: 999px; color: var(--muted); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em; transition: background-color 0.2s ease, color 0.2s ease; }
+    .cur-toggle button.active { background: var(--foundation-navy); color: #fff; }
+
+    .ppp-note { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--muted); font-size: 0.74rem; }
+    .ppp-note svg { width: 14px; height: 14px; color: var(--sage-deep); }
+
+    /* Tier cards grid */
+    .tier-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; align-items: stretch; }
+    .tier-card.featured { transform: translateY(-8px); }
+    .tier-card .tier-name { font-family: var(--font-display); font-size: 1.35rem; color: var(--foundation-navy); }
+    .tier-card .tier-audience { color: var(--muted); font-size: 0.78rem; margin-top: 0.15rem; }
+    .tier-price small.currency { font-size: 0.9rem; }
+    .tier-value { color: var(--muted); font-size: 0.74rem; margin-top: 0.2rem; }
+    .tier-featured-glow { position: relative; }
+    .tier-featured-glow::after { content: ''; position: absolute; inset: -2px; border-radius: calc(var(--radius-lg) + 2px); background: linear-gradient(135deg, rgba(199,154,75,0.55), rgba(126,156,139,0.35)); z-index: -1; filter: blur(2px); }
+
+    /* Comparison table */
+    .compare-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--cloud-white); box-shadow: var(--shadow-sm); -webkit-overflow-scrolling: touch; }
+    .compare-table { width: 100%; min-width: 680px; border-collapse: collapse; }
+    .compare-table th, .compare-table td { padding: 1rem 1.15rem; border-bottom: 1px solid var(--border); text-align: center; vertical-align: middle; }
+    .compare-table thead th { position: sticky; top: 0; background: var(--cloud-white); }
+    .compare-table thead .col-head { font-family: var(--font-display); font-size: 1.05rem; color: var(--foundation-navy); }
+    .compare-table thead .col-sub { display: block; margin-top: 0.15rem; color: var(--muted); font-size: 0.72rem; font-weight: 600; }
+    .compare-table tbody th { text-align: left; font-weight: 600; color: #3f5162; font-size: 0.86rem; }
+    .compare-table tbody tr:last-child td, .compare-table tbody tr:last-child th { border-bottom: 0; }
+    .compare-col-featured { background: rgba(199, 154, 75, 0.07); }
+    .compare-table thead .compare-col-featured { background: rgba(199, 154, 75, 0.12); }
+    .cell-yes { display: inline-flex; color: var(--sage-deep); }
+    .cell-no { color: rgba(11, 29, 48, 0.28); }
+    .cell-text { color: var(--foundation-navy); font-size: 0.82rem; font-weight: 600; }
+    .col-flag { display: inline-flex; align-self: center; margin-top: 0.35rem; padding: 0.2rem 0.5rem; border-radius: 999px; background: var(--gold-soft); color: var(--foundation-navy); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* Bundles */
+    .bundle-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; align-items: stretch; }
+    .bundle-card { display: flex; flex-direction: column; padding: 1.6rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--cloud-white); box-shadow: var(--shadow-sm); transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease; }
+    .bundle-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: rgba(199, 154, 75, 0.45); }
+    .bundle-card.featured { border: 2px solid var(--gold); box-shadow: var(--shadow-md); }
+    .bundle-eyebrow { color: var(--sage-deep); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    .bundle-title { margin: 0.35rem 0 0.15rem; font-family: var(--font-display); font-size: 1.35rem; color: var(--foundation-navy); }
+    .save-badge { display: inline-flex; align-items: center; gap: 0.35rem; align-self: flex-start; margin-top: 0.4rem; padding: 0.28rem 0.6rem; border-radius: 999px; background: #e8f3ec; color: #2f513c; font-size: 0.68rem; font-weight: 700; }
+    .bundle-price-row { display: flex; align-items: baseline; gap: 0.55rem; margin: 1rem 0 0.25rem; }
+    .bundle-price { font-family: var(--font-display); font-size: 2.1rem; line-height: 1; color: var(--foundation-navy); }
+    .bundle-value { color: var(--muted); font-size: 0.85rem; text-decoration: line-through; }
+
+    /* Launch offer block */
+    .launch-block { position: relative; overflow: hidden; padding: clamp(1.75rem, 4vw, 3rem); border-radius: var(--radius-lg); color: #eef3f6; background: radial-gradient(circle at 12% 18%, rgba(199,154,75,0.28), transparent 42%), linear-gradient(135deg, #0b1d30, #1e3a5f); box-shadow: var(--shadow-lg); }
+    .launch-grid { display: grid; grid-template-columns: 1.4fr 0.9fr; gap: 2rem; align-items: center; position: relative; z-index: 1; }
+    .launch-flag { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.75rem; border-radius: 999px; background: rgba(199,154,75,0.18); color: #f5dcae; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .launch-block h2 { color: #fff; }
+    .launch-list { display: grid; gap: 0.55rem; margin: 1.25rem 0 0; padding: 0; list-style: none; }
+    .launch-list li { display: flex; gap: 0.55rem; color: #cfe0ea; font-size: 0.88rem; }
+    .launch-list svg { width: 17px; height: 17px; flex: 0 0 auto; margin-top: 0.2rem; color: var(--gold-soft); }
+    .launch-price-card { padding: 1.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: var(--radius-md); background: rgba(255,253,249,0.06); backdrop-filter: blur(6px); text-align: center; }
+    .launch-price-card .lp-value { color: #9db4c2; font-size: 0.82rem; text-decoration: line-through; }
+    .launch-price-card .lp-now { display: block; margin: 0.35rem 0; font-family: var(--font-display); font-size: 2.8rem; line-height: 1; color: #fff; }
+    .launch-price-card .lp-save { display: inline-flex; padding: 0.28rem 0.65rem; border-radius: 999px; background: rgba(126,156,139,0.28); color: #d8ecdd; font-size: 0.72rem; font-weight: 700; }
+
+    /* Recommender chips */
+    .reco-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
+    .reco-chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.6rem 1rem; border: 1px solid var(--border); border-radius: 999px; background: var(--cloud-white); color: var(--foundation-navy); font-size: 0.8rem; font-weight: 600; transition: border-color 0.2s ease, background-color 0.2s ease; }
+    .reco-chip:hover { border-color: rgba(199,154,75,0.5); background: #faf4e8; }
+    .reco-chip.active { background: var(--foundation-navy); color: #fff; border-color: var(--foundation-navy); }
+    .tier-card.reco-highlight { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), var(--shadow-md); }
+
+    @media (max-width: 1024px) {
+      .tier-grid, .bundle-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tier-card.featured { transform: none; }
+      .launch-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .tier-grid, .bundle-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="bg-cloud-ivory text-foundation-900 flex flex-col min-h-screen font-sans">
+
+  <a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+  <!-- EMERGENCY SAFETY BANNER -->
+  <div class="emergency-banner" role="region" aria-label="Emergency Notice">
+    <span><strong>Not for emergencies.</strong> If you're in immediate danger, call <a href="tel:112">112</a> now.</span>
+  </div>
+
+  <!-- STICKY LAUNCH OFFER BANNER -->
+  <div class="announcement-bar" style="position: sticky; top: 0; z-index: 90;">
+    <span><strong>Launch Offer</strong></span>
+    <span class="hidden sm:inline">Graphotherapy Master Pack &mdash; full platform access for <strong>₹1,199 / $15</strong> <span style="color:#9bb0bc;">(value ₹5,197)</span></span>
+    <a href="#launch-offer">Claim Offer &rarr;</a>
+  </div>
+
+  <!-- NAVIGATION -->
+  <header class="site-header">
+    <div class="container-premium header-inner">
+      <a href="index.html" class="brand-lockup" aria-label="PillowDreamWorks Foundation Home">
+        <img src="assets/logo.svg" alt="PillowDreamWorks Foundation" width="180" height="50">
+      </a>
+
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="toolkit.html" class="nav-link">Toolkit Workbook</a>
+        <a href="book.html" class="nav-link">Finding The Centre</a>
+        <a href="pricing.html" class="nav-link active" aria-current="page">Pricing</a>
+        <a href="testing.html" class="nav-link">Free Assessments</a>
+        <a href="index.html#services" class="nav-link">Services</a>
+        <a href="about.html" class="nav-link">About</a>
+      </nav>
+
+      <a href="#tiers" class="nav-cta">
+        <i data-lucide="sparkles" class="w-4 h-4" aria-hidden="true"></i> View Tiers
+      </a>
+
+      <button id="mobile-menu-btn" class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation menu">
+        <i data-lucide="menu" class="w-5 h-5" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="mobile-menu container-premium">
+      <a href="index.html">Home</a>
+      <a href="toolkit.html">Toolkit Workbook</a>
+      <a href="book.html">Finding The Centre</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="testing.html">Free Self-Assessments</a>
+      <a href="index.html#services">Services</a>
+      <a href="about.html">About Manish Garg</a>
+    </div>
+  </header>
+
+  <main id="main-content" class="site-main">
+
+    <!-- PAGE HERO -->
+    <section class="section-sm hero grain">
+      <div class="cloud-orb one" style="top: 10%; left: -4%;"></div>
+      <div class="cloud-orb three" style="top: 30%; right: 18%;"></div>
+      <div class="container-premium relative z-10">
+        <div class="text-center max-w-3xl mx-auto section-heading">
+          <span class="eyebrow" style="justify-content:center;">Pricing &amp; Tiers</span>
+          <h1 style="font-size: clamp(2.5rem, 5vw, 4.25rem);">Choose your level of support</h1>
+          <p class="section-lead mx-auto mt-3">
+            One workbook, three levels of guidance &mdash; from self-paced study to full therapeutic support.
+            Prices shown in your choice of currency and adjusted automatically for your region.
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center gap-3 mt-8">
+          <div class="cur-toggle" role="group" aria-label="Currency selector">
+            <button type="button" id="cur-inr" class="active" aria-pressed="true" onclick="setCurrency('inr')">₹ INR</button>
+            <button type="button" id="cur-usd" aria-pressed="false" onclick="setCurrency('usd')">$ USD</button>
+          </div>
+          <span class="ppp-note">
+            <i data-lucide="globe" aria-hidden="true"></i>
+            Purchasing-power pricing applied at checkout for eligible regions.
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIER CARDS -->
+    <section id="tiers" class="section-sm bg-cloud-white border-b" style="border-color: var(--border);">
+      <div class="container-premium">
+        <div class="text-center max-w-2xl mx-auto mb-10 section-heading">
+          <span class="eyebrow" style="justify-content:center;">The Psychology Toolkit</span>
+          <h2>Three tiers, one journey</h2>
+          <p class="section-lead mx-auto mt-3">Every tier includes the full 80-page workbook and 100+ assessments. Higher tiers add live counselling and deeper support.</p>
+        </div>
+
+        <div class="tier-grid">
+
+          <!-- Tier 1 -->
+          <article class="tier-card">
+            <span class="tier-badge">Standard</span>
+            <h3 class="tier-name">Toolkit + Platform Access</h3>
+            <p class="tier-audience">For self-help seekers &amp; students</p>
+            <div class="tier-price">
+              <span class="price" data-inr="₹999" data-usd="$127">₹999</span>
+              <small class="currency">one-time</small>
+            </div>
+            <p class="tier-value">Everyday value pricing</p>
+            <ul class="tier-list">
+              <li><i data-lucide="check" aria-hidden="true"></i> 80-page PDF workbook</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> 100+ psychological assessments</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> 1 free counselling consult (30 min)</li>
+            </ul>
+            <button type="button" class="btn btn-secondary btn-block" onclick="openPricingCheckout('psychology-tier1')">
+              Choose Standard
+            </button>
+          </article>
+
+          <!-- Tier 2 (Featured) -->
+          <article class="tier-card featured tier-featured-glow" id="tier-premium">
+            <span class="tier-badge">Most Popular</span>
+            <h3 class="tier-name">Toolkit + Full Platform</h3>
+            <p class="tier-audience">For professionals &amp; committed learners</p>
+            <div class="tier-price">
+              <span class="price" data-inr="₹1,499" data-usd="$197">₹1,499</span>
+              <small class="currency">one-time</small>
+            </div>
+            <p class="tier-value">Recommended by practitioners</p>
+            <ul class="tier-list">
+              <li><i data-lucide="check" aria-hidden="true"></i> Everything in Standard</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> 4 counselling sessions / month</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Crisis line access</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Graphology analysis option</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Meditation library</li>
+            </ul>
+            <button type="button" class="btn btn-gold btn-block" onclick="openPricingCheckout('psychology-tier2')">
+              Choose Premium
+            </button>
+          </article>
+
+          <!-- Tier 3 -->
+          <article class="tier-card">
+            <span class="tier-badge">VIP</span>
+            <h3 class="tier-name">Toolkit + Therapy Package</h3>
+            <p class="tier-audience">For full commitment &amp; therapists</p>
+            <div class="tier-price">
+              <span class="price" data-inr="₹2,499" data-usd="$297">₹2,499</span>
+              <small class="currency">one-time</small>
+            </div>
+            <p class="tier-value">Full-spectrum support</p>
+            <ul class="tier-list">
+              <li><i data-lucide="check" aria-hidden="true"></i> Everything in Premium</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> 8 counselling sessions / month</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Priority crisis access</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Monthly group sessions</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> 1:1 progress reviews</li>
+            </ul>
+            <button type="button" class="btn btn-secondary btn-block" onclick="openPricingCheckout('psychology-tier3')">
+              Choose VIP
+            </button>
+          </article>
+
+        </div>
+
+        <!-- Recommender -->
+        <div class="mt-10 text-center">
+          <p class="text-muted text-sm mb-3" style="font-weight:600;">Which tier is right for you?</p>
+          <div class="reco-row" role="group" aria-label="Tier recommender">
+            <button type="button" class="reco-chip" data-reco="0" onclick="recommendTier(this, 0)">
+              <i data-lucide="compass" class="w-4 h-4" aria-hidden="true"></i> I'm exploring on my own
+            </button>
+            <button type="button" class="reco-chip" data-reco="1" onclick="recommendTier(this, 1)">
+              <i data-lucide="users" class="w-4 h-4" aria-hidden="true"></i> I want regular guidance
+            </button>
+            <button type="button" class="reco-chip" data-reco="2" onclick="recommendTier(this, 2)">
+              <i data-lucide="heart-handshake" class="w-4 h-4" aria-hidden="true"></i> I want full support
+            </button>
+          </div>
+          <p id="reco-result" class="text-sm mt-4" style="color: var(--sage-deep); min-height: 1.2em;" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARISON TABLE -->
+    <section class="section-sm">
+      <div class="container-premium">
+        <div class="text-center max-w-2xl mx-auto mb-10 section-heading">
+          <span class="eyebrow" style="justify-content:center;">Compare in detail</span>
+          <h2>What's included in each tier</h2>
+        </div>
+
+        <div class="compare-wrap">
+          <table class="compare-table">
+            <caption class="sr-only">Feature comparison of the Standard, Premium and VIP tiers</caption>
+            <thead>
+              <tr>
+                <th scope="col" style="text-align:left;">
+                  <span class="col-head">Feature</span>
+                </th>
+                <th scope="col">
+                  <span class="col-head">Standard</span>
+                  <span class="col-sub price" data-inr="₹999" data-usd="$127">₹999</span>
+                </th>
+                <th scope="col" class="compare-col-featured">
+                  <span class="col-head">Premium</span>
+                  <span class="col-sub price" data-inr="₹1,499" data-usd="$197">₹1,499</span>
+                  <span class="col-flag">Most Popular</span>
+                </th>
+                <th scope="col">
+                  <span class="col-head">VIP</span>
+                  <span class="col-sub price" data-inr="₹2,499" data-usd="$297">₹2,499</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">80-page workbook (PDF)</th>
+                <td><span class="cell-yes"><i data-lucide="check" aria-hidden="true"></i><span class="sr-only">Included</span></span></td>
+                <td class="compare-col-featured"><span class="cell-yes"><i data-lucide="check" aria-hidden="true"></i><span class="sr-only">Included</span></span></td>
+                <td><span class="cell-yes"><i data-lucide="check" aria-hidden="true"></i><span class="sr-only">Included</span></span></td>
+              </tr>
+              <tr>
+                <th scope="row">100+ psychological assessments</th>
+                <td><span class="cell-text">100+</span></td>
+                <td class="compare-col-featured"><span class="cell-text">100+</span></td>
+                <td><span class="cell-text">100+</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Counselling sessions</th>
+                <td><span class="cell-text">1 free (30 min)</span></td>
+                <td class="compare-col-featured"><span class="cell-text">4 / month</span></td>
+                <td><span class="cell-text">8 / month</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Crisis line access</th>
+                <td><span class="cell-no" aria-hidden="true">&mdash;</span><span class="sr-only">Not included</span></td>
+                <td class="compare-col-featured"><span class="cell-yes"><i data-lucide="check" aria-hidden="true"></i><span class="sr-only">Included</span></span></td>
+                <td><span class="cell-text">Priority</span></td>
+              </tr>
+              <tr>
+                <th scope="row">Graphology analysis option</th>
+                <td><span class="cell-no" aria-hidden="true">&mdash;</span><span class="sr-only">Not included</span></td>
+                <td class="compare-col-featured"><span class="cell-yes"><i data-lucide="check" aria-hidden="true"></i><span class="sr-only">Included</span></span></td>
+                <td><span class="cell-yes"><i data-lucide="check" aria-hidden="true"></i><span class="sr-only">Included</span></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Meditation library</th>
+                <td><span class="cell-no" aria-hidden="true">&mdash;</span><span class="sr-only">Not included</span></td>
+                <td class="compare-col-featured"><span class="cell-yes"><i data-lucide="check" aria-hidden="true"></i><span class="sr-only">Included</span></span></td>
+                <td><span class="cell-yes"><i data-lucide="check" aria-hidden="true"></i><span class="sr-only">Included</span></span></td>
+              </tr>
+              <tr>
+                <th scope="row">Monthly group sessions</th>
+                <td><span class="cell-no" aria-hidden="true">&mdash;</span><span class="sr-only">Not included</span></td>
+                <td class="compare-col-featured"><span class="cell-no" aria-hidden="true">&mdash;</span><span class="sr-only">Not included</span></td>
+                <td><span class="cell-yes"><i data-lucide="check" aria-hidden="true"></i><span class="sr-only">Included</span></span></td>
+              </tr>
+              <tr>
+                <th scope="row">1:1 progress reviews</th>
+                <td><span class="cell-no" aria-hidden="true">&mdash;</span><span class="sr-only">Not included</span></td>
+                <td class="compare-col-featured"><span class="cell-no" aria-hidden="true">&mdash;</span><span class="sr-only">Not included</span></td>
+                <td><span class="cell-yes"><i data-lucide="check" aria-hidden="true"></i><span class="sr-only">Included</span></span></td>
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                <td><button type="button" class="btn btn-secondary btn-sm btn-block" onclick="openPricingCheckout('psychology-tier1')">Get Standard</button></td>
+                <td class="compare-col-featured"><button type="button" class="btn btn-gold btn-sm btn-block" onclick="openPricingCheckout('psychology-tier2')">Get Premium</button></td>
+                <td><button type="button" class="btn btn-secondary btn-sm btn-block" onclick="openPricingCheckout('psychology-tier3')">Get VIP</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUNDLES -->
+    <section class="section-sm bg-sage-soft border-b" style="border-color: var(--border);">
+      <div class="container-premium">
+        <div class="text-center max-w-2xl mx-auto mb-10 section-heading">
+          <span class="eyebrow" style="justify-content:center;">Better together</span>
+          <h2>Book &amp; toolkit bundles</h2>
+          <p class="section-lead mx-auto mt-3">Pair <em>Finding The Centre</em> with the Psychology Toolkit and save up to 32%.</p>
+        </div>
+
+        <div class="bundle-grid">
+
+          <!-- Core -->
+          <article class="bundle-card">
+            <span class="bundle-eyebrow">Bundle A</span>
+            <h3 class="bundle-title">Core Collaboration</h3>
+            <span class="save-badge"><i data-lucide="tag" class="w-3.5 h-3.5" aria-hidden="true"></i> <span class="save" data-inr="Save 28%" data-usd="Save 20%">Save 28%</span></span>
+            <div class="bundle-price-row">
+              <span class="bundle-price price" data-inr="₹1,299" data-usd="$165">₹1,299</span>
+              <span class="bundle-value price" data-inr="₹1,798" data-usd="$137">₹1,798</span>
+            </div>
+            <ul class="tier-list">
+              <li><i data-lucide="check" aria-hidden="true"></i> Finding The Centre (PDF eBook)</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Psychology Toolkit &mdash; Standard</li>
+            </ul>
+            <button type="button" class="btn btn-secondary btn-block" style="margin-top:auto;" onclick="openPricingCheckout('bundle-core')">Get Core Bundle</button>
+          </article>
+
+          <!-- Premium (Featured) -->
+          <article class="bundle-card featured">
+            <span class="bundle-eyebrow" style="color: var(--gold-dark, #9b7434);">Bundle B &middot; Recommended</span>
+            <h3 class="bundle-title">Premium Collaboration</h3>
+            <span class="save-badge"><i data-lucide="tag" class="w-3.5 h-3.5" aria-hidden="true"></i> <span class="save" data-inr="Save 26%" data-usd="Save 17%">Save 26%</span></span>
+            <div class="bundle-price-row">
+              <span class="bundle-price price" data-inr="₹1,999" data-usd="$254">₹1,999</span>
+              <span class="bundle-value price" data-inr="₹2,698" data-usd="$211">₹2,698</span>
+            </div>
+            <ul class="tier-list">
+              <li><i data-lucide="check" aria-hidden="true"></i> Finding The Centre (Paperback)</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Psychology Toolkit &mdash; Premium</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> 4 counselling sessions / month</li>
+            </ul>
+            <button type="button" class="btn btn-gold btn-block" style="margin-top:auto;" onclick="openPricingCheckout('bundle-premium')">Get Premium Bundle</button>
+          </article>
+
+          <!-- Deluxe -->
+          <article class="bundle-card">
+            <span class="bundle-eyebrow">Bundle C</span>
+            <h3 class="bundle-title">Deluxe Collaboration</h3>
+            <span class="save-badge"><i data-lucide="tag" class="w-3.5 h-3.5" aria-hidden="true"></i> <span class="save" data-inr="Save 32%" data-usd="Save 21%">Save 32%</span></span>
+            <div class="bundle-price-row">
+              <span class="bundle-price price" data-inr="₹2,799" data-usd="$357">₹2,799</span>
+              <span class="bundle-value price" data-inr="₹4,098" data-usd="$316">₹4,098</span>
+            </div>
+            <ul class="tier-list">
+              <li><i data-lucide="check" aria-hidden="true"></i> Finding The Centre (Hardcover)</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Psychology Toolkit &mdash; VIP</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Priority support access</li>
+            </ul>
+            <button type="button" class="btn btn-secondary btn-block" style="margin-top:auto;" onclick="openPricingCheckout('bundle-deluxe')">Get Deluxe Bundle</button>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- GRAPHOTHERAPY LAUNCH OFFER -->
+    <section id="launch-offer" class="section-sm">
+      <div class="container-premium">
+        <div class="launch-block">
+          <div class="launch-grid">
+            <div>
+              <span class="launch-flag"><i data-lucide="flame" class="w-4 h-4" aria-hidden="true"></i> Launch Offer &mdash; Limited Time</span>
+              <h2 style="margin-top: 1rem;">Graphotherapy Master Pack</h2>
+              <p style="color:#cfe0ea; margin-top: 0.6rem; max-width: 46ch;">
+                Full platform access, handwriting science and both workbooks in one premium combo &mdash; our most complete entry point.
+              </p>
+              <ul class="launch-list">
+                <li><i data-lucide="check" aria-hidden="true"></i> Graphology analysis session (60 min)</li>
+                <li><i data-lucide="check" aria-hidden="true"></i> Finding The Centre (Paperback)</li>
+                <li><i data-lucide="check" aria-hidden="true"></i> Psychology Toolkit &mdash; Premium tier</li>
+                <li><i data-lucide="check" aria-hidden="true"></i> 30-day graphotherapy tracking sheet</li>
+              </ul>
+            </div>
+            <div class="launch-price-card">
+              <span class="lp-value price" data-inr="Value ₹5,197" data-usd="Value $241">Value ₹5,197</span>
+              <span class="lp-now price" data-inr="₹1,199" data-usd="$15">₹1,199</span>
+              <span class="lp-save save" data-inr="Save 77%" data-usd="Save 93%">Save 77%</span>
+              <button type="button" class="btn btn-gold btn-block" style="margin-top: 1.25rem;" onclick="openPricingCheckout('graphotherapy-pack')">Claim the Pack</button>
+              <p style="color:#9db4c2; font-size: 0.72rem; margin-top: 0.75rem;">Limited-time launch pricing.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ + DISCLAIMER -->
+    <section class="section-sm bg-cloud-white border-b" style="border-color: var(--border);">
+      <div class="container-premium" style="max-width: 820px;">
+        <div class="text-center mb-10 section-heading" style="margin-inline:auto;">
+          <span class="eyebrow" style="justify-content:center;">Questions</span>
+          <h2>Pricing FAQ</h2>
+        </div>
+
+        <div class="accordion">
+          <div class="accordion-item">
+            <button type="button" class="accordion-header" aria-expanded="false">
+              Why is the price different in my country?
+              <span class="accordion-icon" aria-hidden="true"><i data-lucide="chevron-down" class="w-4 h-4"></i></span>
+            </button>
+            <div class="accordion-content hidden">
+              We use purchasing-power pricing so the toolkit stays fair worldwide. Eligible regions see an adjusted price automatically at checkout &mdash; the base price is $127 USD.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-header" aria-expanded="false">
+              Is this a subscription or a one-time payment?
+              <span class="accordion-icon" aria-hidden="true"><i data-lucide="chevron-down" class="w-4 h-4"></i></span>
+            </button>
+            <div class="accordion-content hidden">
+              The workbook and assessments are a one-time purchase. Premium and VIP tiers include monthly counselling sessions; details of renewal are confirmed at checkout.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-header" aria-expanded="false">
+              What's the difference between a tier and a bundle?
+              <span class="accordion-icon" aria-hidden="true"><i data-lucide="chevron-down" class="w-4 h-4"></i></span>
+            </button>
+            <div class="accordion-content hidden">
+              A tier is the Psychology Toolkit on its own at three levels of support. A bundle pairs a tier with a format of <em>Finding The Centre</em> at a combined discount.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-header" aria-expanded="false">
+              How do I receive the workbook after paying?
+              <span class="accordion-icon" aria-hidden="true"><i data-lucide="chevron-down" class="w-4 h-4"></i></span>
+            </button>
+            <div class="accordion-content hidden">
+              You'll get an email with your PDF download and platform access right after purchase, along with links to your assessments and your first counselling booking.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-header" aria-expanded="false">
+              Can I upgrade later?
+              <span class="accordion-icon" aria-hidden="true"><i data-lucide="chevron-down" class="w-4 h-4"></i></span>
+            </button>
+            <div class="accordion-content hidden">
+              Yes. Start with Standard and move up to Premium or VIP at any time &mdash; you only pay the difference.
+            </div>
+          </div>
+        </div>
+
+        <div class="safety-note" style="margin-top: 2rem;">
+          <strong>Educational use.</strong> This platform provides educational psychological tools, assessments and coaching-style support. It is not a substitute for diagnosis, emergency care or treatment by a licensed clinician. If you're in crisis, call <a href="tel:112" style="text-decoration:underline;">112</a>.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container-premium">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-8 border-b border-white/10">
+        <div class="space-y-4">
+          <img src="assets/logo.svg" alt="PillowDreamWorks Foundation" width="180" height="50" style="filter: brightness(0) invert(1); opacity: 0.95;">
+          <p class="text-xs leading-relaxed" style="color: #B9CBD5;">PillowDreamWorks Foundation — Counselling, Colouring &amp; Graphotherapy by Manish Garg.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Books &amp; Workbooks</h4>
+          <ul class="footer-links space-y-2">
+            <li><a href="toolkit.html">The Psychology Toolkit</a></li>
+            <li><a href="book.html">Finding The Centre</a></li>
+            <li><a href="pricing.html">Pricing &amp; Bundles</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Foundation</h4>
+          <ul class="footer-links space-y-2">
+            <li><a href="testing.html">Assessments</a></li>
+            <li><a href="courses.html">PsychSnaps Courses</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Support</h4>
+          <ul class="footer-links space-y-2">
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="mailto:mgmanishgarg3@gmail.com">mgmanishgarg3@gmail.com</a></li>
+            <li><a href="index.html#emergency" style="color: #F2B7AE;">Emergency Resources</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-6 text-xs" style="color: #9BB0BC;">
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="mailto:mgmanishgarg3@gmail.com" class="hover:text-white transition-colors">mgmanishgarg3@gmail.com</a>
+        </div>
+        <div class="text-center md:text-right">
+          <p>&copy; 2026 PillowDreamWorks Foundation. All rights reserved.</p>
+          <p class="footer-emergency mt-1">Not for emergencies. If you're in immediate danger, call <a href="tel:112" class="underline">112</a>.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PRICING CHECKOUT MODAL -->
+  <div id="pricing-checkout-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="pc-title">
+    <div class="modal-panel">
+      <button type="button" class="close-modal-btn" aria-label="Close checkout">
+        <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
+      </button>
+      <div class="modal-content">
+        <span class="eyebrow">Secure Checkout</span>
+        <h3 class="modal-title" id="pc-title">Complete your order</h3>
+        <p class="modal-subtitle" id="pc-desc">You're purchasing the selected plan.</p>
+
+        <div class="premium-card p-6" style="margin-bottom: 1.25rem;">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-xs text-muted" style="text-transform:uppercase; letter-spacing:0.1em; font-weight:700;">Selected</p>
+              <p id="pc-item" style="font-family: var(--font-display); font-size: 1.2rem; color: var(--foundation-navy); margin-top: 0.25rem;">&mdash;</p>
+            </div>
+            <div class="text-right">
+              <p id="pc-price" style="font-family: var(--font-display); font-size: 1.9rem; line-height:1; color: var(--foundation-navy);">&mdash;</p>
+              <p class="ppp-note" style="justify-content:flex-end; margin-top:0.35rem;">
+                <i data-lucide="globe" aria-hidden="true"></i> Region price at pay
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-xs text-muted leading-relaxed" style="margin-bottom: 1rem;">
+          Payments are processed securely through Lemon Squeezy. Purchasing-power pricing (ParityDeals) is applied on the payment page for eligible regions, so your final amount may be lower than shown.
+        </p>
+
+        <a id="pc-continue" href="#" class="btn btn-primary btn-block">
+          <i data-lucide="lock" class="w-4 h-4" aria-hidden="true"></i> Continue to secure payment
+        </a>
+        <p class="text-xs text-muted text-center" style="margin-top: 0.75rem;">
+          Questions first? <a href="contact.html" class="soft-underline" style="font-weight:600;">Contact us</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <a href="https://wa.me/919728355421" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Contact on WhatsApp">
+    <i data-lucide="message-circle" class="w-6 h-6" aria-hidden="true"></i>
+  </a>
+
+  <script src="js/main.js"></script>
+  <script>
+    /* ---------- Currency toggle ---------- */
+    var pdwCurrency = 'inr';
+
+    function setCurrency(cur) {
+      pdwCurrency = (cur === 'usd') ? 'usd' : 'inr';
+      document.querySelectorAll('[data-inr][data-usd]').forEach(function (el) {
+        var val = el.getAttribute('data-' + pdwCurrency);
+        if (val !== null) el.textContent = val;
+      });
+      var inrBtn = document.getElementById('cur-inr');
+      var usdBtn = document.getElementById('cur-usd');
+      if (inrBtn && usdBtn) {
+        var isInr = pdwCurrency === 'inr';
+        inrBtn.classList.toggle('active', isInr);
+        usdBtn.classList.toggle('active', !isInr);
+        inrBtn.setAttribute('aria-pressed', String(isInr));
+        usdBtn.setAttribute('aria-pressed', String(!isInr));
+      }
+    }
+
+    /* ---------- Tier recommender ---------- */
+    var RECO = [
+      { name: 'Standard', msg: 'Standard is a great start for self-paced study.' },
+      { name: 'Premium', msg: 'Premium is our most popular choice for regular guidance.' },
+      { name: 'VIP', msg: 'VIP gives you the most sessions and hands-on support.' }
+    ];
+
+    function recommendTier(chip, idx) {
+      document.querySelectorAll('.reco-chip').forEach(function (c) { c.classList.remove('active'); });
+      chip.classList.add('active');
+      var cards = document.querySelectorAll('.tier-grid .tier-card');
+      cards.forEach(function (c, i) { c.classList.toggle('reco-highlight', i === idx); });
+      var result = document.getElementById('reco-result');
+      if (result && RECO[idx]) result.textContent = RECO[idx].msg;
+      if (cards[idx]) cards[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    /* ---------- Pricing checkout ---------- */
+    var PRICING_SKUS = {
+      'psychology-tier1': { title: 'Psychology Toolkit — Standard', inr: '₹999', usd: '$127' },
+      'psychology-tier2': { title: 'Psychology Toolkit — Premium', inr: '₹1,499', usd: '$197' },
+      'psychology-tier3': { title: 'Psychology Toolkit — VIP', inr: '₹2,499', usd: '$297' },
+      'bundle-core': { title: 'Core Collaboration Bundle', inr: '₹1,299', usd: '$165' },
+      'bundle-premium': { title: 'Premium Collaboration Bundle', inr: '₹1,999', usd: '$254' },
+      'bundle-deluxe': { title: 'Deluxe Collaboration Bundle', inr: '₹2,799', usd: '$357' },
+      'graphotherapy-pack': { title: 'Graphotherapy Master Pack', inr: '₹1,199', usd: '$15' }
+    };
+
+    function openPricingCheckout(sku) {
+      var data = PRICING_SKUS[sku];
+      if (!data) return;
+      var modal = document.getElementById('pricing-checkout-modal');
+      if (!modal) return;
+      var itemEl = document.getElementById('pc-item');
+      var priceEl = document.getElementById('pc-price');
+      var descEl = document.getElementById('pc-desc');
+      var continueEl = document.getElementById('pc-continue');
+      if (itemEl) itemEl.textContent = data.title;
+      if (priceEl) priceEl.textContent = (pdwCurrency === 'usd') ? data.usd : data.inr;
+      if (descEl) descEl.textContent = 'You\'re purchasing: ' + data.title + '.';
+      if (continueEl) continueEl.setAttribute('href', 'thankyou.html?sku=' + encodeURIComponent(sku));
+      if (typeof openModal === 'function') {
+        openModal(modal);
+      } else {
+        modal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    /* Alias kept for parity with the documented checkout hook. */
+    window.openCheckoutModal = window.openCheckoutModal || openPricingCheckout;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      setCurrency('inr');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
