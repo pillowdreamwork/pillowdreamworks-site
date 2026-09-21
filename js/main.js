@@ -514,6 +514,25 @@ function buildScoreRingSVG(score, maxScore, percentage) {
     </div>`;
 }
 
+function buildFactorBars(factors) {
+  return `<div class="space-y-3" role="img" aria-label="Individual factor scores">
+    ${factors.map((factor) => {
+      const score = safeNumber(factor.score, 0);
+      const maxScore = Math.max(1, safeNumber(factor.maxScore, 1));
+      const percentage = Math.max(0, Math.min(100, calculatePercentage(score, maxScore)));
+      return `<div>
+        <div class="flex items-center justify-between gap-3 text-xs">
+          <span class="font-semibold text-navy-800">${escapeHtml(factor.name || factor.label || 'Factor')}</span>
+          <span class="text-gray-600">${score} / ${maxScore} · ${formatAssessmentPercentage(percentage)}</span>
+        </div>
+        <div class="mt-1 h-2.5 overflow-hidden rounded-full bg-gray-200" aria-hidden="true">
+          <div class="h-full rounded-full bg-navy-700 transition-all duration-300" style="width:${percentage}%"></div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
 function formatAssessmentPercentage(value) {
   if (!Number.isFinite(value)) return '0.0%';
   return `${Math.max(0, Math.min(100, value)).toFixed(1)}%`;
@@ -574,32 +593,30 @@ function buildAssessmentInterpretation(item, result, percentage) {
     const middle = orderedFactors.slice(1, -1);
     const factorSummary = sourceFactors.map((factor) => `${factor.name} is ${safeNumber(factor.score)} out of ${safeNumber(factor.maxScore) || 1} (${formatAssessmentPercentage(safeNumber(factor.percentage))}, ${factor.level || 'current range'})`).join('; ');
     const middleText = middle.length > 0 ? middle.map((factor) => `${factor.name} at ${factor.level || 'the current range'}`).join(', ') : 'the remaining factors';
-    const profile = `The factor pattern is ${factorSummary}. Relative strength is ${strongest.name}, while ${lowest.name} is comparatively lower; ${middleText} sits between those points. This profile describes the current response pattern and should not be reduced to a single personality total.`;
+    const profile = `For ${item?.title || 'this assessment'}, the results are ${factorSummary}. ${strongest.name} is the relative high point and ${lowest.name} is comparatively lower; ${middleText} falls between them. The useful finding is the contrast among factors, not the raw combined total.`;
     const discussion = [
-      `${strongest.name} is the relatively strongest factor at ${safeNumber(strongest.score)} out of ${safeNumber(strongest.maxScore) || 1}, which may be a useful resource in the situations covered by this assessment.`,
-      `${lowest.name} is the relatively lower factor at ${safeNumber(lowest.score)} out of ${safeNumber(lowest.maxScore) || 1}, so it may deserve closer contextual exploration rather than a fixed label.`,
-      `${strongest.name} and ${lowest.name} together create the clearest contrast in this profile.`,
-      `That contrast may mean the respondent can draw on ${strongest.name} in some settings while finding situations linked to ${lowest.name} less automatic or more effortful.`,
-      `${middleText} should be interpreted as part of the pattern rather than as isolated scores.`,
-      `The scores do not establish a diagnosis, and the direction of a factor is meaningful only in relation to the items and the person's context.`,
-      `In a live session, ask when the relatively stronger factor is most visible and what conditions help it operate well.`,
-      `Also ask whether the relatively lower factor reflects a stable preference, a recent stressor, or the wording and timing of the questions.`,
-      `The combination of ${strongest.name} and ${lowest.name} may shape how the respondent approaches relationships, learning, work, or coping, depending on the assessment domain.`,
-      `A useful reflection is whether the middle factors support, balance, or sometimes compete with those two more distinct results.`,
-      `Practical support should build on the stronger pattern while creating small, specific opportunities to practise the lower pattern when it matters.`,
-      `The profile is most useful as a structured starting point for supervision, collaborative reflection, and further assessment when needed.`
+      `${strongest.name} is the relative high point at ${safeNumber(strongest.score)} out of ${safeNumber(strongest.maxScore) || 1}; this may be a resource in situations measured by ${item?.title || 'the assessment'}.`,
+      `${lowest.name} is comparatively lower at ${safeNumber(lowest.score)} out of ${safeNumber(lowest.maxScore) || 1}; explore when that area is less available or less important to the respondent.`,
+      `The contrast between ${strongest.name} and ${lowest.name} is the clearest feature of this profile.`,
+      `The middle results (${middleText}) add context rather than a separate conclusion.`,
+      `In practice, the pattern may appear differently across relationships, study, work, or stressful situations.`,
+      `Ask for a recent example in which the strongest factor helped the respondent respond effectively.`,
+      `Ask for a contrasting example in which the lower factor created effort, uncertainty, or a need for support.`,
+      `Check whether the pattern feels stable or reflects a recent situation, mood, or role demand.`,
+      `Use the item wording to test the profile collaboratively rather than assigning a fixed personality label.`,
+      `The profile is a structured reflection aid and should be considered alongside the person's context and other information.`
     ].join(' ');
     const conclusion = [
-      `Overall, ${strongest.name} is the clearest relative strength and ${lowest.name} is the main lower-range point in this profile.`,
-      `The other factor results add context and should be considered alongside the respondent’s lived experience.`,
-      `This pattern is a reflection aid, not a diagnosis or a standalone description of the person.`,
-      `Use it to guide specific discussion about situations, resources, and next steps.`
+      `Overall, ${strongest.name} is the clearest relative strength and ${lowest.name} is the main area for reflection in this ${item?.title || 'profile'}.`,
+      `${middleText} provides additional context to that contrast.`,
+      `The result describes this response pattern within the assessment; it is not a diagnosis or a fixed description of the person.`,
+      `Next, explore one recent situation that illustrates the contrast between the high and lower factors.`
     ].join(' ');
 
     return {
       title: `Your factor profile for ${item?.title || 'this assessment'} is ready.`,
       statement: `The individual factor results are shown first. ${profile}`,
-      interpretation: `This ${domainText} assessment contains ${sourceFactors.length} separately scored factors. ${profile} Each factor should be read with its score, maximum, percentage, and level rather than inferred from the overall response total.`,
+      interpretation: `This ${domainText} assessment contains ${sourceFactors.length} separately scored factors. ${profile} The scores show where the response pattern is relatively stronger and lower within the assessment's current ranges. Read each factor with its own score, maximum, percentage, level, and meaning; the overall sum is not a substitute for that profile.`,
       discussion,
       conclusion,
       note: 'This is an educational screening tool and does not constitute a formal diagnosis. It is intended to support reflective discussion, supervision, and self-understanding rather than to establish a clinical condition.',
@@ -613,30 +630,30 @@ function buildAssessmentInterpretation(item, result, percentage) {
   const statement = `This falls within the ${levelLabel} range for this ${domainText} assessment, indicating a ${lowerText} level of the reported concern or pattern relative to the current scoring framework.`;
 
   const interpretationParagraph = [
-    `This result is for ${item?.title || 'this assessment'}, a ${domainText} measure designed to explore ${assessmentSentence.toLowerCase()}.`,
-    `The response pattern produced a score of ${normalisedSummary}, or ${formatAssessmentPercentage(safePercentage)}, placing it in the ${levelLabel} range within the assessment's current scoring system.`,
-    `A score in this range may suggest a comparatively ${lowerText} level of the construct being examined, while also reminding us that this is not a diagnosis and that context matters.`,
-    `The practical value of this assessment is to support reflective discussion, identify patterns, and guide further exploration of relevant triggers, routines, and coping strategies.`,
-    `In a supervision or counselling context, this result can help frame meaningful questions about recent experiences, emotional patterns, and areas where the person may want additional support or self-observation.`,
-    `It is most useful when interpreted alongside the specific items, the respondent's context, and any other information available from the client or supervised practitioner.`
+    `${item?.title || 'This assessment'} measures ${assessmentSentence.replace(/[.?!]+$/, '')}.`,
+    `The obtained score is ${normalisedSummary} (${formatAssessmentPercentage(safePercentage)}), which falls in the ${levelLabel} range used by this assessment.`,
+    `Within this scoring framework, that band may indicate a ${lowerText} level of the measured experiences or traits; it does not establish a diagnosis.`,
+    `The result is most informative when linked to the specific items that contributed to it and to the situations in which the respondent notices the measured pattern.`,
+    `For a trainee or practitioner, the next step is to check whether the score fits the person's recent functioning, distress, frequency, and impact on relationships, study, work, or daily routines.`,
+    `Use the result to focus the conversation, not to replace clinical judgement or broader assessment.`
   ].join(' ');
 
   const discussion = [
-    `The strongest pattern in this profile is the ${levelLabel.toLowerCase()} range observed in the overall score.`,
-    `This suggests the respondent is reporting a noticeable level of the construct measured by ${item?.title || 'this assessment'}.`,
-    `The area to pay attention to is the specific pattern of responses rather than a single number in isolation.`,
-    `In day-to-day settings, this may show up as repeated worry, difficulty regulating emotions, changes in attention, or stress in work, learning, or relationships.`,
-    `A useful reflection question is how frequently these experiences occur and under what conditions they become more or less prominent.`,
-    `When interpreting the result with a client, it is helpful to discuss whether the pattern fits the current context or reflects a broader developmental or situational challenge.`,
-    `If one area is comparatively stronger or weaker, that is often more informative than simply asking whether the total score is 'high' or 'low'.`,
-    `This discussion should remain educational, cautious, and linked to the assessment's current scoring framework rather than to fixed labels or diagnoses.`
+    `The ${levelLabel.toLowerCase()} band is the central finding for ${item?.title || 'this assessment'} and should be understood within its ${normalisedSummary} range.`,
+    `Explore which items or experiences contributed most to the score rather than treating the total as a complete account of the person.`,
+    `Ask how often the measured pattern occurs, how intense it is, and whether it changes across settings.`,
+    `Ask what effect it has on relationships, study, work, sleep, routines, or decision-making, where relevant to this measure.`,
+    `Check whether the result reflects a recent stressor, a longer-standing pattern, or a situation-specific response.`,
+    `Invite the respondent to identify one example that fits the score and one example that does not.`,
+    `Discuss existing coping strategies and conditions under which the measured difficulty or strength becomes more manageable.`,
+    `Use the assessment as a focused conversation prompt and compare it with other information before drawing conclusions.`
   ].join(' ');
 
   const conclusion = [
-    `Overall, this profile points toward a ${lowerText} pattern within the ${item?.domain || 'assessment'} domain.`,
-    `The most relevant strength or area to notice is the response pattern reflected in the current score.`,
-    `The main area for reflection is how this pattern appears in daily routines, relationships, or performance.`,
-    `This result is best used as a structured discussion prompt and a starting point for supervision, reflection, or further assessment when needed.`
+    `Overall, ${item?.title || 'this assessment'} produced a ${score} out of ${maxScore} result in the ${levelLabel} range.`,
+    `This may indicate a ${lowerText} level of the measured pattern within the assessment's scoring framework.`,
+    `The main point for reflection is how the result appears in the respondent's actual situations and functioning.`,
+    `Use it to guide the next conversation and decide whether further assessment or support is appropriate.`
   ].join(' ');
 
   const note = 'This is an educational screening tool and does not constitute a formal diagnosis. It is intended to support reflective discussion, supervision, and self-understanding rather than to establish a clinical condition.';
@@ -649,7 +666,7 @@ function buildAssessmentInterpretation(item, result, percentage) {
     conclusion,
     note,
     rows,
-    overallProfile: `The assessment pattern suggests a ${lowerText} level of the measured construct relative to the assessment's current scoring range, with the result best interpreted as a contextual summary of the responses provided.`,
+    overallProfile: `${item?.title || 'This assessment'} produced a ${score} out of ${maxScore} result in the ${levelLabel} range. The profile should be checked against the respondent's examples, context, and reported impact.`,
     category: item?.domain || 'Assessment'
   };
 }
@@ -726,8 +743,8 @@ function submitAssessmentResults(event, testId) {
   const percentage = calculatePercentage(score, maxScore);
   const userName = userIntakeProfile ? userIntakeProfile.name : 'Valued Visitor';
   const interpretation = buildAssessmentInterpretation(item, result, percentage);
-  const scoreRingSvg = buildScoreRingSVG(score, maxScore, percentage);
   const isFactorProfile = Array.isArray(result?.factors) && result.factors.length > 1;
+  const scoreVisualization = isFactorProfile ? buildFactorBars(result.factors) : buildScoreRingSVG(score, maxScore, percentage);
   const rowsHtml = interpretation.rows.map((row) => `
     <tr class="border-b border-gray-200 last:border-b-0">
       <td class="px-3 py-2 align-top text-left text-xs font-medium text-navy-800">${escapeHtml(row.measure)}</td>
@@ -778,7 +795,7 @@ function submitAssessmentResults(event, testId) {
         </div>
 
         <div class="flex justify-center">
-          ${scoreRingSvg}
+          ${scoreVisualization}
         </div>
       </div>
 
@@ -786,53 +803,59 @@ function submitAssessmentResults(event, testId) {
         <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">RESULTS AT A GLANCE</h5>
         ${isFactorProfile ? '<div class="mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-navy-500">Factor Profile</div>' : ''}
         <div class="mt-3">
-          ${isFactorProfile ? `<div class="space-y-3">${factorCardsHtml}</div>` : `
-            <div class="overflow-x-auto">
-              <table class="min-w-full text-left">
-                <thead>
-                  <tr class="border-b border-gray-200 text-[11px] uppercase tracking-wide text-gray-500">
-                    <th class="px-3 py-2 font-semibold">Measure</th>
-                    <th class="px-3 py-2 font-semibold">Score</th>
-                    <th class="px-3 py-2 font-semibold">Max</th>
-                    <th class="px-3 py-2 font-semibold">%</th>
-                    <th class="px-3 py-2 font-semibold">Level</th>
-                  </tr>
-                </thead>
-                <tbody>${rowsHtml}</tbody>
-              </table>
-            </div>` }
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-left">
+              <thead>
+                <tr class="border-b border-gray-200 text-[11px] uppercase tracking-wide text-gray-500">
+                  <th class="px-3 py-2 font-semibold">Measure</th>
+                  <th class="px-3 py-2 font-semibold">Score</th>
+                  <th class="px-3 py-2 font-semibold">Max</th>
+                  <th class="px-3 py-2 font-semibold">%</th>
+                  <th class="px-3 py-2 font-semibold">Level</th>
+                </tr>
+              </thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+          </div>
         </div>
       </div>
 
+      ${isFactorProfile ? `
       <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
-        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">Overall Profile</h5>
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">FACTOR INTERPRETATION</h5>
+        <div class="mt-3 space-y-3">${factorCardsHtml}</div>
+      </div>
+      <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">OVERALL PROFILE</h5>
         <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.overallProfile)}</p>
       </div>
+      ` : ''}
 
       <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
-        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">Interpretation</h5>
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">INTERPRETATION</h5>
         <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.interpretation)}</p>
       </div>
 
-      <div class="mt-5 grid gap-4 md:grid-cols-2">
-        <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4">
-          <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">Discussion</div>
-          <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.discussion)}</p>
-        </div>
-        <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4">
-          <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">Assessment context</div>
-          <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(item.description || 'This self-assessment is designed for reflection and awareness-building.')}</p>
-        </div>
+      <div class="mt-5 rounded-2xl border border-gray-200 bg-gray-50 p-4">
+        <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">DISCUSSION</div>
+        <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.discussion)}</p>
       </div>
 
-      <div class="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs text-amber-900 space-y-2">
-        <h5 class="font-bold flex items-center gap-1.5"><svg class="w-4 h-4 text-amber-600" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Important Note</h5>
-        <p class="leading-relaxed">${escapeHtml(interpretation.note)}</p>
+      ${isFactorProfile ? '' : `
+      <div class="mt-5 rounded-2xl border border-gray-200 bg-white p-4">
+        <h5 class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">WHAT THIS ASSESSMENT MEASURES</h5>
+        <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(item.description || 'This assessment measures the response pattern captured by its questions.')}</p>
       </div>
+      `}
 
       <div class="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
         <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-700">Conclusion</h5>
         <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.conclusion)}</p>
+      </div>
+
+      <div class="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs text-amber-900 space-y-2">
+        <h5 class="font-bold flex items-center gap-1.5"><svg class="w-4 h-4 text-amber-600" aria-hidden="true"></svg> Important Note</h5>
+        <p class="leading-relaxed">${escapeHtml(interpretation.note)}</p>
       </div>
 
       <div id="assessment-save-status" class="mt-3 hidden"></div>

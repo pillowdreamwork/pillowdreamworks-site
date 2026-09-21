@@ -101,6 +101,8 @@ async function submitAssessmentAndVerify(page, assessmentId) {
   expect(hasInterpretation).toBeTruthy();
   expect(hasDiscussion).toBeTruthy();
   expect(hasConclusion).toBeTruthy();
+  expect(text).toContain((await page.locator('#active-assessment-modal-content h4').textContent()).trim());
+  expect(text).not.toMatch(/This result is for this assessment/i);
 
   const factorResults = await page.evaluate((id) => {
     const item = PSYCH_ASSESSMENTS.find((assessment) => assessment.id === id);
@@ -112,6 +114,8 @@ async function submitAssessmentAndVerify(page, assessmentId) {
   if (factorResults.length > 1) {
     expect(text).toMatch(/Results at a Glance/i);
     expect(text).toMatch(/Overall Profile/i);
+    expect(text).toMatch(/Factor Interpretation/i);
+    await expect(output.locator('[aria-label="Individual factor scores"]')).toBeVisible();
     for (const factor of factorResults) {
       expect(text).toContain(factor.name);
       expect(text).toContain(`${factor.score} / ${factor.maxScore}`);
