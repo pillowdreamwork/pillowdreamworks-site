@@ -1,6 +1,26 @@
 // PillowDreamWorks — Unified Psychological Assessments Database
 // Covers 15 clinical domains with free self-inventories & practitioner diagnostic sessions
 
+function buildFactorResults(scores, definitions) {
+  return definitions.map((factor) => {
+    const score = factor.indices.reduce((total, index) => {
+      const value = Number(scores[index]);
+      return total + (Number.isFinite(value) ? value : 0);
+    }, 0);
+    const maxScore = factor.indices.length * 3;
+    const percentage = maxScore ? (score / maxScore) * 100 : 0;
+    const level = percentage >= 66 ? 'High' : percentage >= 33 ? 'Moderate' : 'Low';
+    return {
+      name: factor.name,
+      score,
+      maxScore,
+      level,
+      percentage,
+      meaning: factor.meaning
+    };
+  });
+}
+
 const PSYCH_ASSESSMENTS = [
   {
     id: "gad-7",
@@ -677,7 +697,18 @@ const PSYCH_ASSESSMENTS = [
       } else {
         badge = 'bg-red-100 text-red-800';
       }
-      return { score: sum, maxScore: 24, level, badge };
+
+      const factorMap = [
+        { name: 'Extraversion', indices: [0, 5], maxScore: 6, meaning: 'This factor reflects how strongly the respondent tends to feel socially energetic and engagement-oriented within the current assessment.' },
+        { name: 'Agreeableness', indices: [1, 6], maxScore: 6, meaning: 'This factor captures the degree to which the respondent appears warm, cooperative, and relationally considerate in social contexts.' },
+        { name: 'Conscientiousness', indices: [2, 7], maxScore: 6, meaning: 'This factor reflects organization, follow-through, and efficiency in responsibilities, planning, and execution.' },
+        { name: 'Emotional Stability', indices: [3], maxScore: 3, meaning: 'This factor indicates how easily the respondent may stay calm, resilient, and steady under pressure.' },
+        { name: 'Openness', indices: [4], maxScore: 3, meaning: 'This factor captures curiosity, imagination, and willingness to engage with new ideas, experiences, or perspectives.' }
+      ];
+
+      const factors = buildFactorResults(scores, factorMap);
+
+      return { score: sum, maxScore: 24, level, badge, factors };
     }
   },
   {
@@ -714,7 +745,11 @@ const PSYCH_ASSESSMENTS = [
       } else {
         badge = 'bg-red-100 text-red-800';
       }
-      return { score: sum, maxScore: 18, level, badge };
+      const factors = buildFactorResults(scores, [
+        { name: 'Extraversion', indices: [1, 3, 5], meaning: 'This factor reflects social energy, liveliness, and willingness to engage openly with other people.' },
+        { name: 'Emotional Reactivity', indices: [0, 2, 4], meaning: 'This factor reflects mood fluctuation, sensitivity to criticism, and tension or restlessness under pressure.' }
+      ]);
+      return { score: sum, maxScore: 18, level, badge, factors };
     }
   },
   {
@@ -751,7 +786,13 @@ const PSYCH_ASSESSMENTS = [
       } else {
         badge = 'bg-red-100 text-red-800';
       }
-      return { score: sum, maxScore: 18, level, badge };
+      const factors = buildFactorResults(scores, [
+        { name: 'Introversion / Extraversion', indices: [0], meaning: 'This axis reflects the balance between quiet solitary recharging and preference for energetic social engagement.' },
+        { name: 'Intuition / Sensing', indices: [1], meaning: 'This axis reflects preference for abstract possibilities and patterns versus concrete immediate information.' },
+        { name: 'Thinking / Feeling', indices: [2, 4], meaning: 'This axis reflects the relative emphasis placed on objective analysis, precision, fairness, and interpersonal harmony.' },
+        { name: 'Judging / Perceiving', indices: [3, 5], meaning: 'This axis reflects preference for structure, settled plans, and decisions versus flexibility and openness.' }
+      ]);
+      return { score: sum, maxScore: 18, level, badge, factors };
     }
   },
   {
@@ -788,7 +829,12 @@ const PSYCH_ASSESSMENTS = [
       } else {
         badge = 'bg-red-100 text-red-800';
       }
-      return { score: sum, maxScore: 18, level, badge };
+      const factors = buildFactorResults(scores, [
+        { name: 'Machiavellianism', indices: [0, 3], meaning: 'This factor reflects strategic social calculation and willingness to shape interactions toward an advantage.' },
+        { name: 'Narcissism', indices: [1, 4], meaning: 'This factor reflects desire for admiration, recognition, and status in interpersonal settings.' },
+        { name: 'Psychopathy', indices: [2, 5], meaning: 'This factor reflects emotional detachment and reduced remorse as represented by the current items.' }
+      ]);
+      return { score: sum, maxScore: 18, level, badge, factors };
     }
   },
   {

@@ -3,6 +3,8 @@
 
 let userIntakeProfile = null;
 let allCatalogAssessments = [];
+const ASSESSMENT_USER_ID_KEY = 'pillowdreamworks_assessment_user_id';
+const ASSESSMENT_PROFILE_KEY = 'pillowdreamworks_assessment_profile';
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -224,7 +226,18 @@ function saveIntakeProfile(event) {
     return;
   }
 
-  userIntakeProfile = { name, email, age, gender };
+  const storedUserId = window.localStorage ? window.localStorage.getItem(ASSESSMENT_USER_ID_KEY) : '';
+  const userId = storedUserId || (window.crypto && typeof window.crypto.randomUUID === 'function'
+    ? window.crypto.randomUUID()
+    : `assessment-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`);
+  if (!storedUserId && window.localStorage) {
+    window.localStorage.setItem(ASSESSMENT_USER_ID_KEY, userId);
+  }
+  userIntakeProfile = { userId, name, email, age, gender, consent: true };
+  if (window.localStorage) {
+    window.localStorage.setItem(ASSESSMENT_PROFILE_KEY, JSON.stringify(userIntakeProfile));
+  }
+  saveAssessmentProfileToGoogleSheets(userIntakeProfile);
   const gate = document.getElementById('intake-gate-container');
   const suite = document.getElementById('assessment-suite-container');
   if (gate && suite) {
@@ -233,10 +246,61 @@ function saveIntakeProfile(event) {
     const greeting = document.getElementById('active-user-greeting');
     if (greeting) greeting.textContent = `Welcome, ${name}. Explore your assessments below.`;
   }
+
+}
+
+function getCurrentAssessmentProfile() {
+  if (userIntakeProfile) return userIntakeProfile;
+  if (!window.localStorage) return null;
+  try {
+    const storedProfile = JSON.parse(window.localStorage.getItem(ASSESSMENT_PROFILE_KEY) || 'null');
+    return storedProfile && storedProfile.consent === true ? storedProfile : null;
+  } catch (error) {
+    console.warn('Stored assessment profile could not be read:', error.message || error);
+    return null;
+  }
+}
+
+function getAssessmentSheetsEndpoint() {
+  return window.GOOGLE_SHEETS_WEB_APP_URL ||
+    window.GOOGLE_SHEETS_ENDPOINT ||
+    window.GOOGLE_APPS_SCRIPT_URL ||
+    '';
+}
+
+function saveAssessmentProfileToGoogleSheets(profile) {
+  const endpoint = getAssessmentSheetsEndpoint();
+  if (!endpoint) {
+    console.warn('Assessment profile save skipped: no Google Sheets endpoint configured.');
+    return;
+  }
+
+  fetch(endpoint, {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      action: 'save_profile',
+      userId: profile.userId,
+      name: profile.name,
+      age: profile.age,
+      gender: profile.gender,
+      email: profile.email,
+      consent: true
+    })
+  }).then((response) => {
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  }).catch((error) => {
+    console.warn('Assessment profile save failed; continuing without Sheets sync:', error.message || error);
+  });
 }
 
 function resetIntake() {
   userIntakeProfile = null;
+  if (window.localStorage) {
+    window.localStorage.removeItem(ASSESSMENT_USER_ID_KEY);
+    window.localStorage.removeItem(ASSESSMENT_PROFILE_KEY);
+  }
   const gate = document.getElementById('intake-gate-container');
   const suite = document.getElementById('assessment-suite-container');
   if (gate && suite) {
@@ -450,27 +514,148 @@ function buildScoreRingSVG(score, maxScore, percentage) {
     </div>`;
 }
 
+function formatAssessmentPercentage(value) {
+  if (!Number.isFinite(value)) return '0.0%';
+  return `${Math.max(0, Math.min(100, value)).toFixed(1)}%`;
+}
+
+function buildMeasureRows(item, result, score, maxScore, percentage) {
+  const rows = [];
+  const level = result && result.level ? String(result.level) : 'Current range';
+  const sourceFactors = Array.isArray(result?.factors) && result.factors.length > 0
+    ? result.factors
+    : (Array.isArray(item?.factors) ? item.factors : []);
+
+  if (sourceFactors.length > 0) {
+    sourceFactors.forEach((factor) => {
+      const factorScore = safeNumber(factor.score, 0);
+      const factorMax = safeNumber(factor.maxScore, factorScore || 1);
+      const factorPct = calculatePercentage(factorScore, factorMax);
+      rows.push({
+        measure: factor.label || factor.name || 'Factor',
+        score: factorScore,
+        maxScore: factorMax,
+        percentage: factorPct,
+        level: factor.level || level,
+        meaning: factor.meaning || 'This factor reflects the pattern reported in this assessment.'
+      });
+    });
+    return rows;
+  }
+
+  rows.push({
+    measure: item?.title || 'Overall score',
+    score,
+    maxScore,
+    percentage,
+    level,
+    meaning: item?.description ? item.description : 'This score reflects the pattern captured in this assessment.'
+  });
+
+  return rows;
+}
+
 function buildAssessmentInterpretation(item, result, percentage) {
   const score = safeNumber(result.score, 0);
   const maxScore = safeNumber(result.maxScore, 0) || 1;
   const levelLabel = result.level ? String(result.level) : 'Current range';
   const safePercentage = Number.isFinite(percentage) ? percentage : calculatePercentage(score, maxScore);
   const normalisedSummary = `${score} out of ${maxScore}`;
+  const domainText = item?.domain ? item.domain.toLowerCase() : 'assessment';
+  const lowerText = /low|minimal|normal|clear|not elevated|lower/.test(String(levelLabel).toLowerCase()) ? 'lower' : /moderate|mild|mixed|borderline/.test(String(levelLabel).toLowerCase()) ? 'moderate' : 'higher';
+  const assessmentSentence = item?.description ? item.description.replace(/\s+/g, ' ').trim() : 'This assessment explores the pattern described in the respondent’s answers.';
+  const sourceFactors = Array.isArray(result?.factors) ? result.factors : [];
+  const rows = buildMeasureRows(item, result, score, maxScore, safePercentage);
 
-  const titleLine = `Your score is ${normalisedSummary}.`;
-  const statement = `According to this assessment's current scoring range, this falls within the ${levelLabel} range.`;
-  const discussion = item.description ? `This result is designed to support reflective self-understanding for ${item.title.toLowerCase()}. It offers a practical way to notice patterns and consider where your responses sit within the assessment's current scoring framework.` : 'This result is intended for educational self-reflection and is not a formal diagnosis.';
+  if (sourceFactors.length > 1) {
+    const orderedFactors = [...sourceFactors].sort((a, b) => safeNumber(b.percentage) - safeNumber(a.percentage));
+    const strongest = orderedFactors[0];
+    const lowest = orderedFactors[orderedFactors.length - 1];
+    const middle = orderedFactors.slice(1, -1);
+    const factorSummary = sourceFactors.map((factor) => `${factor.name} is ${safeNumber(factor.score)} out of ${safeNumber(factor.maxScore) || 1} (${formatAssessmentPercentage(safeNumber(factor.percentage))}, ${factor.level || 'current range'})`).join('; ');
+    const middleText = middle.length > 0 ? middle.map((factor) => `${factor.name} at ${factor.level || 'the current range'}`).join(', ') : 'the remaining factors';
+    const profile = `The factor pattern is ${factorSummary}. Relative strength is ${strongest.name}, while ${lowest.name} is comparatively lower; ${middleText} sits between those points. This profile describes the current response pattern and should not be reduced to a single personality total.`;
+    const discussion = [
+      `${strongest.name} is the relatively strongest factor at ${safeNumber(strongest.score)} out of ${safeNumber(strongest.maxScore) || 1}, which may be a useful resource in the situations covered by this assessment.`,
+      `${lowest.name} is the relatively lower factor at ${safeNumber(lowest.score)} out of ${safeNumber(lowest.maxScore) || 1}, so it may deserve closer contextual exploration rather than a fixed label.`,
+      `${strongest.name} and ${lowest.name} together create the clearest contrast in this profile.`,
+      `That contrast may mean the respondent can draw on ${strongest.name} in some settings while finding situations linked to ${lowest.name} less automatic or more effortful.`,
+      `${middleText} should be interpreted as part of the pattern rather than as isolated scores.`,
+      `The scores do not establish a diagnosis, and the direction of a factor is meaningful only in relation to the items and the person's context.`,
+      `In a live session, ask when the relatively stronger factor is most visible and what conditions help it operate well.`,
+      `Also ask whether the relatively lower factor reflects a stable preference, a recent stressor, or the wording and timing of the questions.`,
+      `The combination of ${strongest.name} and ${lowest.name} may shape how the respondent approaches relationships, learning, work, or coping, depending on the assessment domain.`,
+      `A useful reflection is whether the middle factors support, balance, or sometimes compete with those two more distinct results.`,
+      `Practical support should build on the stronger pattern while creating small, specific opportunities to practise the lower pattern when it matters.`,
+      `The profile is most useful as a structured starting point for supervision, collaborative reflection, and further assessment when needed.`
+    ].join(' ');
+    const conclusion = [
+      `Overall, ${strongest.name} is the clearest relative strength and ${lowest.name} is the main lower-range point in this profile.`,
+      `The other factor results add context and should be considered alongside the respondent’s lived experience.`,
+      `This pattern is a reflection aid, not a diagnosis or a standalone description of the person.`,
+      `Use it to guide specific discussion about situations, resources, and next steps.`
+    ].join(' ');
+
+    return {
+      title: `Your factor profile for ${item?.title || 'this assessment'} is ready.`,
+      statement: `The individual factor results are shown first. ${profile}`,
+      interpretation: `This ${domainText} assessment contains ${sourceFactors.length} separately scored factors. ${profile} Each factor should be read with its score, maximum, percentage, and level rather than inferred from the overall response total.`,
+      discussion,
+      conclusion,
+      note: 'This is an educational screening tool and does not constitute a formal diagnosis. It is intended to support reflective discussion, supervision, and self-understanding rather than to establish a clinical condition.',
+      rows,
+      overallProfile: profile,
+      category: item?.domain || 'Assessment'
+    };
+  }
+
+  const titleLine = `Your score is ${normalisedSummary} on the ${item?.title || 'assessment'} measure.`;
+  const statement = `This falls within the ${levelLabel} range for this ${domainText} assessment, indicating a ${lowerText} level of the reported concern or pattern relative to the current scoring framework.`;
+
+  const interpretationParagraph = [
+    `This result is for ${item?.title || 'this assessment'}, a ${domainText} measure designed to explore ${assessmentSentence.toLowerCase()}.`,
+    `The response pattern produced a score of ${normalisedSummary}, or ${formatAssessmentPercentage(safePercentage)}, placing it in the ${levelLabel} range within the assessment's current scoring system.`,
+    `A score in this range may suggest a comparatively ${lowerText} level of the construct being examined, while also reminding us that this is not a diagnosis and that context matters.`,
+    `The practical value of this assessment is to support reflective discussion, identify patterns, and guide further exploration of relevant triggers, routines, and coping strategies.`,
+    `In a supervision or counselling context, this result can help frame meaningful questions about recent experiences, emotional patterns, and areas where the person may want additional support or self-observation.`,
+    `It is most useful when interpreted alongside the specific items, the respondent's context, and any other information available from the client or supervised practitioner.`
+  ].join(' ');
+
+  const discussion = [
+    `The strongest pattern in this profile is the ${levelLabel.toLowerCase()} range observed in the overall score.`,
+    `This suggests the respondent is reporting a noticeable level of the construct measured by ${item?.title || 'this assessment'}.`,
+    `The area to pay attention to is the specific pattern of responses rather than a single number in isolation.`,
+    `In day-to-day settings, this may show up as repeated worry, difficulty regulating emotions, changes in attention, or stress in work, learning, or relationships.`,
+    `A useful reflection question is how frequently these experiences occur and under what conditions they become more or less prominent.`,
+    `When interpreting the result with a client, it is helpful to discuss whether the pattern fits the current context or reflects a broader developmental or situational challenge.`,
+    `If one area is comparatively stronger or weaker, that is often more informative than simply asking whether the total score is 'high' or 'low'.`,
+    `This discussion should remain educational, cautious, and linked to the assessment's current scoring framework rather than to fixed labels or diagnoses.`
+  ].join(' ');
+
+  const conclusion = [
+    `Overall, this profile points toward a ${lowerText} pattern within the ${item?.domain || 'assessment'} domain.`,
+    `The most relevant strength or area to notice is the response pattern reflected in the current score.`,
+    `The main area for reflection is how this pattern appears in daily routines, relationships, or performance.`,
+    `This result is best used as a structured discussion prompt and a starting point for supervision, reflection, or further assessment when needed.`
+  ].join(' ');
+
+  const note = 'This is an educational screening tool and does not constitute a formal diagnosis. It is intended to support reflective discussion, supervision, and self-understanding rather than to establish a clinical condition.';
 
   return {
     title: titleLine,
     statement,
+    interpretation: interpretationParagraph,
     discussion,
-    note: 'This is an educational screening tool and does not constitute a formal diagnosis. For professional evaluation and personalised guidance, consider booking a session with Manish Garg.'
+    conclusion,
+    note,
+    rows,
+    overallProfile: `The assessment pattern suggests a ${lowerText} level of the measured construct relative to the assessment's current scoring range, with the result best interpreted as a contextual summary of the responses provided.`,
+    category: item?.domain || 'Assessment'
   };
 }
 
 async function persistAssessmentResultToGoogleSheets(payload) {
-  const endpoint = window.GOOGLE_SHEETS_WEB_APP_URL || window.GOOGLE_SHEETS_ENDPOINT || window.GOOGLE_APPS_SCRIPT_URL || '';
+  const endpoint = getAssessmentSheetsEndpoint();
   if (!endpoint) {
     return { ok: false, reason: 'No Google Sheets endpoint configured.' };
   }
@@ -478,18 +663,26 @@ async function persistAssessmentResultToGoogleSheets(payload) {
   const response = await fetch(endpoint, {
     method: 'POST',
     mode: 'cors',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({
+      action: 'save_assessment',
+      resultId: payload.resultId || '',
       name: payload.name || '',
+      userId: payload.userId || '',
       age: payload.age || '',
       gender: payload.gender || '',
       email: payload.email || '',
       assessmentId: payload.assessmentId || '',
       assessmentName: payload.assessmentName || '',
+      resultType: payload.resultType || 'single-score',
       score: safeNumber(payload.score, 0),
       maxScore: safeNumber(payload.maxScore, 0),
       percentage: safeNumber(payload.percentage, 0),
+      level: payload.level || '',
       interpretation: payload.interpretation || '',
+      discussion: payload.discussion || '',
+      conclusion: payload.conclusion || '',
+      factorResults: Array.isArray(payload.factorResults) ? payload.factorResults : [],
       consent: true
     })
   });
@@ -534,26 +727,47 @@ function submitAssessmentResults(event, testId) {
   const userName = userIntakeProfile ? userIntakeProfile.name : 'Valued Visitor';
   const interpretation = buildAssessmentInterpretation(item, result, percentage);
   const scoreRingSvg = buildScoreRingSVG(score, maxScore, percentage);
+  const isFactorProfile = Array.isArray(result?.factors) && result.factors.length > 1;
+  const rowsHtml = interpretation.rows.map((row) => `
+    <tr class="border-b border-gray-200 last:border-b-0">
+      <td class="px-3 py-2 align-top text-left text-xs font-medium text-navy-800">${escapeHtml(row.measure)}</td>
+      <td class="px-3 py-2 align-top text-left text-xs text-gray-700">${safeNumber(row.score, 0)}</td>
+      <td class="px-3 py-2 align-top text-left text-xs text-gray-700">${safeNumber(row.maxScore, 0) || 1}</td>
+      <td class="px-3 py-2 align-top text-left text-xs text-gray-700">${formatAssessmentPercentage(safeNumber(row.percentage, 0))}</td>
+      <td class="px-3 py-2 align-top text-left text-xs"><span class="inline-flex rounded-full bg-navy-100 px-2 py-1 font-semibold text-navy-800">${escapeHtml(row.level || 'Current range')}</span></td>
+    </tr>`).join('');
+  const factorCardsHtml = isFactorProfile ? interpretation.rows.map((row) => `
+    <div class="rounded-2xl border border-gray-200 bg-white p-3">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <div class="text-[11px] font-bold uppercase tracking-[0.16em] text-navy-500">${escapeHtml(row.measure)}</div>
+          <div class="mt-1 text-lg font-bold text-navy-900">${safeNumber(row.score, 0)} / ${safeNumber(row.maxScore, 0) || 1}</div>
+        </div>
+        <span class="inline-flex rounded-full bg-navy-100 px-2 py-1 text-[10px] font-bold text-navy-800">${escapeHtml(row.level || 'Current range')}</span>
+      </div>
+      <div class="mt-2 text-[11px] text-gray-500">${formatAssessmentPercentage(safeNumber(row.percentage, 0))}</div>
+      <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(row.meaning || 'This factor reflects the pattern reported in this assessment.')}</p>
+    </div>`).join('') : '';
 
   output.innerHTML = `
     <div class="mt-6 rounded-2xl border border-navy-200 bg-white p-5 shadow-xl animate-slideUp" aria-live="polite">
       <div class="flex flex-col gap-4 border-b border-gray-200 pb-4">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <span class="block text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">${escapeHtml(item.breadcrumb)}</span>
+            <span class="block text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">${escapeHtml(interpretation.category || item.domain || 'Assessment')}</span>
             <h4 class="mt-1 text-xl font-bold text-navy-900">${escapeHtml(item.title)}</h4>
           </div>
           <span class="inline-flex items-center rounded-full px-3 py-1.5 text-[11px] font-bold ${result.badge || 'bg-navy-100 text-navy-800'}">${escapeHtml(result.level || 'Current range')}</span>
         </div>
-        <p class="text-sm text-gray-600">Results for ${escapeHtml(userName)}</p>
+        <p class="text-sm text-gray-600">Results for ${escapeHtml(userName)} · ${escapeHtml(item.administration || 'Self-Administered')}</p>
       </div>
 
       <div class="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1.2fr)_220px] lg:items-center">
         <div class="space-y-4">
           <div class="rounded-2xl bg-navy-50 border border-navy-100 p-4">
-            <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">Score</div>
+            <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">${isFactorProfile ? 'Overall response total (reference only)' : 'Score'}</div>
             <div class="mt-2 text-2xl font-bold text-navy-900">${score} / ${maxScore}</div>
-            <div class="mt-1 text-xs text-gray-600">${Number.isFinite(percentage) ? `${percentage.toFixed(1)}% of total` : 'Score recorded'}</div>
+            <div class="mt-1 text-xs text-gray-600">${isFactorProfile ? 'Not used as the primary factor result' : (Number.isFinite(percentage) ? `${percentage.toFixed(1)}% of total` : 'Score recorded')}</div>
           </div>
 
           <div class="rounded-2xl bg-cream border border-amber-200 p-4">
@@ -566,6 +780,38 @@ function submitAssessmentResults(event, testId) {
         <div class="flex justify-center">
           ${scoreRingSvg}
         </div>
+      </div>
+
+      <div class="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-4">
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">RESULTS AT A GLANCE</h5>
+        ${isFactorProfile ? '<div class="mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-navy-500">Factor Profile</div>' : ''}
+        <div class="mt-3">
+          ${isFactorProfile ? `<div class="space-y-3">${factorCardsHtml}</div>` : `
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-left">
+                <thead>
+                  <tr class="border-b border-gray-200 text-[11px] uppercase tracking-wide text-gray-500">
+                    <th class="px-3 py-2 font-semibold">Measure</th>
+                    <th class="px-3 py-2 font-semibold">Score</th>
+                    <th class="px-3 py-2 font-semibold">Max</th>
+                    <th class="px-3 py-2 font-semibold">%</th>
+                    <th class="px-3 py-2 font-semibold">Level</th>
+                  </tr>
+                </thead>
+                <tbody>${rowsHtml}</tbody>
+              </table>
+            </div>` }
+        </div>
+      </div>
+
+      <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">Overall Profile</h5>
+        <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.overallProfile)}</p>
+      </div>
+
+      <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">Interpretation</h5>
+        <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.interpretation)}</p>
       </div>
 
       <div class="mt-5 grid gap-4 md:grid-cols-2">
@@ -584,38 +830,54 @@ function submitAssessmentResults(event, testId) {
         <p class="leading-relaxed">${escapeHtml(interpretation.note)}</p>
       </div>
 
+      <div class="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-700">Conclusion</h5>
+        <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.conclusion)}</p>
+      </div>
+
       <div id="assessment-save-status" class="mt-3 hidden"></div>
 
       <div class="mt-5 flex flex-col gap-3 sm:flex-row">
-        <button type="button" onclick="closeActiveAssessmentModal()" class="w-full sm:w-auto px-5 py-3 bg-white border border-navy-200 text-navy-800 font-bold rounded-xl text-xs text-center shadow-sm transition-all hover:bg-navy-50">Take another assessment</button>
+        <button type="button" onclick="closeActiveAssessmentModal()" class="w-full sm:w-auto px-5 py-3 bg-white border border-navy-200 text-navy-800 font-bold rounded-xl text-xs text-center shadow-sm transition-all hover:bg-navy-50">Take Another Assessment</button>
         <a href="index.html#services" class="w-full sm:w-auto px-6 py-3 bg-navy hover:bg-navy-900 text-white font-bold rounded-xl text-xs text-center shadow-md transition-all">Book Counselling Session (₹1,499)</a>
         <a href="index.html#services" class="w-full sm:w-auto px-5 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs text-center shadow-md transition-all">Crisis Support (₹399)</a>
       </div>
     </div>`;
 
   const savePayload = {
+    resultId: window.crypto && typeof window.crypto.randomUUID === 'function'
+      ? window.crypto.randomUUID()
+      : `result-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
     name: userIntakeProfile?.name || '',
+    userId: userIntakeProfile?.userId || '',
     age: userIntakeProfile?.age || '',
     gender: userIntakeProfile?.gender || '',
     email: userIntakeProfile?.email || '',
     assessmentId: item.id,
     assessmentName: item.title,
+    resultType: Array.isArray(result?.factors) && result.factors.length > 1 ? 'factor-profile' : 'single-score',
     score,
     maxScore,
     percentage,
-    interpretation: `${interpretation.title} ${interpretation.statement} ${interpretation.discussion}`.trim()
+    level: result.level || '',
+    factorResults: Array.isArray(result?.factors) ? result.factors : [],
+    interpretation: [interpretation.title, interpretation.statement, interpretation.overallProfile, interpretation.interpretation].filter(Boolean).join(' ').trim(),
+    discussion: interpretation.discussion || '',
+    conclusion: interpretation.conclusion || ''
   };
 
   persistAssessmentResultToGoogleSheets(savePayload)
     .then((result) => {
+      const saveNotice = document.getElementById('assessment-save-status');
+      if (!saveNotice) return;
       if (result && result.ok) {
-        const saveNotice = document.getElementById('assessment-save-status');
-        if (saveNotice) {
-          saveNotice.textContent = 'Assessment result saved successfully.';
-          saveNotice.className = 'mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-[11px] text-emerald-800';
-          saveNotice.classList.remove('hidden');
-        }
+        saveNotice.textContent = 'Assessment result saved successfully.';
+        saveNotice.className = 'mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-[11px] text-emerald-800';
+      } else {
+        saveNotice.textContent = 'Result rendered successfully. Google Sheets sync is unavailable in this environment.';
+        saveNotice.className = 'mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] text-amber-800';
       }
+      saveNotice.classList.remove('hidden');
     })
     .catch((error) => {
       const saveNotice = document.getElementById('assessment-save-status');
@@ -684,6 +946,28 @@ function submitBatteryBooking(event) {
   const price = item ? item.priceINR : 2999;
   alert(`Thank you, ${name}!\n\nYour booking request for "${title}" (₹${price.toLocaleString('en-IN')}) on ${new Date(date).toLocaleString()} has been received.\n\nManish Garg's team will contact you at ${phone} to confirm the session.`);
   closeBatteryBookingModal();
+}
+
+function submitCounsellingBookingToGoogleSheets(profile = getCurrentAssessmentProfile()) {
+  const endpoint = getAssessmentSheetsEndpoint();
+  if (!endpoint || !profile || profile.consent !== true) return;
+
+  fetch(endpoint, {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      action: 'counselling_booking',
+      userId: profile.userId || '',
+      name: profile.name || '',
+      age: profile.age || '',
+      gender: profile.gender || '',
+      email: profile.email || '',
+      consent: true
+    })
+  }).catch((error) => {
+    console.warn('Counselling booking save failed; continuing without Sheets sync:', error.message || error);
+  });
 }
 
 /* ═══════════════════════════════════════════════
@@ -806,6 +1090,10 @@ function submitContactForm(event) {
   if (consentEl && !consentEl.checked) {
     alert('Please confirm the privacy consent before sending your message.');
     return;
+  }
+
+  if (service === 'counselling' && userIntakeProfile?.consent === true) {
+    submitCounsellingBookingToGoogleSheets();
   }
 
   const successEl = document.getElementById('contact-success');

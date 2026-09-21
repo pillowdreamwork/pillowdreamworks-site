@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test.setTimeout(180_000);
+test.setTimeout(300_000);
 
 async function fillIntake(page, name, email) {
   await page.locator('#intake-name').fill(name);
@@ -92,9 +92,33 @@ async function submitAssessmentAndVerify(page, assessmentId) {
   expect(svgCount).toBeGreaterThan(0);
 
   const hasImportantNote = /Important Note/i.test(text);
-  const hasInterpretation = /What your score shows|Discussion/i.test(text);
-  expect(hasImportantNote || !hasImportantNote).toBeTruthy();
+  const hasResultsAtAGlance = /Results at a Glance|Results At a Glance/i.test(text);
+  const hasInterpretation = /Interpretation|What your score shows/i.test(text);
+  const hasDiscussion = /Discussion/i.test(text);
+  const hasConclusion = /Conclusion/i.test(text);
+  expect(hasImportantNote).toBeTruthy();
+  expect(hasResultsAtAGlance).toBeTruthy();
   expect(hasInterpretation).toBeTruthy();
+  expect(hasDiscussion).toBeTruthy();
+  expect(hasConclusion).toBeTruthy();
+
+  const factorResults = await page.evaluate((id) => {
+    const item = PSYCH_ASSESSMENTS.find((assessment) => assessment.id === id);
+    if (!item) throw new Error(`Missing assessment ${id}`);
+    const scores = Array(item.questions.length).fill(Math.floor(item.options.length / 2));
+    const result = item.scoring(scores);
+    return Array.isArray(result.factors) ? result.factors : [];
+  }, assessmentId);
+  if (factorResults.length > 1) {
+    expect(text).toMatch(/Results at a Glance/i);
+    expect(text).toMatch(/Overall Profile/i);
+    for (const factor of factorResults) {
+      expect(text).toContain(factor.name);
+      expect(text).toContain(`${factor.score} / ${factor.maxScore}`);
+      expect(text).toContain(factor.level);
+      expect(text).toContain(factor.meaning);
+    }
+  }
 
   const comparisonText = text.replace(/\s+/g, ' ').trim();
   return {
@@ -103,7 +127,8 @@ async function submitAssessmentAndVerify(page, assessmentId) {
     text: comparisonText,
     assessmentId,
     hasVisual: svgCount > 0,
-    hasInterpretation
+    hasInterpretation,
+    factorCount: factorResults.length
   };
 }
 
@@ -129,13 +154,15 @@ test('free assessment centre smoke sweep', async ({ page }) => {
   expect(freeAssessmentIds.length).toBe(161);
 
   const failures = [];
+  const factorCounts = {};
 
   for (const [index, assessmentId] of freeAssessmentIds.entries()) {
     try {
       const form = await openAssessment(page, assessmentId);
       const groups = await answerEveryQuestionGroup(form, 'middle');
       expect(groups.length).toBeGreaterThan(0);
-      await submitAssessmentAndVerify(page, assessmentId);
+      const result = await submitAssessmentAndVerify(page, assessmentId);
+      if (result.factorCount > 1) factorCounts[assessmentId] = result.factorCount;
     } catch (error) {
       failures.push({ id: assessmentId, error: String(error && error.message ? error.message : error) });
     }
@@ -146,4 +173,7 @@ test('free assessment centre smoke sweep', async ({ page }) => {
   }
 
   expect(failures).toEqual([]);
+  expect(Object.keys(factorCounts).sort()).toEqual(['epq-r-short', 'mbti-style-16', 'sd3-short', 'tipi-10']);
+  expect(Object.values(factorCounts).every((count) => count > 1)).toBeTruthy();
+  console.log(`Validated ${freeAssessmentIds.length} free assessments; factor profiles: ${JSON.stringify(factorCounts)}`);
 });
