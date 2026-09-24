@@ -10,12 +10,49 @@
 </head>
 <body class="bg-cream text-gray-900 flex flex-col min-h-screen">
 
-  <header class="bg-white border-b border-purple-100 py-4 px-6 sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-2">
-        <img src="assets/logo.svg" alt="PillowDreamWorks" class="h-10 w-auto">
+  <!-- SHARED SITE HEADER (includes/header.html) -->
+  <header class="site-header">
+    <div class="container-premium header-inner">
+
+      <!-- Brand Logo -->
+      <a href="index.html" class="brand-lockup" aria-label="PillowDreamWorks Foundation Home">
+        <img src="assets/logo.svg" alt="PillowDreamWorks Foundation" width="180" height="50">
       </a>
-      <a href="index.html" class="text-sm text-purple-700 font-semibold hover:underline">&larr; Back to Main Site</a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-desktop" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="toolkit.html" class="nav-link">Toolkit Workbook</a>
+        <a href="book.html" class="nav-link">Finding The Centre</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="courses.html" class="nav-link">Courses</a>
+        <a href="testing.html" class="nav-link">Free Assessments</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link active">Contact</a>
+      </nav>
+
+      <!-- CTA Action Button -->
+      <a href="contact.html#contact-form" class="nav-cta" data-service="nav-cta-contact">
+        <i data-lucide="calendar" class="w-4 h-4" aria-hidden="true"></i> Book a Session
+      </a>
+
+      <!-- Mobile Hamburger Button -->
+      <button id="mobile-menu-btn" class="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle navigation menu">
+        <i data-lucide="menu" class="w-5 h-5" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="mobile-menu container-premium">
+      <a href="index.html">Home</a>
+      <a href="toolkit.html">Toolkit Workbook</a>
+      <a href="book.html">Finding The Centre</a>
+      <a href="services.html">Services</a>
+      <a href="courses.html">Courses</a>
+      <a href="testing.html">Free Assessments</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="active">Contact</a>
+      <a href="contact.html#contact-form">Book a Session</a>
     </div>
   </header>
 
