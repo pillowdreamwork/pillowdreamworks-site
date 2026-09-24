@@ -1,0 +1,11 @@
+{
+  "name": "pillowdreamworks-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:assessment-centre": "playwright test tests/assessment-centre.spec.js --reporter=line"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1"
+  }
+}

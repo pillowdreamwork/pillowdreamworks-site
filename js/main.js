@@ -3,6 +3,8 @@
 
 let userIntakeProfile = null;
 let allCatalogAssessments = [];
+const ASSESSMENT_USER_ID_KEY = 'pillowdreamworks_assessment_user_id';
+const ASSESSMENT_PROFILE_KEY = 'pillowdreamworks_assessment_profile';
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -195,6 +197,12 @@ function processCheckout(event) {
     return;
   }
 
+  const consentEl = document.getElementById('checkout-privacy-consent');
+  if (consentEl && !consentEl.checked) {
+    alert('Please confirm the privacy consent before completing your order.');
+    return;
+  }
+
   const bumpPrice = hasOrderBump ? 299 : 0;
   const totalAmount = (currentPrice * bookQuantity) + bumpPrice;
   window.location.href = `thankyou.html?format=${currentBookFormat}&qty=${bookQuantity}&price=${totalAmount}&bump=${hasOrderBump ? 'yes' : 'no'}&cust=${encodeURIComponent(name)}`;
@@ -211,9 +219,25 @@ function saveIntakeProfile(event) {
   const email = form.querySelector('#intake-email')?.value.trim() || '';
   const age = form.querySelector('#intake-age')?.value.trim() || '';
   const gender = form.querySelector('#intake-gender')?.value || '';
+  const consentEl = document.getElementById('intake-privacy-consent');
   if (!name || !email || !age) return;
+  if (consentEl && !consentEl.checked) {
+    alert('Please confirm the assessment privacy consent before continuing.');
+    return;
+  }
 
-  userIntakeProfile = { name, email, age, gender };
+  const storedUserId = window.localStorage ? window.localStorage.getItem(ASSESSMENT_USER_ID_KEY) : '';
+  const userId = storedUserId || (window.crypto && typeof window.crypto.randomUUID === 'function'
+    ? window.crypto.randomUUID()
+    : `assessment-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`);
+  if (!storedUserId && window.localStorage) {
+    window.localStorage.setItem(ASSESSMENT_USER_ID_KEY, userId);
+  }
+  userIntakeProfile = { userId, name, email, age, gender, consent: true };
+  if (window.localStorage) {
+    window.localStorage.setItem(ASSESSMENT_PROFILE_KEY, JSON.stringify(userIntakeProfile));
+  }
+  saveAssessmentProfileToGoogleSheets(userIntakeProfile);
   const gate = document.getElementById('intake-gate-container');
   const suite = document.getElementById('assessment-suite-container');
   if (gate && suite) {
@@ -222,10 +246,61 @@ function saveIntakeProfile(event) {
     const greeting = document.getElementById('active-user-greeting');
     if (greeting) greeting.textContent = `Welcome, ${name}. Explore your assessments below.`;
   }
+
+}
+
+function getCurrentAssessmentProfile() {
+  if (userIntakeProfile) return userIntakeProfile;
+  if (!window.localStorage) return null;
+  try {
+    const storedProfile = JSON.parse(window.localStorage.getItem(ASSESSMENT_PROFILE_KEY) || 'null');
+    return storedProfile && storedProfile.consent === true ? storedProfile : null;
+  } catch (error) {
+    console.warn('Stored assessment profile could not be read:', error.message || error);
+    return null;
+  }
+}
+
+function getAssessmentSheetsEndpoint() {
+  return window.GOOGLE_SHEETS_WEB_APP_URL ||
+    window.GOOGLE_SHEETS_ENDPOINT ||
+    window.GOOGLE_APPS_SCRIPT_URL ||
+    '';
+}
+
+function saveAssessmentProfileToGoogleSheets(profile) {
+  const endpoint = getAssessmentSheetsEndpoint();
+  if (!endpoint) {
+    console.warn('Assessment profile save skipped: no Google Sheets endpoint configured.');
+    return;
+  }
+
+  fetch(endpoint, {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      action: 'save_profile',
+      userId: profile.userId,
+      name: profile.name,
+      age: profile.age,
+      gender: profile.gender,
+      email: profile.email,
+      consent: true
+    })
+  }).then((response) => {
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  }).catch((error) => {
+    console.warn('Assessment profile save failed; continuing without Sheets sync:', error.message || error);
+  });
 }
 
 function resetIntake() {
   userIntakeProfile = null;
+  if (window.localStorage) {
+    window.localStorage.removeItem(ASSESSMENT_USER_ID_KEY);
+    window.localStorage.removeItem(ASSESSMENT_PROFILE_KEY);
+  }
   const gate = document.getElementById('intake-gate-container');
   const suite = document.getElementById('assessment-suite-container');
   if (gate && suite) {
@@ -392,14 +467,255 @@ function launchAssessmentModal(testId) {
       <h3 class="text-xl sm:text-2xl font-bold text-navy-900 mt-1">${escapeHtml(item.title)}</h3>
       <p class="text-xs text-gray-500 mt-1">${escapeHtml(item.whoCanTake)} · Self-Administered · Free</p>
     </div>
-    <form onsubmit="submitAssessmentResults(event, '${item.id}')" class="space-y-5">${optionsHtml}</form>
+    <form onsubmit="submitAssessmentResults(event, '${item.id}')" class="space-y-5">
+      ${optionsHtml}
+      <button type="submit" class="w-full py-3.5 bg-navy hover:bg-navy-900 text-white font-bold rounded-xl shadow-md text-sm transition-all">
+        Submit Assessment →
+      </button>
+    </form>
     <div id="active-test-results-output"></div>`;
-
-  const firstForm = modalContent.querySelector('form');
-  if (firstForm) firstForm.addEventListener('submit', (event) => submitAssessmentResults(event, item.id));
 
   openModal(modal);
   if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function safeNumber(value, fallback = 0) {
+  const numericValue = Number(value);
+  return Number.isFinite(numericValue) ? numericValue : fallback;
+}
+
+function calculatePercentage(score, maxScore) {
+  const parsedScore = safeNumber(score, 0);
+  const parsedMax = safeNumber(maxScore, 0);
+  if (!parsedMax) return 0;
+  const pct = (parsedScore / parsedMax) * 100;
+  return Number.isFinite(pct) ? pct : 0;
+}
+
+function buildScoreRingSVG(score, maxScore, percentage) {
+  const safeScore = Math.max(0, safeNumber(score, 0));
+  const safeMax = Math.max(1, safeNumber(maxScore, 1));
+  const safePct = Number.isFinite(percentage) ? Math.max(0, Math.min(100, percentage)) : 0;
+  const radius = 52;
+  const circumference = 2 * Math.PI * radius;
+  const dashOffset = circumference - (safePct / 100) * circumference;
+
+  return `
+    <div class="relative h-40 w-40">
+      <svg viewBox="0 0 140 140" class="h-full w-full -rotate-90" role="img" aria-label="Score visualization showing ${safeScore} out of ${safeMax}">
+        <circle cx="70" cy="70" r="52" stroke="#e5e7eb" stroke-width="12" fill="none"></circle>
+        <circle cx="70" cy="70" r="52" stroke="#102a43" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${circumference}" stroke-dashoffset="${dashOffset}" class="transition-all duration-300"></circle>
+      </svg>
+      <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+        <span class="text-[10px] font-semibold uppercase tracking-[0.2em] text-navy-500">Score</span>
+        <span class="text-xl font-bold text-navy-900">${safeScore}</span>
+        <span class="text-[11px] text-gray-500">/ ${safeMax}</span>
+      </div>
+    </div>`;
+}
+
+function buildFactorBars(factors) {
+  return `<div class="space-y-3" role="img" aria-label="Individual factor scores">
+    ${factors.map((factor) => {
+      const score = safeNumber(factor.score, 0);
+      const maxScore = Math.max(1, safeNumber(factor.maxScore, 1));
+      const percentage = Math.max(0, Math.min(100, calculatePercentage(score, maxScore)));
+      return `<div>
+        <div class="flex items-center justify-between gap-3 text-xs">
+          <span class="font-semibold text-navy-800">${escapeHtml(factor.name || factor.label || 'Factor')}</span>
+          <span class="text-gray-600">${score} / ${maxScore} · ${formatAssessmentPercentage(percentage)}</span>
+        </div>
+        <div class="mt-1 h-2.5 overflow-hidden rounded-full bg-gray-200" aria-hidden="true">
+          <div class="h-full rounded-full bg-navy-700 transition-all duration-300" style="width:${percentage}%"></div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function formatAssessmentPercentage(value) {
+  if (!Number.isFinite(value)) return '0.0%';
+  return `${Math.max(0, Math.min(100, value)).toFixed(1)}%`;
+}
+
+function buildMeasureRows(item, result, score, maxScore, percentage) {
+  const rows = [];
+  const level = result && result.level ? String(result.level) : 'Current range';
+  const sourceFactors = Array.isArray(result?.factors) && result.factors.length > 0
+    ? result.factors
+    : (Array.isArray(item?.factors) ? item.factors : []);
+
+  if (sourceFactors.length > 0) {
+    sourceFactors.forEach((factor) => {
+      const factorScore = safeNumber(factor.score, 0);
+      const factorMax = safeNumber(factor.maxScore, factorScore || 1);
+      const factorPct = calculatePercentage(factorScore, factorMax);
+      rows.push({
+        measure: factor.label || factor.name || 'Factor',
+        score: factorScore,
+        maxScore: factorMax,
+        percentage: factorPct,
+        level: factor.level || level,
+        meaning: factor.meaning || 'This factor reflects the pattern reported in this assessment.'
+      });
+    });
+    return rows;
+  }
+
+  rows.push({
+    measure: item?.title || 'Overall score',
+    score,
+    maxScore,
+    percentage,
+    level,
+    meaning: item?.description ? item.description : 'This score reflects the pattern captured in this assessment.'
+  });
+
+  return rows;
+}
+
+function buildAssessmentInterpretation(item, result, percentage) {
+  const score = safeNumber(result.score, 0);
+  const maxScore = safeNumber(result.maxScore, 0) || 1;
+  const levelLabel = result.level ? String(result.level) : 'Current range';
+  const safePercentage = Number.isFinite(percentage) ? percentage : calculatePercentage(score, maxScore);
+  const normalisedSummary = `${score} out of ${maxScore}`;
+  const domainText = item?.domain ? item.domain.toLowerCase() : 'assessment';
+  const lowerText = /low|minimal|normal|clear|not elevated|lower/.test(String(levelLabel).toLowerCase()) ? 'lower' : /moderate|mild|mixed|borderline/.test(String(levelLabel).toLowerCase()) ? 'moderate' : 'higher';
+  const assessmentSentence = item?.description ? item.description.replace(/\s+/g, ' ').trim() : 'This assessment explores the pattern described in the respondent’s answers.';
+  const sourceFactors = Array.isArray(result?.factors) ? result.factors : [];
+  const rows = buildMeasureRows(item, result, score, maxScore, safePercentage);
+
+  if (sourceFactors.length > 1) {
+    const orderedFactors = [...sourceFactors].sort((a, b) => safeNumber(b.percentage) - safeNumber(a.percentage));
+    const strongest = orderedFactors[0];
+    const lowest = orderedFactors[orderedFactors.length - 1];
+    const middle = orderedFactors.slice(1, -1);
+    const factorSummary = sourceFactors.map((factor) => `${factor.name} is ${safeNumber(factor.score)} out of ${safeNumber(factor.maxScore) || 1} (${formatAssessmentPercentage(safeNumber(factor.percentage))}, ${factor.level || 'current range'})`).join('; ');
+    const middleText = middle.length > 0 ? middle.map((factor) => `${factor.name} at ${factor.level || 'the current range'}`).join(', ') : 'the remaining factors';
+    const profile = `For ${item?.title || 'this assessment'}, the results are ${factorSummary}. ${strongest.name} is the relative high point and ${lowest.name} is comparatively lower; ${middleText} falls between them. The useful finding is the contrast among factors, not the raw combined total.`;
+    const discussion = [
+      `${strongest.name} is the relative high point at ${safeNumber(strongest.score)} out of ${safeNumber(strongest.maxScore) || 1}; this may be a resource in situations measured by ${item?.title || 'the assessment'}.`,
+      `${lowest.name} is comparatively lower at ${safeNumber(lowest.score)} out of ${safeNumber(lowest.maxScore) || 1}; explore when that area is less available or less important to the respondent.`,
+      `The contrast between ${strongest.name} and ${lowest.name} is the clearest feature of this profile.`,
+      `The middle results (${middleText}) add context rather than a separate conclusion.`,
+      `In practice, the pattern may appear differently across relationships, study, work, or stressful situations.`,
+      `Ask for a recent example in which the strongest factor helped the respondent respond effectively.`,
+      `Ask for a contrasting example in which the lower factor created effort, uncertainty, or a need for support.`,
+      `Check whether the pattern feels stable or reflects a recent situation, mood, or role demand.`,
+      `Use the item wording to test the profile collaboratively rather than assigning a fixed personality label.`,
+      `The profile is a structured reflection aid and should be considered alongside the person's context and other information.`
+    ].join(' ');
+    const conclusion = [
+      `Overall, ${strongest.name} is the clearest relative strength and ${lowest.name} is the main area for reflection in this ${item?.title || 'profile'}.`,
+      `${middleText} provides additional context to that contrast.`,
+      `The result describes this response pattern within the assessment; it is not a diagnosis or a fixed description of the person.`,
+      `Next, explore one recent situation that illustrates the contrast between the high and lower factors.`
+    ].join(' ');
+
+    return {
+      title: `Your factor profile for ${item?.title || 'this assessment'} is ready.`,
+      statement: `The individual factor results are shown first. ${profile}`,
+      interpretation: `This ${domainText} assessment contains ${sourceFactors.length} separately scored factors. ${profile} The scores show where the response pattern is relatively stronger and lower within the assessment's current ranges. Read each factor with its own score, maximum, percentage, level, and meaning; the overall sum is not a substitute for that profile.`,
+      discussion,
+      conclusion,
+      note: 'This is an educational screening tool and does not constitute a formal diagnosis. It is intended to support reflective discussion, supervision, and self-understanding rather than to establish a clinical condition.',
+      rows,
+      overallProfile: profile,
+      category: item?.domain || 'Assessment'
+    };
+  }
+
+  const titleLine = `Your score is ${normalisedSummary} on the ${item?.title || 'assessment'} measure.`;
+  const statement = `This falls within the ${levelLabel} range for this ${domainText} assessment, indicating a ${lowerText} level of the reported concern or pattern relative to the current scoring framework.`;
+
+  const interpretationParagraph = [
+    `${item?.title || 'This assessment'} measures ${assessmentSentence.replace(/[.?!]+$/, '')}.`,
+    `The obtained score is ${normalisedSummary} (${formatAssessmentPercentage(safePercentage)}), which falls in the ${levelLabel} range used by this assessment.`,
+    `Within this scoring framework, that band may indicate a ${lowerText} level of the measured experiences or traits; it does not establish a diagnosis.`,
+    `The result is most informative when linked to the specific items that contributed to it and to the situations in which the respondent notices the measured pattern.`,
+    `For a trainee or practitioner, the next step is to check whether the score fits the person's recent functioning, distress, frequency, and impact on relationships, study, work, or daily routines.`,
+    `Use the result to focus the conversation, not to replace clinical judgement or broader assessment.`
+  ].join(' ');
+
+  const discussion = [
+    `The ${levelLabel.toLowerCase()} band is the central finding for ${item?.title || 'this assessment'} and should be understood within its ${normalisedSummary} range.`,
+    `Explore which items or experiences contributed most to the score rather than treating the total as a complete account of the person.`,
+    `Ask how often the measured pattern occurs, how intense it is, and whether it changes across settings.`,
+    `Ask what effect it has on relationships, study, work, sleep, routines, or decision-making, where relevant to this measure.`,
+    `Check whether the result reflects a recent stressor, a longer-standing pattern, or a situation-specific response.`,
+    `Invite the respondent to identify one example that fits the score and one example that does not.`,
+    `Discuss existing coping strategies and conditions under which the measured difficulty or strength becomes more manageable.`,
+    `Use the assessment as a focused conversation prompt and compare it with other information before drawing conclusions.`
+  ].join(' ');
+
+  const conclusion = [
+    `Overall, ${item?.title || 'this assessment'} produced a ${score} out of ${maxScore} result in the ${levelLabel} range.`,
+    `This may indicate a ${lowerText} level of the measured pattern within the assessment's scoring framework.`,
+    `The main point for reflection is how the result appears in the respondent's actual situations and functioning.`,
+    `Use it to guide the next conversation and decide whether further assessment or support is appropriate.`
+  ].join(' ');
+
+  const note = 'This is an educational screening tool and does not constitute a formal diagnosis. It is intended to support reflective discussion, supervision, and self-understanding rather than to establish a clinical condition.';
+
+  return {
+    title: titleLine,
+    statement,
+    interpretation: interpretationParagraph,
+    discussion,
+    conclusion,
+    note,
+    rows,
+    overallProfile: `${item?.title || 'This assessment'} produced a ${score} out of ${maxScore} result in the ${levelLabel} range. The profile should be checked against the respondent's examples, context, and reported impact.`,
+    category: item?.domain || 'Assessment'
+  };
+}
+
+async function persistAssessmentResultToGoogleSheets(payload) {
+  const endpoint = getAssessmentSheetsEndpoint();
+  if (!endpoint) {
+    return { ok: false, reason: 'No Google Sheets endpoint configured.' };
+  }
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      action: 'save_assessment',
+      resultId: payload.resultId || '',
+      name: payload.name || '',
+      userId: payload.userId || '',
+      age: payload.age || '',
+      gender: payload.gender || '',
+      email: payload.email || '',
+      assessmentId: payload.assessmentId || '',
+      assessmentName: payload.assessmentName || '',
+      resultType: payload.resultType || 'single-score',
+      score: safeNumber(payload.score, 0),
+      maxScore: safeNumber(payload.maxScore, 0),
+      percentage: safeNumber(payload.percentage, 0),
+      level: payload.level || '',
+      interpretation: payload.interpretation || '',
+      discussion: payload.discussion || '',
+      conclusion: payload.conclusion || '',
+      factorResults: Array.isArray(payload.factorResults) ? payload.factorResults : [],
+      consent: true
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  return { ok: true, response };
+}
+
+function showResultSaveNotice(message, type = 'info') {
+  const saveNotice = document.getElementById('assessment-save-status');
+  if (!saveNotice) return;
+  saveNotice.textContent = message;
+  saveNotice.className = `mt-3 rounded-xl border px-3 py-2 text-[11px] ${type === 'error' ? 'border-amber-200 bg-amber-50 text-amber-800' : 'border-emerald-200 bg-emerald-50 text-emerald-800'}`;
 }
 
 function submitAssessmentResults(event, testId) {
@@ -410,35 +726,192 @@ function submitAssessmentResults(event, testId) {
 
   const form = event.currentTarget;
   const formData = new FormData(form);
-  let scores = [];
-  for (const pair of formData.entries()) scores.push(parseInt(pair[1], 10));
+  const scores = [];
+  for (const pair of formData.entries()) {
+    const numericValue = Number.parseInt(pair[1], 10);
+    if (!Number.isNaN(numericValue)) scores.push(numericValue);
+  }
+
   if (scores.length < item.questions.length) {
     alert('Please answer all questions to generate your results.');
     return;
   }
 
   const result = item.scoring(scores);
+  const score = safeNumber(result.score, 0);
+  const maxScore = safeNumber(result.maxScore, 0) || 1;
+  const percentage = calculatePercentage(score, maxScore);
   const userName = userIntakeProfile ? userIntakeProfile.name : 'Valued Visitor';
+  const interpretation = buildAssessmentInterpretation(item, result, percentage);
+  const isFactorProfile = Array.isArray(result?.factors) && result.factors.length > 1;
+  const scoreVisualization = isFactorProfile ? buildFactorBars(result.factors) : buildScoreRingSVG(score, maxScore, percentage);
+  const rowsHtml = interpretation.rows.map((row) => `
+    <tr class="border-b border-gray-200 last:border-b-0">
+      <td class="px-3 py-2 align-top text-left text-xs font-medium text-navy-800">${escapeHtml(row.measure)}</td>
+      <td class="px-3 py-2 align-top text-left text-xs text-gray-700">${safeNumber(row.score, 0)}</td>
+      <td class="px-3 py-2 align-top text-left text-xs text-gray-700">${safeNumber(row.maxScore, 0) || 1}</td>
+      <td class="px-3 py-2 align-top text-left text-xs text-gray-700">${formatAssessmentPercentage(safeNumber(row.percentage, 0))}</td>
+      <td class="px-3 py-2 align-top text-left text-xs"><span class="inline-flex rounded-full bg-navy-100 px-2 py-1 font-semibold text-navy-800">${escapeHtml(row.level || 'Current range')}</span></td>
+    </tr>`).join('');
+  const factorCardsHtml = isFactorProfile ? interpretation.rows.map((row) => `
+    <div class="rounded-2xl border border-gray-200 bg-white p-3">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <div class="text-[11px] font-bold uppercase tracking-[0.16em] text-navy-500">${escapeHtml(row.measure)}</div>
+          <div class="mt-1 text-lg font-bold text-navy-900">${safeNumber(row.score, 0)} / ${safeNumber(row.maxScore, 0) || 1}</div>
+        </div>
+        <span class="inline-flex rounded-full bg-navy-100 px-2 py-1 text-[10px] font-bold text-navy-800">${escapeHtml(row.level || 'Current range')}</span>
+      </div>
+      <div class="mt-2 text-[11px] text-gray-500">${formatAssessmentPercentage(safeNumber(row.percentage, 0))}</div>
+      <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(row.meaning || 'This factor reflects the pattern reported in this assessment.')}</p>
+    </div>`).join('') : '';
 
   output.innerHTML = `
-    <div class="p-6 bg-white rounded-2xl border-2 border-navy-200 shadow-xl mt-6 space-y-4 animate-slideUp" aria-live="polite">
-      <div class="flex items-center justify-between border-b pb-3">
-        <div>
-          <span class="text-[11px] text-gray-400 font-semibold block">${escapeHtml(item.breadcrumb)}</span>
-          <h4 class="text-lg font-bold text-navy-900">Results for ${escapeHtml(userName)}</h4>
+    <div class="mt-6 rounded-2xl border border-navy-200 bg-white p-5 shadow-xl animate-slideUp" aria-live="polite">
+      <div class="flex flex-col gap-4 border-b border-gray-200 pb-4">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <span class="block text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">${escapeHtml(interpretation.category || item.domain || 'Assessment')}</span>
+            <h4 class="mt-1 text-xl font-bold text-navy-900">${escapeHtml(item.title)}</h4>
+          </div>
+          <span class="inline-flex items-center rounded-full px-3 py-1.5 text-[11px] font-bold ${result.badge || 'bg-navy-100 text-navy-800'}">${escapeHtml(result.level || 'Current range')}</span>
         </div>
-        <span class="px-3 py-1.5 rounded-full text-xs font-bold ${result.badge}">${escapeHtml(result.level)}</span>
+        <p class="text-sm text-gray-600">Results for ${escapeHtml(userName)} · ${escapeHtml(item.administration || 'Self-Administered')}</p>
       </div>
-      <div class="p-4 bg-navy-50 rounded-xl text-sm text-navy-900 font-semibold">Score: ${result.score} / ${result.maxScore}</div>
-      <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 space-y-2">
-        <h5 class="font-bold flex items-center gap-1.5"><svg class="w-4 h-4 text-amber-600" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Important Note</h5>
-        <p class="leading-relaxed">This is an educational screening tool and does not constitute a formal diagnosis. For professional evaluation and personalised guidance, consider booking a session with <strong>Manish Garg</strong>.</p>
+
+      <div class="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1.2fr)_220px] lg:items-center">
+        <div class="space-y-4">
+          <div class="rounded-2xl bg-navy-50 border border-navy-100 p-4">
+            <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">${isFactorProfile ? 'Overall response total (reference only)' : 'Score'}</div>
+            <div class="mt-2 text-2xl font-bold text-navy-900">${score} / ${maxScore}</div>
+            <div class="mt-1 text-xs text-gray-600">${isFactorProfile ? 'Not used as the primary factor result' : (Number.isFinite(percentage) ? `${percentage.toFixed(1)}% of total` : 'Score recorded')}</div>
+          </div>
+
+          <div class="rounded-2xl bg-cream border border-amber-200 p-4">
+            <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-amber-700">What your score shows</div>
+            <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.title)}</p>
+            <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.statement)}</p>
+          </div>
+        </div>
+
+        <div class="flex justify-center">
+          ${scoreVisualization}
+        </div>
       </div>
-      <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
+
+      <div class="mt-6 rounded-2xl border border-gray-200 bg-gray-50 p-4">
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">RESULTS AT A GLANCE</h5>
+        ${isFactorProfile ? '<div class="mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-navy-500">Factor Profile</div>' : ''}
+        <div class="mt-3">
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-left">
+              <thead>
+                <tr class="border-b border-gray-200 text-[11px] uppercase tracking-wide text-gray-500">
+                  <th class="px-3 py-2 font-semibold">Measure</th>
+                  <th class="px-3 py-2 font-semibold">Score</th>
+                  <th class="px-3 py-2 font-semibold">Max</th>
+                  <th class="px-3 py-2 font-semibold">%</th>
+                  <th class="px-3 py-2 font-semibold">Level</th>
+                </tr>
+              </thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      ${isFactorProfile ? `
+      <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">FACTOR INTERPRETATION</h5>
+        <div class="mt-3 space-y-3">${factorCardsHtml}</div>
+      </div>
+      <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">OVERALL PROFILE</h5>
+        <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.overallProfile)}</p>
+      </div>
+      ` : ''}
+
+      <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-4">
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-navy-500">INTERPRETATION</h5>
+        <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.interpretation)}</p>
+      </div>
+
+      <div class="mt-5 rounded-2xl border border-gray-200 bg-gray-50 p-4">
+        <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">DISCUSSION</div>
+        <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.discussion)}</p>
+      </div>
+
+      ${isFactorProfile ? '' : `
+      <div class="mt-5 rounded-2xl border border-gray-200 bg-white p-4">
+        <h5 class="text-[11px] font-semibold uppercase tracking-[0.18em] text-navy-500">WHAT THIS ASSESSMENT MEASURES</h5>
+        <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(item.description || 'This assessment measures the response pattern captured by its questions.')}</p>
+      </div>
+      `}
+
+      <div class="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+        <h5 class="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-700">Conclusion</h5>
+        <p class="mt-2 text-sm text-gray-700 leading-relaxed">${escapeHtml(interpretation.conclusion)}</p>
+      </div>
+
+      <div class="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs text-amber-900 space-y-2">
+        <h5 class="font-bold flex items-center gap-1.5"><svg class="w-4 h-4 text-amber-600" aria-hidden="true"></svg> Important Note</h5>
+        <p class="leading-relaxed">${escapeHtml(interpretation.note)}</p>
+      </div>
+
+      <div id="assessment-save-status" class="mt-3 hidden"></div>
+
+      <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+        <button type="button" onclick="closeActiveAssessmentModal()" class="w-full sm:w-auto px-5 py-3 bg-white border border-navy-200 text-navy-800 font-bold rounded-xl text-xs text-center shadow-sm transition-all hover:bg-navy-50">Take Another Assessment</button>
         <a href="index.html#services" class="w-full sm:w-auto px-6 py-3 bg-navy hover:bg-navy-900 text-white font-bold rounded-xl text-xs text-center shadow-md transition-all">Book Counselling Session (₹1,499)</a>
-        <a href="index.html#services" class="w-full sm:w-auto px-5 py-3 bg-crisis hover:bg-red-700 text-white font-bold rounded-xl text-xs text-center shadow-md transition-all">Crisis Support (₹399)</a>
+        <a href="index.html#services" class="w-full sm:w-auto px-5 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs text-center shadow-md transition-all">Crisis Support (₹399)</a>
       </div>
     </div>`;
+
+  const savePayload = {
+    resultId: window.crypto && typeof window.crypto.randomUUID === 'function'
+      ? window.crypto.randomUUID()
+      : `result-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
+    name: userIntakeProfile?.name || '',
+    userId: userIntakeProfile?.userId || '',
+    age: userIntakeProfile?.age || '',
+    gender: userIntakeProfile?.gender || '',
+    email: userIntakeProfile?.email || '',
+    assessmentId: item.id,
+    assessmentName: item.title,
+    resultType: Array.isArray(result?.factors) && result.factors.length > 1 ? 'factor-profile' : 'single-score',
+    score,
+    maxScore,
+    percentage,
+    level: result.level || '',
+    factorResults: Array.isArray(result?.factors) ? result.factors : [],
+    interpretation: [interpretation.title, interpretation.statement, interpretation.overallProfile, interpretation.interpretation].filter(Boolean).join(' ').trim(),
+    discussion: interpretation.discussion || '',
+    conclusion: interpretation.conclusion || ''
+  };
+
+  persistAssessmentResultToGoogleSheets(savePayload)
+    .then((result) => {
+      const saveNotice = document.getElementById('assessment-save-status');
+      if (!saveNotice) return;
+      if (result && result.ok) {
+        saveNotice.textContent = 'Assessment result saved successfully.';
+        saveNotice.className = 'mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-[11px] text-emerald-800';
+      } else {
+        saveNotice.textContent = 'Result rendered successfully. Google Sheets sync is unavailable in this environment.';
+        saveNotice.className = 'mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] text-amber-800';
+      }
+      saveNotice.classList.remove('hidden');
+    })
+    .catch((error) => {
+      const saveNotice = document.getElementById('assessment-save-status');
+      if (saveNotice) {
+        saveNotice.textContent = 'Result rendered successfully. Google Sheets sync is unavailable in this environment.';
+        saveNotice.className = 'mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[11px] text-amber-800';
+        saveNotice.classList.remove('hidden');
+      }
+      console.warn('Google Sheets save skipped:', error && error.message ? error.message : error);
+    });
+
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
@@ -482,8 +955,13 @@ function submitBatteryBooking(event) {
   const name = document.getElementById('b-cust-name')?.value.trim() || '';
   const phone = document.getElementById('b-cust-phone')?.value.trim() || '';
   const date = document.getElementById('b-preferred-date')?.value || '';
+  const consentEl = document.getElementById('battery-booking-consent');
   if (!name || !phone || !date) {
     alert('Please complete all required booking fields.');
+    return;
+  }
+  if (consentEl && !consentEl.checked) {
+    alert('Please confirm the privacy consent before booking the assessment.');
     return;
   }
   const item = allCatalogAssessments.find(a => a.id === batteryId);
@@ -491,6 +969,28 @@ function submitBatteryBooking(event) {
   const price = item ? item.priceINR : 2999;
   alert(`Thank you, ${name}!\n\nYour booking request for "${title}" (₹${price.toLocaleString('en-IN')}) on ${new Date(date).toLocaleString()} has been received.\n\nManish Garg's team will contact you at ${phone} to confirm the session.`);
   closeBatteryBookingModal();
+}
+
+function submitCounsellingBookingToGoogleSheets(profile = getCurrentAssessmentProfile()) {
+  const endpoint = getAssessmentSheetsEndpoint();
+  if (!endpoint || !profile || profile.consent !== true) return;
+
+  fetch(endpoint, {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      action: 'counselling_booking',
+      userId: profile.userId || '',
+      name: profile.name || '',
+      age: profile.age || '',
+      gender: profile.gender || '',
+      email: profile.email || '',
+      consent: true
+    })
+  }).catch((error) => {
+    console.warn('Counselling booking save failed; continuing without Sheets sync:', error.message || error);
+  });
 }
 
 /* ═══════════════════════════════════════════════
@@ -575,8 +1075,13 @@ function processToolkitOrder(event) {
   const name = document.getElementById('tk-cust-name')?.value.trim() || '';
   const email = document.getElementById('tk-cust-email')?.value.trim() || '';
   const phone = document.getElementById('tk-cust-phone')?.value.trim() || '';
+  const consentEl = document.getElementById('toolkit-privacy-consent');
   if (!name || !email || !phone) {
     alert('Please complete all fields.');
+    return;
+  }
+  if (consentEl && !consentEl.checked) {
+    alert('Please confirm the privacy consent before placing the order.');
     return;
   }
   const skuDict = typeof SKU_NAMES !== 'undefined' ? SKU_NAMES : TOOLKIT_SKU_DEFAULTS;
@@ -598,10 +1103,20 @@ function submitContactForm(event) {
   const name = form.querySelector('#contact-name')?.value.trim() || '';
   const email = form.querySelector('#contact-email')?.value.trim() || '';
   const service = form.querySelector('#contact-service')?.value || 'general';
+  const consentEl = document.getElementById('contact-privacy-consent');
 
   if (!name || !email) {
     alert('Please enter your name and email address.');
     return;
+  }
+
+  if (consentEl && !consentEl.checked) {
+    alert('Please confirm the privacy consent before sending your message.');
+    return;
+  }
+
+  if (service === 'counselling' && userIntakeProfile?.consent === true) {
+    submitCounsellingBookingToGoogleSheets();
   }
 
   const successEl = document.getElementById('contact-success');
