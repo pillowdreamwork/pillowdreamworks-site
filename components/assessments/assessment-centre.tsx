@@ -94,19 +94,37 @@ export function AssessmentCentre() {
     newAnswers[questionIdx] = optionVal;
     setAnswers(newAnswers);
 
-    if (activeTest && activeTest.questions && questionIdx < activeTest.questions.length - 1) {
-      setTimeout(() => {
-        setCurrentQuestionIndex(questionIdx + 1);
-      }, 160);
+    if (activeTest && activeTest.questions) {
+      const currentTest = activeTest;
+      const currentScoring = activeTest.scoring;
+      if (questionIdx < activeTest.questions.length - 1) {
+        setTimeout(() => {
+          setCurrentQuestionIndex(questionIdx + 1);
+        }, 180);
+      } else {
+        // Last question answered - check if all questions answered for auto-submit
+        const allAnswered = newAnswers.every((a) => a !== -1);
+        if (allAnswered && currentScoring) {
+          setTimeout(() => {
+            const scoringRes = currentScoring(newAnswers);
+            const interp = buildAssessmentInterpretation(currentTest, scoringRes);
+            setInterpretationResult(interp);
+          }, 250);
+        }
+      }
     }
   };
 
-  const handleSubmitAnswers = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmitAnswers = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!activeTest || !activeTest.scoring) return;
 
     if (answers.some((a) => a === -1)) {
-      alert("Please answer all questions to generate your full clinical profile.");
+      const firstUnanswered = answers.findIndex((a) => a === -1);
+      if (firstUnanswered !== -1) {
+        setCurrentQuestionIndex(firstUnanswered);
+      }
+      alert("Please answer all questions before submitting.");
       return;
     }
 
@@ -403,29 +421,56 @@ ${interpretationResult.note}
               {!interpretationResult ? (
                 /* QUESTIONNAIRE RUNNER */
                 <form onSubmit={handleSubmitAnswers} className="space-y-6">
-                  {/* Progress Indicators */}
-                  <div className="flex items-center justify-between text-xs text-navy/60">
-                    <span>
-                      Prompt <strong className="text-navy">{currentQuestionIndex + 1}</strong> of {activeTest.questions.length}
-                    </span>
-                    <span>
-                      Answered: {answers.filter((a) => a !== -1).length} / {activeTest.questions.length}
-                    </span>
-                  </div>
+                  {/* Progress & Quick Question Jump Bar */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs text-navy/60">
+                      <span>
+                        Prompt <strong className="text-navy">{currentQuestionIndex + 1}</strong> of {activeTest.questions.length}
+                      </span>
+                      <span>
+                        Answered: <strong className="text-navy">{answers.filter((a) => a !== -1).length}</strong> / {activeTest.questions.length}
+                      </span>
+                    </div>
 
-                  <div className="w-full h-1.5 bg-navy/10 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-sage-600 transition-all duration-300 rounded-full"
-                      style={{
-                        width: `${((currentQuestionIndex + 1) / activeTest.questions.length) * 100}%`,
-                      }}
-                    />
+                    <div className="w-full h-2 bg-navy/10 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-sage-600 transition-all duration-300 rounded-full"
+                        style={{
+                          width: `${((answers.filter((a) => a !== -1).length) / activeTest.questions.length) * 100}%`,
+                        }}
+                      />
+                    </div>
+
+                    {/* Question Jump Pills */}
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {activeTest.questions.map((_, qIdx) => {
+                        const isAnswered = answers[qIdx] !== -1;
+                        const isCurrent = currentQuestionIndex === qIdx;
+                        return (
+                          <button
+                            type="button"
+                            key={qIdx}
+                            onClick={() => setCurrentQuestionIndex(qIdx)}
+                            className={`w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center border ${
+                              isCurrent
+                                ? "bg-navy text-ivory border-navy ring-2 ring-navy/20"
+                                : isAnswered
+                                ? "bg-sage-100 text-sage-900 border-sage-300 hover:bg-sage-200"
+                                : "bg-ivory text-navy/40 border-navy/15 hover:border-navy/40"
+                            }`}
+                            aria-label={`Jump to item ${qIdx + 1}`}
+                          >
+                            {qIdx + 1}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
 
                   {/* Active Question Card */}
                   <div className="bg-cream/60 rounded-xl p-5 sm:p-6 border border-navy/10 space-y-4">
                     <span className="text-[11px] font-semibold text-sage-700 uppercase tracking-wider block">
-                      Item {currentQuestionIndex + 1}
+                      Item {currentQuestionIndex + 1} of {activeTest.questions.length}
                     </span>
                     <h3 className="font-serif text-lg sm:text-xl text-navy font-bold leading-relaxed">
                       {activeTest.questions[currentQuestionIndex]}
@@ -462,36 +507,45 @@ ${interpretationResult.note}
                     </div>
                   </div>
 
-                  {/* Step Buttons */}
-                  <div className="flex items-center justify-between gap-4 pt-2">
-                    <button
-                      type="button"
-                      disabled={currentQuestionIndex === 0}
-                      onClick={() => setCurrentQuestionIndex((prev) => Math.max(0, prev - 1))}
-                      className="px-4 py-2 rounded-xl border border-navy/20 text-xs font-semibold text-navy hover:bg-navy/5 disabled:opacity-30 cursor-pointer"
-                    >
-                      ← Previous Item
-                    </button>
-
-                    {currentQuestionIndex < activeTest.questions.length - 1 ? (
+                  {/* Action Buttons & Submit Bar */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
+                    <div className="flex items-center gap-2">
                       <button
                         type="button"
-                        disabled={answers[currentQuestionIndex] === -1}
-                        onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
-                        className="px-5 py-2 rounded-xl bg-navy text-ivory text-xs font-semibold hover:bg-navy-light disabled:opacity-30 cursor-pointer"
+                        disabled={currentQuestionIndex === 0}
+                        onClick={() => setCurrentQuestionIndex((prev) => Math.max(0, prev - 1))}
+                        className="px-4 py-2.5 rounded-xl border border-navy/20 text-xs font-semibold text-navy hover:bg-navy/5 disabled:opacity-30 cursor-pointer"
                       >
-                        Next Item →
+                        ← Previous
                       </button>
-                    ) : (
-                      <button
-                        type="submit"
-                        disabled={answers.some((a) => a === -1)}
-                        className="px-6 py-2.5 rounded-xl bg-sage-600 hover:bg-sage-700 text-white text-xs font-bold shadow-md disabled:opacity-40 cursor-pointer flex items-center gap-1.5"
-                      >
-                        <CheckCircle2 className="w-4 h-4" />
-                        <span>Generate Complete Clinical Profile</span>
-                      </button>
-                    )}
+
+                      {currentQuestionIndex < activeTest.questions.length - 1 && (
+                        <button
+                          type="button"
+                          onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
+                          className="px-4 py-2.5 rounded-xl border border-navy/20 text-xs font-semibold text-navy hover:bg-navy/5 cursor-pointer"
+                        >
+                          Next →
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Submit Button (Always accessible or prominent when answers complete) */}
+                    <button
+                      type="submit"
+                      className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer ${
+                        answers.every((a) => a !== -1)
+                          ? "bg-sage-700 hover:bg-sage-800 text-white ring-2 ring-sage-500/30"
+                          : "bg-navy hover:bg-navy-light text-ivory"
+                      }`}
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>
+                        {answers.every((a) => a !== -1)
+                          ? "Submit Assessment & View Results"
+                          : `Submit Assessment (${answers.filter((a) => a !== -1).length}/${activeTest.questions.length} Answered)`}
+                      </span>
+                    </button>
                   </div>
                 </form>
               ) : (
