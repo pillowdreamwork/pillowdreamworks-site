@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #FAF9F5;
+  --color-cream: #F5F1E9;
+  --color-navy: #1A2A4A;
+  --color-navy-dark: #101B30;
+  --color-navy-light: #243B66;
+  --color-sage: #8FA89E;
+  --color-sage-light: #EBF0EE;
+  --color-sage-dark: #6C8B80;
+  --color-gold: #C5A880;
+  --color-gold-light: #F7F3ED;
+  --color-gold-dark: #A5855A;
+
+  --font-serif: var(--font-libre-baskerville), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --bg-primary: #FAF9F5;
+  --bg-secondary: #F5F1E9;
+  --text-primary: #1A2A4A;
+  --text-secondary: #4A5568;
+  --text-muted: #718096;
+  --accent-sage: #8FA89E;
+  --accent-gold: #C5A880;
+  --border-subtle: rgba(26, 42, 74, 0.08);
+  --border-medium: rgba(26, 42, 74, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: #8FA89E;
+  color: #FAF9F5;
+}
+
+/* Accessible focus styling */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #C5A880;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

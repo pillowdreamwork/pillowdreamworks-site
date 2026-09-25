@@ -62,10 +62,13 @@ Completed Documents
 Git Checkpoints
 
 - [x] Commit 00 — Safety Checkpoint (`rebuild-v2` branch created)
+- [x] Commit 01 — React Migration (`feat(core): migrate static site to Next.js 15`)
 
 Website Build
 
-- [ ] React migration
+- [x] React migration (Next.js 15, React 19, TypeScript, Tailwind CSS v4, Motion.dev)
+- [ ] Design System
+- [ ] Navigation
 - [ ] Homepage
 - [ ] Books
 - [ ] Assessments
