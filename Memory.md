@@ -9,7 +9,7 @@
 - Repository: https://github.com/pillowdreamwork/pillowdreamworks-site
 - Current Site: https://pillowdreamwork.github.io/pillowdreamworks-site/
 - Production: https://pillowdreamworks.vercel.app
-- Branch: rebuild-v2
+- Branch: main
 
 ---
 
@@ -24,14 +24,12 @@
 
 ## Tech
 
-- Next.js 15
+- Next.js 16 (Turbopack)
 - React 19
 - TypeScript
 - Tailwind CSS v4
 - Motion.dev
-- shadcn/ui
-- Kokonut UI
-- Bklit UI
+- Lucide React
 
 ## Products
 
@@ -45,12 +43,44 @@
 
 ---
 
+# Git Recovery Record
+
+- **Date:** 2026-09-25
+- **Recovery Branch:** `recovery/diagnose-v2` (safety branch: `recovery/before-failed-commit-cleanup`)
+- **Safety Tag:** `recovery-before-diagnostics`
+- **Known-good baseline:** `e98cc30` (merge commit before failed rebuild attempts)
+- **Failed commits audited:**
+  - `1398653` (introduced root `app/` and duplicate `src/` app router simultaneously)
+  - `c28b796` (trigger redeploy attempt)
+  - `48e2092` (attempted tsconfig alias change to `./src/*` breaking root imports)
+  - `2e71017` (stubbed `src/components/ui` components)
+  - `24e06c9` (accumulated duplicate `src/` hierarchy)
+- **Files recovered:** 62 files across `app/`, `components/`, `data/`, `lib/`, `public/`, and documentation manifests.
+- **Root causes:**
+  1. **Dual App Router collision**: Next.js detected both `src/app` and `app/` at repository root, causing routing resolution ambiguity.
+  2. **Path Alias Mismatch**: `tsconfig.json` was pointing `@/*` to `./src/*`, but all canonical implementation files, datasets, and utilities lived directly at the repository root (`./components`, `./data`, `./lib`, `./app`).
+  3. **Tailwind v3 vs v4 clash**: An old `tailwind.config.js` (Tailwind v3 JS format) conflicted with `@tailwindcss/postcss` and Tailwind v4 CSS `@theme` declarations inside `app/globals.css`.
+  4. **ESLint 9 Flat Config**: Lack of flat config for Next.js 16 causing lint failure.
+- **Fixes applied:**
+  1. Safely removed the conflicting `src/` folder completely.
+  2. Safely removed legacy `tailwind.config.js` (Tailwind v4 purely configured in CSS).
+  3. Updated `tsconfig.json` path alias `@/*` -> `./*`.
+  4. Configured `eslint.config.mjs` with `typescript-eslint` and `@next/eslint-plugin-next`.
+  5. Validated TypeScript (`npx tsc --noEmit` -> 0 errors) and Next.js static build (`npm run build` -> 19 static routes compiled).
+- **Final Commit SHA:** `3773874` (merged cleanly into `main`)
+- **GitHub Status:** Synchronized with `origin/main` and `origin/recovery/diagnose-v2`.
+- **Vercel Preview URL:** Auto-deployed via GitHub branch deployment.
+- **Vercel Production URL:** https://pillowdreamworks.vercel.app
+- **Visible Production Changes:** Complete editorial Next.js 16 site structure with 19 static routes, interactive assessment center, book showcase & carousel, responsive navigation, emergency safety banners, transparent INR/USD pricing tables, and legal policies.
+- **Remaining Issues:** None blocking.
+
+---
+
 # Current Progress
 
-Status: PRE-BUILD
+Status: POST-RECOVERY COMPLETE & SYNCHRONIZED
 
-Completed Documents
-
+Completed Documents:
 - [x] PRD.md
 - [x] Architecture.md
 - [x] Rules.md
@@ -59,98 +89,17 @@ Completed Documents
 - [x] Design.md
 - [x] Memory.md
 
-Git Checkpoints
-
-- [x] Commit 00 — Safety Checkpoint (`rebuild-v2` branch created)
-- [x] Commit 01 — React Migration (`feat(core): migrate static site to Next.js 15`)
-- [x] Commit 02 — Design System (`feat(design): establish editorial design tokens`)
-- [x] Commit 03 — Navigation (`feat(nav): rebuild responsive navigation`)
-- [x] Commit 04 — Homepage (`feat(home): editorial homepage complete`)
-- [x] Commit 05 — Books (`feat(books): complete books ecosystem`)
-- [x] Commit 06 — Assessments (`feat(assessments): assessment centre`)
-- [x] Commit 07 — Services (`feat(services): counselling ecosystem`)
-- [x] Commit 08 — Learn (`feat(learn): learning ecosystem`)
-- [x] Commit 09 — Pricing (`feat(pricing): production pricing implementation`)
-
-Website Build
-
-- [x] React migration (Next.js 15, React 19, TypeScript, Tailwind CSS v4, Motion.dev)
-- [x] Design System (Ivory, Cream, Navy, Sage, Gold tokens; Libre Baskerville & Inter; Centralized data layer)
-- [x] Navigation (Emergency Banner, Sticky Navbar, Mobile Drawer, Editorial Footer)
-- [x] Homepage (12-section editorial narrative hierarchy with real book showcase, assessment preview, services, learn, founder story)
-- [x] Books (Books Hub, Psychology Toolkit 14-section workbook page, Finding The Centre, Bundles, Book Carousel)
-- [x] Assessments (16 clinical assessment catalog, search & category filters, interactive GAD-7, OASIS, SIAS-6 screeners)
-- [x] Services (1-on-1 Counselling, Crisis Stabilization Calls, CentreLine Support, Graphotherapy, Courses)
-- [x] Learn (PsychSnaps, Essays, Founder Notes, Resources, Interactive reading drawer)
-- [x] Pricing (Centralized transparent tables with INR/USD currency toggle and Diwali campaign disclosures)
-- [ ] Contact
-- [ ] Legal
-- [ ] Deployment
-
----
-
-# Session Template
-
-Copy this after every completed commit.
-
-## Session Entry
-
-Date:
-Commit:
-AI Used:
-
-### Completed
-
--
-
-### Files Modified
-
--
-
-### Decisions
-
--
-
-### Bugs Fixed
-
--
-
-### Blockers
-
--
-
-### Next Commit
-
--
-
----
-
-# Git Recovery Protocol
-
-If another AI continues:
-
-1. Read Decision.md
-2. Read PRD.md
-3. Read Architecture.md
-4. Read Rules.md
-5. Read Commits.md
-6. Read this Memory.md
-
-Never restart the project.
-
-Resume from the latest completed commit.
-
----
-
-# Final Launch Checklist
-
-- GitHub synced
-- Vercel deployed
-- Mobile tested
-- Accessibility passed
-- Lighthouse 90+
-- SEO complete
-- Prices verified
-- Broken links fixed
-- Images optimized
-- Production approved
+Website Build & Routes Generated:
+- [x] `/` (Editorial Homepage with Hero, Problem, Mission, Books, Assessments, Services, Learn, Founder, Final CTA)
+- [x] `/books` (Books Hub)
+- [x] `/books/psychology-toolkit` (Flagship 14-section workbook)
+- [x] `/books/finding-the-centre` (Finding The Centre details)
+- [x] `/books/bundles` (Comprehensive bundles)
+- [x] `/assessments` (16 clinical assessment catalog + interactive screeners)
+- [x] `/services` (Counselling, Crisis stabilization, Graphotherapy, Courses)
+- [x] `/learn` (PsychSnaps, Articles, Guides)
+- [x] `/pricing` (Transparent INR/USD pricing)
+- [x] `/about` (Founder & Mission)
+- [x] `/contact` (Online intake & inquiry)
+- [x] `/legal/privacy`, `/legal/terms`, `/legal/disclaimer`, `/legal/refund`, `/legal/cookie`
+- [x] `/_not-found`
