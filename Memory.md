@@ -8,7 +8,8 @@
 - Founder: Manish Garg
 - Repository: https://github.com/pillowdreamwork/pillowdreamworks-site
 - Current Site: https://pillowdreamwork.github.io/pillowdreamworks-site/
-- Production: https://pillowdreamworks.vercel.app
+- Production URL: https://pillowdreamworks-site.vercel.app
+- Custom Domain Target: https://pillowdreamworks.vercel.app
 - Branch: main
 
 ---
@@ -60,17 +61,17 @@
   1. **Dual App Router collision**: Next.js detected both `src/app` and `app/` at repository root, causing routing resolution ambiguity.
   2. **Path Alias Mismatch**: `tsconfig.json` was pointing `@/*` to `./src/*`, but all canonical implementation files, datasets, and utilities lived directly at the repository root (`./components`, `./data`, `./lib`, `./app`).
   3. **Tailwind v3 vs v4 clash**: An old `tailwind.config.js` (Tailwind v3 JS format) conflicted with `@tailwindcss/postcss` and Tailwind v4 CSS `@theme` declarations inside `app/globals.css`.
-  4. **ESLint 9 Flat Config**: Lack of flat config for Next.js 16 causing lint failure.
+  4. **Legacy Root Static HTML & missing Vercel config**: Legacy root `.html` files (`index.html`, etc.) were shadowing Next.js routing and missing explicit `vercel.json` framework definition.
 - **Fixes applied:**
   1. Safely removed the conflicting `src/` folder completely.
   2. Safely removed legacy `tailwind.config.js` (Tailwind v4 purely configured in CSS).
-  3. Updated `tsconfig.json` path alias `@/*` -> `./*`.
-  4. Configured `eslint.config.mjs` with `typescript-eslint` and `@next/eslint-plugin-next`.
-  5. Validated TypeScript (`npx tsc --noEmit` -> 0 errors) and Next.js static build (`npm run build` -> 19 static routes compiled).
-- **Final Commit SHA:** `3773874` (merged cleanly into `main`)
-- **GitHub Status:** Synchronized with `origin/main` and `origin/recovery/diagnose-v2`.
-- **Vercel Preview URL:** Auto-deployed via GitHub branch deployment.
-- **Vercel Production URL:** https://pillowdreamworks.vercel.app
+  3. Cleaned out legacy root `.html` files and added `vercel.json` with `"framework": "nextjs"`.
+  4. Updated `tsconfig.json` path alias `@/*` -> `./*`.
+  5. Configured `eslint.config.mjs` with `typescript-eslint` and `@next/eslint-plugin-next`.
+  6. Validated TypeScript (`npx tsc --noEmit` -> 0 errors) and Next.js static build (`npm run build` -> 19 static routes compiled).
+- **Final Commit SHA:** `5ba3159`
+- **GitHub Status:** Synchronized with `origin/main`.
+- **Live Vercel URL:** https://pillowdreamworks-site.vercel.app
 - **Visible Production Changes:** Complete editorial Next.js 16 site structure with 19 static routes, interactive assessment center, book showcase & carousel, responsive navigation, emergency safety banners, transparent INR/USD pricing tables, and legal policies.
 - **Remaining Issues:** None blocking.
 
@@ -78,7 +79,7 @@
 
 # Current Progress
 
-Status: POST-RECOVERY COMPLETE & SYNCHRONIZED
+Status: POST-RECOVERY COMPLETE & LIVE
 
 Completed Documents:
 - [x] PRD.md
