@@ -67,6 +67,10 @@ Git Checkpoints
 - [x] Commit 03 — Navigation (`feat(nav): rebuild responsive navigation`)
 - [x] Commit 04 — Homepage (`feat(home): editorial homepage complete`)
 - [x] Commit 05 — Books (`feat(books): complete books ecosystem`)
+- [x] Commit 06 — Assessments (`feat(assessments): assessment centre`)
+- [x] Commit 07 — Services (`feat(services): counselling ecosystem`)
+- [x] Commit 08 — Learn (`feat(learn): learning ecosystem`)
+- [x] Commit 09 — Pricing (`feat(pricing): production pricing implementation`)
 
 Website Build
 
@@ -75,9 +79,10 @@ Website Build
 - [x] Navigation (Emergency Banner, Sticky Navbar, Mobile Drawer, Editorial Footer)
 - [x] Homepage (12-section editorial narrative hierarchy with real book showcase, assessment preview, services, learn, founder story)
 - [x] Books (Books Hub, Psychology Toolkit 14-section workbook page, Finding The Centre, Bundles, Book Carousel)
-- [ ] Assessments
-- [ ] Services
-- [ ] Learn
+- [x] Assessments (16 clinical assessment catalog, search & category filters, interactive GAD-7, OASIS, SIAS-6 screeners)
+- [x] Services (1-on-1 Counselling, Crisis Stabilization Calls, CentreLine Support, Graphotherapy, Courses)
+- [x] Learn (PsychSnaps, Essays, Founder Notes, Resources, Interactive reading drawer)
+- [x] Pricing (Centralized transparent tables with INR/USD currency toggle and Diwali campaign disclosures)
 - [ ] Contact
 - [ ] Legal
 - [ ] Deployment
