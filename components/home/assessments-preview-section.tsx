@@ -17,12 +17,12 @@ export function AssessmentsPreviewSection() {
           <SectionHeading
             eyebrow="Clinical & Self-Discovery Psychometrics"
             title="The Assessment Centre"
-            description="Explore 16 standardized psychometric scales, projective techniques, and diagnostic batteries. Standardized tools for personal insight and practitioner evaluation."
+            description="Explore 177 standardized psychometric scales (161 free self-screeners + 16 comprehensive clinical batteries) across 15 domains with instant scoring, factor profiles, clinical discussions, and structured conclusions."
             className="mb-0"
           />
           <Link href="/assessments" className="mt-4 md:mt-0">
             <Button variant="secondary" className="text-sm">
-              Explore All 16 Assessments
+              Explore All 177 Assessments
             </Button>
           </Link>
         </div>
