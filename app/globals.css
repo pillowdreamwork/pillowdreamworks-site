@@ -1,32 +1,42 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ivory: #FAF9F5;
-  --color-cream: #F5F1E9;
-  --color-navy: #1A2A4A;
-  --color-navy-dark: #101B30;
-  --color-navy-light: #243B66;
-  --color-sage: #8FA89E;
-  --color-sage-light: #EBF0EE;
-  --color-sage-dark: #6C8B80;
-  --color-gold: #C5A880;
-  --color-gold-light: #F7F3ED;
-  --color-gold-dark: #A5855A;
+  --color-ivory: #FDFBF7;
+  --color-ivory-light: #FFFDFA;
+  --color-cream: #F5EFE6;
+  --color-cream-dark: #EDE5D8;
+  
+  --color-navy: #0F2038;
+  --color-navy-dark: #091322;
+  --color-navy-light: #1E3557;
+  --color-navy-muted: #2C4A75;
+  
+  --color-sage: #7B9B8A;
+  --color-sage-light: #EDF4F0;
+  --color-sage-dark: #416450;
+  
+  --color-gold: #CBA258;
+  --color-gold-light: #FBF6EC;
+  --color-gold-dark: #9E7730;
 
-  --font-serif: var(--font-libre-baskerville), Georgia, serif;
+  --color-crisis: #8B2626;
+  --color-crisis-light: #FDF4F4;
+  --color-crisis-dark: #6D1B1B;
+
+  --font-serif: var(--font-libre-baskerville), "Fraunces", Georgia, serif;
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
 :root {
-  --bg-primary: #FAF9F5;
-  --bg-secondary: #F5F1E9;
-  --text-primary: #1A2A4A;
-  --text-secondary: #4A5568;
-  --text-muted: #718096;
-  --accent-sage: #8FA89E;
-  --accent-gold: #C5A880;
-  --border-subtle: rgba(26, 42, 74, 0.08);
-  --border-medium: rgba(26, 42, 74, 0.15);
+  --bg-primary: #FDFBF7;
+  --bg-secondary: #F5EFE6;
+  --text-primary: #0F2038;
+  --text-secondary: #3B4D66;
+  --text-muted: #62758F;
+  --accent-sage: #7B9B8A;
+  --accent-gold: #CBA258;
+  --border-subtle: rgba(15, 32, 56, 0.08);
+  --border-medium: rgba(15, 32, 56, 0.15);
 }
 
 * {
@@ -52,8 +62,8 @@ body {
 }
 
 ::selection {
-  background-color: #8FA89E;
-  color: #FAF9F5;
+  background-color: #7B9B8A;
+  color: #FDFBF7;
 }
 
 /* Accessible focus styling */
@@ -62,8 +72,46 @@ button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 2px solid #C5A880;
+  outline: 2px solid #CBA258;
   outline-offset: 2px;
+}
+
+/* Editorial Glassmorphism & Depth Utilities */
+.glass-card {
+  background: rgba(253, 251, 247, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 32, 56, 0.1);
+}
+
+.glass-nav {
+  background: rgba(253, 251, 247, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(15, 32, 56, 0.08);
+}
+
+.editorial-shadow {
+  box-shadow: 0 4px 20px -2px rgba(15, 32, 56, 0.06), 0 2px 6px -1px rgba(15, 32, 56, 0.04);
+}
+
+.editorial-shadow-lg {
+  box-shadow: 0 12px 36px -4px rgba(15, 32, 56, 0.1), 0 4px 12px -2px rgba(15, 32, 56, 0.05);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
