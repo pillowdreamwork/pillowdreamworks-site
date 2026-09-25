@@ -65,13 +65,14 @@ Git Checkpoints
 - [x] Commit 01 — React Migration (`feat(core): migrate static site to Next.js 15`)
 - [x] Commit 02 — Design System (`feat(design): establish editorial design tokens`)
 - [x] Commit 03 — Navigation (`feat(nav): rebuild responsive navigation`)
+- [x] Commit 04 — Homepage (`feat(home): editorial homepage complete`)
 
 Website Build
 
 - [x] React migration (Next.js 15, React 19, TypeScript, Tailwind CSS v4, Motion.dev)
 - [x] Design System (Ivory, Cream, Navy, Sage, Gold tokens; Libre Baskerville & Inter; Centralized data layer)
 - [x] Navigation (Emergency Banner, Sticky Navbar, Mobile Drawer, Editorial Footer)
-- [ ] Homepage
+- [x] Homepage (12-section editorial narrative hierarchy with real book showcase, assessment preview, services, learn, founder story)
 - [ ] Books
 - [ ] Assessments
 - [ ] Services
