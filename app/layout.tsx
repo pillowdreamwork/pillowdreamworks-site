@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Libre_Baskerville } from "next/font/google";
 import "./globals.css";
+import { EmergencyBanner } from "@/components/site/emergency-banner";
+import { Navbar } from "@/components/site/navbar";
+import { Footer } from "@/components/site/footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -52,8 +55,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${libreBaskerville.variable}`}>
-      <body className="antialiased min-h-screen bg-ivory text-navy selection:bg-sage selection:text-ivory">
-        {children}
+      <body className="antialiased min-h-screen bg-ivory text-navy flex flex-col justify-between selection:bg-sage selection:text-ivory">
+        <div>
+          <EmergencyBanner />
+          <Navbar />
+          {children}
+        </div>
+        <Footer />
       </body>
     </html>
   );
