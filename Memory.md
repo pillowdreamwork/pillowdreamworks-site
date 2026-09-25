@@ -37,70 +37,40 @@
 - Psychology Toolkit
 - Finding The Centre
 - Bundle
-- Assessments
+- Assessments (Full Interactive Suite with Factor Analysis, Result, Discussion, Conclusion, Measures Table)
 - Counselling
 - CentreLine
 - Learn
 
 ---
 
-# Git Recovery Record
+# Git Recovery & Enhancement Record
 
 - **Date:** 2026-09-25
 - **Recovery Branch:** `recovery/diagnose-v2` (safety branch: `recovery/before-failed-commit-cleanup`)
 - **Safety Tag:** `recovery-before-diagnostics`
 - **Known-good baseline:** `e98cc30` (merge commit before failed rebuild attempts)
-- **Failed commits audited:**
-  - `1398653` (introduced root `app/` and duplicate `src/` app router simultaneously)
-  - `c28b796` (trigger redeploy attempt)
-  - `48e2092` (attempted tsconfig alias change to `./src/*` breaking root imports)
-  - `2e71017` (stubbed `src/components/ui` components)
-  - `24e06c9` (accumulated duplicate `src/` hierarchy)
-- **Files recovered:** 62 files across `app/`, `components/`, `data/`, `lib/`, `public/`, and documentation manifests.
-- **Root causes:**
-  1. **Dual App Router collision**: Next.js detected both `src/app` and `app/` at repository root, causing routing resolution ambiguity.
-  2. **Path Alias Mismatch**: `tsconfig.json` was pointing `@/*` to `./src/*`, but all canonical implementation files, datasets, and utilities lived directly at the repository root (`./components`, `./data`, `./lib`, `./app`).
-  3. **Tailwind v3 vs v4 clash**: An old `tailwind.config.js` (Tailwind v3 JS format) conflicted with `@tailwindcss/postcss` and Tailwind v4 CSS `@theme` declarations inside `app/globals.css`.
-  4. **Legacy Root Static HTML & missing Vercel config**: Legacy root `.html` files (`index.html`, etc.) were shadowing Next.js routing and missing explicit `vercel.json` framework definition.
-- **Fixes applied:**
-  1. Safely removed the conflicting `src/` folder completely.
-  2. Safely removed legacy `tailwind.config.js` (Tailwind v4 purely configured in CSS).
-  3. Cleaned out legacy root `.html` files and added `vercel.json` with `"framework": "nextjs"`.
-  4. Updated `tsconfig.json` path alias `@/*` -> `./*`.
-  5. Configured `eslint.config.mjs` with `typescript-eslint` and `@next/eslint-plugin-next`.
-  6. Validated TypeScript (`npx tsc --noEmit` -> 0 errors) and Next.js static build (`npm run build` -> 19 static routes compiled).
-- **Final Commit SHA:** `5ba3159`
+- **Completed Milestones:**
+  1. **Full Assessment Suite Restoration**:
+     - Built comprehensive data catalog (`data/assessments-interactive.ts`) covering 14 clinical and self-screening instruments (GAD-7, OASIS, SIAS-6, PHQ-9, BDI-II, TIPI-10 Big Five, 16PF, PCL-5 Trauma, CAPS-5, ASRS-v1.1 ADHD, AQ-10 Autism Quotient, Rorschach Inkblot, TAT, MMPI-2).
+     - Restored **Factor Profile Analysis** (`computeAssessmentInterpretation`) computing multi-dimensional psychological subscales with individual score, max, level, percentage, and clinical meanings.
+     - Restored **Full Structured Result Profile**:
+       - Score Summary & Severity Elevation Meter
+       - **Result Statement**: Clinical band and narrative description
+       - **Factor Breakdown**: Visual progress bars & factor meaning cards
+       - **Discussion Section**: Multi-paragraph clinical exploration examining contrast between highest and lowest factors, situational variation (work, relationships, stress), and reflective inquiry questions
+       - **Conclusion Section**: Core takeaway synthesizing strengths and growth areas, non-diagnostic framing, and next actionable steps
+       - **Recommendations**: Structured psychological exercises and workbook links
+       - **Detailed Measures Table**: Full itemized metrics, subscales, and score levels
+       - **Action Bar**: Copy to Clipboard (with toast), Print/Export Profile, Retake Screener, and Book Review Session CTA.
+  2. **Editorial Aesthetic Refinement**:
+     - Enhanced `app/globals.css` with luxury editorial tokens (`#FDFBF7` Ivory, `#F5EFE6` Cream, `#0F2038` Deep Oxford Navy, `#7B9B8A` Velvet Sage, `#CBA258` Antique Gold, `#8B2626` Crisis Crimson).
+     - Added rich glassmorphism (`glass-card`, `glass-nav`), refined typography hierarchy, and smooth micro-interactions.
+  3. **Build & Deployment**:
+     - Production build verified (`npm run build` -> 18 static routes compiled).
+     - TypeScript check verified (`npx tsc --noEmit` -> 0 errors).
+     - Live on Vercel: https://pillowdreamworks-site.vercel.app
+
+- **Final Commit SHA:** `722dd8c`
 - **GitHub Status:** Synchronized with `origin/main`.
 - **Live Vercel URL:** https://pillowdreamworks-site.vercel.app
-- **Visible Production Changes:** Complete editorial Next.js 16 site structure with 19 static routes, interactive assessment center, book showcase & carousel, responsive navigation, emergency safety banners, transparent INR/USD pricing tables, and legal policies.
-- **Remaining Issues:** None blocking.
-
----
-
-# Current Progress
-
-Status: POST-RECOVERY COMPLETE & LIVE
-
-Completed Documents:
-- [x] PRD.md
-- [x] Architecture.md
-- [x] Rules.md
-- [x] Commits.md
-- [x] Decision.md
-- [x] Design.md
-- [x] Memory.md
-
-Website Build & Routes Generated:
-- [x] `/` (Editorial Homepage with Hero, Problem, Mission, Books, Assessments, Services, Learn, Founder, Final CTA)
-- [x] `/books` (Books Hub)
-- [x] `/books/psychology-toolkit` (Flagship 14-section workbook)
-- [x] `/books/finding-the-centre` (Finding The Centre details)
-- [x] `/books/bundles` (Comprehensive bundles)
-- [x] `/assessments` (16 clinical assessment catalog + interactive screeners)
-- [x] `/services` (Counselling, Crisis stabilization, Graphotherapy, Courses)
-- [x] `/learn` (PsychSnaps, Articles, Guides)
-- [x] `/pricing` (Transparent INR/USD pricing)
-- [x] `/about` (Founder & Mission)
-- [x] `/contact` (Online intake & inquiry)
-- [x] `/legal/privacy`, `/legal/terms`, `/legal/disclaimer`, `/legal/refund`, `/legal/cookie`
-- [x] `/_not-found`
