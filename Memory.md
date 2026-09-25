@@ -66,6 +66,7 @@ Git Checkpoints
 - [x] Commit 02 — Design System (`feat(design): establish editorial design tokens`)
 - [x] Commit 03 — Navigation (`feat(nav): rebuild responsive navigation`)
 - [x] Commit 04 — Homepage (`feat(home): editorial homepage complete`)
+- [x] Commit 05 — Books (`feat(books): complete books ecosystem`)
 
 Website Build
 
@@ -73,7 +74,7 @@ Website Build
 - [x] Design System (Ivory, Cream, Navy, Sage, Gold tokens; Libre Baskerville & Inter; Centralized data layer)
 - [x] Navigation (Emergency Banner, Sticky Navbar, Mobile Drawer, Editorial Footer)
 - [x] Homepage (12-section editorial narrative hierarchy with real book showcase, assessment preview, services, learn, founder story)
-- [ ] Books
+- [x] Books (Books Hub, Psychology Toolkit 14-section workbook page, Finding The Centre, Bundles, Book Carousel)
 - [ ] Assessments
 - [ ] Services
 - [ ] Learn
