@@ -1,98 +1,115 @@
+"use client";
+
 import * as React from "react";
 import Link from "next/link";
+import { ArrowUpRight, Mail } from "lucide-react";
+import { motion } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { FOUNDER_CONTACT } from "@/data/navigation";
-import { ArrowUpRight, Mail } from "lucide-react";
 
 export function FounderSection() {
   return (
-    <section className="py-24 bg-cream/70 border-b border-navy/10">
+    <section className="py-24 sm:py-32 bg-ivory border-b border-navy/10 relative">
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Portrait & Founder Badge */}
-          <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-sm">
-              <div className="rounded-2xl bg-navy text-ivory p-8 shadow-2xl border border-navy-light/40 space-y-6 text-center">
-                {/* Founder Initial Monogram Avatar */}
-                <div className="w-24 h-24 mx-auto rounded-full bg-gold text-navy flex items-center justify-center font-serif text-4xl font-bold shadow-inner">
-                  MG
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Left Column: Founder Seal / Colophon Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="lg:col-span-5 flex justify-center"
+          >
+            <div className="w-full max-w-sm rounded-xl bg-navy text-ivory p-8 sm:p-10 border border-navy/40 shadow-xl space-y-6 text-center relative overflow-hidden">
+              {/* Subtle gold top rule */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gold" />
 
-                <div className="space-y-1">
-                  <h3 className="font-serif text-2xl font-bold text-ivory">
-                    {FOUNDER_CONTACT.name}
-                  </h3>
-                  <p className="text-xs uppercase tracking-widest text-gold font-semibold">
-                    {FOUNDER_CONTACT.title}
-                  </p>
-                </div>
+              {/* Monogram Seal */}
+              <div className="w-20 h-20 mx-auto rounded-full bg-ivory/10 border border-gold/40 text-gold flex items-center justify-center font-serif text-3xl font-medium tracking-tight">
+                MG
+              </div>
 
-                <p className="text-xs text-ivory/75 italic leading-relaxed">
-                  "I created PillowDreamWorks to bridge the gap between abstract academic psychology and the lived, quiet struggles of everyday human ambition."
+              <div className="space-y-1">
+                <h3 className="font-serif text-2xl font-normal text-ivory">
+                  {FOUNDER_CONTACT.name}
+                </h3>
+                <p className="text-[11px] uppercase tracking-[0.2em] text-gold font-mono">
+                  {FOUNDER_CONTACT.title}
                 </p>
+              </div>
 
-                <div className="pt-4 border-t border-ivory/15 flex justify-center items-center gap-4 text-xs">
-                  <a
-                    href={FOUNDER_CONTACT.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gold hover:underline flex items-center gap-0.5"
-                  >
-                    LinkedIn <ArrowUpRight className="w-3 h-3" />
-                  </a>
-                  <span className="text-ivory/30">•</span>
-                  <a
-                    href={FOUNDER_CONTACT.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gold hover:underline flex items-center gap-0.5"
-                  >
-                    Instagram <ArrowUpRight className="w-3 h-3" />
-                  </a>
-                </div>
+              <p className="text-xs text-ivory/70 italic leading-relaxed font-serif px-2">
+                "PillowDreamWorks exists to bridge the gulf between inaccessible clinical literature and the lived, quiet struggles of everyday human life."
+              </p>
+
+              <div className="pt-6 border-t border-ivory/10 flex justify-center items-center gap-4 text-xs font-mono">
+                <a
+                  href={FOUNDER_CONTACT.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gold/90 hover:text-gold flex items-center gap-1 transition-colors"
+                >
+                  <span>LinkedIn</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </a>
+                <span className="text-ivory/20">/</span>
+                <a
+                  href={FOUNDER_CONTACT.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gold/90 hover:text-gold flex items-center gap-1 transition-colors"
+                >
+                  <span>Instagram</span>
+                  <ArrowUpRight className="w-3 h-3" />
+                </a>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right Column: Founder Story & Manifesto */}
-          <div className="lg:col-span-7 space-y-6">
-            <span className="text-xs font-semibold uppercase tracking-widest text-sage-dark block">
-              Founder Story & Philosophy
+          {/* Right Column: Founder Manifesto */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, delay: 0.1, ease: "easeOut" }}
+            className="lg:col-span-7 space-y-6"
+          >
+            <span className="text-xs uppercase tracking-[0.25em] text-sage-dark font-mono block">
+              The Founder's Colophon
             </span>
 
-            <h2 className="font-serif text-3xl sm:text-4xl text-navy font-bold leading-tight">
-              Why PillowDreamWorks was founded
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-navy font-normal leading-tight">
+              Why PillowDreamWorks was established
             </h2>
 
-            <div className="space-y-4 text-base text-navy/80 leading-relaxed font-sans">
+            <div className="space-y-4 text-base text-navy/75 leading-relaxed font-sans">
               <p>
-                Most modern self-help oscillates between two extremes: clinical textbooks filled with unapproachable academic jargon, or pop-psychology affirmations that disintegrate under genuine emotional crisis.
+                Contemporary self-help frequently fractures into two extremes: dense academic papers inaccessible to non-practitioners, or generic pop-psychology affirmations that fail when real emotional crisis strikes.
               </p>
               <p>
-                PillowDreamWorks Foundation was born out of a desire to create something enduring. Real psychological tools crafted with the editorial dignity of an independent publishing house and the technical precision of clinical behavioral science.
-              </p>
-              <p>
-                Whether you are working through <strong className="text-navy font-semibold">The Psychology Toolkit</strong>, exploring your cognitive patterns in the <strong className="text-navy font-semibold">Assessment Centre</strong>, or connecting for <strong className="text-navy font-semibold">1-on-1 Counselling</strong>, the mission remains constant:
+                PillowDreamWorks was founded to build an enduring third path: rigorous behavioral science, clinical clarity, and practical psychological architecture, crafted with the editorial permanence of a classical press.
               </p>
             </div>
 
-            <div className="p-5 rounded-xl bg-ivory border border-navy/15 text-navy font-serif italic text-lg shadow-xs">
-              "To give thoughtful individuals the architecture to understand their minds, regulate their nervous systems, and build meaningful lives without compromise."
+            <div className="p-6 rounded-lg bg-cream/60 border-l-2 border-gold text-navy font-serif italic text-base sm:text-lg leading-relaxed">
+              "To provide thoughtful minds with the architecture to understand their subconscious patterns, regulate their nervous systems, and build authentic resilience."
             </div>
 
-            <div className="pt-2 flex items-center gap-4">
+            <div className="pt-4 flex flex-wrap items-center gap-4">
               <Link href="/about">
-                <Button variant="primary">Read Full Foundation Story</Button>
+                <Button variant="primary" className="text-xs uppercase tracking-wider">
+                  Read Foundation Story
+                </Button>
               </Link>
               <a href={`mailto:${FOUNDER_CONTACT.email}`}>
-                <Button variant="outline" className="flex items-center gap-1.5">
-                  <Mail className="w-4 h-4" />
-                  <span>Email Manish</span>
+                <Button variant="outline" className="text-xs uppercase tracking-wider flex items-center gap-2">
+                  <Mail className="w-3.5 h-3.5" />
+                  <span>Direct Inquiry</span>
                 </Button>
               </a>
             </div>
-          </div>
+          </motion.div>
         </div>
       </Container>
     </section>

@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/home/hero-section";
 import { MissionSection } from "@/components/home/mission-section";
 import { ProblemSection } from "@/components/home/problem-section";
 import { BooksPreviewSection } from "@/components/home/books-preview-section";
+import { ReflectionSection } from "@/components/home/reflection-section";
 import { AssessmentsPreviewSection } from "@/components/home/assessments-preview-section";
 import { ServicesPreviewSection } from "@/components/home/services-preview-section";
 import { LearnPreviewSection } from "@/components/home/learn-preview-section";
@@ -12,34 +13,35 @@ import { FinalCTASection } from "@/components/home/final-cta-section";
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-ivory text-navy">
-      {/* 1 & 2 are in layout.tsx: EmergencyBanner & Sticky Navbar */}
-      {/* 3. Hero Section (Editorial Magazine Direction) */}
+      {/* 1. Enter the Library: Hero with Proximity Depth */}
       <HeroSection />
 
-      {/* 4. Foundation Mission & Ecosystem Pillars */}
+      {/* 2. The Table of Contents: Living Foundation Index */}
       <MissionSection />
 
-      {/* 5. Problem Statement & Reader Context */}
+      {/* 3. The Noise to Continuum: Understand, Reflect, Practice */}
       <ProblemSection />
 
-      {/* 6. Books Showcase */}
+      {/* 4. The Shelf: Physical Publications & Master Toolkit */}
       <BooksPreviewSection />
 
-      {/* 7. Psychological Assessments Preview */}
+      {/* 5. The Blank Page: Participatory Psychological Reflection */}
+      <ReflectionSection />
+
+      {/* 6. The Psychometric Archive: 177 Standardized Scales Ledger */}
       <AssessmentsPreviewSection />
 
-      {/* 8. Clinical & Crisis Services */}
+      {/* 7. The Consulting Rooms: Clinical Guidance & Protocols */}
       <ServicesPreviewSection />
 
-      {/* 9. Learn Hub & PsychSnaps */}
+      {/* 8. The Reading Room: Publication Folio & PsychSnaps */}
       <LearnPreviewSection />
 
-      {/* 10. Founder Story */}
+      {/* 9. Behind the Library: The Founder's Colophon */}
       <FounderSection />
 
-      {/* 11. Final CTA */}
+      {/* 10. The Inscription: Closing Page */}
       <FinalCTASection />
-      {/* 12. Footer is in layout.tsx */}
     </main>
   );
 }

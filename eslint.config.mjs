@@ -11,6 +11,7 @@ export default tseslint.config(
       ".agents/**",
       "js/**",
       "tests/**",
+      "scripts/**",
       "playwright.config.js",
     ],
   },

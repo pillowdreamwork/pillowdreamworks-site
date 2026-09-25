@@ -1,133 +1,186 @@
+"use client";
+
 import * as React from "react";
 import Link from "next/link";
+import { ArrowRight, Phone } from "lucide-react";
+import { motion } from "motion/react";
 import { Container } from "@/components/ui/container";
-import { SectionHeading } from "@/components/ui/section-heading";
-import { Button } from "@/components/ui/button";
 import { SERVICES_PRICING } from "@/data/pricing";
-import { HeartHandshake, PhoneCall, MessageSquareHeart, PenTool, ArrowRight } from "lucide-react";
 
 export function ServicesPreviewSection() {
   return (
-    <section className="py-24 bg-cream/60 border-b border-navy/10">
+    <section className="py-24 sm:py-32 bg-ivory border-b border-navy/10 relative">
       <Container>
-        <SectionHeading
-          eyebrow="Clinical & Personalized Guidance"
-          title="Therapeutic services & compassionate check-ins"
-          description="Direct access to qualified psychological care, emergency stabilization, ongoing emotional support, and subconscious graphotherapy."
-        />
+        {/* Section Header */}
+        <div className="max-w-2xl mb-16">
+          <span className="text-xs uppercase tracking-[0.25em] text-sage-dark font-mono block mb-4">
+            Practice & Consultations
+          </span>
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-navy leading-tight">
+            The Consulting Rooms
+          </h2>
+          <p className="mt-4 text-base text-navy/70 font-sans leading-relaxed">
+            Direct access to qualified psychological guidance, acute crisis stabilization, ongoing confidential check-ins, and neuromuscular graphotherapy.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Counselling */}
-          <div className="bg-ivory rounded-2xl p-6 sm:p-7 border border-navy/10 flex flex-col justify-between hover:shadow-md transition-all">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-lg bg-navy/5 text-navy flex items-center justify-center">
-                <HeartHandshake className="w-5 h-5" />
+        {/* 4 Specialized Rooms: Editorial Asymmetric Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {/* Room 01: 1-on-1 Clinical Counselling */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="p-8 sm:p-10 rounded-xl bg-cream/40 border border-navy/10 flex flex-col justify-between hover:border-navy/25 hover:bg-cream/60 transition-all group"
+          >
+            <div className="space-y-6">
+              <div className="flex items-center justify-between pb-4 border-b border-navy/10">
+                <span className="font-mono text-xs text-navy/50 tracking-wider">ROOM 01 · CLINICAL</span>
+                <span className="text-xs font-medium text-navy/70 bg-navy/5 px-2.5 py-1 rounded-sm">50 Min Session</span>
               </div>
-              <h3 className="font-serif text-xl font-bold text-navy">
-                1-on-1 Counselling
+              <h3 className="font-serif text-2xl sm:text-3xl text-navy font-normal">
+                1-on-1 Clinical Counselling
               </h3>
-              <p className="text-xs text-navy/70 leading-relaxed">
-                50-minute clinical sessions for anxiety, cognitive restructuring, boundary management, and personal transitions.
+              <p className="text-sm text-navy/75 leading-relaxed font-sans">
+                Focused cognitive-behavioral and psychodynamic sessions addressing chronic anxiety, imposter syndrome, boundary maintenance, and difficult life transitions.
               </p>
-              <div className="pt-2">
-                <span className="font-serif text-2xl font-bold text-navy">
+            </div>
+
+            <div className="pt-8 mt-6 border-t border-navy/10 flex items-center justify-between">
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-navy/50 block">Fee</span>
+                <span className="font-serif text-xl font-bold text-navy">
                   {SERVICES_PRICING.counselling.singleSession.formattedInr}
                 </span>
-                <span className="text-xs text-navy/60"> / 50 min session</span>
+                <span className="text-xs text-navy/60 ml-1">/ session</span>
               </div>
-            </div>
-            <div className="pt-6 mt-4 border-t border-navy/10">
-              <Link href="/services#counselling">
-                <Button variant="outline" size="sm" className="w-full">
-                  Book Session
-                </Button>
+              <Link
+                href="/services#counselling"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-semibold text-navy hover:text-navy-light group-hover:translate-x-0.5 transition-all"
+              >
+                <span>Reserve Room</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Crisis Call */}
-          <div className="bg-red-50/50 rounded-2xl p-6 sm:p-7 border border-red-900/15 flex flex-col justify-between hover:shadow-md transition-all">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-lg bg-red-100 text-red-900 flex items-center justify-center">
-                <PhoneCall className="w-5 h-5" />
+          {/* Room 02: Crisis Stabilization Protocol */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.08, ease: "easeOut" }}
+            className="p-8 sm:p-10 rounded-xl bg-red-950/5 border border-red-900/20 flex flex-col justify-between hover:border-red-900/35 transition-all group"
+          >
+            <div className="space-y-6">
+              <div className="flex items-center justify-between pb-4 border-b border-red-900/10">
+                <span className="font-mono text-xs text-red-900/70 tracking-wider">ROOM 02 · STABILIZATION</span>
+                <span className="text-xs font-medium text-red-950 bg-red-900/10 px-2.5 py-1 rounded-sm">Immediate Intake</span>
               </div>
-              <h3 className="font-serif text-xl font-bold text-red-950">
-                Crisis Stabilization
+              <h3 className="font-serif text-2xl sm:text-3xl text-red-950 font-normal">
+                Crisis De-Escalation Call
               </h3>
-              <p className="text-xs text-navy/70 leading-relaxed">
-                Rapid de-escalation and grounding call during intense emotional panic or acute distress.
+              <p className="text-sm text-navy/80 leading-relaxed font-sans">
+                Immediate, non-judgmental somatic grounding and cognitive triage during episodes of overwhelming panic, acute heartbreak, or paralyzing distress.
               </p>
-              <div className="pt-2">
-                <span className="font-serif text-2xl font-bold text-red-900">
+            </div>
+
+            <div className="pt-8 mt-6 border-t border-red-900/10 flex items-center justify-between">
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-red-900/70 block">Immediate Rate</span>
+                <span className="font-serif text-xl font-bold text-red-950">
                   {SERVICES_PRICING.crisis.call.formattedInr}
                 </span>
-                <span className="text-xs text-navy/60"> / immediate call</span>
+                <span className="text-xs text-red-900/70 ml-1">/ call</span>
               </div>
-            </div>
-            <div className="pt-6 mt-4 border-t border-red-900/10">
-              <Link href="/services#crisis">
-                <Button variant="crisis" size="sm" className="w-full">
-                  Emergency Support
-                </Button>
+              <Link
+                href="/services#crisis"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-semibold text-red-950 hover:text-red-800 transition-colors"
+              >
+                <span>Access Protocol</span>
+                <Phone className="w-3.5 h-3.5" />
               </Link>
             </div>
-          </div>
+          </motion.div>
 
-          {/* CentreLine */}
-          <div className="bg-ivory rounded-2xl p-6 sm:p-7 border border-navy/10 flex flex-col justify-between hover:shadow-md transition-all">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-lg bg-sage/20 text-navy-dark flex items-center justify-center">
-                <MessageSquareHeart className="w-5 h-5" />
+          {/* Room 03: CentreLine Support */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.14, ease: "easeOut" }}
+            className="p-8 sm:p-10 rounded-xl bg-cream/40 border border-navy/10 flex flex-col justify-between hover:border-navy/25 hover:bg-cream/60 transition-all group"
+          >
+            <div className="space-y-6">
+              <div className="flex items-center justify-between pb-4 border-b border-navy/10">
+                <span className="font-mono text-xs text-navy/50 tracking-wider">ROOM 03 · ONGOING</span>
+                <span className="text-xs font-medium text-navy/70 bg-navy/5 px-2.5 py-1 rounded-sm">Founder Channel</span>
               </div>
-              <h3 className="font-serif text-xl font-bold text-navy">
-                CentreLine Support
+              <h3 className="font-serif text-2xl sm:text-3xl text-navy font-normal">
+                CentreLine Async Guidance
               </h3>
-              <p className="text-xs text-navy/70 leading-relaxed">
-                Steady, confidential founder check-ins and ongoing guidance via structured messaging channels.
+              <p className="text-sm text-navy/75 leading-relaxed font-sans">
+                Confidential, deliberate check-ins with Manish Garg. Designed for founders and professionals navigating prolonged uncertainty, burnout, and strategic pressure.
               </p>
-              <div className="pt-2">
-                <span className="font-serif text-2xl font-bold text-navy">
+            </div>
+
+            <div className="pt-8 mt-6 border-t border-navy/10 flex items-center justify-between">
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-navy/50 block">Retainer</span>
+                <span className="font-serif text-xl font-bold text-navy">
                   {SERVICES_PRICING.crisis.centreLine.formattedInr}
                 </span>
-                <span className="text-xs text-navy/60"> / ongoing check-in</span>
+                <span className="text-xs text-navy/60 ml-1">/ check-in</span>
               </div>
-            </div>
-            <div className="pt-6 mt-4 border-t border-navy/10">
-              <Link href="/services#centreline">
-                <Button variant="secondary" size="sm" className="w-full">
-                  Join CentreLine
-                </Button>
+              <Link
+                href="/services#centreline"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-semibold text-navy hover:text-navy-light group-hover:translate-x-0.5 transition-all"
+              >
+                <span>Enter CentreLine</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Graphotherapy */}
-          <div className="bg-ivory rounded-2xl p-6 sm:p-7 border border-navy/10 flex flex-col justify-between hover:shadow-md transition-all">
-            <div className="space-y-4">
-              <div className="w-10 h-10 rounded-lg bg-gold/25 text-navy flex items-center justify-center">
-                <PenTool className="w-5 h-5 text-gold-dark" />
+          {/* Room 04: Subconscious Graphotherapy */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
+            className="p-8 sm:p-10 rounded-xl bg-cream/40 border border-navy/10 flex flex-col justify-between hover:border-navy/25 hover:bg-cream/60 transition-all group"
+          >
+            <div className="space-y-6">
+              <div className="flex items-center justify-between pb-4 border-b border-navy/10">
+                <span className="font-mono text-xs text-navy/50 tracking-wider">ROOM 04 · GRAPHOLOGY</span>
+                <span className="text-xs font-medium text-navy/70 bg-navy/5 px-2.5 py-1 rounded-sm">Stroke Diagnostics</span>
               </div>
-              <h3 className="font-serif text-xl font-bold text-navy">
-                Graphotherapy
+              <h3 className="font-serif text-2xl sm:text-3xl text-navy font-normal">
+                Subconscious Graphotherapy
               </h3>
-              <p className="text-xs text-navy/70 leading-relaxed">
-                In-depth subconscious handwriting stroke analysis paired with neuromuscular alignment exercises.
+              <p className="text-sm text-navy/75 leading-relaxed font-sans">
+                Scientific handwriting stroke analysis evaluating subconscious defense patterns, baseline stress markers, and custom 30-day neuromuscular penmanship drills.
               </p>
-              <div className="pt-2">
-                <span className="font-serif text-2xl font-bold text-navy">
-                  From {SERVICES_PRICING.graphology.basic.formattedInr}
-                </span>
-                <span className="text-xs text-navy/60"> / handwriting report</span>
-              </div>
             </div>
-            <div className="pt-6 mt-4 border-t border-navy/10">
-              <Link href="/services#graphology">
-                <Button variant="outline" size="sm" className="w-full">
-                  Learn Analysis
-                </Button>
+
+            <div className="pt-8 mt-6 border-t border-navy/10 flex items-center justify-between">
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-navy/50 block">Starting From</span>
+                <span className="font-serif text-xl font-bold text-navy">
+                  {SERVICES_PRICING.graphology.basic.formattedInr}
+                </span>
+                <span className="text-xs text-navy/60 ml-1">/ dossier</span>
+              </div>
+              <Link
+                href="/services#graphology"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-semibold text-navy hover:text-navy-light group-hover:translate-x-0.5 transition-all"
+              >
+                <span>View Analysis Protocol</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </Container>
     </section>
