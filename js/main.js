@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initToolkitCheckout();
   initToolkitSlides();
   initAllModalCloseButtons();
+  initLibrarySceneMotion();
+  initRevealAnimations();
+  initCounterAnimation();
+  initTiltCards();
 
   if (typeof getFullAssessmentCatalog !== 'undefined') {
     allCatalogAssessments = getFullAssessmentCatalog();
@@ -23,6 +27,98 @@ document.addEventListener('DOMContentLoaded', () => {
     initAssessmentFilters();
   }
 });
+
+function initLibrarySceneMotion() {
+  const scene = document.querySelector('.library-scene');
+  if (!scene || prefersReducedMotion) return;
+
+  const resetMotion = () => {
+    scene.style.setProperty('--pointer-x', '0px');
+    scene.style.setProperty('--pointer-y', '0px');
+  };
+
+  scene.addEventListener('pointermove', (event) => {
+    const rect = scene.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 20;
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * -18;
+    scene.style.setProperty('--pointer-x', `${x}px`);
+    scene.style.setProperty('--pointer-y', `${y}px`);
+  });
+
+  scene.addEventListener('pointerleave', resetMotion);
+  resetMotion();
+}
+
+function initRevealAnimations() {
+  const revealNodes = document.querySelectorAll('.reveal-card');
+  if (!revealNodes.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    revealNodes.forEach(node => node.classList.add('is-visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.18 });
+
+  revealNodes.forEach(node => observer.observe(node));
+}
+
+function initCounterAnimation() {
+  const counters = document.querySelectorAll('[data-counter]');
+  if (!counters.length) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  counters.forEach(counter => {
+    const target = Number(counter.dataset.counter || 0);
+    const suffix = counter.dataset.suffix || '';
+    if (prefersReduced) {
+      counter.textContent = `${target}${suffix}`;
+      return;
+    }
+
+    const duration = 1200;
+    const start = performance.now();
+    const step = (timestamp) => {
+      const elapsed = timestamp - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(target * eased);
+      counter.textContent = `${current}${suffix}`;
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+    requestAnimationFrame(step);
+  });
+}
+
+function initTiltCards() {
+  const cards = document.querySelectorAll('.tilt-card');
+  if (!cards.length || prefersReducedMotion) return;
+
+  cards.forEach(card => {
+    card.addEventListener('pointermove', (event) => {
+      const rect = card.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
+      const rotateY = (x - 0.5) * 9;
+      const rotateX = (0.5 - y) * 9;
+      card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+    });
+
+    card.addEventListener('pointerleave', () => {
+      card.style.transform = '';
+    });
+  });
+}
 
 function initAllModalCloseButtons() {
   // Wire up ALL close buttons (close-modal-btn) across any modal backdrops

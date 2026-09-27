@@ -156,21 +156,49 @@
           </div>
 
           <div class="hero-visual">
-            <div class="hero-cloud-card">
-              <div class="hero-cloud-art">
-                <!-- Cloud Icon -->
-                <svg viewBox="0 0 24 24" fill="none" stroke="#C79A4B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M17.5 19c0-3.037-2.463-5.5-5.5-5.5S6.5 15.963 6.5 19"></path>
-                  <path d="M17.5 19H19a4.5 4.5 0 0 0 0-9h-1.26A8 8 0 1 0 4 16.5"></path>
-                  <path d="M12 13v8"></path>
-                  <path d="M9 16l3-3 3 3"></path>
-                </svg>
+            <div class="library-scene" aria-label="Library-themed hero illustration">
+              <div class="scene-glow"></div>
+              <div class="paper-layer paper-layer-one"></div>
+              <div class="paper-layer paper-layer-two"></div>
+
+              <div class="book-stand">
+                <div class="book-object hero-book hero-book-main">
+                  <div class="book-cover-content">
+                    <div class="cover-mark">P</div>
+                    <div>
+                      <div class="cover-subtitle">The Psychology Toolkit</div>
+                      <h3>Calmer Mind</h3>
+                    </div>
+                    <div class="cover-footer">
+                      <span>Workbook</span>
+                      <span>₹999</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="book-object hero-book hero-book-secondary">
+                  <div class="book-cover-content">
+                    <div class="cover-mark">F</div>
+                    <div>
+                      <div class="cover-subtitle">Finding The Centre</div>
+                      <h3>Stillness</h3>
+                    </div>
+                    <div class="cover-footer">
+                      <span>Colouring</span>
+                      <span>₹349</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="text-center">
-                <p class="hero-card-label">PillowDreamWorks</p>
-                <h2 class="hero-card-title">CentreLine Support</h2>
-                <p class="hero-card-text">Quick, gentle stabilization when you need a human.</p>
-                <a href="#centreline" class="btn btn-primary btn-sm">Request Help Now</a>
+
+              <div class="library-badge badge-top">
+                <span>Library</span>
+                <strong>Entry</strong>
+              </div>
+
+              <div class="library-badge badge-bottom">
+                <span>5-step</span>
+                <strong>Framework</strong>
               </div>
             </div>
           </div>
@@ -190,7 +218,7 @@
         </div>
 
         <div class="grid md:grid-cols-3 gap-6">
-          <div class="premium-card premium-card-hover p-8 flex flex-col justify-between space-y-4">
+          <div class="premium-card premium-card-hover p-8 flex flex-col justify-between space-y-4 reveal-card tilt-card">
             <div class="space-y-3">
               <div class="icon-tile">
                 <i data-lucide="message-circle" class="w-5 h-5" aria-hidden="true"></i>
@@ -201,7 +229,7 @@
             <a href="#services" class="card-link">Explore Services &rarr;</a>
           </div>
 
-          <div class="premium-card premium-card-hover p-8 flex flex-col justify-between space-y-4">
+          <div class="premium-card premium-card-hover p-8 flex flex-col justify-between space-y-4 reveal-card tilt-card">
             <div class="space-y-3">
               <div class="icon-tile">
                 <i data-lucide="palette" class="w-5 h-5" aria-hidden="true"></i>
@@ -212,7 +240,7 @@
             <a href="#book" class="card-link">Get the Book &rarr;</a>
           </div>
 
-          <div class="premium-card premium-card-hover p-8 flex flex-col justify-between space-y-4">
+          <div class="premium-card premium-card-hover p-8 flex flex-col justify-between space-y-4 reveal-card tilt-card">
             <div class="space-y-3">
               <div class="icon-tile gold">
                 <i data-lucide="pen-tool" class="w-5 h-5" aria-hidden="true"></i>
@@ -230,7 +258,7 @@
     <!-- ASSESSMENT CENTER CALLOUT -->
     <section class="section bg-sage-50">
       <div class="container-premium">
-        <div class="premium-card p-8 sm:p-12 text-center space-y-5">
+        <div class="premium-card p-8 sm:p-12 text-center space-y-5 reveal-card tilt-card">
           <span class="eyebrow mx-auto">Assessment Hub</span>
           <h2 class="text-center">Comprehensive Psychological &amp; Projective Assessment Center</h2>
           <p class="section-lead mx-auto text-muted">Complete free self-administered inventories (Art Therapy HTP/HFDT, Personality Big Five/MB-16, Cognitive, Neuroscience, Trauma PCL-5, ADHD ASRS-v1.1, Autism AQ-10, Psychosis, Addictions) or book practitioner-administered clinical projective batteries (Rorschach Inkblot, TAT, MMPI-2, SSCT, WAIS-IV).</p>
@@ -251,25 +279,25 @@
             <h2>Practical Psychology, Accessible to Everyone</h2>
             <p class="leading-relaxed text-muted">PillowDreamWorks Foundation exists to make psychology education, reflective tools, and compassionate care reachable in everyday life. Through workbooks, courses, assessments, and guided sessions, we support emotional wellbeing without unnecessary barriers.</p>
             <div class="grid sm:grid-cols-2 gap-4">
-              <div class="metric-card">
-                <strong>100+</strong>
+              <div class="metric-card tilt-card reveal-card">
+                <strong data-counter="100" data-suffix="+">0</strong>
                 <span>Free Educational Assessments</span>
               </div>
-              <div class="metric-card">
-                <strong>5</strong>
+              <div class="metric-card tilt-card reveal-card">
+                <strong data-counter="5" data-suffix="">0</strong>
                 <span>Core Therapeutic Pathways</span>
               </div>
-              <div class="metric-card">
+              <div class="metric-card tilt-card reveal-card">
                 <strong>Online</strong>
                 <span>Sessions via Zoom / Meet</span>
               </div>
-              <div class="metric-card">
-                <strong>Transparent</strong>
+              <div class="metric-card tilt-card reveal-card">
+                <strong data-counter="100" data-suffix="%">0</strong>
                 <span>Pricing &amp; Safety Policies</span>
               </div>
             </div>
           </div>
-          <div class="premium-card p-8 space-y-5">
+          <div class="premium-card p-8 space-y-5 reveal-card tilt-card">
             <div class="space-y-3">
               <h3 class="text-xl">Our Values</h3>
               <p class="text-sm text-muted leading-relaxed">Every service we offer is guided by compassion, evidence-informed practice, clear boundaries, and respect for your autonomy.</p>
@@ -292,7 +320,7 @@
         <div class="grid lg:grid-cols-12 gap-12 items-center mb-16">
 
           <div class="lg:col-span-5 flex justify-center">
-            <div class="premium-card p-8 w-full max-w-md text-center space-y-4">
+            <div class="premium-card p-8 w-full max-w-md text-center space-y-4 reveal-card tilt-card">
               <div class="w-20 h-20 bg-sage-100 text-sage-600 rounded-2xl flex items-center justify-center mx-auto text-3xl">
                 <i data-lucide="book-open" class="w-9 h-9" aria-hidden="true"></i>
               </div>
@@ -414,7 +442,8 @@
         <div class="space-y-10">
 
           <!-- Counselling -->
-          <div id="counselling" class="premium-card p-8 grid md:grid-cols-12 gap-8 items-center">
+          <div id="counselling" class="premium-card room-card p-8 grid md:grid-cols-12 gap-8 items-center reveal-card tilt-card">
+            <div class="room-accent room-accent-sage"></div>
             <div class="md:col-span-8 space-y-4">
               <div class="flex items-center gap-3">
                 <h3 class="text-2xl">Counselling</h3>
@@ -438,7 +467,8 @@
           </div>
 
           <!-- Crisis Counselling -->
-          <div id="crisis" class="premium-card p-8 grid md:grid-cols-12 gap-8 items-center border-crisis/30" style="background-color: #FDF8F5;">
+          <div id="crisis" class="premium-card room-card p-8 grid md:grid-cols-12 gap-8 items-center border-crisis/30 reveal-card tilt-card" style="background-color: #FDF8F5;">
+            <div class="room-accent room-accent-crisis"></div>
             <div class="md:col-span-8 space-y-3">
               <div class="flex items-center gap-3">
                 <h3 class="text-2xl">Crisis Counselling</h3>
@@ -460,7 +490,8 @@
           </div>
 
           <!-- Graphology & Graphotherapy -->
-          <div id="graphology" class="premium-card p-8 space-y-8 border-sage-300">
+          <div id="graphology" class="premium-card room-card p-8 space-y-8 border-sage-300 reveal-card tilt-card">
+            <div class="room-accent room-accent-sage"></div>
             <div class="text-center max-w-2xl mx-auto">
               <span class="eyebrow mx-auto">Fiverr Parity Packages</span>
               <h3 class="text-2xl">Graphology Reading &amp; Graphotherapy</h3>
@@ -537,7 +568,7 @@
         </div>
 
         <div class="grid md:grid-cols-3 gap-6">
-          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 flex flex-col justify-between space-y-4">
+          <div class="course-card bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 flex flex-col justify-between space-y-4 reveal-card tilt-card">
             <div class="space-y-3">
               <div class="flex items-center gap-2">
                 <span class="px-2 py-1 bg-crisis/20 text-crisis-light rounded text-xs font-bold uppercase">Crisis Series</span>
@@ -556,7 +587,7 @@
             </div>
           </div>
 
-          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 flex flex-col justify-between space-y-4">
+          <div class="course-card bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 flex flex-col justify-between space-y-4 reveal-card tilt-card">
             <div class="space-y-3">
               <div class="flex items-center gap-2">
                 <span class="px-2 py-1 bg-foundation-700/40 text-white rounded text-xs font-bold uppercase">Cognitive Series</span>
@@ -575,7 +606,7 @@
             </div>
           </div>
 
-          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border-2 border-gold-500 flex flex-col justify-between space-y-4 relative">
+          <div class="course-card featured bg-white/10 backdrop-blur-md rounded-2xl p-6 border-2 border-gold-500 flex flex-col justify-between space-y-4 relative reveal-card tilt-card">
             <span class="absolute -top-2.5 right-6 bg-gold-500 text-foundation-950 font-bold text-[10px] uppercase px-2 py-0.5 rounded-full">Best Value</span>
             <div class="space-y-3">
               <h3 class="text-xl" style="color: #FFFDFA;">Complete Bundle</h3>
@@ -602,7 +633,8 @@
     <!-- CENTRELINE -->
     <section id="centreline" class="section bg-cloud-ivory border-t border-foundation-900/10">
       <div class="container-premium">
-        <div class="premium-card p-8 grid lg:grid-cols-12 gap-8 items-center">
+        <div class="premium-card room-card p-8 grid lg:grid-cols-12 gap-8 items-center reveal-card tilt-card">
+          <div class="room-accent room-accent-sage"></div>
 
           <div class="lg:col-span-8 space-y-4">
             <div class="flex items-center gap-2">
@@ -643,7 +675,7 @@
         <div class="grid lg:grid-cols-12 gap-12 items-center">
 
           <div class="lg:col-span-5 flex justify-center">
-            <div class="premium-card p-8 max-w-sm w-full text-center space-y-4">
+            <div class="premium-card p-8 max-w-sm w-full text-center space-y-4 reveal-card tilt-card">
               <div class="w-32 h-32 mx-auto rounded-2xl bg-gradient-to-tr from-foundation-900 to-sage-600 flex items-center justify-center text-white text-4xl font-serif font-bold shadow-md">
                 MG
               </div>
