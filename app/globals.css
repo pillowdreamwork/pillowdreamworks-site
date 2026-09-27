@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #FDFBF7;
+  --color-ivory-light: #FFFDFA;
+  --color-cream: #F5EFE6;
+  --color-cream-dark: #EDE5D8;
+  
+  --color-navy: #0F2038;
+  --color-navy-dark: #091322;
+  --color-navy-light: #1E3557;
+  --color-navy-muted: #2C4A75;
+  
+  --color-sage: #7B9B8A;
+  --color-sage-light: #EDF4F0;
+  --color-sage-dark: #416450;
+  
+  --color-gold: #CBA258;
+  --color-gold-light: #FBF6EC;
+  --color-gold-dark: #9E7730;
+
+  --color-crisis: #8B2626;
+  --color-crisis-light: #FDF4F4;
+  --color-crisis-dark: #6D1B1B;
+
+  --font-serif: var(--font-libre-baskerville), "Fraunces", Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --bg-primary: #FDFBF7;
+  --bg-secondary: #F5EFE6;
+  --text-primary: #0F2038;
+  --text-secondary: #3B4D66;
+  --text-muted: #62758F;
+  --accent-sage: #7B9B8A;
+  --accent-gold: #CBA258;
+  --border-subtle: rgba(15, 32, 56, 0.08);
+  --border-medium: rgba(15, 32, 56, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: #7B9B8A;
+  color: #FDFBF7;
+}
+
+/* Accessible focus styling */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #CBA258;
+  outline-offset: 2px;
+}
+
+/* Editorial Glassmorphism & Depth Utilities */
+.glass-card {
+  background: rgba(253, 251, 247, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 32, 56, 0.1);
+}
+
+.glass-nav {
+  background: rgba(253, 251, 247, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(15, 32, 56, 0.08);
+}
+
+.editorial-shadow {
+  box-shadow: 0 4px 20px -2px rgba(15, 32, 56, 0.06), 0 2px 6px -1px rgba(15, 32, 56, 0.04);
+}
+
+.editorial-shadow-lg {
+  box-shadow: 0 12px 36px -4px rgba(15, 32, 56, 0.1), 0 4px 12px -2px rgba(15, 32, 56, 0.05);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
