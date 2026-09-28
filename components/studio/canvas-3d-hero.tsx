@@ -66,7 +66,7 @@ export function Canvas3DHero({ isPlayingAudio = false }: { isPlayingAudio?: bool
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("blur", handleMouseLeave);
 
     const render = () => {
       time += 0.015;
@@ -202,7 +202,7 @@ export function Canvas3DHero({ isPlayingAudio = false }: { isPlayingAudio?: bool
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("blur", handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
   }, [isPlayingAudio]);
