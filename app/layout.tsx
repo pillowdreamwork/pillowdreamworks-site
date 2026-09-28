@@ -17,28 +17,33 @@ const libreBaskerville = Libre_Baskerville({
 });
 
 export const metadata: Metadata = {
-  title: "Lusion — Creative 3D & Interactive Web Studio",
+  title: "PillowDreamWorks Foundation — Calm on the surface. Ambition underneath.",
   description:
-    "A cinematic creative studio shaping experiences in real-time 3D, generative graphics, and the interactive web.",
+    "An editorial psychology and wellbeing foundation combining guided workbooks, 177 clinical-grade self-assessments, counselling, and structured learning for meaningful self-discovery.",
   keywords: [
-    "creative studio",
-    "real-time 3d",
-    "webgl",
-    "three.js",
-    "interactive web",
-    "lusion",
-    "generative design",
-    "motion craft"
+    "psychology toolkit",
+    "finding the centre",
+    "psychological assessments",
+    "counselling",
+    "centreline",
+    "graphotherapy",
+    "editorial psychology",
+    "manish garg",
+    "177 clinical scales"
   ],
+  authors: [{ name: "Manish Garg", url: "https://www.linkedin.com/in/manish-garg-11757b238" }],
   openGraph: {
-    title: "Lusion — Creative 3D & Interactive Web Studio",
-    description: "A cinematic creative studio shaping experiences in real-time 3D and the interactive web.",
+    title: "PillowDreamWorks Foundation — Editorial Psychology & Wellbeing",
+    description: "Calm on the surface. Ambition underneath. Discover guided psychological workbooks, 177 clinical screening tools, and confidential counselling.",
+    url: "https://pillowdreamworks-site.vercel.app",
+    siteName: "PillowDreamWorks Foundation",
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lusion — Creative 3D & Interactive Web Studio",
-    description: "A cinematic creative studio shaping experiences in real-time 3D and the interactive web.",
+    title: "PillowDreamWorks Foundation",
+    description: "Calm on the surface. Ambition underneath. Editorial psychology workbooks and 177 clinical assessments.",
   },
 };
 
