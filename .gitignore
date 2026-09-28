@@ -4,3 +4,6 @@ test-results/
 .DS_Store
 .agents/
 *.tsbuildinfo
+
+.next/
+.vercel/
