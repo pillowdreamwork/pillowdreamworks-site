@@ -1,0 +1,1226 @@
+# PILLOWDREAMWORKS BOOKS — APPLY REFINEMENT ZIP, VALIDATE, AND DEPLOY
+
+You are working inside the **real PillowDreamWorks GitHub Codespace repository**.
+
+I have supplied a refinement package named:
+
+```text
+books-refinement(1).zip
+```
+
+The package originated from:
+
+```text
+C:\Users\Manish Garg\.gemini\antigravity\scratch
+```
+
+The Windows path may NOT be directly visible inside this Linux Codespace.
+
+Your job is to:
+
+1. locate the ZIP in the available Codespace/workspace/mounted filesystem
+2. inspect it
+3. apply it to the existing repository correctly
+4. preserve all unrelated routes and existing work
+5. validate the actual repository
+6. run the Books behavior tests
+7. start/check the app locally where possible
+8. deploy the updated repository using the project's existing deployment setup
+9. deploy to **Vercel Preview first**
+10. report the exact result
+
+Do NOT merely explain what should be done.
+
+You must actually make the repository changes and perform the validation/deployment steps available in the environment.
+
+---
+
+# 1. FIRST: LOCATE THE ZIP
+
+Do NOT assume:
+
+```text
+C:\Users\Manish Garg\.gemini\antigravity\scratch
+```
+
+is directly accessible from Linux.
+
+First inspect the current environment.
+
+Use commands such as:
+
+```bash
+pwd
+```
+
+```bash
+find /workspaces -type f -name 'books-refinement(1).zip' 2>/dev/null
+```
+
+```bash
+find /mnt /tmp /workspace -type f -name 'books-refinement(1).zip' 2>/dev/null
+```
+
+If necessary:
+
+```bash
+find / -type f -name 'books-refinement(1).zip' 2>/dev/null | head -20
+```
+
+Also inspect likely mounted/shared locations.
+
+### IMPORTANT
+
+Do NOT create a fake ZIP.
+
+Do NOT reconstruct the ZIP from memory.
+
+Do NOT assume the file exists if the filesystem search cannot find it.
+
+If it is available, record the exact path and continue.
+
+---
+
+# 2. VERIFY THAT THIS IS THE EXPECTED REFINEMENT PACKAGE
+
+Inspect the ZIP contents.
+
+It should contain approximately:
+
+```text
+books-refinement/
+├── src/
+├── tests/
+│   └── behavior.test.tsx
+└── CHANGES.md
+```
+
+The `src/` tree should contain the Books implementation including:
+
+```text
+src/app/books/page.tsx
+
+src/components/books/
+  BookDetails.tsx
+  BookEntrance.tsx
+  BookFAQ.tsx
+  BookObject.tsx
+  BookOpening.tsx
+  BookPricing.tsx
+  BooksExperience.tsx
+  BundleReveal.tsx
+  ChapterFlow.tsx
+  FindingCentreJourney.tsx
+  PageStory.tsx
+  PurchaseControl.tsx
+  SecondBookDiscovery.tsx
+  StoryImage.tsx
+  StoryScene.tsx
+  StoryText.tsx
+  ToolkitJourney.tsx
+
+src/data/books.ts
+```
+
+Inspect:
+
+```text
+CHANGES.md
+tests/behavior.test.tsx
+```
+
+before applying anything.
+
+---
+
+# 3. DO NOT REPLACE THE ENTIRE REPOSITORY
+
+The ZIP is a **Books-section drop-in package**.
+
+Do NOT:
+
+```text
+delete the repository
+replace the entire src directory blindly
+replace unrelated routes
+replace layouts
+replace global site pages
+replace Assessments
+replace Services
+replace Learn
+replace About
+replace Contact
+replace legal pages
+replace homepage
+```
+
+The user explicitly wants the Books refinement applied without redesigning unrelated site areas.
+
+The ZIP itself is intended to affect the Books implementation only.
+
+---
+
+# 4. CHECK GIT STATUS BEFORE CHANGING ANYTHING
+
+Run:
+
+```bash
+git status --short
+```
+
+Also inspect:
+
+```bash
+git branch --show-current
+```
+
+and:
+
+```bash
+git remote -v
+```
+
+### IMPORTANT
+
+If there are existing unrelated user changes:
+
+- preserve them
+- do not reset them
+- do not `git clean -fd`
+- do not use destructive commands
+- do not discard unrelated modifications
+
+Only modify the files necessary for the Books implementation and deployment.
+
+---
+
+# 5. BACK UP / RECORD CURRENT BOOKS STATE
+
+Before copying, inspect the current versions of the Books files.
+
+At minimum:
+
+```text
+src/data/books.ts
+
+src/components/books/BooksExperience.tsx
+src/components/books/BookEntrance.tsx
+src/components/books/BookObject.tsx
+src/components/books/BookOpening.tsx
+src/components/books/StoryImage.tsx
+src/components/books/StoryText.tsx
+src/components/books/StoryScene.tsx
+src/components/books/ToolkitJourney.tsx
+src/components/books/FindingCentreJourney.tsx
+src/components/books/PageStory.tsx
+src/components/books/ChapterFlow.tsx
+src/components/books/BookDetails.tsx
+src/components/books/BookFAQ.tsx
+src/components/books/BookPricing.tsx
+src/components/books/PurchaseControl.tsx
+src/components/books/SecondBookDiscovery.tsx
+src/components/books/BundleReveal.tsx
+src/app/books/page.tsx
+```
+
+Do not overwrite unrelated work without understanding the current repository.
+
+---
+
+# 6. EXTRACT THE ZIP TO A TEMPORARY DIRECTORY
+
+Extract the ZIP into a temporary working directory, for example:
+
+```bash
+rm -rf /tmp/books-refinement
+mkdir -p /tmp/books-refinement
+unzip -q "/PATH/TO/books-refinement(1).zip" -d /tmp/books-refinement
+```
+
+Replace `/PATH/TO/...` with the actual path you discovered.
+
+Then inspect:
+
+```bash
+find /tmp/books-refinement/books-refinement/src -type f | sort
+```
+
+---
+
+# 7. APPLY THE DROP-IN SOURCE FILES
+
+The package is designed around:
+
+```text
+books-refinement/src/
+```
+
+being copied into the repository's:
+
+```text
+src/
+```
+
+at the same paths.
+
+However, do this carefully.
+
+Copy the supplied Books files into the matching repository paths.
+
+The intended updated files include:
+
+```text
+src/app/books/page.tsx
+
+src/components/books/BookDetails.tsx
+src/components/books/BookEntrance.tsx
+src/components/books/BookFAQ.tsx
+src/components/books/BookObject.tsx
+src/components/books/BookOpening.tsx
+src/components/books/BookPricing.tsx
+src/components/books/BooksExperience.tsx
+src/components/books/BundleReveal.tsx
+src/components/books/ChapterFlow.tsx
+src/components/books/FindingCentreJourney.tsx
+src/components/books/PageStory.tsx
+src/components/books/PurchaseControl.tsx
+src/components/books/SecondBookDiscovery.tsx
+src/components/books/StoryImage.tsx
+src/components/books/StoryScene.tsx
+src/components/books/StoryText.tsx
+src/components/books/ToolkitJourney.tsx
+src/data/books.ts
+```
+
+Use the actual files from the ZIP.
+
+Do NOT fabricate replacements.
+
+---
+
+# 8. CHECK FOR OBSOLETE `BookTransition.tsx`
+
+The refined package does not contain the old:
+
+```text
+src/components/books/BookTransition.tsx
+```
+
+Check whether the current repository still contains it.
+
+Run:
+
+```bash
+test -f src/components/books/BookTransition.tsx && echo "BookTransition exists" || echo "No BookTransition"
+```
+
+Then search imports:
+
+```bash
+grep -R "BookTransition" src --exclude-dir=node_modules || true
+```
+
+### If it exists AND is unused:
+
+remove it because the refined architecture no longer uses it.
+
+### If it is still imported somewhere:
+
+DO NOT delete it blindly.
+
+Resolve the import first and ensure the Books page still uses the refined continuous architecture.
+
+---
+
+# 9. VERIFY THE NEW ARCHITECTURE AFTER COPYING
+
+The final `BooksExperience.tsx` should have one true book-selection state similar to:
+
+```tsx
+const [selectedBookId, setSelectedBookId] =
+  useState<string | null>(null);
+```
+
+and:
+
+```tsx
+const selectedBook = selectedBookId
+  ? BOOKS.find((book) => book.id === selectedBookId) ?? null
+  : null;
+
+const otherBook = selectedBook
+  ? BOOKS.find((book) => book.id !== selectedBook.id) ?? null
+  : null;
+```
+
+There MUST NOT be:
+
+```tsx
+secondBookId
+```
+
+Search:
+
+```bash
+grep -R "secondBookId" src/components/books src/data/books src/app/books || true
+```
+
+Expected:
+
+```text
+NO RESULTS
+```
+
+Do NOT reintroduce a second-book state gate.
+
+---
+
+# 10. VERIFY THE CONTINUOUS BOOK JOURNEY
+
+The desired structure is:
+
+```text
+Library Entrance
+      ↓
+Selected Book
+      ↓
+Book Opening
+      ↓
+Book Journey
+      ↓
+Page Story
+      ↓
+Chapters
+      ↓
+Details
+      ↓
+FAQ
+      ↓
+Pricing
+      ↓
+Second Book Discovery
+      ↓
+Second Book
+      ↓
+Second Book Journey
+      ↓
+Second Book Details
+      ↓
+Second Book Pricing
+      ↓
+Complete Library / Bundle
+```
+
+The second book must be:
+
+```text
+scroll-discoverable
+```
+
+not:
+
+```text
+button-gated
+state-gated
+phase-gated
+```
+
+Do not replace `StoryScene` with a new architecture.
+
+---
+
+# 11. VERIFY `StoryScene`
+
+The refined package introduces:
+
+```text
+src/components/books/StoryScene.tsx
+```
+
+This should remain the shared storytelling primitive.
+
+Expected concept:
+
+### Desktop
+
+```text
+┌──────────────────────┬──────────────────────────┐
+│                      │                          │
+│   STICKY VISUAL      │   STORY / NARRATIVE      │
+│                      │                          │
+│                      │   STORY 01               │
+│                      │                          │
+│                      │   STORY 02               │
+│                      │                          │
+│                      │   STORY 03               │
+└──────────────────────┴──────────────────────────┘
+```
+
+### Mobile
+
+```text
+IMAGE
+TEXT
+
+IMAGE
+TEXT
+
+IMAGE
+TEXT
+```
+
+Do not add scroll hijacking.
+
+Do not add a new carousel requiring user clicks to advance.
+
+---
+
+# 12. VERIFY THE RETURN-TO-LIBRARY FIX
+
+The refined package should clear selected state when returning.
+
+Expected pattern:
+
+```tsx
+const handleReturn = () => {
+  setPendingScroll(false);
+  setSelectedBookId(null);
+
+  window.scrollTo({
+    top: 0,
+    behavior: reducedMotion ? "auto" : "smooth",
+  });
+};
+```
+
+Test the actual behavior.
+
+After entering a book:
+
+```text
+Return to the library
+```
+
+must:
+
+```text
+clear selected book
+remove book worlds
+remove bundle
+return to shelf
+```
+
+Then the user must be able to choose either book again.
+
+---
+
+# 13. VERIFY PURCHASE CONTROL
+
+Inspect:
+
+```text
+src/components/books/PurchaseControl.tsx
+```
+
+It must NOT use:
+
+```text
+console.log()
+```
+
+Search:
+
+```bash
+grep -R "console.log" src/components/books src/data/books src/app/books || true
+```
+
+Expected:
+
+```text
+NO purchase console.log
+```
+
+The refined component should support two cases:
+
+### Approved checkout URL exists
+
+Render a real link.
+
+### No approved checkout URL exists
+
+Show the honest fallback:
+
+```text
+Checkout is being prepared.
+```
+
+Do NOT invent a checkout URL.
+
+---
+
+# 14. CHECK THE REPOSITORY FOR REAL CHECKOUT CONFIGURATION
+
+Search the real repository:
+
+```bash
+grep -RniE "checkout|purchase|stripe|lemonsqueezy|payment|product.*url|buy" \
+src . --exclude-dir=node_modules --exclude-dir=.git 2>/dev/null | head -200
+```
+
+Inspect the results.
+
+If the repository has an existing approved, active checkout destination:
+
+- use it
+- preserve its existing integration
+- connect `PurchaseControl`
+
+If there is no approved checkout destination:
+
+- leave the fallback behavior
+- do not invent one
+- do not revive historical integrations automatically
+
+The user will provide the final approved checkout URL later if necessary.
+
+---
+
+# 15. VERIFY PRODUCT DATA
+
+Keep these exact current prices:
+
+## Finding The Centre
+
+```text
+eBook      ₹749 / $12.49
+Paperback  ₹1,499 / $24.99
+```
+
+## The Psychology Toolkit
+
+```text
+Digital PDF  ₹1,499 / $24.99
+```
+
+## Bundle
+
+```text
+₹1,799 / $29.99
+```
+
+Bundle contains:
+
+```text
+Finding The Centre eBook
+The Psychology Toolkit Digital PDF
+```
+
+Do NOT reintroduce old pricing.
+
+Do NOT change product contents.
+
+---
+
+# 16. DO NOT INVENT PRODUCT CLAIMS
+
+Preserve the refined neutral/content-safe approach.
+
+Do NOT add unsupported claims such as:
+
+```text
+clinically validated
+evidence-based
+CBT
+MBSR
+clinical treatment
+diagnosis
+therapy replacement
+professional certification
+facilitator guide
+interactive PDF
+completion certificate
+```
+
+unless the actual repository/product material explicitly supports them.
+
+The current refined FAQ/data wording should be treated as the baseline.
+
+---
+
+# 17. PRESERVE THE REAL IMAGES
+
+Do not remove the real image assets from the Books experience.
+
+Use:
+
+```text
+real cover images
+real selected page images
+real chapter imagery where available
+real detail images
+```
+
+The Toolkit has real Chapter 1 imagery, while some later chapters do not.
+
+Do NOT invent missing page images.
+
+Typographic presentation for chapters without actual imagery is acceptable.
+
+---
+
+# 18. VERIFY IMAGE LABELS
+
+The refinement intentionally neutralized some uncertain titles.
+
+Keep neutral labels unless the real assets are inspected and confirmed.
+
+For example:
+
+```text
+Selected page
+From Chapter 1
+Table of Contents
+```
+
+are preferable to inventing descriptions.
+
+Do not infer image meaning purely from a filename.
+
+---
+
+# 19. KEEP THE CURRENT EDITORIAL VISUAL SYSTEM
+
+Do not reintroduce:
+
+```text
+rounded-3xl
+rounded-2xl
+rounded-xl
+shadow-xl
+bg-white ecommerce cards
+gradients
+blur blobs
+glassmorphism
+neon
+purple gradients
+SaaS dashboard UI
+```
+
+The Books page should remain:
+
+```text
+editorial
+warm
+quiet
+literary
+premium
+tactile
+spatial
+```
+
+with:
+
+```text
+ivory / cream
+deep charcoal/navy
+stone neutrals
+restrained sage/gold
+serif display typography
+generous whitespace
+thin rules
+```
+
+---
+
+# 20. VERIFY FAQ ACCESSIBILITY
+
+Every FAQ trigger should have:
+
+```tsx
+aria-expanded
+aria-controls
+```
+
+and the panel should have a matching ID.
+
+Also verify:
+
+```text
+focus-visible
+keyboard operation
+approximately 48px interaction height
+```
+
+The FAQ must work entirely without a mouse.
+
+---
+
+# 21. VERIFY REDUCED MOTION
+
+Check that the Books page uses:
+
+```tsx
+useReducedMotion()
+```
+
+and that major motion is reduced when required.
+
+The page must remain fully usable when reduced motion is active.
+
+---
+
+# 22. RUN THE INCLUDED BEHAVIOR TEST
+
+The ZIP contains:
+
+```text
+tests/behavior.test.tsx
+```
+
+This test checks things such as:
+
+```text
+Finding The Centre first
+Toolkit first
+both book worlds mounted in correct order
+bundle appears last
+bundle price
+FAQ aria-expanded
+FAQ panel relationship
+honest checkout fallback
+return-to-library reset
+reselection after return
+```
+
+Run the test according to the repository's installed tooling.
+
+The package notes:
+
+```bash
+npx tsx tests/behavior.test.tsx
+```
+
+as the intended execution path.
+
+First inspect whether the repository already has the required dependencies:
+
+```bash
+cat package.json
+```
+
+If `tsx` and required dependencies are available, run:
+
+```bash
+npx tsx /tmp/books-refinement/books-refinement/tests/behavior.test.tsx
+```
+
+If path aliases or repository configuration require copying the test temporarily into the repo, do so carefully and do not leave unwanted test changes unless appropriate.
+
+The expected final message includes:
+
+```text
+ALL BEHAVIOUR TESTS PASSED
+```
+
+Do not claim this passed unless it actually passes.
+
+---
+
+# 23. RUN REAL TYPE/LINT/BUILD VALIDATION
+
+Run:
+
+```bash
+npx tsc --noEmit
+```
+
+Then:
+
+```bash
+npm run lint
+```
+
+Then:
+
+```bash
+npm run build
+```
+
+Do not merely print the commands.
+
+Capture the actual result.
+
+If one fails:
+
+1. inspect the real error
+2. fix the issue
+3. rerun the failed validation
+4. do not declare success until it passes
+
+Do NOT hide errors with:
+
+```bash
+2>/dev/null
+```
+
+during the actual validation.
+
+---
+
+# 24. START LOCAL APP AND CHECK `/books`
+
+If the project can run locally, start it using the repository's existing command.
+
+Inspect:
+
+```text
+/books
+```
+
+Do not modify other routes.
+
+Check at least:
+
+```text
+1440px
+1280px
+768px
+390px
+```
+
+Verify:
+
+```text
+book selection
+cover opening
+sticky story
+page story
+chapters
+details
+FAQ
+pricing
+second-book transition
+bundle
+return to library
+```
+
+Also check browser console for obvious runtime errors.
+
+---
+
+# 25. CHECK FOR IMAGE/PATH FAILURES
+
+Verify that all Books image paths referenced by:
+
+```text
+src/data/books.ts
+```
+
+actually resolve against the existing public/static asset structure.
+
+Look for broken references such as:
+
+```text
+404
+missing images
+incorrect casing
+wrong directory
+```
+
+Do NOT create fake image assets just to silence missing-path errors.
+
+---
+
+# 26. DO NOT TOUCH OTHER ROUTES
+
+After applying the ZIP, inspect git diff:
+
+```bash
+git diff --name-only
+```
+
+The final diff should be limited to the intended Books implementation plus any necessary obsolete Books component cleanup.
+
+Do not alter unrelated routes.
+
+If unrelated files changed unexpectedly, investigate before deployment.
+
+---
+
+# 27. DEPLOYMENT
+
+Once all validation passes, inspect how this repository is normally deployed.
+
+Check:
+
+```bash
+cat package.json
+```
+
+```bash
+git remote -v
+```
+
+Check whether Vercel is already configured:
+
+```bash
+ls -la
+```
+
+Look for:
+
+```text
+vercel.json
+.next
+Vercel project configuration
+existing deployment scripts
+```
+
+Do NOT create an entirely new Vercel project if the repository already has one.
+
+Use the project's existing deployment configuration.
+
+---
+
+# 28. DEPLOY TO VERCEL PREVIEW FIRST
+
+The first deployment must be a **Preview deployment**, not an immediate production deployment.
+
+If the Vercel CLI is available and already authenticated, use the appropriate preview command used by this project, for example:
+
+```bash
+vercel
+```
+
+or:
+
+```bash
+vercel --preview
+```
+
+Use the actual installed CLI behavior and project configuration.
+
+Do NOT deploy to production unless the repository/project configuration explicitly requires that and all tests are passing.
+
+The goal of this task is:
+
+```text
+GitHub Codespace
+      ↓
+apply refinement
+      ↓
+validate
+      ↓
+Vercel Preview
+      ↓
+inspect actual Books page
+```
+
+---
+
+# 29. GIT COMMIT
+
+If the project's workflow uses Git commits, create a clear commit after validation.
+
+Suggested message:
+
+```text
+refine Books experience and prepare preview deployment
+```
+
+Before committing:
+
+```bash
+git diff --check
+```
+
+Then:
+
+```bash
+git status --short
+```
+
+Confirm only intended files are included.
+
+Do NOT commit unrelated user changes.
+
+---
+
+# 30. PUSH ONLY ACCORDING TO THE EXISTING PROJECT WORKFLOW
+
+Inspect the current branch and repository workflow first.
+
+Do not force-push.
+
+Do not overwrite remote history.
+
+If this project uses a dedicated preview branch, follow that existing convention.
+
+Otherwise use the current branch only if that is consistent with the repository's existing workflow.
+
+---
+
+# 31. FINAL DEPLOYMENT VALIDATION
+
+After Vercel returns the Preview URL, verify the deployed:
+
+```text
+/books
+```
+
+page.
+
+Check that:
+
+```text
+page loads
+images load
+CSS loads
+Motion works
+book selection works
+second book appears
+bundle appears
+FAQ works
+return-to-library works
+purchase fallback works
+```
+
+At minimum confirm there are no obvious deployment-time:
+
+```text
+404s
+500s
+missing asset errors
+runtime crashes
+hydration errors
+```
+
+---
+
+# 32. IMPORTANT: DO NOT CLAIM VISUAL 10/10 WITHOUT SEEING THE PAGE
+
+A successful build is not proof of visual quality.
+
+Do NOT report:
+
+```text
+10/10
+```
+
+simply because:
+
+```text
+tsc passed
+lint passed
+build passed
+```
+
+The correct statement is:
+
+```text
+Technical validation passed.
+Preview deployed.
+Visual review remains / was completed.
+```
+
+depending on what you actually verified.
+
+---
+
+# 33. STOPPING CONDITIONS
+
+Do not declare the deployment complete until:
+
+```text
+[ ] ZIP located successfully
+[ ] ZIP contents verified
+[ ] current repo inspected
+[ ] unrelated changes preserved
+[ ] refined Books src applied
+[ ] no secondBookId
+[ ] no obsolete architecture reintroduced
+[ ] return-to-library resets state
+[ ] PurchaseControl works correctly
+[ ] no purchase console.log
+[ ] no invented checkout URL
+[ ] product prices correct
+[ ] bundle contents correct
+[ ] unsupported claims not introduced
+[ ] Books images resolve
+[ ] StoryScene preserved
+[ ] FAQ accessibility preserved
+[ ] reduced motion preserved
+[ ] behavior test passes
+[ ] TypeScript passes
+[ ] lint passes
+[ ] production build passes
+[ ] git diff checked
+[ ] /books local route checked
+[ ] Vercel Preview deployed
+[ ] deployed /books checked
+[ ] no obvious runtime/deployment errors
+```
+
+---
+
+# 34. FINAL REPORT FORMAT
+
+When finished, provide a factual report in exactly this structure:
+
+```text
+## Deployment Result
+
+Status:
+SUCCESS / BLOCKED
+
+ZIP:
+<exact path used>
+
+Files applied:
+<list>
+
+Files removed:
+<list or None>
+
+Books architecture:
+<brief confirmation>
+
+Behavior tests:
+PASS / FAIL
+
+TypeScript:
+PASS / FAIL
+
+Lint:
+PASS / FAIL
+
+Build:
+PASS / FAIL
+
+Local /books:
+PASS / FAIL
+
+Vercel Preview:
+<exact preview URL>
+
+Deployment errors:
+None / <details>
+
+Checkout:
+<connected existing checkout / honest fallback because no approved URL exists>
+
+Remaining blockers:
+None / <details>
+```
+
+Do not say “deployed successfully” unless the Vercel deployment actually completed and the Preview URL was obtained.
+
+Do not say “all tests passed” unless you actually ran them.
+
+Do not modify unrelated routes.
+
+Do not redesign the Books section during this task.
+
+The priority is:
+
+**apply the supplied refinement accurately → validate the real repository → deploy a clean Vercel Preview.**
