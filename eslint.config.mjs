@@ -5,6 +5,7 @@ export default tseslint.config(
   {
     ignores: [
       ".next/**",
+      ".vercel/**",
       "node_modules/**",
       "out/**",
       "public/**",

@@ -101,7 +101,7 @@ export function Canvas3DHero({ isPlayingAudio = false }: { isPlayingAudio?: bool
       }[] = [];
 
       // Compute 3D Coordinates & Perspective projection
-      particles.forEach((p, idx) => {
+      particles.forEach((p) => {
         p.u += p.speed;
         
         // Fluid organic deformation wave
@@ -109,9 +109,9 @@ export function Canvas3DHero({ isPlayingAudio = false }: { isPlayingAudio?: bool
         const r = p.radius + wave;
 
         // Spherical to 3D Cartesian
-        let x = r * Math.cos(p.v) * Math.sin(p.u);
-        let y = r * Math.sin(p.v);
-        let z = r * Math.cos(p.v) * Math.cos(p.u);
+        const x = r * Math.cos(p.v) * Math.sin(p.u);
+        const y = r * Math.sin(p.v);
+        const z = r * Math.cos(p.v) * Math.cos(p.u);
 
         // Rotate around X
         const cosX = Math.cos(rotX);

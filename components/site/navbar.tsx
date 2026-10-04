@@ -2,13 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-<<<<<<< HEAD
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
-=======
-import { Menu, ChevronDown, Sparkles } from "lucide-react";
-import { MAIN_NAVIGATION } from "@/data/navigation";
->>>>>>> 30c7539 (Clean lint warnings and finalize production build)
 import { MobileDrawer } from "./mobile-drawer";
 
 export function Navbar() {

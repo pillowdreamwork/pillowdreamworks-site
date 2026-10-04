@@ -1,10 +1,9 @@
 node_modules/
 .next/
+.vercel/
+.env.local
 test-results/
 .DS_Store
 .agents/
 *.tsbuildinfo
-
-.next/
-.vercel/
-.vercel
+node_modules

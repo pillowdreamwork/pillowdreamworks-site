@@ -54,26 +54,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${libreBaskerville.variable}`}>
-<<<<<<< HEAD
-      <body className="antialiased min-h-screen bg-white text-black flex flex-col justify-between selection:bg-[#00FFFF] selection:text-black">
-        <LayoutShell>{children}</LayoutShell>
-=======
       <body className="antialiased min-h-screen bg-ivory text-navy flex flex-col justify-between selection:bg-sage selection:text-ivory">
-        <div>
-          <EmergencyBanner />
-          <Navbar />
-          {children}
-        </div>
-        <div className="mobile-sticky-cta">
-          <a href="/contact?inquiry_type=consultation" className="sticky-btn sticky-btn-primary">
-            Request a Session
-          </a>
-          <a href="https://wa.me/919728355421" className="sticky-btn sticky-btn-whatsapp" target="_blank" rel="noopener noreferrer">
-            WhatsApp
-          </a>
-        </div>
-        <Footer />
->>>>>>> 30c7539 (Clean lint warnings and finalize production build)
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );
