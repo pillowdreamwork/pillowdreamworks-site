@@ -2,8 +2,14 @@
 
 import * as React from "react";
 import Link from "next/link";
+<<<<<<< HEAD
 import { usePathname } from "next/navigation";
 import { X, PhoneCall } from "lucide-react";
+=======
+import { X, ChevronDown, Sparkles } from "lucide-react";
+import { MAIN_NAVIGATION, FOUNDER_CONTACT } from "@/data/navigation";
+import { CAMPAIGN_METADATA } from "@/data/pricing";
+>>>>>>> 30c7539 (Clean lint warnings and finalize production build)
 
 interface MobileDrawerProps {
   isOpen: boolean;

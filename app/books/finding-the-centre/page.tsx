@@ -2,12 +2,11 @@ import * as React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FINDING_THE_CENTRE } from "@/data/books";
 import { BOOKS_PRICING } from "@/data/pricing";
-import { ArrowRight, BookOpen, Check, Feather, Sparkles } from "lucide-react";
+import { Feather } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Finding The Centre — PillowDreamWorks Foundation",

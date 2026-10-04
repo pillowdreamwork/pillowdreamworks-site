@@ -1,25 +1,11 @@
 import * as React from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SERVICES_PRICING } from "@/data/pricing";
-import { EMERGENCY_INFO } from "@/data/navigation";
-import {
-  HeartHandshake,
-  PhoneCall,
-  MessageSquareHeart,
-  PenTool,
-  GraduationCap,
-  ShieldCheck,
-  Phone,
-  ArrowRight,
-  Check,
-  Clock,
-  Sparkles,
-} from "lucide-react";
+import { Phone, Check } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Clinical Services & Counselling — PillowDreamWorks Foundation",

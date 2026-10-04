@@ -83,7 +83,7 @@ export function buildFactorResults(scores: number[], definitions: FactorDefiniti
   });
 }
 
-function safeNumber(value: any, fallback = 0): number {
+function safeNumber(value: unknown, fallback = 0): number {
   const numericValue = Number(value);
   return Number.isFinite(numericValue) ? numericValue : fallback;
 }
@@ -101,6 +101,12 @@ function formatAssessmentPercentage(value: number): string {
   return `${Math.max(0, Math.min(100, value)).toFixed(1)}%`;
 }
 
+type SourceFactor = FactorResult & {
+  label?: string;
+  level?: string;
+  meaning?: string;
+};
+
 export function buildMeasureRows(item: FullAssessmentItem, result: AssessmentScoringResult, score: number, maxScore: number, percentage: number) {
   const rows: Array<{
     measure: string;
@@ -111,12 +117,12 @@ export function buildMeasureRows(item: FullAssessmentItem, result: AssessmentSco
     meaning: string;
   }> = [];
   const level = result && result.level ? String(result.level) : 'Current range';
-  const sourceFactors = Array.isArray(result?.factors) && result.factors.length > 0
-    ? result.factors
-    : (Array.isArray(item?.factors) ? (item.factors as any) : []);
+  const sourceFactors: SourceFactor[] = Array.isArray(result?.factors) && result.factors.length > 0
+    ? result.factors as SourceFactor[]
+    : (Array.isArray(item?.factors) ? (item.factors as unknown as SourceFactor[]) : []);
 
   if (sourceFactors.length > 0) {
-    sourceFactors.forEach((factor: any) => {
+    sourceFactors.forEach((factor) => {
       const factorScore = safeNumber(factor.score, 0);
       const factorMax = safeNumber(factor.maxScore, factorScore || 1);
       const factorPct = calculatePercentage(factorScore, factorMax);

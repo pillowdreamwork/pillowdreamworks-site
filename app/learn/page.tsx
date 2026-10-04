@@ -3,11 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LEARN_CATALOG, LearnItem } from "@/data/learn";
-import { Search, BookOpen, Clock, ArrowRight, Sparkles, X } from "lucide-react";
+import { Search, Clock, ArrowRight, X } from "lucide-react";
 
 export default function LearnPage() {
   const [selectedCategory, setSelectedCategory] = React.useState<string>("All");

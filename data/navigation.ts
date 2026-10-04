@@ -72,7 +72,7 @@ export const FOUNDER_CONTACT = {
   email: "mgmanishgarg3@gmail.com",
   linkedin: "https://www.linkedin.com/in/manish-garg-11757b238",
   instagram: "https://instagram.com/manish082_1",
-  whatsapp: "https://wa.me/919999999999",
+  whatsapp: "https://wa.me/919728355421",
   tagline: "Calm on the surface. Ambition underneath.",
 };
 

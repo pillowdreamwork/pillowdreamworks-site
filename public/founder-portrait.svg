@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 400" role="img" aria-labelledby="title desc">
+  <title id="title">Manish Garg portrait</title>
+  <desc id="desc">Stylised portrait illustration for the founder section.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f5efe6"/>
+      <stop offset="100%" stop-color="#d8c7a6"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0f2038"/>
+      <stop offset="100%" stop-color="#18314d"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="400" rx="18" fill="url(#bg)"/>
+  <circle cx="160" cy="118" r="60" fill="#d7b98b"/>
+  <path d="M100 330c10-54 34-81 60-81s48 27 60 81" fill="url(#shirt)"/>
+  <path d="M126 141c5-38 23-60 34-60 31 0 47 35 47 61 0 36-22 57-47 57-28 0-40-31-34-58z" fill="#d7b98b"/>
+  <path d="M112 140c10-44 38-72 71-72 17 0 33 5 47 18-10-2-22 0-37 8-26 13-46 34-54 68l-27-22z" fill="#102032"/>
+  <circle cx="142" cy="115" r="5" fill="#102032"/>
+  <circle cx="178" cy="115" r="5" fill="#102032"/>
+  <path d="M143 138c8 9 25 9 34 0" stroke="#102032" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M118 192c16 15 31 22 42 22 14 0 29-8 43-22" stroke="#d4a763" stroke-width="7" stroke-linecap="round" fill="none"/>
+</svg>

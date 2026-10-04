@@ -12,7 +12,7 @@ import {
   SERVICES_PRICING,
   CAMPAIGN_METADATA,
 } from "@/data/pricing";
-import { Sparkles, Check, ArrowRight, ShieldCheck, Globe, MapPin } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 export default function PricingPage() {
   const [currency, setCurrency] = React.useState<"inr" | "usd">("inr");

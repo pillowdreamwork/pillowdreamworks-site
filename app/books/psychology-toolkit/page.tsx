@@ -6,21 +6,15 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 import { PSYCHOLOGY_TOOLKIT } from "@/data/books";
 import { BOOKS_PRICING, CAMPAIGN_METADATA } from "@/data/pricing";
 import {
   ArrowRight,
   CheckCircle2,
   ChevronDown,
-  Download,
   FileCheck,
-  HelpCircle,
-  Layers,
   ShieldAlert,
   Sparkles,
-  Target,
-  Users,
 } from "lucide-react";
 
 export default function PsychologyToolkitPage() {

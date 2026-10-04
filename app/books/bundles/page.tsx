@@ -1,12 +1,10 @@
 import * as React from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BOOKS_PRICING, CAMPAIGN_METADATA } from "@/data/pricing";
-import { ArrowRight, Check, Sparkles, ShieldCheck, BookOpen } from "lucide-react";
+import { BOOKS_PRICING } from "@/data/pricing";
+import { ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Complete Psychology & Inner Work Bundle — PillowDreamWorks Foundation",

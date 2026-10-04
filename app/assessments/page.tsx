@@ -2,7 +2,7 @@ import * as React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { AssessmentCentre } from "@/components/assessments/assessment-centre";
-import { ShieldAlert, Compass } from "lucide-react";
+import { ShieldAlert } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Psychological Assessment Centre — PillowDreamWorks Foundation",

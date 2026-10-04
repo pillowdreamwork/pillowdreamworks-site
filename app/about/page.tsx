@@ -4,9 +4,8 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { FOUNDER_CONTACT } from "@/data/navigation";
-import { ArrowUpRight, Mail, Compass, BookOpen, HeartHandshake, ShieldCheck } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About the Foundation — PillowDreamWorks Foundation",

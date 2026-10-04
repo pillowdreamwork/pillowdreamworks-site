@@ -1,5 +1,16 @@
 import type { Metadata } from "next";
+<<<<<<< HEAD
 import { BooksJourneyExperience } from "@/components/books/books-journey-experience";
+=======
+import Link from "next/link";
+import { Container } from "@/components/ui/container";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { BookCarousel } from "@/components/books/book-carousel";
+import { BOOKS_PRICING, CAMPAIGN_METADATA } from "@/data/pricing";
+import { ArrowRight, Check, Sparkles } from "lucide-react";
+>>>>>>> 30c7539 (Clean lint warnings and finalize production build)
 
 export const metadata: Metadata = {
   title: "The Books Ecosystem — PillowDreamWorks Foundation",

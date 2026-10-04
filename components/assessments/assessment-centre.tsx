@@ -15,21 +15,15 @@ import {
   Clock,
   ArrowRight,
   Search,
-  BookOpen,
   Copy,
   Check,
   RotateCcw,
   Printer,
   Calendar,
   Layers,
-  HeartHandshake,
   Brain,
-  Shield,
-  FileText,
-  Activity,
   Filter,
   User,
-  Zap,
 } from "lucide-react";
 
 export function AssessmentCentre() {

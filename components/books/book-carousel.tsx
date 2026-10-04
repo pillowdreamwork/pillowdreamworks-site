@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronLeft, ChevronRight, Sparkles, BookOpen, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BOOKS_PRICING } from "@/data/pricing";
 
@@ -50,7 +50,6 @@ const SLIDES = [
 
 export function BookCarousel() {
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const [isPaused, setIsPaused] = React.useState(false);
 
   const nextSlide = React.useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % SLIDES.length);
@@ -75,8 +74,6 @@ export function BookCarousel() {
   return (
     <div
       className="relative w-full max-w-4xl mx-auto"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
       role="region"
       aria-label="Books Carousel"
     >
