@@ -20,7 +20,7 @@ export function ServicesPreviewSection() {
             The Consulting Rooms
           </h2>
           <p className="mt-4 text-base text-navy/70 font-sans leading-relaxed">
-            Direct access to qualified psychological guidance, acute crisis stabilization, ongoing confidential check-ins, and neuromuscular graphotherapy.
+            Direct access to psychological guidance, a scheduled stabilisation call, ongoing confidential check-ins, and graphology readings.
           </p>
         </div>
 
@@ -75,20 +75,20 @@ export function ServicesPreviewSection() {
           >
             <div className="space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-red-900/10">
-                <span className="font-mono text-xs text-red-900/70 tracking-wider">ROOM 02 · STABILIZATION</span>
-                <span className="text-xs font-medium text-red-950 bg-red-900/10 px-2.5 py-1 rounded-sm">Immediate Intake</span>
+                <span className="font-mono text-xs text-red-900/70 tracking-wider">ROOM 02 · SUPPORT</span>
+                <span className="text-xs font-medium text-red-950 bg-red-900/10 px-2.5 py-1 rounded-sm">Scheduled Call</span>
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl text-red-950 font-normal">
-                Crisis De-Escalation Call
+                Crisis Stabilisation Call
               </h3>
               <p className="text-sm text-navy/80 leading-relaxed font-sans">
-                Immediate, non-judgmental somatic grounding and cognitive triage during episodes of overwhelming panic, acute heartbreak, or paralyzing distress.
+                A scheduled, non-emergency support call offering grounding and de-escalation during periods of overwhelm. Not an emergency-response service.
               </p>
             </div>
 
             <div className="pt-8 mt-6 border-t border-red-900/10 flex items-center justify-between">
               <div>
-                <span className="text-[11px] font-mono uppercase tracking-wider text-red-900/70 block">Immediate Rate</span>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-red-900/70 block">Session rate</span>
                 <span className="font-serif text-xl font-bold text-red-950">
                   {SERVICES_PRICING.crisis.call.formattedInr}
                 </span>
@@ -98,7 +98,7 @@ export function ServicesPreviewSection() {
                 href="/services#crisis"
                 className="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-semibold text-red-950 hover:text-red-800 transition-colors"
               >
-                <span>Access Protocol</span>
+                <span>Request a Call</span>
                 <Phone className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -160,7 +160,7 @@ export function ServicesPreviewSection() {
                 Subconscious Graphotherapy
               </h3>
               <p className="text-sm text-navy/75 leading-relaxed font-sans">
-                Scientific handwriting stroke analysis evaluating subconscious defense patterns, baseline stress markers, and custom 30-day neuromuscular penmanship drills.
+                Structured handwriting stroke analysis exploring baseline patterns and stress markers, with custom 30-day realignment penmanship drills.
               </p>
             </div>
 

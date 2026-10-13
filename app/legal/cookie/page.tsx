@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
+import { LegalReviewNotice } from "@/components/legal/legal-review-notice";
 
 export const metadata: Metadata = {
   title: "Cookie Policy — PillowDreamWorks Foundation",
@@ -23,10 +24,12 @@ export default function CookiePolicyPage() {
           </p>
         </div>
 
+        <LegalReviewNotice />
+
         <div className="prose prose-navy max-w-none space-y-6 text-sm sm:text-base text-navy/80 leading-relaxed font-sans">
           <h2 className="font-serif text-2xl font-bold text-navy">1. Use of Cookies</h2>
           <p>
-            PillowDreamWorks Foundation uses essential functional cookies solely to maintain website performance, ensure navigation state persistence, and process secure checkout transactions.
+            PillowDreamWorks Foundation uses essential functional cookies solely to maintain website performance and navigation state. This site does not currently run a checkout or set advertising or analytics cookies.
           </p>
 
           <h2 className="font-serif text-2xl font-bold text-navy pt-4">2. Zero Invasive Tracking</h2>

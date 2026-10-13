@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { Container } from "@/components/ui/container";
-import { CAMPAIGN_METADATA, BOOKS_PRICING } from "@/data/pricing";
+import { BOOKS_PRICING } from "@/data/pricing";
 
 const containerVariants = {
   hidden: {},
@@ -121,7 +121,7 @@ export function HeroSection() {
               variants={itemVariants}
               className="pt-6 border-t border-navy/10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-navy/55"
             >
-              <span>{CAMPAIGN_METADATA.badge}: ₹{BOOKS_PRICING.toolkit.diwali.inr} (${BOOKS_PRICING.toolkit.diwali.usd})</span>
+              <span>The Psychology Toolkit: {BOOKS_PRICING.toolkit.formattedInr} ({BOOKS_PRICING.toolkit.formattedUsd})</span>
               <span>·</span>
               <span>80 Pages (5 Master Chapters)</span>
               <span>·</span>

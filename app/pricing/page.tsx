@@ -10,9 +10,9 @@ import {
   BOOKS_PRICING,
   ASSESSMENTS_CATALOG,
   SERVICES_PRICING,
-  CAMPAIGN_METADATA,
+  CHECKOUT_NOTICE,
 } from "@/data/pricing";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Info } from "lucide-react";
 
 export default function PricingPage() {
   const [currency, setCurrency] = React.useState<"inr" | "usd">("inr");
@@ -26,7 +26,7 @@ export default function PricingPage() {
         <div className="text-center max-w-3xl mx-auto space-y-6 mb-16">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gold/20 border border-gold/40 text-navy text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-gold-dark" />
-            <span>{CAMPAIGN_METADATA.badge} Active until {CAMPAIGN_METADATA.endDate}</span>
+            <span>Published pricing — no temporary campaigns or discounts</span>
           </div>
 
           <h1 className="font-serif text-4xl sm:text-5xl font-normal tracking-tight text-navy">
@@ -64,6 +64,15 @@ export default function PricingPage() {
           </div>
         </div>
 
+        {/* Checkout Status Notice */}
+        <div className="mb-16 p-4 rounded-2xl bg-cream border border-navy/15 flex items-start gap-3 text-sm text-navy/80">
+          <Info className="w-4 h-4 text-sage-dark shrink-0 mt-0.5" />
+          <p>
+            <strong className="text-navy">{CHECKOUT_NOTICE}</strong> Prices below are the
+            published rates; online payment is not yet wired up.
+          </p>
+        </div>
+
         {/* 1. Books Pricing Cards */}
         <section className="mb-20 space-y-8">
           <SectionHeading
@@ -84,27 +93,17 @@ export default function PricingPage() {
                   The Psychology Toolkit
                 </h3>
                 <p className="text-xs text-navy/70 leading-relaxed">
-                  5 structured chapters, 15+ clinical worksheets, somatic grounding logs, and CentreLine access.
+                  5 structured chapters, clinical worksheets, and a structured reflection system.
                 </p>
-                <div className="pt-4 border-t border-navy/10 space-y-1">
-                  <span className="text-xs text-navy/50 line-through block">
-                    Regular {isIndia ? BOOKS_PRICING.toolkit.regular.formattedInr : BOOKS_PRICING.toolkit.regular.formattedUsd}
+                <div className="pt-4 border-t border-navy/10">
+                  <span className="font-serif text-3xl font-bold text-navy">
+                    {isIndia ? BOOKS_PRICING.toolkit.formattedInr : BOOKS_PRICING.toolkit.formattedUsd}
                   </span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-serif text-3xl font-bold text-navy">
-                      {isIndia ? BOOKS_PRICING.toolkit.diwali.formattedInr : BOOKS_PRICING.toolkit.diwali.formattedUsd}
-                    </span>
-                    <span className="text-xs font-semibold text-gold-dark bg-gold/20 px-2 py-0.5 rounded">
-                      {isIndia ? BOOKS_PRICING.toolkit.diwali.savingsInr : BOOKS_PRICING.toolkit.diwali.savingsUsd}
-                    </span>
-                  </div>
                 </div>
               </div>
-              <Link href="/books/psychology-toolkit" className="pt-6">
-                <Button variant="primary" className="w-full">
-                  Get Toolkit
-                </Button>
-              </Link>
+              <Button asChild variant="primary" className="w-full mt-6">
+                <Link href="/books/psychology-toolkit">Get Toolkit</Link>
+              </Button>
             </div>
 
             {/* Finding The Centre */}
@@ -118,7 +117,7 @@ export default function PricingPage() {
                   Finding The Centre
                 </h3>
                 <p className="text-xs text-navy/70 leading-relaxed">
-                  Reflective handbook on emotional poise, solitude, and quiet grounding.
+                  Reflective workbook on emotional poise, solitude, and quiet grounding.
                 </p>
                 <div className="pt-4 border-t border-navy/10 space-y-2">
                   <div className="flex justify-between items-center text-xs">
@@ -128,52 +127,40 @@ export default function PricingPage() {
                     </span>
                   </div>
                   <div className="flex justify-between items-center text-xs pt-1 border-t border-navy/5">
-                    <span className="text-navy/70">Collector Print:</span>
+                    <span className="text-navy/70">Paperback:</span>
                     <span className="font-bold text-navy">
                       {isIndia ? BOOKS_PRICING.findingTheCentre.print.formattedInr : BOOKS_PRICING.findingTheCentre.print.formattedUsd}
                     </span>
                   </div>
                 </div>
               </div>
-              <Link href="/books/finding-the-centre" className="pt-6">
-                <Button variant="secondary" className="w-full">
-                  Explore Formats
-                </Button>
-              </Link>
+              <Button asChild variant="secondary" className="w-full mt-6">
+                <Link href="/books/finding-the-centre">Explore Formats</Link>
+              </Button>
             </div>
 
             {/* Complete Bundle */}
             <div className="bg-navy text-ivory rounded-2xl p-7 border border-navy-light/40 shadow-xl flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Badge variant="gold">20% Bundle</Badge>
-                  <span className="text-xs font-mono text-gold">Complete Set</span>
+                  <Badge variant="gold">Digital Bundle</Badge>
+                  <span className="text-xs font-mono text-gold">Both Digital Titles</span>
                 </div>
                 <h3 className="font-serif text-2xl font-bold text-ivory">
                   Psychology Bundle
                 </h3>
                 <p className="text-xs text-ivory/75 leading-relaxed">
-                  The Psychology Toolkit + Finding The Centre eBook at 20% combined savings.
+                  The Psychology Toolkit + Finding The Centre (eBook Edition) in one digital collection.
                 </p>
-                <div className="pt-4 border-t border-ivory/15 space-y-1">
-                  <span className="text-xs text-ivory/50 line-through block">
-                    Combined {isIndia ? BOOKS_PRICING.bundle.regularValue.formattedInr : BOOKS_PRICING.bundle.regularValue.formattedUsd}
+                <div className="pt-4 border-t border-ivory/15">
+                  <span className="font-serif text-3xl font-bold text-gold">
+                    {isIndia ? BOOKS_PRICING.bundle.formattedInr : BOOKS_PRICING.bundle.formattedUsd}
                   </span>
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-serif text-3xl font-bold text-gold">
-                      {isIndia ? BOOKS_PRICING.bundle.price.formattedInr : BOOKS_PRICING.bundle.price.formattedUsd}
-                    </span>
-                    <span className="text-xs text-sage font-medium">
-                      {isIndia ? BOOKS_PRICING.bundle.price.savingsInr : BOOKS_PRICING.bundle.price.savingsUsd}
-                    </span>
-                  </div>
                 </div>
               </div>
-              <Link href="/books/bundles" className="pt-6">
-                <Button variant="gold" className="w-full">
-                  Claim Complete Bundle
-                </Button>
-              </Link>
+              <Button asChild variant="gold" className="w-full mt-6">
+                <Link href="/books/bundles">View Complete Bundle</Link>
+              </Button>
             </div>
           </div>
         </section>
@@ -183,7 +170,7 @@ export default function PricingPage() {
           <SectionHeading
             eyebrow="Clinical Instruments"
             title="Psychological Assessments Registry"
-            description="Complete price directory for standardized tests and clinician-evaluated projective protocols."
+            description="Complete price directory for standardized tests and practitioner-administered projective protocols. Every session runs for 60 minutes."
           />
 
           <div className="overflow-x-auto rounded-2xl border border-navy/15 bg-ivory shadow-xs">
@@ -208,11 +195,6 @@ export default function PricingPage() {
                     <td className="p-4 text-navy/60">{item.duration}</td>
                     <td className="p-4 text-right font-serif font-bold text-navy">
                       {isIndia ? item.formattedInr : item.formattedUsd}
-                      {!isIndia && item.marketValueUsd && (
-                        <span className="text-[10px] text-navy/50 block line-through font-sans">
-                          Val {item.marketValueUsd}
-                        </span>
-                      )}
                     </td>
                   </tr>
                 ))}
@@ -226,60 +208,64 @@ export default function PricingPage() {
           <SectionHeading
             eyebrow="Therapeutic Care"
             title="Counselling & Support Services"
-            description="1-on-1 consultations, crisis stabilization, CentreLine, and graphotherapy."
+            description="1-on-1 consultations, scheduled crisis stabilisation calls, CentreLine support, graphology readings, and courses."
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Counselling */}
             <div className="bg-cream rounded-2xl p-6 border border-navy/15 space-y-4">
-              <h3 className="font-serif text-xl font-bold text-navy">Counselling & Crisis</h3>
+              <h3 className="font-serif text-xl font-bold text-navy">Counselling & Support</h3>
               <div className="space-y-3 text-xs sm:text-sm divide-y divide-navy/10">
                 <div className="flex justify-between items-center pt-2">
-                  <span>1-on-1 Session (50 Min)</span>
+                  <span>{SERVICES_PRICING.counselling.singleSession.title}</span>
                   <span className="font-bold text-navy">{isIndia ? SERVICES_PRICING.counselling.singleSession.formattedInr : SERVICES_PRICING.counselling.singleSession.formattedUsd}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                  <span>Counselling Package (4 Sessions)</span>
+                  <span>{SERVICES_PRICING.counselling.package4.title}</span>
                   <span className="font-bold text-navy">{isIndia ? SERVICES_PRICING.counselling.package4.formattedInr : SERVICES_PRICING.counselling.package4.formattedUsd}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                  <span>Counselling Package (8 Sessions)</span>
+                  <span>{SERVICES_PRICING.counselling.package8.title}</span>
                   <span className="font-bold text-navy">{isIndia ? SERVICES_PRICING.counselling.package8.formattedInr : SERVICES_PRICING.counselling.package8.formattedUsd}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2 text-red-900">
-                  <span className="font-semibold">Crisis Stabilization Call</span>
+                  <span className="font-semibold">{SERVICES_PRICING.crisis.call.title}</span>
                   <span className="font-bold">{isIndia ? SERVICES_PRICING.crisis.call.formattedInr : SERVICES_PRICING.crisis.call.formattedUsd}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                  <span>CentreLine Ongoing Support</span>
+                  <span>{SERVICES_PRICING.crisis.centreLine.title}</span>
                   <span className="font-bold text-navy">{isIndia ? SERVICES_PRICING.crisis.centreLine.formattedInr : SERVICES_PRICING.crisis.centreLine.formattedUsd}</span>
                 </div>
               </div>
             </div>
 
-            {/* Graphology */}
+            {/* Graphology & Courses */}
             <div className="bg-cream rounded-2xl p-6 border border-navy/15 space-y-4">
-              <h3 className="font-serif text-xl font-bold text-navy">Graphotherapy & Courses</h3>
+              <h3 className="font-serif text-xl font-bold text-navy">Graphology & Courses</h3>
               <div className="space-y-3 text-xs sm:text-sm divide-y divide-navy/10">
                 <div className="flex justify-between items-center pt-2">
-                  <span>Graphology Basic Reading</span>
+                  <span>{SERVICES_PRICING.graphology.basic.title}</span>
                   <span className="font-bold text-navy">{isIndia ? SERVICES_PRICING.graphology.basic.formattedInr : SERVICES_PRICING.graphology.basic.formattedUsd}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                  <span>Graphology Standard Reading</span>
+                  <span>{SERVICES_PRICING.graphology.standard.title}</span>
                   <span className="font-bold text-navy">{isIndia ? SERVICES_PRICING.graphology.standard.formattedInr : SERVICES_PRICING.graphology.standard.formattedUsd}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                  <span>Graphology Deep Analysis & Therapy</span>
+                  <span>{SERVICES_PRICING.graphology.deep.title}</span>
                   <span className="font-bold text-navy">{isIndia ? SERVICES_PRICING.graphology.deep.formattedInr : SERVICES_PRICING.graphology.deep.formattedUsd}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                  <span className="font-semibold text-navy">Graphotherapy Master Package (Launch)</span>
-                  <span className="font-bold text-gold-dark">{isIndia ? SERVICES_PRICING.graphology.masterPackage.formattedInr : SERVICES_PRICING.graphology.masterPackage.formattedUsd}</span>
+                  <span>{SERVICES_PRICING.courses.crisisCounselling.title}</span>
+                  <span className="font-bold text-navy">{isIndia ? SERVICES_PRICING.courses.crisisCounselling.formattedInr : SERVICES_PRICING.courses.crisisCounselling.formattedUsd}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                  <span>Complete Course Bundle</span>
-                  <span className="font-bold text-navy">{isIndia ? SERVICES_PRICING.courses.bundle.formattedInr : SERVICES_PRICING.courses.bundle.formattedUsd}</span>
+                  <span>{SERVICES_PRICING.courses.cognitiveCounselling.title}</span>
+                  <span className="font-bold text-navy">{isIndia ? SERVICES_PRICING.courses.cognitiveCounselling.formattedInr : SERVICES_PRICING.courses.cognitiveCounselling.formattedUsd}</span>
+                </div>
+                <div className="flex justify-between items-center pt-2">
+                  <span className="font-semibold text-navy">{SERVICES_PRICING.courses.bundle.title}</span>
+                  <span className="font-bold text-gold-dark">{isIndia ? SERVICES_PRICING.courses.bundle.formattedInr : SERVICES_PRICING.courses.bundle.formattedUsd}</span>
                 </div>
               </div>
             </div>

@@ -5,7 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FINDING_THE_CENTRE } from "@/data/books";
-import { BOOKS_PRICING } from "@/data/pricing";
+import { BOOKS_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 import { Feather } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -59,8 +59,8 @@ export default function FindingTheCentrePage() {
                       ({BOOKS_PRICING.findingTheCentre.ebook.formattedUsd})
                     </span>
                   </div>
-                  <Button variant="primary" className="w-full">
-                    Claim eBook
+                  <Button asChild variant="primary" className="w-full">
+                    <Link href="/contact">Enquire About eBook</Link>
                   </Button>
                 </div>
 
@@ -85,11 +85,16 @@ export default function FindingTheCentrePage() {
                       ({BOOKS_PRICING.findingTheCentre.print.formattedUsd})
                     </span>
                   </div>
-                  <Button variant="gold" className="w-full">
-                    Order Hardcover
+                  <Button asChild variant="gold" className="w-full">
+                    <Link href="/contact">Enquire About Paperback</Link>
                   </Button>
                 </div>
               </div>
+
+              <p className="text-xs text-navy/70 leading-relaxed pt-4 border-t border-navy/10">
+                <strong className="text-navy">{CHECKOUT_NOTICE}</strong> Editions and prices above are
+                published rates; online payment is not yet available.
+              </p>
             </div>
 
             {/* Right Visual Tile */}
@@ -127,17 +132,15 @@ export default function FindingTheCentrePage() {
               Recommended Companion Offer
             </span>
             <h3 className="font-serif text-2xl sm:text-3xl font-bold text-navy">
-              Pair with The Psychology Toolkit & Save 20%
+              Pair with The Psychology Toolkit
             </h3>
             <p className="text-sm text-navy/70">
-              Get the 80-page structured workbook alongside this eBook edition for just {BOOKS_PRICING.bundle.price.formattedInr} ({BOOKS_PRICING.bundle.price.formattedUsd}).
+              Get the 80-page structured workbook alongside this eBook edition as one digital collection for {BOOKS_PRICING.bundle.formattedInr} ({BOOKS_PRICING.bundle.formattedUsd}).
             </p>
           </div>
-          <Link href="/books/bundles">
-            <Button variant="primary" size="lg">
-              Explore Complete Bundle
-            </Button>
-          </Link>
+          <Button asChild variant="primary" size="lg">
+            <Link href="/books/bundles">Explore Complete Bundle</Link>
+          </Button>
         </section>
       </Container>
     </main>

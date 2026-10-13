@@ -190,7 +190,7 @@ export function AssessmentsPreviewSection() {
                     </div>
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-sage" />
-                      <span>Immediate confidential report generation</span>
+                      <span>Confidential, in-browser report generation</span>
                     </div>
                   </div>
 

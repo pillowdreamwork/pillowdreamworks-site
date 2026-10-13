@@ -150,7 +150,7 @@ feat(pricing): production pricing implementation
 Includes:
 - India pricing
 - Global pricing
-- Diwali pricing
+- Published (non-campaign) pricing
 - Bundle pricing
 
 ---

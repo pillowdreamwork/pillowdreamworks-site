@@ -97,17 +97,15 @@ export function FounderSection() {
             </div>
 
             <div className="pt-4 flex flex-wrap items-center gap-4">
-              <Link href="/about">
-                <Button variant="primary" className="text-xs uppercase tracking-wider">
-                  Read Foundation Story
-                </Button>
-              </Link>
-              <a href={`mailto:${FOUNDER_CONTACT.email}`}>
-                <Button variant="outline" className="text-xs uppercase tracking-wider flex items-center gap-2">
+              <Button asChild variant="primary" className="text-xs uppercase tracking-wider">
+                <Link href="/about">Read Foundation Story</Link>
+              </Button>
+              <Button asChild variant="outline" className="text-xs uppercase tracking-wider flex items-center gap-2">
+                <a href={`mailto:${FOUNDER_CONTACT.email}`}>
                   <Mail className="w-3.5 h-3.5" />
                   <span>Direct Inquiry</span>
-                </Button>
-              </a>
+                </a>
+              </Button>
             </div>
           </motion.div>
         </div>

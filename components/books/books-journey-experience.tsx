@@ -17,7 +17,7 @@ import {
   BookMarked,
   RotateCcw
 } from "lucide-react";
-import { BOOKS_PRICING, CAMPAIGN_METADATA } from "@/data/pricing";
+import { BOOKS_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 
 export function BooksJourneyExperience() {
   // Active selected book: "toolkit" | "centre"
@@ -261,7 +261,7 @@ export function BooksJourneyExperience() {
 
               <div className="pt-8 mt-8 border-t border-current/15 flex items-center justify-between text-xs font-mono">
                 <span>80 PAGES • 5 MASTER CHAPTERS</span>
-                <span className="font-bold">₹{BOOKS_PRICING.toolkit.diwali.inr} (${BOOKS_PRICING.toolkit.diwali.usd})</span>
+                <span className="font-bold">{BOOKS_PRICING.toolkit.formattedInr} ({BOOKS_PRICING.toolkit.formattedUsd})</span>
               </div>
             </div>
 
@@ -307,7 +307,7 @@ export function BooksJourneyExperience() {
 
               <div className="pt-8 mt-8 border-t border-current/15 flex items-center justify-between text-xs font-mono">
                 <span>60 PAGES • EBOOK &amp; PRINT</span>
-                <span className="font-bold">₹{BOOKS_PRICING.findingTheCentre.ebook.inr} (${BOOKS_PRICING.findingTheCentre.ebook.usd})</span>
+                <span className="font-bold">{BOOKS_PRICING.findingTheCentre.ebook.formattedInr} ({BOOKS_PRICING.findingTheCentre.ebook.formattedUsd})</span>
               </div>
             </div>
           </div>
@@ -538,7 +538,7 @@ export function BooksJourneyExperience() {
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-xs font-mono text-[#CBA258] mb-4">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>DIWALI SPECIAL PRICE ACTIVE</span>
+                <span>PUBLISHED EDITION PRICE</span>
               </div>
 
               <h2 className="font-serif text-3xl sm:text-5xl font-normal text-white tracking-tight">
@@ -546,7 +546,7 @@ export function BooksJourneyExperience() {
               </h2>
 
               <p className="mt-4 text-sm sm:text-base text-ivory/70 max-w-xl mx-auto leading-relaxed">
-                Receive the 80-page A4 printable master PDF and companion worksheet files instantly upon checkout.
+                The 80-page A4 printable master PDF and companion worksheet files are delivered once a purchase is completed.
               </p>
 
               <div className="mt-12 p-8 sm:p-12 rounded-[28px] bg-[#16253B] border border-white/15 shadow-2xl max-w-lg mx-auto">
@@ -556,15 +556,15 @@ export function BooksJourneyExperience() {
 
                 <div className="mt-4 flex items-baseline justify-center gap-3">
                   <span className="font-serif text-5xl font-bold text-white">
-                    ₹{BOOKS_PRICING.toolkit.diwali.inr}
+                    {BOOKS_PRICING.toolkit.formattedInr}
                   </span>
                   <span className="text-sm text-ivory/60 font-mono">
-                    / ${BOOKS_PRICING.toolkit.diwali.usd} USD
+                    / {BOOKS_PRICING.toolkit.formattedUsd} USD
                   </span>
                 </div>
 
-                <span className="mt-2 text-xs font-mono text-emerald-300 block">
-                  {BOOKS_PRICING.toolkit.diwali.savingsInr} • Instant Delivery
+                <span className="mt-2 text-xs font-mono text-[#CBA258] block">
+                  Published edition price
                 </span>
 
                 <div className="mt-8 space-y-2 text-left text-xs font-mono text-ivory/80 border-t border-white/10 pt-6">
@@ -591,8 +591,11 @@ export function BooksJourneyExperience() {
                     href="/books/psychology-toolkit"
                     className="w-full text-center py-4 rounded-full bg-[#CBA258] text-[#0F2038] font-bold text-xs uppercase tracking-wider block hover:bg-[#E5BE78] transition-colors shadow-lg"
                   >
-                    Acquire The Psychology Toolkit Now
+                    Enquire About The Psychology Toolkit
                   </Link>
+                  <p className="mt-4 text-[11px] font-sans text-ivory/70 leading-relaxed">
+                    {CHECKOUT_NOTICE}
+                  </p>
                 </div>
               </div>
             </div>
@@ -682,9 +685,9 @@ export function BooksJourneyExperience() {
                     <p className="text-xs text-ivory/70 mt-2 font-sans">Instant PDF &amp; EPUB access for tablets, e-readers, and phones.</p>
                     <div className="mt-6">
                       <span className="font-serif text-3xl font-bold text-white">
-                        ₹{BOOKS_PRICING.findingTheCentre.ebook.inr}
+                        {BOOKS_PRICING.findingTheCentre.ebook.formattedInr}
                       </span>
-                      <span className="text-xs text-ivory/60 font-mono ml-2">(${BOOKS_PRICING.findingTheCentre.ebook.usd})</span>
+                      <span className="text-xs text-ivory/60 font-mono ml-2">({BOOKS_PRICING.findingTheCentre.ebook.formattedUsd})</span>
                     </div>
                   </div>
                   <div className="mt-8">
@@ -705,9 +708,9 @@ export function BooksJourneyExperience() {
                     <p className="text-xs text-ivory/70 mt-2 font-sans">Premium archival hardcover edition delivered to your doorstep.</p>
                     <div className="mt-6">
                       <span className="font-serif text-3xl font-bold text-white">
-                        ₹{BOOKS_PRICING.findingTheCentre.print.inr}
+                        {BOOKS_PRICING.findingTheCentre.print.formattedInr}
                       </span>
-                      <span className="text-xs text-ivory/60 font-mono ml-2">(${BOOKS_PRICING.findingTheCentre.print.usd})</span>
+                      <span className="text-xs text-ivory/60 font-mono ml-2">({BOOKS_PRICING.findingTheCentre.print.formattedUsd})</span>
                     </div>
                   </div>
                   <div className="mt-8">
@@ -780,14 +783,11 @@ export function BooksJourneyExperience() {
 
             <div className="flex flex-col items-center lg:items-end gap-4 shrink-0 text-center lg:text-right">
               <div>
-                <span className="text-xs font-mono text-ivory/50 line-through block">
-                  Regular Total: ₹{BOOKS_PRICING.bundle.regularValue.inr} (${BOOKS_PRICING.bundle.regularValue.usd})
-                </span>
                 <span className="font-serif text-4xl sm:text-5xl font-bold text-[#CBA258]">
-                  ₹{BOOKS_PRICING.bundle.price.inr}
+                  {BOOKS_PRICING.bundle.formattedInr}
                 </span>
                 <span className="text-xs font-mono text-ivory/70 block mt-1">
-                  / ${BOOKS_PRICING.bundle.price.usd} USD ({BOOKS_PRICING.bundle.price.savingsInr})
+                  / {BOOKS_PRICING.bundle.formattedUsd} USD
                 </span>
               </div>
 

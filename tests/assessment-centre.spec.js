@@ -3,6 +3,8 @@ const { test, expect } = require('@playwright/test');
 test.setTimeout(300_000);
 
 async function fillIntake(page, name, email) {
+  // Wait for the client bundle to hydrate before interacting with the form.
+  await page.waitForFunction(() => typeof window.PSYCH_ASSESSMENTS !== 'undefined');
   await page.locator('#intake-name').fill(name);
   await page.locator('#intake-email').fill(email);
   await page.locator('#intake-age').fill('35');
@@ -148,7 +150,7 @@ async function closeAssessmentModal(page) {
 }
 
 test('free assessment centre smoke sweep', async ({ page }) => {
-  await page.goto('/testing.html');
+  await page.goto('/testing');
   await fillIntake(page, 'Automation User', 'automation@example.com');
 
   const freeAssessmentIds = await page.evaluate(() => {
@@ -180,4 +182,121 @@ test('free assessment centre smoke sweep', async ({ page }) => {
   expect(Object.keys(factorCounts).sort()).toEqual(['epq-r-short', 'mbti-style-16', 'sd3-short', 'tipi-10']);
   expect(Object.values(factorCounts).every((count) => count > 1)).toBeTruthy();
   console.log(`Validated ${freeAssessmentIds.length} free assessments; factor profiles: ${JSON.stringify(factorCounts)}`);
+});
+
+test('scoring boundaries and missing-answer handling', async ({ page }) => {
+  await page.goto('/testing');
+  await fillIntake(page, 'Boundary User', 'boundary@example.com');
+
+  // Every free instrument must produce a finite score within [0, maxScore]
+  // at both the minimum and the maximum possible response set.
+  const boundary = await page.evaluate(() => {
+    const report = { minOk: 0, maxOk: 0, failures: [] };
+    const free = PSYCH_ASSESSMENTS.filter((item) => !item.isPaid);
+    for (const item of free) {
+      if (!item.scoring || !item.questions || !item.options) continue;
+      const questionCount = item.questions.length;
+      const lastOption = item.options.length - 1;
+      const runs = [
+        ['minimum', new Array(questionCount).fill(0)],
+        ['maximum', new Array(questionCount).fill(lastOption)],
+      ];
+      for (const [label, scores] of runs) {
+        const result = item.scoring(scores);
+        const ok =
+          Number.isFinite(result.score) &&
+          Number.isFinite(result.maxScore) &&
+          result.score >= 0 &&
+          result.score <= result.maxScore &&
+          typeof result.level === 'string' &&
+          result.level.trim().length > 0;
+        if (!ok) {
+          report.failures.push({ id: item.id, label, score: result.score, maxScore: result.maxScore });
+        } else if (label === 'minimum') {
+          report.minOk += 1;
+        } else {
+          report.maxOk += 1;
+        }
+      }
+    }
+    return { ...report, freeCount: free.length };
+  });
+
+  expect(boundary.failures).toEqual([]);
+  expect(boundary.freeCount).toBe(161);
+  expect(boundary.minOk).toBe(161);
+  expect(boundary.maxOk).toBe(161);
+
+  // A missing answer must block submission: no result block is rendered.
+  await page.evaluate(() => {
+    document.querySelector('[data-assess-id="gad-7"]').click();
+  });
+  await page.waitForSelector('#active-assessment-modal-content form');
+  const form = page.locator('#active-assessment-modal-content form');
+  await form.evaluate((node) => {
+    const first = node.querySelector('input[name="q-0"]');
+    if (first) first.checked = true;
+  });
+  await form.locator('button[type=submit]').click();
+  await expect(page.locator('#active-test-results-output')).toHaveCount(0);
+
+  // Completing every answer unlocks the result view.
+  await form.evaluate((node) => {
+    const radios = Array.from(node.querySelectorAll('input[type="radio"]'));
+    const groups = new Map();
+    radios.forEach((radio) => {
+      if (!groups.has(radio.name)) groups.set(radio.name, []);
+      groups.get(radio.name).push(radio);
+    });
+    for (const [, options] of groups.entries()) {
+      options.forEach((option, index) => {
+        option.checked = index === Math.floor(options.length / 2);
+      });
+    }
+  });
+  await form.locator('button[type=submit]').click();
+  await expect(page.locator('#active-test-results-output')).toBeVisible();
+});
+
+test('paid assessment pricing registry', async ({ page }) => {
+  await page.goto('/testing');
+  await page.waitForFunction(() => typeof window.PSYCH_ASSESSMENTS !== 'undefined');
+
+  const paid = await page.evaluate(() =>
+    PSYCH_ASSESSMENTS.filter((item) => item.isPaid).map((item) => ({
+      id: item.id,
+      inr: item.priceINR,
+      usd: item.priceUSD,
+      duration: item.duration,
+      includes: (item.includes || []).length,
+    }))
+  );
+
+  const expected = {
+    'ham-a': [799, 69],
+    'bdi-ii': [799, 69],
+    'ssct': [1499, 99],
+    'htp': [1499, 99],
+    'hfdt': [1499, 99],
+    'conners-adhd': [1899, 129],
+    'panss': [2199, 149],
+    'bender-gestalt': [2299, 149],
+    'cat-child': [2499, 199],
+    '16pf': [2999, 199],
+    'tat': [2999, 249],
+    'caps-5': [2999, 299],
+    'rorschach': [3499, 349],
+    'mmpi-2': [3999, 399],
+    'wais-iv': [4999, 499],
+    'ados-2': [4999, 549],
+  };
+
+  expect(paid.length).toBe(16);
+  for (const item of paid) {
+    expect(expected[item.id], `unexpected paid assessment id: ${item.id}`).toBeTruthy();
+    expect(item.inr, `${item.id} INR`).toBe(expected[item.id][0]);
+    expect(item.usd, `${item.id} USD`).toBe(expected[item.id][1]);
+    expect(item.duration, `${item.id} duration`).toBe('60 minutes');
+    expect(item.includes, `${item.id} has booking inclusions`).toBeGreaterThan(0);
+  }
 });

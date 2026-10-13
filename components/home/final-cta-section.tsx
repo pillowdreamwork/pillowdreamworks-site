@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, FileCheck, ShieldCheck, Download } from "lucide-react";
 import { motion } from "motion/react";
 import { Container } from "@/components/ui/container";
-import { CAMPAIGN_METADATA, BOOKS_PRICING } from "@/data/pricing";
+import { BOOKS_PRICING } from "@/data/pricing";
 
 export function FinalCTASection() {
   return (
@@ -24,7 +24,7 @@ export function FinalCTASection() {
           {/* Eyebrow Label */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-ivory/10 border border-gold/30 text-gold text-xs font-mono">
             <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-            <span>{CAMPAIGN_METADATA.badge} · Valid until {CAMPAIGN_METADATA.endDate}</span>
+            <span>Foundation Publications & Clinical Services</span>
           </div>
 
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal leading-tight text-ivory max-w-2xl mx-auto">
@@ -40,7 +40,7 @@ export function FinalCTASection() {
               href="/books/psychology-toolkit"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-md bg-gold hover:bg-gold-light text-navy font-semibold text-xs uppercase tracking-wider transition-colors shadow-sm group"
             >
-              <span>Acquire Toolkit ({BOOKS_PRICING.toolkit.diwali.formattedInr} / {BOOKS_PRICING.toolkit.diwali.formattedUsd})</span>
+              <span>Acquire Toolkit ({BOOKS_PRICING.toolkit.formattedInr} / {BOOKS_PRICING.toolkit.formattedUsd})</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
 

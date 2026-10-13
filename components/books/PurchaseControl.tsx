@@ -36,7 +36,9 @@ export const PurchaseControl = ({ label, checkoutUrl, onReturn, variant = "link"
       <div role="status" aria-live="polite">
         {notice && (
           <div className="mt-4 border-t border-stone-300 pt-4">
-            <p className="font-serif text-stone-600">Checkout is being prepared.</p>
+            <p className="font-serif text-stone-600">
+              Checkout is being prepared. Purchases are not available yet.
+            </p>
             <button
               type="button"
               onClick={onReturn}

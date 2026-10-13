@@ -143,12 +143,12 @@ export default function AboutPage() {
             Connect with the Foundation
           </h3>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2">
-            <Link href="/books">
-              <Button variant="primary">Explore Books Ecosystem</Button>
-            </Link>
-            <Link href="/contact">
-              <Button variant="secondary">Direct Inquiries</Button>
-            </Link>
+            <Button asChild variant="primary">
+              <Link href="/books">Explore Books Ecosystem</Link>
+            </Button>
+            <Button asChild variant="secondary">
+              <Link href="/contact">Direct Inquiries</Link>
+            </Button>
           </div>
         </div>
       </Container>

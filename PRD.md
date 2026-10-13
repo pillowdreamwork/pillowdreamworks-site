@@ -107,12 +107,10 @@ Legal
 ### Psychology Toolkit
 
 India
-- Regular: ₹1,224
-- Diwali: ₹999
+- ₹1,499
 
 Global
-- Regular: $127
-- Diwali: $89
+- $24.99
 
 ### Finding The Centre
 

@@ -85,10 +85,10 @@ export function Navbar() {
             <a
               href="tel:988"
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#8B2626]/10 hover:bg-[#8B2626]/15 text-[#8B2626] font-mono text-xs border border-[#8B2626]/20 transition-colors"
-              title="Immediate Crisis Protocol Support"
+              title="US 988 Suicide & Crisis Lifeline"
             >
               <span className="w-2 h-2 rounded-full bg-[#8B2626] animate-pulse" />
-              <span>Crisis Support: 988</span>
+              <span>US Crisis Line: 988</span>
             </a>
           </div>
 

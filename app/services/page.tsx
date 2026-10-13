@@ -1,16 +1,17 @@
 import * as React from "react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { SERVICES_PRICING } from "@/data/pricing";
-import { Phone, Check } from "lucide-react";
+import { SERVICES_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
+import { Phone, Check, Info } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Clinical Services & Counselling — PillowDreamWorks Foundation",
   description:
-    "Explore confidential 1-on-1 psychotherapy sessions, emergency crisis stabilization calls, CentreLine support, graphotherapy, and psychology courses.",
+    "Explore confidential 1-on-1 counselling sessions, a scheduled crisis stabilisation call, CentreLine support, graphology readings, and psychology courses.",
 };
 
 export default function ServicesPage() {
@@ -26,7 +27,7 @@ export default function ServicesPage() {
             Services & Therapeutic Support
           </h1>
           <p className="text-base sm:text-lg text-navy/75 leading-relaxed font-sans">
-            Personalized, confidential clinical guidance tailored to your emotional goals, crisis stabilization, and subconscious realignment.
+            Personalized, confidential guidance tailored to your emotional goals, scheduled stabilisation support, and structured reflection.
           </p>
         </div>
 
@@ -67,8 +68,8 @@ export default function ServicesPage() {
                     ({SERVICES_PRICING.counselling.singleSession.formattedUsd})
                   </span>
                 </div>
-                <Button variant="primary" className="mt-4 w-full">
-                  Book 1 Session
+                <Button asChild variant="primary" className="mt-4 w-full">
+                  <Link href="/contact">Book 1 Session</Link>
                 </Button>
               </div>
 
@@ -93,8 +94,8 @@ export default function ServicesPage() {
                     ({SERVICES_PRICING.counselling.package4.formattedUsd})
                   </span>
                 </div>
-                <Button variant="secondary" className="mt-4 w-full">
-                  Select 4 Sessions
+                <Button asChild variant="secondary" className="mt-4 w-full">
+                  <Link href="/contact">Select 4 Sessions</Link>
                 </Button>
               </div>
 
@@ -119,8 +120,8 @@ export default function ServicesPage() {
                     ({SERVICES_PRICING.counselling.package8.formattedUsd})
                   </span>
                 </div>
-                <Button variant="gold" className="mt-4 w-full">
-                  Select 8 Sessions
+                <Button asChild variant="gold" className="mt-4 w-full">
+                  <Link href="/contact">Select 8 Sessions</Link>
                 </Button>
               </div>
             </div>
@@ -134,8 +135,8 @@ export default function ServicesPage() {
             <div className="bg-red-50/60 rounded-3xl p-8 sm:p-10 border border-red-900/15 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <Badge variant="crisis">Immediate De-escalation</Badge>
-                  <span className="text-xs font-semibold text-red-900">Rapid Response</span>
+                  <Badge variant="crisis">Scheduled Support Call</Badge>
+                  <span className="text-xs font-semibold text-red-900">Not an emergency-response service</span>
                 </div>
 
                 <h3 className="font-serif text-3xl font-bold text-red-950">
@@ -149,9 +150,16 @@ export default function ServicesPage() {
                 <div className="p-4 rounded-xl bg-ivory/80 border border-red-900/10 text-xs text-navy/80 space-y-2">
                   <div className="font-semibold text-red-950 flex items-center gap-1.5">
                     <Phone className="w-3.5 h-3.5" />
-                    <span>Free National Emergency Lines:</span>
+                    <span>National crisis helplines:</span>
                   </div>
-                  <p>Tele-MANAS: 14416 • KIRAN: 1800-599-0019 • US: 988 • UK: 111</p>
+                  <ul className="space-y-1">
+                    <li><strong>India — Tele-MANAS:</strong> 14416</li>
+                    <li><strong>India — Vandrevala Foundation:</strong> +91 9999 666 555</li>
+                    <li><strong>United States — 988 Suicide &amp; Crisis Lifeline:</strong> 988</li>
+                  </ul>
+                  <p className="text-[11px] text-navy/60">
+                    If you are in immediate danger, contact your local emergency number.
+                  </p>
                 </div>
               </div>
 
@@ -165,7 +173,9 @@ export default function ServicesPage() {
                   </span>
                 </div>
 
-                <Button variant="crisis">Request Stabilization</Button>
+                <Button asChild variant="crisis">
+                  <Link href="/contact">Request Stabilisation Call</Link>
+                </Button>
               </div>
             </div>
 
@@ -208,7 +218,9 @@ export default function ServicesPage() {
                   </span>
                 </div>
 
-                <Button variant="secondary">Join CentreLine</Button>
+                <Button asChild variant="secondary">
+                  <Link href="/contact">Join CentreLine</Link>
+                </Button>
               </div>
             </div>
           </div>
@@ -227,7 +239,7 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Basic */}
               <div className="p-6 rounded-2xl bg-cream border border-navy/10 flex flex-col justify-between">
                 <div className="space-y-2">
@@ -273,29 +285,6 @@ export default function ServicesPage() {
                 </div>
               </div>
 
-              {/* Master Package */}
-              <div className="p-6 rounded-2xl bg-navy text-ivory border border-navy-light/40 flex flex-col justify-between shadow-lg">
-                <div className="space-y-2">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider text-gold">
-                    Launch Edition
-                  </span>
-                  <h4 className="font-serif text-lg font-bold text-ivory">
-                    {SERVICES_PRICING.graphology.masterPackage.title}
-                  </h4>
-                  <p className="text-xs text-ivory/70">
-                    Deep Analysis + Finding The Centre + Toolkit + Tracking Plan.
-                  </p>
-                </div>
-                <div className="pt-4 mt-4 border-t border-ivory/15">
-                  <span className="text-xs text-ivory/50 line-through block">Value ₹4,471</span>
-                  <span className="font-serif text-2xl font-bold text-gold">
-                    {SERVICES_PRICING.graphology.masterPackage.formattedInr}
-                  </span>
-                  <span className="text-xs text-ivory/70 font-sans ml-1">
-                    ({SERVICES_PRICING.graphology.masterPackage.formattedUsd})
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
         </section>
@@ -323,7 +312,9 @@ export default function ServicesPage() {
                 <span className="font-serif text-xl font-bold text-navy">
                   {SERVICES_PRICING.courses.crisisCounselling.formattedInr} ({SERVICES_PRICING.courses.crisisCounselling.formattedUsd})
                 </span>
-                <Button variant="outline" size="sm">Enroll</Button>
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/contact">Enroll</Link>
+                </Button>
               </div>
             </div>
 
@@ -341,7 +332,9 @@ export default function ServicesPage() {
                 <span className="font-serif text-xl font-bold text-navy">
                   {SERVICES_PRICING.courses.cognitiveCounselling.formattedInr} ({SERVICES_PRICING.courses.cognitiveCounselling.formattedUsd})
                 </span>
-                <Button variant="outline" size="sm">Enroll</Button>
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/contact">Enroll</Link>
+                </Button>
               </div>
             </div>
 
@@ -359,11 +352,22 @@ export default function ServicesPage() {
                 <span className="font-serif text-xl font-bold text-gold">
                   {SERVICES_PRICING.courses.bundle.formattedInr} ({SERVICES_PRICING.courses.bundle.formattedUsd})
                 </span>
-                <Button variant="gold" size="sm">Get Bundle</Button>
+                <Button asChild variant="gold" size="sm">
+                  <Link href="/contact">Get Bundle</Link>
+                </Button>
               </div>
             </div>
           </div>
         </section>
+
+        {/* Checkout Status Notice */}
+        <div className="p-4 rounded-2xl bg-cream border border-navy/15 flex items-start gap-3 text-sm text-navy/80">
+          <Info className="w-4 h-4 text-sage-dark shrink-0 mt-0.5" />
+          <p>
+            <strong className="text-navy">{CHECKOUT_NOTICE}</strong> Booking and course buttons
+            above open the enquiry form; payment is not yet available.
+          </p>
+        </div>
       </Container>
     </main>
   );

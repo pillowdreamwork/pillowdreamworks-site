@@ -117,16 +117,12 @@ The exact supplied prices must remain consistent everywhere they appear.
 
 ## The Psychology Toolkit
 
-Regular:
-- India: ₹1,224
-- Global: $127
+Published price:
+- India: ₹1,499
+- Global: $24.99
 
-Diwali campaign values supplied:
-- India: ₹999
-- Global: $89
-
-Campaign end date supplied:
-- November 8, 2026
+Note: earlier seasonal campaign pricing was retired in favour of a single
+published price. See data/pricing.ts for the authoritative values.
 
 ## Finding The Centre
 

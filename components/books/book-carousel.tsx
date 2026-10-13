@@ -14,9 +14,8 @@ const SLIDES = [
     title: "The Psychology Toolkit",
     subtitle: "A structured journey through cognitive reframing, somatic grounding, and boundary mastery.",
     tag: "A4 Printable Master PDF",
-    priceInr: BOOKS_PRICING.toolkit.diwali.formattedInr,
-    priceUsd: BOOKS_PRICING.toolkit.diwali.formattedUsd,
-    regularInr: BOOKS_PRICING.toolkit.regular.formattedInr,
+    priceInr: BOOKS_PRICING.toolkit.formattedInr,
+    priceUsd: BOOKS_PRICING.toolkit.formattedUsd,
     href: "/books/psychology-toolkit",
     buttonText: "Explore The Toolkit",
     theme: "cream",
@@ -37,13 +36,12 @@ const SLIDES = [
     id: "bundle",
     badge: "Complete Ecosystem Bundle",
     title: "The Master Psychology Bundle",
-    subtitle: "The Psychology Toolkit + Finding The Centre eBook at 20% combined savings.",
+    subtitle: "The Psychology Toolkit + Finding The Centre eBook in one digital collection.",
     tag: "Digital Ecosystem Access",
-    priceInr: BOOKS_PRICING.bundle.price.formattedInr,
-    priceUsd: BOOKS_PRICING.bundle.price.formattedUsd,
-    regularInr: BOOKS_PRICING.bundle.regularValue.formattedInr,
+    priceInr: BOOKS_PRICING.bundle.formattedInr,
+    priceUsd: BOOKS_PRICING.bundle.formattedUsd,
     href: "/books/bundles",
-    buttonText: "Claim Bundle Savings",
+    buttonText: "View Bundle",
     theme: "sage",
   },
 ];
@@ -112,23 +110,18 @@ export function BookCarousel() {
                 </span>
                 <span className="text-sm text-navy/60">/ {slide.priceUsd} Global</span>
               </div>
-              {slide.regularInr && (
-                <span className="text-xs text-navy/50 line-through">
-                  Regular {slide.regularInr}
-                </span>
-              )}
             </div>
           </motion.div>
         </AnimatePresence>
 
         {/* Action and Controls */}
         <div className="pt-8 mt-6 border-t border-navy/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-          <Link href={slide.href}>
-            <Button size="lg" variant="primary" className="w-full sm:w-auto">
+          <Button asChild size="lg" variant="primary" className="w-full sm:w-auto">
+            <Link href={slide.href}>
               <span>{slide.buttonText}</span>
               <ArrowRight className="w-4 h-4 ml-1" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
 
           {/* Carousel Controls */}
           <div className="flex items-center justify-between sm:justify-end gap-3">

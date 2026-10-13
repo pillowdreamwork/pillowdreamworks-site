@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Sparkles,
   BookOpen,
@@ -30,7 +31,7 @@ import {
 } from "lucide-react";
 import { Canvas3DHero } from "@/components/studio/canvas-3d-hero";
 import { LiquidButton, MetalButton } from "@/components/ui/liquid-glass-button";
-import { CAMPAIGN_METADATA, BOOKS_PRICING } from "@/data/pricing";
+import { BOOKS_PRICING } from "@/data/pricing";
 
 interface AssessmentSample {
   id: string;
@@ -48,6 +49,7 @@ interface AssessmentSample {
 }
 
 export function FoundationExperience() {
+  const router = useRouter();
   const [isAudioActive, setIsAudioActive] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -169,15 +171,15 @@ export function FoundationExperience() {
     },
     {
       id: "crisis-triage",
-      title: "Acute Psychological Triage Protocol",
+      title: "Acute Distress Screening Check",
       code: "CRISIS-999",
-      domain: "Emergency Intervention",
+      domain: "Crisis Support",
       category: "crisis",
       questionsCount: 5,
       duration: "2 Mins",
-      description: "Immediate safety screening for individuals in extreme distress, emotional overwhelm, or acute despair.",
+      description: "A brief screening for emotional overwhelm or acute distress, with signposting to emergency services where needed.",
       factors: ["Acute Overwhelm", "Support Availability", "Safety Horizon"],
-      clinicalBasis: "Emergency Crisis Psychological Standard",
+      clinicalBasis: "Emotional Safety Screening",
       sampleQuestion: "Are you feeling overwhelmed to the point of being unable to keep yourself safe right now?",
       isFree: true,
     },
@@ -363,11 +365,12 @@ export function FoundationExperience() {
               </span>
             </LiquidButton>
 
-            <Link href="/books/psychology-toolkit">
-              <MetalButton variant="primary">
-                Acquire The Psychology Toolkit (₹{BOOKS_PRICING.toolkit.diwali.inr})
-              </MetalButton>
-            </Link>
+            <MetalButton
+              variant="primary"
+              onClick={() => router.push("/books/psychology-toolkit")}
+            >
+              Acquire The Psychology Toolkit ({BOOKS_PRICING.toolkit.formattedInr})
+            </MetalButton>
           </div>
         </div>
 
@@ -385,7 +388,7 @@ export function FoundationExperience() {
 
           <div className="hidden sm:flex items-center gap-6 text-xs font-mono text-zinc-400">
             <span>[ 01 / 06 ]</span>
-            <span>DIWALI CELEBRATION EDITION ACTIVE</span>
+            <span>PUBLISHED EDITION · ₹ (INDIA) / $ (GLOBAL)</span>
           </div>
         </div>
       </section>
@@ -423,7 +426,7 @@ export function FoundationExperience() {
                     MASTER WORKBOOK • 80 PAGES
                   </span>
                   <span className="px-3 py-1 rounded-full bg-white/10 text-[10px] font-mono text-zinc-300">
-                    DIWALI: ₹{BOOKS_PRICING.toolkit.diwali.inr} (${BOOKS_PRICING.toolkit.diwali.usd})
+                    {BOOKS_PRICING.toolkit.formattedInr} ({BOOKS_PRICING.toolkit.formattedUsd})
                   </span>
                 </div>
 
@@ -489,7 +492,7 @@ export function FoundationExperience() {
                     COMPANION FOLIO • 60 PAGES
                   </span>
                   <span className="px-3 py-1 rounded-full bg-zinc-100 text-[10px] font-mono text-zinc-700">
-                    ₹{BOOKS_PRICING.findingTheCentre.ebook.inr} (${BOOKS_PRICING.findingTheCentre.ebook.usd})
+                    {BOOKS_PRICING.findingTheCentre.ebook.formattedInr} ({BOOKS_PRICING.findingTheCentre.ebook.formattedUsd})
                   </span>
                 </div>
 
@@ -740,26 +743,26 @@ export function FoundationExperience() {
               <div>
                 <span className="text-[10px] font-mono tracking-widest text-[#FF3333] uppercase block pb-3 border-b border-white/10 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#FF3333] animate-pulse" />
-                  ROOM 03 // EMERGENCY SAFETY
+                  ROOM 03 // SUPPORT &amp; SAFETY
                 </span>
                 <h3 className="mt-6 text-2xl font-bold tracking-tight text-white">
-                  CentreLine Emergency Protocol
+                  CentreLine Support &amp; Safety Resources
                 </h3>
                 <p className="mt-4 text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
-                  Immediate safety resources, step-by-step emotional grounding anchors, and instant links to regional 24/7 psychiatric emergency services.
+                  Step-by-step emotional grounding anchors and direct links to national crisis helplines. This is not an emergency-response service.
                 </p>
                 <div className="mt-6 p-3 rounded-xl bg-[#FF3333]/15 border border-[#FF3333]/30 text-xs font-mono text-red-200">
-                  Free 24/7 Confidential Assistance
+                  National helplines are free and available 24/7
                 </div>
               </div>
 
               <div className="pt-6 border-t border-white/10">
-                <a
-                  href="tel:988"
+                <Link
+                  href="/services#crisis"
                   className="w-full text-center py-3 rounded-full bg-[#FF3333] text-white font-bold text-xs uppercase tracking-wider block hover:bg-red-600 transition-colors"
                 >
-                  Access Crisis Protocol Now
-                </a>
+                  View National Crisis Helplines
+                </Link>
               </div>
             </div>
           </div>

@@ -42,9 +42,8 @@ const slides = [
     eyebrow: "Flagship Publication · 80-page A4 PDF",
     description:
       "A structured clinical workbook across five master chapters — designed for self-inquiry, cognitive restructuring, and daily psychological poise.",
-    priceInr: BOOKS_PRICING.toolkit.diwali.formattedInr,
-    priceUsd: BOOKS_PRICING.toolkit.diwali.formattedUsd,
-    priceNote: "Diwali festival edition price",
+    priceInr: BOOKS_PRICING.toolkit.formattedInr,
+    priceUsd: BOOKS_PRICING.toolkit.formattedUsd,
     href: "/books/psychology-toolkit",
     cta: "Acquire master workbook",
     bgClass: "bg-cream/60",
@@ -275,11 +274,9 @@ export function BooksPreviewSection() {
                 <div>
                   {"priceInr" in slide && (
                     <div className={`pt-6 border-t ${isNavy ? "border-ivory/10" : "border-navy/10"}`}>
-                      {slide.priceNote && (
-                        <span className={`block text-xs font-mono mb-1 ${isNavy ? "text-gold" : "text-sage-dark font-semibold"}`}>
-                          {slide.priceNote}
-                        </span>
-                      )}
+                      <span className={`block text-xs font-mono mb-1 ${isNavy ? "text-gold" : "text-sage-dark font-semibold"}`}>
+                        Published price
+                      </span>
                       <div className="flex items-baseline gap-2">
                         <span className={`font-serif text-3xl font-normal ${isNavy ? "text-ivory" : "text-navy"}`}>
                           {slide.priceInr}
