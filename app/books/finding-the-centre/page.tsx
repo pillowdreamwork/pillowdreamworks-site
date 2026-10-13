@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FINDING_THE_CENTRE } from "@/data/books";
+import { FINDING_THE_CENTRE, BOOK_BUYING_FAQS } from "@/data/books";
+import { FaqAccordion } from "@/components/ui/faq-accordion";
 import { BOOKS_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 import { Feather } from "lucide-react";
 
@@ -141,6 +142,25 @@ export default function FindingTheCentrePage() {
           <Button asChild variant="primary" size="lg">
             <Link href="/books/bundles">Explore Complete Bundle</Link>
           </Button>
+        </section>
+
+        {/* Frequently Asked Questions */}
+        <section className="mt-20 max-w-3xl mx-auto" aria-labelledby="ftc-faq-heading">
+          <div className="text-center space-y-3 mb-8">
+            <span className="text-xs font-semibold uppercase tracking-widest text-sage-dark block">
+              Questions
+            </span>
+            <h2 id="ftc-faq-heading" className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-navy">
+              Before you order
+            </h2>
+          </div>
+
+          <FaqAccordion
+            groups={[
+              { items: FINDING_THE_CENTRE.faqs },
+              { title: "Choosing a book, buying, and delivery", items: BOOK_BUYING_FAQS },
+            ]}
+          />
         </section>
       </Container>
     </main>

@@ -5,6 +5,8 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BOOKS_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
+import { BOOK_BUYING_FAQS } from "@/data/books";
+import { FaqAccordion } from "@/components/ui/faq-accordion";
 import { ArrowRight, Info, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -104,6 +106,20 @@ export default function BundlesPage() {
             </div>
           </div>
         </div>
+
+        {/* Buying & Delivery FAQs */}
+        <section className="mt-16" aria-labelledby="bundle-faq-heading">
+          <div className="space-y-2 mb-6">
+            <span className="text-xs font-semibold uppercase tracking-widest text-sage-dark block">
+              Questions
+            </span>
+            <h2 id="bundle-faq-heading" className="font-serif text-2xl sm:text-3xl font-normal tracking-tight text-navy">
+              Choosing a book, buying, and delivery
+            </h2>
+          </div>
+
+          <FaqAccordion groups={[{ items: BOOK_BUYING_FAQS }]} />
+        </section>
       </Container>
     </main>
   );

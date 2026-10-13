@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { PSYCHOLOGY_TOOLKIT } from "@/data/books";
+import { PSYCHOLOGY_TOOLKIT, BOOK_BUYING_FAQS } from "@/data/books";
 import { BOOKS_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 import {
   ArrowRight,
@@ -27,6 +27,23 @@ export default function PsychologyToolkitPage() {
   const toggleExercise = (name: string) => {
     setCompletedExercises((prev) => ({ ...prev, [name]: !prev[name] }));
   };
+
+  // Book-specific answers first, then the shared buying & delivery group.
+  const faqRows = [
+    ...PSYCHOLOGY_TOOLKIT.faqs.map((faq) => ({
+      question: faq.q,
+      answer: faq.a,
+      link: undefined as { href: string; label: string } | undefined,
+      groupTitle: null as string | null,
+    })),
+    ...BOOK_BUYING_FAQS.map((faq, index) => ({
+      question: faq.question,
+      answer: faq.answer,
+      link: faq.link,
+      groupTitle:
+        index === 0 ? "Choosing a book, buying, and delivery" : null,
+    })),
+  ];
 
   return (
     <main className="min-h-screen bg-ivory text-navy py-12 sm:py-20">
@@ -334,30 +351,44 @@ export default function PsychologyToolkitPage() {
           />
 
           <div className="space-y-4">
-            {PSYCHOLOGY_TOOLKIT.faqs.map((faq, idx) => {
+            {faqRows.map((faq, idx) => {
               const isOpen = activeFaq === idx;
               return (
-                <div
-                  key={idx}
-                  className="bg-cream rounded-xl border border-navy/10 overflow-hidden"
-                >
-                  <button
-                    onClick={() => setActiveFaq(isOpen ? null : idx)}
-                    className="w-full p-5 text-left font-serif text-lg font-bold text-navy flex items-center justify-between gap-4 cursor-pointer"
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown
-                      className={`w-5 h-5 text-navy/50 transition-transform ${
-                        isOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                  {isOpen && (
-                    <div className="px-5 pb-5 text-sm text-navy/75 leading-relaxed border-t border-navy/5 pt-3">
-                      {faq.a}
-                    </div>
+                <React.Fragment key={idx}>
+                  {faq.groupTitle && (
+                    <h3 className="border-t border-navy/10 pt-8 pb-1 font-serif text-lg font-bold text-navy">
+                      {faq.groupTitle}
+                    </h3>
                   )}
-                </div>
+                  <div className="bg-cream rounded-xl border border-navy/10 overflow-hidden">
+                    <button
+                      onClick={() => setActiveFaq(isOpen ? null : idx)}
+                      className="w-full p-5 text-left font-serif text-lg font-bold text-navy flex items-center justify-between gap-4 cursor-pointer"
+                    >
+                      <span>{faq.question}</span>
+                      <ChevronDown
+                        className={`w-5 h-5 text-navy/50 transition-transform ${
+                          isOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    {isOpen && (
+                      <div className="px-5 pb-5 text-sm text-navy/75 leading-relaxed border-t border-navy/5 pt-3">
+                        {faq.answer}
+                        {faq.link && (
+                          <p className="pt-2">
+                            <Link
+                              href={faq.link.href}
+                              className="font-semibold text-sage-dark underline underline-offset-2 hover:text-navy"
+                            >
+                              {faq.link.label}
+                            </Link>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </React.Fragment>
               );
             })}
           </div>
