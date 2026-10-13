@@ -127,17 +127,17 @@ published price. See data/pricing.ts for the authoritative values.
 ## Finding The Centre
 
 eBook:
-- India: ₹349
-- Global: $14.99
+- India: ₹749
+- Global: $12.49
 
 Print:
-- India: ₹1,449
+- India: ₹1,499
 - Global: $24.99
 
 ## Bundle
 
-- India: ₹1,079
-- Global: $83
+- India: ₹1,799
+- Global: $29.99
 
 Bundle:
 - Psychology Toolkit
@@ -147,24 +147,26 @@ Do not invent a different bundle price.
 
 # 9. Psychological Assessment Pricing Decision
 
+Every battery runs for a 60-minute session.
+
 | Assessment | India | Global |
 |---|---:|---:|
-| HAM-A | ₹1,499 | $55 |
-| BDI-II | ₹1,499 | $55 |
-| CAPS-5 | ₹2,999 | $174 |
-| 16PF | ₹2,999 | $104 |
-| Rorschach (ROR) | ₹3,499 | $209 |
-| TAT | ₹2,999 | $174 |
-| MMPI | ₹3,999 | $209 |
-| SSCT | ₹1,999 | $69 |
-| HTP | ₹1,999 | $69 |
-| HFDT | ₹1,999 | $69 |
-| WAIS-IV / MISIC | ₹4,999 | $244 |
-| Bender Visual-Motor Gestalt II | ₹2,999 | $104 |
-| CAARS | ₹2,499 | $90 |
-| ADOS-2 | ₹4,999 | $244 |
-| PANSS | ₹2,999 | $104 |
-| CAT | ₹2,499 | $104 |
+| HAM-A | ₹799 | $69 |
+| BDI-II | ₹799 | $69 |
+| SSCT | ₹1,499 | $99 |
+| HTP | ₹1,499 | $99 |
+| HFDT | ₹1,499 | $99 |
+| CAARS | ₹1,899 | $129 |
+| PANSS | ₹2,199 | $149 |
+| Bender Visual-Motor Gestalt II | ₹2,299 | $149 |
+| CAT | ₹2,499 | $199 |
+| 16PF | ₹2,999 | $199 |
+| TAT | ₹2,999 | $249 |
+| CAPS-5 | ₹2,999 | $299 |
+| Rorschach (ROR) | ₹3,499 | $349 |
+| MMPI | ₹3,999 | $399 |
+| WAIS-IV / MISIC | ₹4,999 | $499 |
+| ADOS-2 | ₹4,999 | $549 |
 
 Do not substitute currency conversions or rounded alternatives.
 

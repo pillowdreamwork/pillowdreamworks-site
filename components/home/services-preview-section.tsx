@@ -154,7 +154,7 @@ export function ServicesPreviewSection() {
             <div className="space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-navy/10">
                 <span className="font-mono text-xs text-navy/50 tracking-wider">ROOM 04 · GRAPHOLOGY</span>
-                <span className="text-xs font-medium text-navy/70 bg-navy/5 px-2.5 py-1 rounded-sm">Stroke Diagnostics</span>
+                <span className="text-xs font-medium text-navy/70 bg-navy/5 px-2.5 py-1 rounded-sm">Stroke Analysis</span>
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl text-navy font-normal">
                 Subconscious Graphotherapy

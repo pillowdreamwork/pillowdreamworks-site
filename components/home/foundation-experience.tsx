@@ -109,7 +109,7 @@ export function FoundationExperience() {
       duration: "4 Mins",
       description: "Standardized clinical assessment for anhedonia, sleep architecture disruption, psychomotor agitation, and cognitive fatigue.",
       factors: ["Anhedonia Level", "Psychomotor Energy", "Cognitive Dysphoria"],
-      clinicalBasis: "Kroenke et al. Clinical Criteria • Validated Diagnostic Axis",
+      clinicalBasis: "Educational screening framework • Not a diagnosis",
       sampleQuestion: "Little interest or pleasure in doing activities that previously brought fulfilment?",
       isFree: true,
     },
@@ -552,7 +552,7 @@ export function FoundationExperience() {
               </h2>
             </div>
             <p className="text-sm md:text-base text-zinc-600 max-w-md font-normal leading-relaxed">
-              Explore 161 free screenings and 16 diagnostic protocols across 15 domains with complete factor analysis and instantaneous scoring.
+              Explore 161 free screenings with instantaneous scoring, and 16 practitioner-administered batteries across 15 domains with detailed factor analysis.
             </p>
           </div>
 
@@ -724,7 +724,7 @@ export function FoundationExperience() {
                   Graphological analysis decoding emotional defense mechanisms, baseline stress markers, and neuromuscular handwriting retraining protocols.
                 </p>
                 <div className="mt-6 p-3 rounded-xl bg-white/5 border border-white/10 text-xs font-mono text-zinc-300">
-                  Full 12-Page Diagnostic Report Included
+                  Full 12-Page Detailed Reading Report
                 </div>
               </div>
 
@@ -921,8 +921,8 @@ export function FoundationExperience() {
               <a href="tel:14416" className="text-sm font-medium text-zinc-700 hover:text-red-600">
                 India Crisis: 14416
               </a>
-              <a href="tel:111" className="text-sm font-medium text-zinc-700 hover:text-red-600">
-                UK Crisis: 111
+              <a href="tel:+919999666555" className="text-sm font-medium text-zinc-700 hover:text-red-600">
+                India Crisis: +91 9999 666 555
               </a>
               <Link href="/contact" className="text-sm font-medium text-zinc-700 hover:text-black mt-2">
                 Foundation Inquiries
