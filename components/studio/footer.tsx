@@ -186,8 +186,8 @@ export function StudioFooter() {
           </div>
           <div className="flex gap-6">
             <span className="text-zinc-400">DESIGN SYSTEM: LUSION.CO SPEC</span>
-            <a href="#" className="hover:text-black transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-black transition-colors">Terms of Service</a>
+            <Link href="/legal/privacy" className="hover:text-black transition-colors">Privacy Policy</Link>
+            <Link href="/legal/terms" className="hover:text-black transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

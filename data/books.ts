@@ -1,3 +1,5 @@
+import { BOOKS_PRICING } from './pricing';
+
 export interface BookFormat {
   id: string;
   type: string;
@@ -80,8 +82,20 @@ export const BOOKS: Book[] = [
     pricing: {
       currency: 'INR',
       formats: [
-        { id: 'ebook', type: 'eBook', priceINR: 749, priceUSD: 12.49, description: 'Digital edition.' },
-        { id: 'paperback', type: 'Paperback', priceINR: 1499, priceUSD: 24.99, description: 'Printed edition.' },
+        {
+          id: 'ebook',
+          type: 'eBook',
+          priceINR: BOOKS_PRICING.findingTheCentre.ebook.inr,
+          priceUSD: BOOKS_PRICING.findingTheCentre.ebook.usd,
+          description: 'Digital edition.',
+        },
+        {
+          id: 'paperback',
+          type: 'Paperback',
+          priceINR: BOOKS_PRICING.findingTheCentre.print.inr,
+          priceUSD: BOOKS_PRICING.findingTheCentre.print.usd,
+          description: 'Printed edition.',
+        },
       ],
     },
     scrollJourney: [
@@ -169,7 +183,13 @@ export const BOOKS: Book[] = [
     pricing: {
       currency: 'INR',
       formats: [
-        { id: 'digital', type: 'Digital PDF', priceINR: 1499, priceUSD: 24.99, description: 'Delivered as a digital PDF.' },
+        {
+          id: 'digital',
+          type: 'Digital PDF',
+          priceINR: BOOKS_PRICING.toolkit.inr,
+          priceUSD: BOOKS_PRICING.toolkit.usd,
+          description: 'Delivered as a digital PDF.',
+        },
       ],
     },
     scrollJourney: [
@@ -307,7 +327,7 @@ export const BOOKS: Book[] = [
       {
         question: 'What format will I receive?',
         answer:
-          'The current product is a digital PDF (80 pages), published at ₹1,499 / $24.99. Checkout is being prepared — purchases are not available yet, and the product page will confirm the final file format and delivery method before buying becomes possible.',
+          `The current product is a digital PDF (80 pages), published at ${BOOKS_PRICING.toolkit.formattedInr} / ${BOOKS_PRICING.toolkit.formattedUsd}. Checkout is being prepared — purchases are not available yet, and the product page will confirm the final file format and delivery method before buying becomes possible.`,
       },
       {
         question: 'Can I print it?',
@@ -387,7 +407,7 @@ export const BOOK_BUYING_FAQS: BookFaq[] = [
   {
     question: 'What is included in the bundle?',
     answer:
-      'The bundle is both digital products: the Finding The Centre eBook and The Psychology Toolkit digital PDF, for ₹1,799 / $29.99. It does not include the paperback unless a product page explicitly says otherwise.',
+      `The bundle is both digital products: the Finding The Centre eBook and The Psychology Toolkit digital PDF, for ${BOOKS_PRICING.bundle.formattedInr} / ${BOOKS_PRICING.bundle.formattedUsd}. It does not include the paperback unless a product page explicitly says otherwise.`,
   },
   {
     question: 'How do I receive a digital purchase?',
@@ -413,14 +433,14 @@ export const BOOK_BUYING_FAQS: BookFaq[] = [
   {
     question: 'Are the prices in different currencies automatically converted?',
     answer:
-      'No live conversion happens. INR and USD figures are separate published prices for each market — for example, the bundle is ₹1,799 in India and $29.99 globally. The amount charged at checkout must be clear before payment.',
+      `No live conversion happens. INR and USD figures are separate published prices for each market — for example, the bundle is ${BOOKS_PRICING.bundle.formattedInr} in India and ${BOOKS_PRICING.bundle.formattedUsd} globally. The amount charged at checkout must be clear before payment.`,
   },
 ];
 
 export const BUNDLE_PRICING = {
   currency: 'INR' as const,
-  bundlePriceINR: 1799,
-  bundlePriceUSD: 29.99,
+  bundlePriceINR: BOOKS_PRICING.bundle.inr,
+  bundlePriceUSD: BOOKS_PRICING.bundle.usd,
   includes: ['Finding The Centre eBook', 'The Psychology Toolkit Digital PDF'],
   summary: 'A shared digital collection bringing both works together.',
   /** Set only when an approved checkout destination exists. */

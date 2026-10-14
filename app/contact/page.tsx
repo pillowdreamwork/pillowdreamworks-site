@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { FOUNDER_CONTACT } from "@/data/navigation";
+import { BOOKS_PRICING, SERVICES_PRICING } from "@/data/pricing";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = React.useState(false);
@@ -40,8 +41,8 @@ export default function ContactPage() {
             <label htmlFor="inquiry-type">What are you interested in? *</label>
             <select id="inquiry-type" name="inquiry_type" required value={formData.inquiryType} onChange={(event) => setFormData({ ...formData, inquiryType: event.target.value })}>
               <option value="">Select an option</option>
-              <option value="toolkit">The Psychology Toolkit (₹1,499)</option>
-              <option value="consultation">Request a Counselling Session (₹1,499)</option>
+              <option value="toolkit">The Psychology Toolkit ({BOOKS_PRICING.toolkit.formattedInr})</option>
+              <option value="consultation">Request a Counselling Session ({SERVICES_PRICING.counselling.singleSession.formattedInr})</option>
               <option value="assessment">Psychological Assessments (Free + Paid)</option>
               <option value="course">Learning Course</option>
               <option value="other">Something Else</option>
