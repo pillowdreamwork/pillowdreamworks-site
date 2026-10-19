@@ -5,7 +5,7 @@ import { ArrowRight, FileCheck, ShieldCheck, Download } from "lucide-react";
 import { motion } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
-import { CAMPAIGN_METADATA, BOOKS_PRICING } from "@/data/pricing";
+import { BOOKS_PRICING } from "@/data/pricing";
 
 export function FinalCTASection() {
   return (
@@ -27,7 +27,7 @@ export function FinalCTASection() {
           {/* Eyebrow Label */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-[#C6A46A]/30 text-[#C6A46A] text-xs font-mono">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C6A46A] animate-pulse" />
-            <span>{CAMPAIGN_METADATA.badge} · Valid until {CAMPAIGN_METADATA.endDate}</span>
+            <span>Foundation Publications & Clinical Services</span>
           </div>
 
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal leading-tight text-[#FDFBF7] max-w-2xl mx-auto">
@@ -44,7 +44,7 @@ export function FinalCTASection() {
               variant="gold"
               size="lg"
             >
-              <span>Acquire Toolkit ({BOOKS_PRICING.toolkit.diwali.formattedInr} / {BOOKS_PRICING.toolkit.diwali.formattedUsd})</span>
+              <span>Acquire Toolkit ({BOOKS_PRICING.toolkit.formattedInr} / {BOOKS_PRICING.toolkit.formattedUsd})</span>
               <ArrowRight className="w-4 h-4 ml-1" />
             </LiquidGlassButton>
 

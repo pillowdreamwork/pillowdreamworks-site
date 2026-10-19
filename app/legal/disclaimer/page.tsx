@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
+import { LegalReviewNotice } from "@/components/legal/legal-review-notice";
 
 export const metadata: Metadata = {
   title: "Disclaimer — PillowDreamWorks Foundation",
@@ -23,6 +24,8 @@ export default function DisclaimerPage() {
           </p>
         </div>
 
+        <LegalReviewNotice />
+
         <div className="prose prose-navy max-w-none space-y-6 text-sm sm:text-base text-navy/80 leading-relaxed font-sans">
           <h2 className="font-serif text-2xl font-bold text-navy">1. Psychoeducational Nature of Resources</h2>
           <p>
@@ -36,7 +39,7 @@ export default function DisclaimerPage() {
 
           <h2 className="font-serif text-2xl font-bold text-navy pt-4">3. Acute Emergency Situations</h2>
           <p>
-            If you are experiencing severe psychological distress, self-harm impulses, suicidal ideation, or an acute psychiatric crisis, do not rely on digital publications. Contact local emergency medical services or national helplines immediately (India: 14416 / 1800-891-4416; US: 988; UK: 111 / 999).
+            If you are experiencing severe psychological distress, self-harm impulses, suicidal ideation, or an acute psychiatric crisis, do not rely on digital publications. Contact your local emergency number or a national helpline immediately. Recognised helplines include: <strong>India — Tele-MANAS: 14416</strong>; <strong>India — Vandrevala Foundation: +91 9999 666 555</strong>; <strong>United States — 988 Suicide &amp; Crisis Lifeline: 988</strong>.
           </p>
         </div>
       </Container>

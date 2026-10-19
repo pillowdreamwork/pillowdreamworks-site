@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -44,8 +45,20 @@ export interface ButtonProps
 export const Button = React.forwardRef<
   HTMLButtonElement | HTMLAnchorElement,
   ButtonProps & React.AnchorHTMLAttributes<HTMLAnchorElement>
->(({ className, variant, size, href, external, children, disabled, ...props }, ref) => {
+>(({ className, variant, size, asChild = false, href, external, children, disabled, ...props }, ref) => {
   const classes = cn(buttonVariants({ variant, size }), className);
+
+  if (asChild) {
+    return (
+      <Slot
+        ref={ref as React.Ref<HTMLButtonElement>}
+        className={classes}
+        {...(props as React.HTMLAttributes<HTMLElement>)}
+      >
+        {children}
+      </Slot>
+    );
+  }
 
   if (href) {
     const isExternal =

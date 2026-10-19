@@ -33,7 +33,7 @@ export const MAIN_NAVIGATION: NavItem[] = [
     href: "/services",
     children: [
       { label: "1-on-1 Counselling", href: "/services#counselling", description: "50-minute clinical sessions" },
-      { label: "Crisis Stabilization", href: "/services#crisis", description: "Immediate de-escalation calls" },
+      { label: "Crisis Stabilisation Call", href: "/services#crisis", description: "Scheduled, non-emergency support call" },
       { label: "CentreLine Support", href: "/services#centreline", description: "Ongoing grounded check-ins" },
       { label: "Graphotherapy", href: "/services#graphology", description: "Handwriting & stroke realignment" },
     ],
@@ -58,11 +58,9 @@ export const EMERGENCY_INFO = {
   actionText: "Get Immediate Crisis Support",
   href: "/services#crisis",
   phoneNumbers: [
-    { country: "India (Tele-MANAS)", number: "14416 / 1800-891-4416" },
-    { country: "India (KIRAN)", number: "1800-599-0019" },
-    { country: "US & Canada (Crisis Lifeline)", number: "988" },
-    { country: "UK (Emergency / NHS)", number: "111 / 999" },
-    { country: "International Crisis", number: "befrienders.org" },
+    { country: "India (Tele-MANAS)", number: "14416" },
+    { country: "India (Vandrevala Foundation)", number: "+91 9999 666 555" },
+    { country: "United States (988 Suicide & Crisis Lifeline)", number: "988" },
   ],
 };
 

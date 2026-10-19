@@ -23,7 +23,7 @@ export function ServicesPreviewSection() {
             The Consulting Rooms
           </h2>
           <p className="mt-4 text-base text-[#202923]/75 font-sans leading-relaxed">
-            Direct access to qualified psychological guidance, acute crisis stabilization, ongoing confidential check-ins, and neuromuscular graphotherapy.
+            Direct access to psychological guidance, a scheduled stabilisation call, ongoing confidential check-ins, and graphology readings.
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export function ServicesPreviewSection() {
             <div className="space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-[#24483B]/10">
                 <span className="font-mono text-xs text-[#24483B] tracking-wider font-semibold">ROOM 01 · CLINICAL</span>
-                <span className="text-xs font-medium text-[#202923] bg-white/60 px-3 py-1 rounded-full border border-[#24483B]/10">50 Min Session</span>
+                <span className="text-xs font-medium text-[#202923] bg-white/60 px-3 py-1 rounded-full border border-[#24483B]/10">60 Min Session</span>
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl text-[#202923] font-normal">
                 1-on-1 Clinical Counselling
@@ -79,20 +79,20 @@ export function ServicesPreviewSection() {
           >
             <div className="space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-[#8B2626]/10">
-                <span className="font-mono text-xs text-[#8B2626] tracking-wider font-semibold">ROOM 02 · STABILIZATION</span>
-                <span className="text-xs font-semibold text-[#8B2626] bg-[#8B2626]/10 px-3 py-1 rounded-full border border-[#8B2626]/20">Immediate Intake</span>
+                <span className="font-mono text-xs text-[#8B2626] tracking-wider font-semibold">ROOM 02 · SUPPORT</span>
+                <span className="text-xs font-semibold text-[#8B2626] bg-[#8B2626]/10 px-3 py-1 rounded-full border border-[#8B2626]/20">Scheduled Call</span>
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl text-[#202923] font-normal">
-                Crisis De-Escalation Call
+                Crisis Stabilisation Call
               </h3>
               <p className="text-sm text-[#202923]/80 leading-relaxed font-sans">
-                Immediate, non-judgmental somatic grounding and cognitive triage during episodes of overwhelming panic, acute heartbreak, or paralyzing distress.
+                A scheduled, non-emergency support call offering grounding and de-escalation during periods of overwhelm. Not an emergency-response service.
               </p>
             </div>
 
             <div className="pt-8 mt-6 border-t border-[#8B2626]/10 flex items-center justify-between">
               <div>
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#8B2626] block font-semibold">Immediate Rate</span>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#8B2626] block font-semibold">Session rate</span>
                 <span className="font-serif text-xl font-bold text-[#8B2626]">
                   {SERVICES_PRICING.crisis.call.formattedInr}
                 </span>
@@ -100,10 +100,10 @@ export function ServicesPreviewSection() {
               </div>
               <LiquidGlassButton
                 href="/services#crisis"
-                variant="vermilion"
+                variant="crisis"
                 size="sm"
               >
-                <span>Access Protocol</span>
+                <span>Request a Call</span>
                 <Phone className="w-3.5 h-3.5 ml-1" />
               </LiquidGlassButton>
             </div>
@@ -160,13 +160,13 @@ export function ServicesPreviewSection() {
             <div className="space-y-6">
               <div className="flex items-center justify-between pb-4 border-b border-[#24483B]/10">
                 <span className="font-mono text-xs text-[#24483B] tracking-wider font-semibold">ROOM 04 · GRAPHOLOGY</span>
-                <span className="text-xs font-medium text-[#202923] bg-white/60 px-3 py-1 rounded-full border border-[#24483B]/10">Stroke Diagnostics</span>
+                <span className="text-xs font-medium text-[#202923] bg-white/60 px-3 py-1 rounded-full border border-[#24483B]/10">Stroke Analysis</span>
               </div>
               <h3 className="font-serif text-2xl sm:text-3xl text-[#202923] font-normal">
                 Subconscious Graphotherapy
               </h3>
               <p className="text-sm text-[#202923]/75 leading-relaxed font-sans">
-                Scientific handwriting stroke analysis evaluating subconscious defense patterns, baseline stress markers, and custom 30-day neuromuscular penmanship drills.
+                Structured handwriting stroke analysis exploring baseline patterns and stress markers, with custom 30-day realignment penmanship drills.
               </p>
             </div>
 

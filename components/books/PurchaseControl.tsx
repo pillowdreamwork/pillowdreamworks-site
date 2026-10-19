@@ -47,7 +47,7 @@ export const PurchaseControl = ({
         {notice && (
           <div className="mt-4 p-4 rounded-xl bg-[#F5EFE6] border border-[#24483B]/15 text-xs text-[#202923]/80 space-y-3 font-sans">
             <p className="font-serif text-sm font-semibold text-[#202923]">
-              Direct Checkout Being Finalized
+              Checkout is being prepared. Purchases are not available yet.
             </p>
             <p className="leading-relaxed">
               Automated card checkout for this edition is being connected. You can acquire your digital copy or reserve your print edition immediately via the Foundation desk.
@@ -59,14 +59,14 @@ export const PurchaseControl = ({
                 size="sm"
               >
                 <MessageSquare className="w-3.5 h-3.5 mr-1" />
-                <span>Order via Foundation WhatsApp</span>
+                <span>Order via Foundation Desk</span>
               </LiquidGlassButton>
               <button
                 type="button"
                 onClick={onReturn}
                 className="px-3 py-1.5 text-xs font-mono text-[#24483B] hover:underline cursor-pointer"
               >
-                Return to library
+                Return to the library
               </button>
             </div>
           </div>

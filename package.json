@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "test": "playwright test --reporter=line",
     "test:assessment-centre": "playwright test tests/assessment-centre.spec.js --reporter=line"
   },
   "devDependencies": {

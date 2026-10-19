@@ -6,7 +6,7 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform, useScroll } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
-import { CAMPAIGN_METADATA, BOOKS_PRICING } from "@/data/pricing";
+import { BOOKS_PRICING } from "@/data/pricing";
 
 const containerVariants = {
   hidden: {},
@@ -155,7 +155,7 @@ export function HeroSection() {
               className="pt-6 border-t border-[#24483B]/10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-[#202923]/60"
             >
               <span className="font-semibold text-[#24483B]">
-                {CAMPAIGN_METADATA.badge}: ₹{BOOKS_PRICING.toolkit.diwali.inr} (${BOOKS_PRICING.toolkit.diwali.usd})
+                The Psychology Toolkit: {BOOKS_PRICING.toolkit.formattedInr} ({BOOKS_PRICING.toolkit.formattedUsd})
               </span>
               <span>·</span>
               <span>80 Pages (5 Master Chapters)</span>

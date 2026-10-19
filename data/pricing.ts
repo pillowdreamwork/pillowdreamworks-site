@@ -1,338 +1,164 @@
 // Centralized Pricing Architecture — Single Source of Truth for PillowDreamWorks Foundation
-// Authoritative references: Decision.md, PRD.md, COMPLETE_PRICING_LAYOUT_DIWALI_EDITION.md
+// This is the ONLY authoritative pricing file. Pages and components must read from here
+// instead of hardcoding amounts. All campaign/discount logic has been removed.
 
-export interface PriceStructure {
-  inr: number;
-  usd: number;
-  inrDiwali?: number;
-  usdDiwali?: number;
-  formattedInr: string;
-  formattedUsd: string;
-  formattedInrDiwali?: string;
-  formattedUsdDiwali?: string;
-  savingsInr?: string;
-  savingsUsd?: string;
-}
+const formatINR = (value: number): string => `₹${value.toLocaleString("en-IN")}`;
+const formatUSD = (value: number): string =>
+  `$${value.toLocaleString("en-US", {
+    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+    maximumFractionDigits: 2,
+  })}`;
 
-export const CAMPAIGN_METADATA = {
-  name: "Diwali Special",
-  badge: "🪔 Diwali Special",
-  endDate: "November 8, 2026",
-  messaging: "🪔 Diwali Special — Up to 30% OFF, valid until Diwali (November 8, 2026).",
-};
+/* ------------------------------------------------------------------ */
+/* 1. BOOKS                                                            */
+/* ------------------------------------------------------------------ */
 
 export const BOOKS_PRICING = {
   toolkit: {
     title: "The Psychology Toolkit",
     subtitle: "80-Page Master Workbook & Reflection System (A4 Printable PDF)",
-    regular: {
-      inr: 1224,
-      usd: 127,
-      formattedInr: "₹1,224",
-      formattedUsd: "$127",
-    },
-    diwali: {
-      inr: 999,
-      usd: 89,
-      formattedInr: "₹999",
-      formattedUsd: "$89",
-      savingsInr: "₹225 OFF",
-      savingsUsd: "$38 OFF (30%)",
-    },
+    inr: 1499,
+    usd: 24.99,
+    formattedInr: formatINR(1499),
+    formattedUsd: formatUSD(24.99),
   },
   findingTheCentre: {
     title: "Finding The Centre",
-    subtitle: "A reflective journey toward inner stillness and clarity",
+    subtitle: "A therapeutic coloring & reflection workbook",
     ebook: {
-      inr: 349,
-      usd: 14.99,
-      formattedInr: "₹349",
-      formattedUsd: "$14.99",
+      inr: 749,
+      usd: 12.49,
+      formattedInr: formatINR(749),
+      formattedUsd: formatUSD(12.49),
     },
     print: {
-      inr: 1449,
+      inr: 1499,
       usd: 24.99,
-      formattedInr: "₹1,449",
-      formattedUsd: "$24.99",
+      formattedInr: formatINR(1499),
+      formattedUsd: formatUSD(24.99),
     },
   },
   bundle: {
     title: "Complete Psychology & Inner Work Bundle",
     subtitle: "The Psychology Toolkit + Finding The Centre (eBook Edition)",
-    regularValue: {
-      inr: 1348,
-      usd: 103.99,
-      formattedInr: "₹1,348",
-      formattedUsd: "$103.99",
-    },
-    price: {
-      inr: 1079,
-      usd: 83,
-      formattedInr: "₹1,079",
-      formattedUsd: "$83",
-      savingsInr: "Save ₹269 (20% OFF)",
-      savingsUsd: "Save $21 (20% OFF)",
-    },
+    inr: 1799,
+    usd: 29.99,
+    formattedInr: formatINR(1799),
+    formattedUsd: formatUSD(29.99),
   },
-};
+} as const;
 
-export interface AssessmentPricingItem {
+/* ------------------------------------------------------------------ */
+/* 2. PAID ASSESSMENTS — 16 practitioner-administered batteries        */
+/*    Every instrument runs for a 60-minute session.                   */
+/* ------------------------------------------------------------------ */
+
+export type AssessmentCategory =
+  | "Anxiety & Mood"
+  | "Personality & Projective"
+  | "Cognitive & Neuro"
+  | "Clinical Diagnostics";
+
+export interface PaidAssessmentPrice {
   id: string;
-  name: string;
   code: string;
-  category: "Anxiety & Mood" | "Personality & Projective" | "Cognitive & Neuro" | "Clinical Diagnostics";
+  name: string;
+  category: AssessmentCategory;
   inr: number;
   usd: number;
-  formattedInr: string;
-  formattedUsd: string;
-  marketValueUsd?: string;
   description: string;
-  duration: string;
   targetAge: string;
-  administration: "Self-Administered (Free)" | "Practitioner-Evaluated";
-  isPaid: boolean;
 }
 
-export const ASSESSMENTS_CATALOG: AssessmentPricingItem[] = [
+/** Authoritative price + metadata registry for every paid assessment. */
+export const PAID_ASSESSMENTS: PaidAssessmentPrice[] = [
   {
     id: "ham-a",
     code: "HAM-A",
     name: "Hamilton Anxiety Rating Scale",
     category: "Anxiety & Mood",
-    inr: 1499,
-    usd: 55,
-    formattedInr: "₹1,499",
-    formattedUsd: "$55",
-    marketValueUsd: "$79",
-    description: "Clinician-standard rating scale measuring both psychic anxiety (mental agitation and psychological distress) and somatic anxiety (physical symptoms).",
-    duration: "15–20 minutes",
-    targetAge: "Adults & Adolescents (16+)",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
+    inr: 799,
+    usd: 69,
+    description:
+      "Practitioner-administered rating scale covering both psychic anxiety (mental tension and worry) and somatic anxiety (physical sensations).",
+    targetAge: "Adults (18+)",
   },
   {
     id: "bdi-ii",
     code: "BDI-II",
     name: "Beck Depression Inventory-II",
     category: "Anxiety & Mood",
-    inr: 1499,
-    usd: 55,
-    formattedInr: "₹1,499",
-    formattedUsd: "$55",
-    marketValueUsd: "$79",
-    description: "21-item self-report inventory measuring characteristic attitudes and symptoms of depression over the preceding two weeks.",
-    duration: "10–15 minutes",
+    inr: 799,
+    usd: 69,
+    description:
+      "21-item inventory reviewed with a practitioner, exploring attitudes and symptoms commonly associated with low mood over the preceding two weeks.",
     targetAge: "Adolescents & Adults (13+)",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
-  },
-  {
-    id: "caps-5",
-    code: "CAPS-5",
-    name: "Clinician-Administered PTSD Scale for DSM-5",
-    category: "Clinical Diagnostics",
-    inr: 2999,
-    usd: 174,
-    formattedInr: "₹2,999",
-    formattedUsd: "$174",
-    marketValueUsd: "$249",
-    description: "Structured diagnostic interview assessing symptom frequency, intensity, and functional impact for post-traumatic stress.",
-    duration: "45–60 minutes",
-    targetAge: "Adults (18+)",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
-  },
-  {
-    id: "16pf",
-    code: "16PF",
-    name: "Sixteen Personality Factor Questionnaire",
-    category: "Personality & Projective",
-    inr: 2999,
-    usd: 104,
-    formattedInr: "₹2,999",
-    formattedUsd: "$104",
-    marketValueUsd: "$149",
-    description: "Comprehensive psychometric assessment of 16 primary traits and 5 global factors underlying human behavior and leadership style.",
-    duration: "35–50 minutes",
-    targetAge: "Adults (16+)",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
-  },
-  {
-    id: "rorschach",
-    code: "ROR",
-    name: "Rorschach Inkblot Diagnostic Assessment",
-    category: "Personality & Projective",
-    inr: 3499,
-    usd: 209,
-    formattedInr: "₹3,499",
-    formattedUsd: "$209",
-    marketValueUsd: "$299",
-    description: "Projective psychological instrument examining personality structure, cognitive perception, emotional regulation, and unconscious drivers.",
-    duration: "60–90 minutes",
-    targetAge: "Adults & Adolescents",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
-  },
-  {
-    id: "tat",
-    code: "TAT",
-    name: "Thematic Apperception Test",
-    category: "Personality & Projective",
-    inr: 2999,
-    usd: 174,
-    formattedInr: "₹2,999",
-    formattedUsd: "$174",
-    marketValueUsd: "$249",
-    description: "Narrative projective technique revealing dominant drives, emotional conflicts, social motivations, and interpersonal schemas.",
-    duration: "45–60 minutes",
-    targetAge: "Adolescents & Adults",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
-  },
-  {
-    id: "mmpi",
-    code: "MMPI",
-    name: "Minnesota Multiphasic Personality Inventory",
-    category: "Clinical Diagnostics",
-    inr: 3999,
-    usd: 209,
-    formattedInr: "₹3,999",
-    formattedUsd: "$209",
-    marketValueUsd: "$299",
-    description: "Empirically validated clinical assessment instrument evaluating personality patterns, psychological distress, and diagnostic validity scales.",
-    duration: "60–90 minutes",
-    targetAge: "Adults (18+)",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
   },
   {
     id: "ssct",
     code: "SSCT",
     name: "Sacks Sentence Completion Test",
     category: "Personality & Projective",
-    inr: 1999,
-    usd: 69,
-    formattedInr: "₹1,999",
-    formattedUsd: "$69",
-    marketValueUsd: "$99",
-    description: "Semi-structured projective instrument analyzing four major life domains: Family, Sex/Relationships, Interpersonal, and Self-Concept.",
-    duration: "20–30 minutes",
+    inr: 1499,
+    usd: 99,
+    description:
+      "Semi-structured projective exercise reviewing four life domains: Family, Relationships, Interpersonal, and Self-Concept.",
     targetAge: "Teens & Adults",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
   },
   {
     id: "htp",
     code: "HTP",
     name: "House-Tree-Person Projective Technique",
     category: "Personality & Projective",
-    inr: 1999,
-    usd: 69,
-    formattedInr: "₹1,999",
-    formattedUsd: "$69",
-    marketValueUsd: "$99",
-    description: "Expressive graphic assessment reflecting self-perception, environmental grounding, family dynamics, and subconscious ego defenses.",
-    duration: "25–35 minutes",
-    targetAge: "All Ages (Children, Teens, Adults)",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
+    inr: 1499,
+    usd: 99,
+    description:
+      "Expressive drawing exercise reviewed collaboratively to reflect self-perception, environmental grounding, and family dynamics.",
+    targetAge: "All ages",
   },
   {
     id: "hfdt",
     code: "HFDT",
     name: "Human Figure Drawing Test",
     category: "Personality & Projective",
-    inr: 1999,
-    usd: 69,
-    formattedInr: "₹1,999",
-    formattedUsd: "$69",
-    marketValueUsd: "$99",
-    description: "Projective psychological screening tool analyzing body image, emotional maturity, anxiety indicators, and developmental indices.",
-    duration: "20–30 minutes",
+    inr: 1499,
+    usd: 99,
+    description:
+      "Drawing-based screening exercise reviewed with a practitioner to explore body image, emotional expression, and developmental themes.",
     targetAge: "Children & Adults",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
-  },
-  {
-    id: "wais-iv",
-    code: "WAIS-IV / MISIC",
-    name: "Wechsler Adult Intelligence Scale / MISIC",
-    category: "Cognitive & Neuro",
-    inr: 4999,
-    usd: 244,
-    formattedInr: "₹4,999",
-    formattedUsd: "$244",
-    marketValueUsd: "$349",
-    description: "Gold standard intelligence test measuring Verbal Comprehension, Perceptual Reasoning, Working Memory, and Processing Speed.",
-    duration: "90–120 minutes",
-    targetAge: "Ages 16–90",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
-  },
-  {
-    id: "bender-ii",
-    code: "Bender II",
-    name: "Bender Visual-Motor Gestalt Test II",
-    category: "Cognitive & Neuro",
-    inr: 2999,
-    usd: 104,
-    formattedInr: "₹2,999",
-    formattedUsd: "$104",
-    marketValueUsd: "$149",
-    description: "Evaluates visual-motor integration, developmental neurological maturity, and perceptual neuropsychological functioning.",
-    duration: "15–25 minutes",
-    targetAge: "Ages 4 to 85+",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
   },
   {
     id: "caars",
     code: "CAARS",
     name: "Conners' Adult ADHD Rating Scales",
     category: "Clinical Diagnostics",
-    inr: 2499,
-    usd: 90,
-    formattedInr: "₹2,499",
-    formattedUsd: "$90",
-    marketValueUsd: "$129",
-    description: "Specialized assessment measuring attention deficit, impulsivity, emotional lability, and executive dysfunction in adults.",
-    duration: "20–30 minutes",
+    inr: 1899,
+    usd: 129,
+    description:
+      "Practitioner-reviewed rating scale examining attention, impulsivity, and executive functioning patterns in adults.",
     targetAge: "Adults (18+)",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
-  },
-  {
-    id: "ados-2",
-    code: "ADOS-2",
-    name: "Autism Diagnostic Observation Schedule-2",
-    category: "Clinical Diagnostics",
-    inr: 4999,
-    usd: 244,
-    formattedInr: "₹4,999",
-    formattedUsd: "$244",
-    marketValueUsd: "$349",
-    description: "Standardized observation protocol for assessing social communication, interaction, and repetitive behaviors across development.",
-    duration: "45–60 minutes",
-    targetAge: "Toddlers to Adults",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
   },
   {
     id: "panss",
     code: "PANSS",
     name: "Positive and Negative Syndrome Scale",
     category: "Clinical Diagnostics",
-    inr: 2999,
-    usd: 104,
-    formattedInr: "₹2,999",
-    formattedUsd: "$104",
-    marketValueUsd: "$149",
-    description: "Clinical rating scale measuring symptom severity, thought structure, cognitive clarity, and general psychopathology.",
-    duration: "45–50 minutes",
+    inr: 2199,
+    usd: 149,
+    description:
+      "Clinician-rated scale reviewed with a practitioner, covering symptom severity, thought structure, and general psychopathology.",
     targetAge: "Adults (18+)",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
+  },
+  {
+    id: "bender-ii",
+    code: "Bender II",
+    name: "Bender Visual-Motor Gestalt Test II",
+    category: "Cognitive & Neuro",
+    inr: 2299,
+    usd: 149,
+    description:
+      "Practitioner-scored copying task reviewing visual-motor integration and perceptual functioning.",
+    targetAge: "Ages 4 and above",
   },
   {
     id: "cat",
@@ -340,122 +166,364 @@ export const ASSESSMENTS_CATALOG: AssessmentPricingItem[] = [
     name: "Children's Apperception Test",
     category: "Personality & Projective",
     inr: 2499,
-    usd: 104,
-    formattedInr: "₹2,499",
-    formattedUsd: "$104",
-    marketValueUsd: "$149",
-    description: "Child projective assessment using story-telling with animal/human figures to understand emotional conflicts, fears, and attachment.",
-    duration: "30–45 minutes",
-    targetAge: "Children (Ages 3–10)",
-    administration: "Practitioner-Evaluated",
-    isPaid: true,
+    usd: 199,
+    description:
+      "Child projective exercise using story-telling with animal and human figures, reviewed with a practitioner to explore emotional themes.",
+    targetAge: "Children (3–10)",
+  },
+  {
+    id: "16pf",
+    code: "16PF",
+    name: "Sixteen Personality Factor Questionnaire",
+    category: "Personality & Projective",
+    inr: 2999,
+    usd: 199,
+    description:
+      "Practitioner-reviewed questionnaire covering 16 primary traits and the global factors used to describe personality style.",
+    targetAge: "Adults (16+)",
+  },
+  {
+    id: "tat",
+    code: "TAT",
+    name: "Thematic Apperception Test",
+    category: "Personality & Projective",
+    inr: 2999,
+    usd: 249,
+    description:
+      "Narrative projective technique reviewed with a practitioner to explore drives, emotional conflicts, and interpersonal themes.",
+    targetAge: "Adolescents & Adults",
+  },
+  {
+    id: "caps-5",
+    code: "CAPS-5",
+    name: "Clinician-Administered PTSD Scale for DSM-5",
+    category: "Clinical Diagnostics",
+    inr: 2999,
+    usd: 299,
+    description:
+      "Structured practitioner-administered interview reviewing trauma-related symptoms, frequency, and functional impact.",
+    targetAge: "Adults (18+)",
+  },
+  {
+    id: "rorschach",
+    code: "ROR",
+    name: "Rorschach Inkblot Assessment",
+    category: "Personality & Projective",
+    inr: 3499,
+    usd: 349,
+    description:
+      "Projective instrument reviewed with a trained practitioner, exploring perceptual style, emotional regulation, and personality structure.",
+    targetAge: "Adults & Adolescents",
+  },
+  {
+    id: "mmpi",
+    code: "MMPI",
+    name: "Minnesota Multiphasic Personality Inventory",
+    category: "Clinical Diagnostics",
+    inr: 3999,
+    usd: 399,
+    description:
+      "Broad-band clinical inventory reviewed with a practitioner, covering personality patterns, distress, and validity indicators.",
+    targetAge: "Adults (18+)",
+  },
+  {
+    id: "wais-iv",
+    code: "WAIS-IV / MISIC",
+    name: "Wechsler Adult Intelligence Scale / MISIC",
+    category: "Cognitive & Neuro",
+    inr: 4999,
+    usd: 499,
+    description:
+      "Practitioner-administered cognitive battery covering verbal comprehension, perceptual reasoning, working memory, and processing speed.",
+    targetAge: "Ages 16–90",
+  },
+  {
+    id: "ados-2",
+    code: "ADOS-2",
+    name: "Autism Diagnostic Observation Schedule-2",
+    category: "Clinical Diagnostics",
+    inr: 4999,
+    usd: 549,
+    description:
+      "Standardized practitioner-administered observation protocol reviewing social communication, interaction, and repetitive behaviours.",
+    targetAge: "Toddlers to Adults",
   },
 ];
+
+/** Keyed lookup so other data files can reuse the single source of truth. */
+export const PAID_ASSESSMENT_PRICES: Record<string, { inr: number; usd: number }> =
+  PAID_ASSESSMENTS.reduce(
+    (acc, item) => {
+      acc[item.id] = { inr: item.inr, usd: item.usd };
+      return acc;
+    },
+    {} as Record<string, { inr: number; usd: number }>
+  );
+
+export interface AssessmentPricingItem {
+  id: string;
+  name: string;
+  code: string;
+  category: AssessmentCategory;
+  inr: number;
+  usd: number;
+  formattedInr: string;
+  formattedUsd: string;
+  description: string;
+  duration: string;
+  targetAge: string;
+  administration: "Practitioner-Administered";
+  isPaid: true;
+}
+
+export const ASSESSMENT_DURATION = "60 minutes";
+
+export const ASSESSMENTS_CATALOG: AssessmentPricingItem[] = PAID_ASSESSMENTS.map(
+  (item) => ({
+    id: item.id,
+    name: item.name,
+    code: item.code,
+    category: item.category,
+    inr: item.inr,
+    usd: item.usd,
+    formattedInr: formatINR(item.inr),
+    formattedUsd: formatUSD(item.usd),
+    description: item.description,
+    duration: ASSESSMENT_DURATION,
+    targetAge: item.targetAge,
+    administration: "Practitioner-Administered",
+    isPaid: true,
+  })
+);
+
+/* ------------------------------------------------------------------ */
+/* 3. SERVICES & COURSES                                               */
+/*    Names, IDs, categories, PUBLIC visibility, payment models and    */
+/*    durations are fixed. Flexible duration is false for every item.  */
+/* ------------------------------------------------------------------ */
+
+export type PaymentModel = "BOOKING_PAYMENT" | "PACKAGE_PURCHASE" | "DIRECT_PURCHASE";
+
+export interface ServicePrice {
+  id: string;
+  title: string;
+  category: string;
+  model: PaymentModel;
+  durationMinutes: number;
+  flexibleDuration: false;
+  visibility: "PUBLIC";
+  description: string;
+  inr: number;
+  usd: number;
+  formattedInr: string;
+  formattedUsd: string;
+}
 
 export const SERVICES_PRICING = {
   counselling: {
     singleSession: {
-      title: "1-on-1 Counselling Session (50 Min)",
-      description: "Dedicated clinical consultation for emotional regulation, anxiety, and personal growth.",
+      id: "COUNSELLING-01",
+      title: "Counselling Session (50 min)",
+      category: "Counselling",
+      model: "BOOKING_PAYMENT",
+      durationMinutes: 50,
+      flexibleDuration: false,
+      visibility: "PUBLIC",
+      description:
+        "Dedicated one-on-one consultation for emotional regulation, anxiety, and personal growth.",
       inr: 1499,
       usd: 18,
-      formattedInr: "₹1,499",
-      formattedUsd: "$18",
+      formattedInr: formatINR(1499),
+      formattedUsd: formatUSD(18),
     },
     package4: {
-      title: "Counselling Package (4 Sessions)",
-      description: "Structured month-long progression for sustained therapeutic alignment and coping mastery.",
+      id: "COUNSELLING-PKG4",
+      title: "Counselling Package of 4",
+      category: "Counselling Packages",
+      model: "PACKAGE_PURCHASE",
+      durationMinutes: 0,
+      flexibleDuration: false,
+      visibility: "PUBLIC",
+      description:
+        "A structured sequence of four sessions for sustained therapeutic alignment and coping skills.",
       inr: 5996,
       usd: 72,
-      formattedInr: "₹5,996",
-      formattedUsd: "$72",
+      formattedInr: formatINR(5996),
+      formattedUsd: formatUSD(72),
     },
     package8: {
-      title: "Counselling Package (8 Sessions)",
-      description: "Deep, transformative psychological guidance spanning 8 focused milestones.",
+      id: "COUNSELLING-PKG8",
+      title: "Counselling Package of 8",
+      category: "Counselling Packages",
+      model: "PACKAGE_PURCHASE",
+      durationMinutes: 0,
+      flexibleDuration: false,
+      visibility: "PUBLIC",
+      description:
+        "Eight focused sessions for deeper, longer-term psychological guidance.",
       inr: 11992,
       usd: 144,
-      formattedInr: "₹11,992",
-      formattedUsd: "$144",
+      formattedInr: formatINR(11992),
+      formattedUsd: formatUSD(144),
     },
   },
   crisis: {
     call: {
-      title: "Crisis Stabilization Call",
-      description: "Immediate de-escalation, emotional grounding, and emergency psychological stabilization.",
+      id: "CRISIS-01",
+      title: "Crisis Stabilisation Call (40 min)",
+      category: "Crisis Support",
+      model: "BOOKING_PAYMENT",
+      durationMinutes: 40,
+      flexibleDuration: false,
+      visibility: "PUBLIC",
+      description:
+        "A scheduled, non-emergency support call focused on grounding, de-escalation, and stabilisation. This is not an emergency or crisis-response service. If you are in immediate danger, contact your local emergency number or a national helpline listed on this page.",
       inr: 399,
       usd: 5,
-      formattedInr: "₹399",
-      formattedUsd: "$5",
+      formattedInr: formatINR(399),
+      formattedUsd: formatUSD(5),
     },
     centreLine: {
-      title: "CentreLine Ongoing Support",
-      description: "Quiet, steady, founder-led emotional check-ins and ongoing guidance via structured messaging.",
+      id: "CENTRELINE-01",
+      title: "CentreLine Support (30 min)",
+      category: "Support / Session",
+      model: "BOOKING_PAYMENT",
+      durationMinutes: 30,
+      flexibleDuration: false,
+      visibility: "PUBLIC",
+      description:
+        "Founder-led emotional check-ins and ongoing guidance through a structured session.",
       inr: 299,
       usd: 4,
-      formattedInr: "₹299",
-      formattedUsd: "$4",
+      formattedInr: formatINR(299),
+      formattedUsd: formatUSD(4),
     },
   },
   graphology: {
     basic: {
+      id: "GRAPH-BASIC",
       title: "Graphology Basic Reading",
-      description: "Analysis of baseline slant, margin discipline, and core personality tendencies.",
+      category: "Graphology Reading",
+      model: "DIRECT_PURCHASE",
+      durationMinutes: 0,
+      flexibleDuration: false,
+      visibility: "PUBLIC",
+      description:
+        "A written reading covering baseline slant, margin discipline, and core personality tendencies.",
       inr: 399,
       usd: 5,
-      formattedInr: "₹399",
-      formattedUsd: "$5",
+      formattedInr: formatINR(399),
+      formattedUsd: formatUSD(5),
     },
     standard: {
-      title: "Graphology Standard Reading",
-      description: "Comprehensive stroke and pressure breakdown with emotional balance assessment.",
+      id: "GRAPH-STANDARD",
+      title: "Graphology Standard Reading (25–30 min)",
+      category: "Graphology Session",
+      model: "BOOKING_PAYMENT",
+      durationMinutes: 30,
+      flexibleDuration: false,
+      visibility: "PUBLIC",
+      description:
+        "A live reading with a full stroke and pressure breakdown and an emotional balance review.",
       inr: 799,
       usd: 10,
-      formattedInr: "₹799",
-      formattedUsd: "$10",
+      formattedInr: formatINR(799),
+      formattedUsd: formatUSD(10),
     },
     deep: {
-      title: "Graphology Deep Analysis & Therapy",
-      description: "In-depth subconscious stroke analysis paired with targeted graphotherapy realignment exercises.",
+      id: "GRAPH-DEEP",
+      title: "Graphology Deep Reading (45 min)",
+      category: "Graphology Session",
+      model: "BOOKING_PAYMENT",
+      durationMinutes: 45,
+      flexibleDuration: false,
+      visibility: "PUBLIC",
+      description:
+        "An in-depth stroke analysis paired with targeted handwriting realignment exercises.",
       inr: 1199,
       usd: 15,
-      formattedInr: "₹1,199",
-      formattedUsd: "$15",
-    },
-    masterPackage: {
-      title: "Graphotherapy Master Package (Launch Edition)",
-      description: "Deep Analysis + Finding The Centre + Psychology Toolkit + Stroke Tracking Plan + Realignment Session.",
-      regularValueInr: 4471,
-      regularValueUsd: 175,
-      inr: 1199,
-      usd: 14,
-      formattedInr: "₹1,199",
-      formattedUsd: "$14",
-      savingsInr: "Save ₹3,272 (73% OFF)",
-      savingsUsd: "Save $161 (92% OFF)",
+      formattedInr: formatINR(1199),
+      formattedUsd: formatUSD(15),
     },
   },
   courses: {
     crisisCounselling: {
-      title: "Crisis Counselling Mastery",
+      id: "COURSE-CRISIS",
+      title: "Crisis Counselling Course",
+      category: "Course",
+      model: "DIRECT_PURCHASE",
+      durationMinutes: 0,
+      flexibleDuration: false,
+      visibility: "PUBLIC",
+      description:
+        "Self-paced curriculum covering de-escalation, safety planning, and emotional stabilisation.",
       inr: 999,
       usd: 12,
-      formattedInr: "₹999",
-      formattedUsd: "$12",
+      formattedInr: formatINR(999),
+      formattedUsd: formatUSD(12),
     },
     cognitiveCounselling: {
-      title: "Cognitive Counselling Fundamentals",
+      id: "COURSE-COGNITIVE",
+      title: "Cognitive Counselling Course",
+      category: "Course",
+      model: "DIRECT_PURCHASE",
+      durationMinutes: 0,
+      flexibleDuration: false,
+      visibility: "PUBLIC",
+      description:
+        "Self-paced curriculum covering cognitive distortions, belief work, and behavioural frameworks.",
       inr: 999,
       usd: 12,
-      formattedInr: "₹999",
-      formattedUsd: "$12",
+      formattedInr: formatINR(999),
+      formattedUsd: formatUSD(12),
     },
     bundle: {
-      title: "Complete Psychology Course Bundle",
+      id: "COURSE-BUNDLE",
+      title: "Complete Course Bundle",
+      category: "Course",
+      model: "DIRECT_PURCHASE",
+      durationMinutes: 0,
+      flexibleDuration: false,
+      visibility: "PUBLIC",
+      description:
+        "Both the Crisis and Cognitive counselling courses together with all workbook resources.",
       inr: 1499,
       usd: 18,
-      formattedInr: "₹1,499",
-      formattedUsd: "$18",
+      formattedInr: formatINR(1499),
+      formattedUsd: formatUSD(18),
     },
   },
-};
+} as const;
+
+/** Flat list of every service/course entry, in the fixed published order. */
+export const SERVICES_REGISTRY: ServicePrice[] = [
+  SERVICES_PRICING.counselling.singleSession,
+  SERVICES_PRICING.counselling.package4,
+  SERVICES_PRICING.counselling.package8,
+  SERVICES_PRICING.crisis.call,
+  SERVICES_PRICING.crisis.centreLine,
+  SERVICES_PRICING.graphology.basic,
+  SERVICES_PRICING.graphology.standard,
+  SERVICES_PRICING.graphology.deep,
+  SERVICES_PRICING.courses.crisisCounselling,
+  SERVICES_PRICING.courses.cognitiveCounselling,
+  SERVICES_PRICING.courses.bundle,
+];
+
+/* ------------------------------------------------------------------ */
+/* 4. CHECKOUT STATUS — one honest, shared statement                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * No live payment gateway is wired up yet. Until a verified checkout exists,
+ * every purchase action must surface this exact notice rather than imply a
+ * completed transaction.
+ */
+export const CHECKOUT_NOTICE =
+  "Checkout is being prepared. Purchases are not available yet.";
+
+export const CHECKOUT_AVAILABLE = false;
+
+export function formattedPrice(inr: number, usd: number): string {
+  return `${formatINR(inr)} / ${formatUSD(usd)}`;
+}

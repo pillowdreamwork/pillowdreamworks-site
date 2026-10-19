@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 import { FOUNDER_CONTACT } from "@/data/navigation";
+import { BOOKS_PRICING, SERVICES_PRICING } from "@/data/pricing";
 import { Mail, Phone, MessageSquare, Check, ShieldCheck, ArrowRight } from "lucide-react";
 
 export default function ContactPage() {
@@ -70,7 +71,7 @@ export default function ContactPage() {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="name@example.com"
+                  placeholder="e.g. jordan@example.com"
                   className="w-full px-4 py-3 rounded-xl bg-[#FDFBF7] border border-[#24483B]/15 text-[#202923] text-sm placeholder:text-[#202923]/35 focus:outline-none focus:ring-2 focus:ring-[#C6A46A]"
                 />
               </div>
@@ -78,7 +79,7 @@ export default function ContactPage() {
 
             <div className="space-y-2">
               <label htmlFor="inquiry-type" className="text-xs font-mono uppercase tracking-wider text-[#202923]/70 font-semibold block">
-                What are you inquiring about? *
+                What are you interested in? *
               </label>
               <select
                 id="inquiry-type"
@@ -88,14 +89,12 @@ export default function ContactPage() {
                 onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
                 className="w-full px-4 py-3 rounded-xl bg-[#FDFBF7] border border-[#24483B]/15 text-[#202923] text-sm focus:outline-none focus:ring-2 focus:ring-[#C6A46A]"
               >
-                <option value="">Select an inquiry type</option>
-                <option value="toolkit">The Psychology Toolkit (80-Page Workbook)</option>
-                <option value="finding-centre">Finding The Centre (eBook / Hardcover)</option>
-                <option value="consultation">1-on-1 Counselling Consultation</option>
-                <option value="crisis">Crisis Stabilization Call</option>
-                <option value="graphology">Graphotherapy & Handwriting Analysis</option>
-                <option value="course">Psychology Course / Masterclass</option>
-                <option value="general">General Foundation Inquiry</option>
+                <option value="">Select an option</option>
+                <option value="toolkit">The Psychology Toolkit ({BOOKS_PRICING.toolkit.formattedInr})</option>
+                <option value="consultation">Request a Counselling Session ({SERVICES_PRICING.counselling.singleSession.formattedInr})</option>
+                <option value="assessment">Psychological Assessments (Free + Paid)</option>
+                <option value="course">Learning Course</option>
+                <option value="other">Something Else</option>
               </select>
             </div>
 
@@ -110,7 +109,7 @@ export default function ContactPage() {
                 rows={5}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                placeholder="Please share context regarding your goals, questions, or requirements..."
+                placeholder="Share your inquiry, question, or requirements..."
                 className="w-full px-4 py-3 rounded-xl bg-[#FDFBF7] border border-[#24483B]/15 text-[#202923] text-sm placeholder:text-[#202923]/35 focus:outline-none focus:ring-2 focus:ring-[#C6A46A] resize-none"
               />
             </div>
@@ -123,51 +122,48 @@ export default function ContactPage() {
                 required
                 checked={formData.consent}
                 onChange={(e) => setFormData({ ...formData, consent: e.target.checked })}
-                className="mt-1 h-4 w-4 rounded border-[#24483B]/30 text-[#24483B] focus:ring-[#C6A46A]"
+                className="mt-1 h-4 w-4 rounded border-[#24483B]/20 text-[#24483B] focus:ring-[#C6A46A]"
               />
-              <label htmlFor="consent" className="text-xs text-[#202923]/75 leading-relaxed">
-                I agree to the{" "}
-                <Link href="/legal/privacy" className="text-[#24483B] font-semibold underline underline-offset-2">
-                  Privacy Policy
-                </Link>{" "}
-                and consent to be contacted regarding this inquiry.
+              <label htmlFor="consent" className="text-xs text-[#202923]/70 font-sans leading-relaxed">
+                I agree to the <Link href="/legal/privacy" className="text-[#24483B] font-semibold underline hover:text-[#1A3529]">privacy policy</Link> and consent to be contacted regarding this inquiry.
               </label>
             </div>
 
-            <div className="pt-2">
-              {!submitted ? (
-                <LiquidGlassButton type="submit" variant="primary" size="lg" className="w-full sm:w-auto">
+            {!submitted ? (
+              <div className="pt-2">
+                <LiquidGlassButton
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  className="w-full sm:w-auto"
+                >
                   <span>Send Message</span>
                   <ArrowRight className="w-4 h-4 ml-1" />
                 </LiquidGlassButton>
-              ) : (
-                <div className="p-4 rounded-xl bg-[#DCE7DD] border border-[#24483B]/20 text-[#24483B] flex items-center gap-3">
-                  <Check className="w-5 h-5 text-[#24483B] shrink-0" />
-                  <div className="text-xs">
-                    <strong className="block text-sm">Message received.</strong>
-                    <span>Thank you. We typically review and respond within 24 hours.</span>
-                  </div>
+              </div>
+            ) : (
+              <div className="p-4 rounded-xl bg-[#A6B7A1]/20 border border-[#A6B7A1]/40 flex items-center gap-3 text-sm text-[#202923]">
+                <Check className="w-5 h-5 text-[#24483B] shrink-0" />
+                <div>
+                  <strong>Message received.</strong>
+                  <p className="text-xs text-[#202923]/70">Thank you. We usually respond within 24 hours.</p>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </form>
 
-          {/* Direct WhatsApp Quick Contact Strip */}
+          {/* Direct WhatsApp Alternative */}
           <div className="pt-8 border-t border-[#24483B]/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <span className="text-xs font-mono uppercase tracking-wider text-[#24483B] font-semibold block">
-                Prefer immediate messaging?
-              </span>
-              <p className="text-xs text-[#202923]/70 font-sans">
-                You can reach the Foundation desk directly on WhatsApp:
-              </p>
+            <div>
+              <span className="text-xs font-mono uppercase tracking-wider text-[#202923]/50 block">Instant Desk</span>
+              <p className="text-sm font-sans text-[#202923]/80">Prefer immediate messaging?</p>
             </div>
             <LiquidGlassButton
               href={FOUNDER_CONTACT.whatsapp}
               variant="secondary"
-              size="sm"
+              size="md"
             >
-              <MessageSquare className="w-3.5 h-3.5 mr-1" />
+              <MessageSquare className="w-4 h-4 mr-1 text-[#25d366]" />
               <span>WhatsApp: +91 97283 55421</span>
             </LiquidGlassButton>
           </div>

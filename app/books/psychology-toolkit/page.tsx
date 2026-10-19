@@ -5,15 +5,15 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
-import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 import { Badge } from "@/components/ui/badge";
-import { PSYCHOLOGY_TOOLKIT } from "@/data/books";
-import { BOOKS_PRICING, CAMPAIGN_METADATA } from "@/data/pricing";
+import { PSYCHOLOGY_TOOLKIT, BOOK_BUYING_FAQS } from "@/data/books";
+import { BOOKS_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 import {
   ArrowRight,
   CheckCircle2,
   ChevronDown,
   FileCheck,
+  Info,
   ShieldAlert,
   Sparkles,
 } from "lucide-react";
@@ -28,6 +28,23 @@ export default function PsychologyToolkitPage() {
     setCompletedExercises((prev) => ({ ...prev, [name]: !prev[name] }));
   };
 
+  // Book-specific answers first, then the shared buying & delivery group.
+  const faqRows = [
+    ...PSYCHOLOGY_TOOLKIT.faqs.map((faq) => ({
+      question: faq.q,
+      answer: faq.a,
+      link: undefined as { href: string; label: string } | undefined,
+      groupTitle: null as string | null,
+    })),
+    ...BOOK_BUYING_FAQS.map((faq, index) => ({
+      question: faq.question,
+      answer: faq.answer,
+      link: faq.link,
+      groupTitle:
+        index === 0 ? "Choosing a book, buying, and delivery" : null,
+    })),
+  ];
+
   return (
     <main className="min-h-screen bg-ivory text-navy py-12 sm:py-20">
       <Container>
@@ -39,7 +56,7 @@ export default function PsychologyToolkitPage() {
                 <Badge variant="navy">Flagship Master Workbook</Badge>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-navy text-xs font-semibold">
                   <Sparkles className="w-3.5 h-3.5 text-gold-dark" />
-                  <span>{CAMPAIGN_METADATA.badge}: ₹999 / $89</span>
+                  <span>Published price: {BOOKS_PRICING.toolkit.formattedInr} / {BOOKS_PRICING.toolkit.formattedUsd}</span>
                 </div>
               </div>
 
@@ -59,41 +76,35 @@ export default function PsychologyToolkitPage() {
               <div className="p-6 rounded-2xl bg-cream border border-navy/15 space-y-4 shadow-xs">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div>
-                    <span className="text-xs text-navy/60 block">Diwali Campaign Special (Valid until {CAMPAIGN_METADATA.endDate})</span>
+                    <span className="text-xs text-navy/60 block">Published price</span>
                     <div className="flex items-baseline gap-3">
                       <span className="font-serif text-3xl sm:text-4xl font-bold text-navy">
-                        {BOOKS_PRICING.toolkit.diwali.formattedInr}
+                        {BOOKS_PRICING.toolkit.formattedInr}
                       </span>
                       <span className="text-sm text-navy/60 font-sans">
-                        / {BOOKS_PRICING.toolkit.diwali.formattedUsd} Global
-                      </span>
-                      <span className="text-xs text-navy/50 line-through">
-                        {BOOKS_PRICING.toolkit.regular.formattedInr}
+                        / {BOOKS_PRICING.toolkit.formattedUsd} Global
                       </span>
                     </div>
                   </div>
-                  <Badge variant="gold">{BOOKS_PRICING.toolkit.diwali.savingsInr}</Badge>
+                  <Badge variant="navy">80-Page A4 PDF</Badge>
                 </div>
 
                 <div className="pt-2 flex flex-col sm:flex-row gap-3">
-                  <LiquidGlassButton
-                    href={`https://wa.me/919728355421?text=${encodeURIComponent("Hello PillowDreamWorks, I would like to purchase The Psychology Toolkit digital edition (₹999 / $89).")}`}
-                    size="lg"
-                    variant="primary"
-                    className="w-full sm:w-auto"
-                  >
-                    <span>Instant Digital Access (A4 PDF)</span>
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </LiquidGlassButton>
-                  <LiquidGlassButton
-                    href="/books/bundles"
-                    size="lg"
-                    variant="secondary"
-                    className="w-full sm:w-auto"
-                  >
-                    <span>View Bundle Savings (₹1,079)</span>
-                  </LiquidGlassButton>
+                  <Button asChild size="lg" variant="primary" className="w-full sm:w-auto">
+                    <Link href="/contact">
+                      <span>Enquire About Digital Access (A4 PDF)</span>
+                      <ArrowRight className="w-4 h-4 ml-1" />
+                    </Link>
+                  </Button>
+                  <Button asChild size="lg" variant="secondary" className="w-full sm:w-auto">
+                    <Link href="/books/bundles">View Complete Bundle</Link>
+                  </Button>
                 </div>
+
+                <p className="text-xs text-navy/70 flex items-start gap-2 pt-1">
+                  <Info className="w-3.5 h-3.5 text-sage-dark shrink-0 mt-0.5" />
+                  <span>{CHECKOUT_NOTICE}</span>
+                </p>
               </div>
             </div>
 
@@ -340,30 +351,44 @@ export default function PsychologyToolkitPage() {
           />
 
           <div className="space-y-4">
-            {PSYCHOLOGY_TOOLKIT.faqs.map((faq, idx) => {
+            {faqRows.map((faq, idx) => {
               const isOpen = activeFaq === idx;
               return (
-                <div
-                  key={idx}
-                  className="bg-cream rounded-xl border border-navy/10 overflow-hidden"
-                >
-                  <button
-                    onClick={() => setActiveFaq(isOpen ? null : idx)}
-                    className="w-full p-5 text-left font-serif text-lg font-bold text-navy flex items-center justify-between gap-4 cursor-pointer"
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown
-                      className={`w-5 h-5 text-navy/50 transition-transform ${
-                        isOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                  {isOpen && (
-                    <div className="px-5 pb-5 text-sm text-navy/75 leading-relaxed border-t border-navy/5 pt-3">
-                      {faq.a}
-                    </div>
+                <React.Fragment key={idx}>
+                  {faq.groupTitle && (
+                    <h3 className="border-t border-navy/10 pt-8 pb-1 font-serif text-lg font-bold text-navy">
+                      {faq.groupTitle}
+                    </h3>
                   )}
-                </div>
+                  <div className="bg-cream rounded-xl border border-navy/10 overflow-hidden">
+                    <button
+                      onClick={() => setActiveFaq(isOpen ? null : idx)}
+                      className="w-full p-5 text-left font-serif text-lg font-bold text-navy flex items-center justify-between gap-4 cursor-pointer"
+                    >
+                      <span>{faq.question}</span>
+                      <ChevronDown
+                        className={`w-5 h-5 text-navy/50 transition-transform ${
+                          isOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    {isOpen && (
+                      <div className="px-5 pb-5 text-sm text-navy/75 leading-relaxed border-t border-navy/5 pt-3">
+                        {faq.answer}
+                        {faq.link && (
+                          <p className="pt-2">
+                            <Link
+                              href={faq.link.href}
+                              className="font-semibold text-sage-dark underline underline-offset-2 hover:text-navy"
+                            >
+                              {faq.link.label}
+                            </Link>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </React.Fragment>
               );
             })}
           </div>
@@ -376,7 +401,7 @@ export default function PsychologyToolkitPage() {
             <span>Educational & Psychoeducational Disclaimer</span>
           </div>
           <p className="leading-relaxed">
-            The Psychology Toolkit is an educational workbook designed for personal growth, cognitive exploration, and structured reflection. It does not replace individualized clinical psychotherapy, psychiatric consultation, or medical diagnosis. If you are experiencing acute distress, please utilize our Crisis Stabilization pathway or emergency helplines.
+            The Psychology Toolkit is an educational workbook designed for personal growth, cognitive exploration, and structured reflection. It does not replace individualized clinical psychotherapy, psychiatric consultation, or medical diagnosis. If you are in immediate danger or crisis, contact your local emergency number or a national helpline. Our Crisis Stabilisation Call is a scheduled, non-emergency support call and is not an emergency-response service.
           </p>
         </section>
 
@@ -386,24 +411,20 @@ export default function PsychologyToolkitPage() {
             Get your copy of The Psychology Toolkit today
           </h2>
           <p className="text-sm sm:text-base text-ivory/80 max-w-xl mx-auto font-sans">
-            Instant digital download (Printable A4 PDF). Claim the Diwali discount price before {CAMPAIGN_METADATA.endDate}.
+            Digital workbook (printable A4 PDF). {CHECKOUT_NOTICE}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <LiquidGlassButton
-              href={`https://wa.me/919728355421?text=${encodeURIComponent(`Hello PillowDreamWorks, I would like to purchase The Psychology Toolkit for ${BOOKS_PRICING.toolkit.diwali.formattedInr} (${BOOKS_PRICING.toolkit.diwali.formattedUsd}).`)}`}
-              size="lg"
-              variant="gold"
-            >
-              <span>Claim for {BOOKS_PRICING.toolkit.diwali.formattedInr} ({BOOKS_PRICING.toolkit.diwali.formattedUsd})</span>
-              <ArrowRight className="w-4 h-4 ml-1" />
-            </LiquidGlassButton>
-            <LiquidGlassButton
-              href="/books/bundles"
-              size="lg"
-              variant="secondary"
-            >
-              <span>View Bundle (₹1,079 / $83)</span>
-            </LiquidGlassButton>
+            <Button asChild size="lg" variant="gold">
+              <Link href="/contact">
+                <span>Enquire — {BOOKS_PRICING.toolkit.formattedInr} ({BOOKS_PRICING.toolkit.formattedUsd})</span>
+                <ArrowRight className="w-4 h-4 ml-1" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="text-ivory border-ivory/30 hover:bg-ivory/10">
+              <Link href="/books/bundles">
+                View Complete Bundle ({BOOKS_PRICING.bundle.formattedInr} / {BOOKS_PRICING.bundle.formattedUsd})
+              </Link>
+            </Button>
           </div>
         </section>
       </Container>

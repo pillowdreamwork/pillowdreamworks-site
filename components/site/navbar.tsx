@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Phone } from "lucide-react";
+import { Menu } from "lucide-react";
 import { MobileDrawer } from "./mobile-drawer";
 
 export function Navbar() {
@@ -86,10 +86,10 @@ export function Navbar() {
             <a
               href="tel:988"
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#8B2626]/10 hover:bg-[#8B2626]/15 text-[#8B2626] font-mono text-xs border border-[#8B2626]/20 transition-all active:scale-95"
-              title="Immediate Crisis Protocol Support"
+              title="US 988 Suicide & Crisis Lifeline / India 14416"
             >
               <span className="w-2 h-2 rounded-full bg-[#8B2626] animate-pulse" />
-              <span className="font-semibold">Crisis: 988 / 14416</span>
+              <span className="font-semibold">Crisis: 988</span>
             </a>
           </div>
 

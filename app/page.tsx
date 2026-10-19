@@ -4,7 +4,7 @@ import { HomeExperience } from "@/components/home/home-experience";
 export const metadata: Metadata = {
   title: "PillowDreamWorks Foundation — Calm on the surface. Ambition underneath.",
   description:
-    "An editorial psychology and wellbeing foundation combining guided workbooks, 177 clinical-grade self-assessments, counselling, and structured learning for meaningful self-discovery.",
+    "An editorial psychology and wellbeing foundation combining guided workbooks, 177 standardized self-assessments, counselling, and structured learning for meaningful self-discovery.",
   keywords: [
     "psychology toolkit",
     "finding the centre",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "PillowDreamWorks Foundation — Psychology, Reflection & Becoming",
     description: "Calm on the surface. Ambition underneath. Discover guided psychological workbooks, 177 clinical scales, and confidential counselling.",
-    url: "https://pillowdreamworks.vercel.app",
+    url: "https://www.pillowdreamworks.com",
     siteName: "PillowDreamWorks Foundation",
     locale: "en_US",
     type: "website",
