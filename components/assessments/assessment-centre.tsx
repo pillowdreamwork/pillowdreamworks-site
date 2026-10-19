@@ -11,6 +11,7 @@ import {
 import { SERVICES_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 import { ASSESSMENT_FAQS, ASSESSMENT_RESULT_FAQS } from "@/data/assessment-faqs";
 import { FaqAccordion } from "@/components/ui/faq-accordion";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 import {
   Sparkles,
   CheckCircle2,
@@ -28,6 +29,7 @@ import {
   Filter,
   User,
   Info,
+  X,
 } from "lucide-react";
 
 export function AssessmentCentre() {
@@ -173,102 +175,104 @@ ${interpretationResult.note}
   return (
     <div className="space-y-12">
       {/* 1. EDITORIAL HEADER */}
-      <div className="text-center max-w-4xl mx-auto space-y-4">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sage-50 text-sage-700 text-xs font-semibold tracking-wide border border-sage-200">
-          <Sparkles className="w-3.5 h-3.5 text-sage-600" />
+      <div className="text-center max-w-4xl mx-auto space-y-5">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#A6B7A1]/20 text-[#24483B] text-xs font-semibold tracking-wide border border-[#A6B7A1]/40 backdrop-blur-md">
+          <Sparkles className="w-3.5 h-3.5 text-[#24483B]" />
           <span>177 Standardized Clinical & Self-Inventories</span>
         </div>
-        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-navy font-normal tracking-tight">
+        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#202923] font-normal tracking-tight">
           The Comprehensive Assessment Centre
         </h1>
-        <p className="text-base sm:text-lg text-navy/70 leading-relaxed max-w-3xl mx-auto">
+        <p className="text-base sm:text-lg text-[#202923]/75 leading-relaxed max-w-3xl mx-auto font-sans">
           Access all <strong>161 free self-administered screeners</strong> and <strong>16 practitioner-administered batteries</strong> across 15 psychological domains. Each instrument generates personalized factor analysis, reflective discussion, a synthesis conclusion, and itemized subscale metrics.
         </p>
       </div>
 
       {/* Checkout / booking status notice */}
-      <div className="p-4 rounded-2xl bg-cream border border-navy/15 flex items-start gap-3 text-sm text-navy/80">
-        <Info className="w-4 h-4 text-sage-dark shrink-0 mt-0.5" />
-        <p>
-          <strong className="text-navy">{CHECKOUT_NOTICE}</strong> Practitioner-administered
+      <div className="p-5 rounded-3xl bg-[#F5EFE6]/80 backdrop-blur-md border border-[#24483B]/15 flex items-start gap-3.5 text-sm text-[#202923]/80 shadow-xs">
+        <Info className="w-4 h-4 text-[#24483B] shrink-0 mt-0.5" />
+        <p className="font-sans leading-relaxed">
+          <strong className="text-[#202923] font-semibold">{CHECKOUT_NOTICE}</strong> Practitioner-administered
           assessments are currently arranged by enquiry, and free screeners can be taken here at
           no cost.
         </p>
       </div>
 
-      {/* 2. FILTER & DISCOVERY TOOLBAR */}
-      <div className="bg-cream/80 border border-navy/10 rounded-2xl p-5 sm:p-6 shadow-xs space-y-5">
-        {/* Top Controls: Type Tabs & Counters */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 border-b border-navy/10 pb-4">
-          {/* Type Toggle Tabs */}
-          <div className="flex items-center gap-1.5 bg-ivory p-1.5 rounded-xl border border-navy/10">
-            <button
+      {/* 2. FILTER & DISCOVERY TOOLBAR (LIQUID GLASS CONSOLE) */}
+      <div className="bg-[#FDFBF7]/80 backdrop-blur-2xl border border-[#24483B]/15 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+        {/* Top Controls: 3 Liquid Glass Pill Tabs */}
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-5 border-b border-[#24483B]/10 pb-6">
+          {/* Alive Liquid-Glass Filter Pill Tabs */}
+          <div className="flex flex-wrap items-center gap-2.5 p-1.5 rounded-full bg-[#F5EFE6]/70 border border-[#24483B]/10 backdrop-blur-md">
+            <LiquidGlassButton
+              type="button"
               onClick={() => setTypeFilter("all")}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                typeFilter === "all"
-                  ? "bg-navy text-ivory shadow-xs"
-                  : "text-navy/70 hover:text-navy"
-              }`}
+              variant={typeFilter === "all" ? "primary" : "subtle"}
+              size="md"
+              signalDot={typeFilter === "all"}
+              className="px-5 text-xs sm:text-sm"
             >
-              All Instruments ({PSYCH_ASSESSMENTS.length})
-            </button>
-            <button
+              <span>All Instruments (177)</span>
+            </LiquidGlassButton>
+
+            <LiquidGlassButton
+              type="button"
               onClick={() => setTypeFilter("free")}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                typeFilter === "free"
-                  ? "bg-emerald-800 text-white shadow-xs"
-                  : "text-navy/70 hover:text-navy"
-              }`}
+              variant={typeFilter === "free" ? "primary" : "subtle"}
+              size="md"
+              signalDot={typeFilter === "free"}
+              className="px-5 text-xs sm:text-sm"
             >
-              Free Screeners ({freeCount})
-            </button>
-            <button
+              <span>Free Screeners ({freeCount})</span>
+            </LiquidGlassButton>
+
+            <LiquidGlassButton
+              type="button"
               onClick={() => setTypeFilter("paid")}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                typeFilter === "paid"
-                  ? "bg-navy text-ivory shadow-xs"
-                  : "text-navy/70 hover:text-navy"
-              }`}
+              variant={typeFilter === "paid" ? "primary" : "subtle"}
+              size="md"
+              signalDot={typeFilter === "paid"}
+              className="px-5 text-xs sm:text-sm"
             >
-              Clinical Batteries ({paidCount})
-            </button>
+              <span>Clinical Batteries ({paidCount})</span>
+            </LiquidGlassButton>
           </div>
 
           {/* Results Badge */}
-          <div className="text-xs font-semibold text-navy/60 flex items-center gap-1.5 self-center sm:self-auto">
+          <div className="text-xs font-semibold text-[#202923]/60 flex items-center gap-2 self-center lg:self-auto px-4 py-2 rounded-full bg-white/40 border border-[#24483B]/10">
             <span>Showing</span>
-            <strong className="text-navy text-sm font-serif">{filteredAssessments.length}</strong>
+            <strong className="text-[#202923] text-sm font-serif">{filteredAssessments.length}</strong>
             <span>assessments</span>
           </div>
         </div>
 
         {/* Search & Domain Filter Row */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-          {/* Search Field */}
+          {/* Search Field (Liquid Glass Pill) */}
           <div className="md:col-span-8 relative">
             <label htmlFor={searchInputId} className="sr-only">Search assessments</label>
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-navy/40" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#202923]/40 pointer-events-none" />
             <input
               id={searchInputId}
               type="text"
               placeholder="Search by instrument name, code, domain, or clinical keyword (e.g. anxiety, bdi, trauma, big five, rorschach)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-ivory border border-navy/15 text-sm text-navy placeholder:text-navy/40 focus:outline-none focus:ring-2 focus:ring-navy/20 transition-all"
+              className="w-full pl-11 pr-5 py-3 rounded-full bg-white/70 backdrop-blur-md border border-[#24483B]/15 text-sm text-[#202923] placeholder:text-[#202923]/40 focus:outline-none focus:ring-2 focus:ring-[#C6A46A] min-h-[44px] transition-all shadow-xs"
             />
           </div>
 
-          {/* Domain Dropdown */}
+          {/* Domain Dropdown / Category Manual (Liquid Glass Pill) */}
           <div className="md:col-span-4 relative">
-            <label htmlFor={domainSelectId} className="sr-only">Filter by psychological domain</label>
-            <Filter className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-navy/40 pointer-events-none" />
+            <label htmlFor={domainSelectId} className="sr-only">Category manual — Filter by psychological domain</label>
+            <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#202923]/40 pointer-events-none" />
             <select
               id={domainSelectId}
               value={selectedDomain}
               onChange={(e) => setSelectedDomain(e.target.value)}
-              className="w-full pl-10 pr-8 py-2.5 rounded-xl bg-ivory border border-navy/15 text-xs sm:text-sm font-medium text-navy focus:outline-none focus:ring-2 focus:ring-navy/20 transition-all appearance-none cursor-pointer"
+              className="w-full pl-11 pr-10 py-3 rounded-full bg-white/70 backdrop-blur-md border border-[#24483B]/15 text-xs sm:text-sm font-medium text-[#202923] focus:outline-none focus:ring-2 focus:ring-[#C6A46A] min-h-[44px] transition-all appearance-none cursor-pointer shadow-xs"
             >
-              <option value="all">All 15 Psychological Domains</option>
+              <option value="all">Category Manual: All 15 Domains</option>
               {domains
                 .filter((d) => d !== "all")
                 .map((domain) => (
@@ -281,9 +285,9 @@ ${interpretationResult.note}
         </div>
 
         {/* Optional Intake Personalization */}
-        <div className="pt-2 flex flex-wrap items-center gap-3 text-xs text-navy/70 border-t border-navy/10">
-          <div className="flex items-center gap-1.5 text-navy font-semibold">
-            <User className="w-3.5 h-3.5 text-sage-700" />
+        <div className="pt-3 flex flex-wrap items-center gap-3 text-xs text-[#202923]/70 border-t border-[#24483B]/10">
+          <div className="flex items-center gap-1.5 text-[#202923] font-semibold">
+            <User className="w-3.5 h-3.5 text-[#24483B]" />
             <span>Personalize Report (Optional):</span>
           </div>
           <input
@@ -291,104 +295,114 @@ ${interpretationResult.note}
             placeholder="Your Name / Identifier"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            className="px-3 py-1 rounded-lg bg-ivory border border-navy/15 text-xs text-navy placeholder:text-navy/40 focus:outline-none focus:ring-1 focus:ring-navy/30"
+            className="px-4 py-2 rounded-full bg-white/70 backdrop-blur-md border border-[#24483B]/15 text-xs text-[#202923] placeholder:text-[#202923]/40 focus:outline-none focus:ring-1 focus:ring-[#C6A46A] min-h-[38px]"
           />
           <input
             type="text"
             placeholder="Age"
             value={userAge}
             onChange={(e) => setUserAge(e.target.value)}
-            className="w-20 px-3 py-1 rounded-lg bg-ivory border border-navy/15 text-xs text-navy placeholder:text-navy/40 focus:outline-none focus:ring-1 focus:ring-navy/30"
+            className="w-24 px-4 py-2 rounded-full bg-white/70 backdrop-blur-md border border-[#24483B]/15 text-xs text-[#202923] placeholder:text-[#202923]/40 focus:outline-none focus:ring-1 focus:ring-[#C6A46A] min-h-[38px]"
           />
-          <span className="text-[11px] text-navy/40 ml-auto hidden md:inline">
-            🔒 Private & Client-side Only
+          <span className="text-[11px] text-[#202923]/50 ml-auto hidden md:inline">
+            🔒 Private & Client-side Evaluation Only
           </span>
         </div>
       </div>
 
-      {/* 3. ASSESSMENTS GRID */}
+      {/* 3. ASSESSMENTS GRID (177 LIQUID GLASS CARDS) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredAssessments.map((item) => {
           const desc = Array.isArray(item.description) ? item.description.join(" ") : item.description;
           return (
             <div
               key={item.id}
-              className="bg-ivory rounded-2xl p-6 border border-navy/15 hover:border-navy/30 hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden"
+              className="bg-[#FDFBF7]/90 backdrop-blur-xl rounded-3xl p-7 border border-[#24483B]/15 hover:border-[#24483B]/35 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
             >
               {/* Badge & Domain */}
-              <div className="space-y-3">
+              <div className="space-y-3.5">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-navy bg-cream px-2.5 py-0.5 rounded-full border border-navy/10">
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#24483B] bg-[#F5EFE6] px-3 py-1 rounded-full border border-[#24483B]/10">
                     {item.domain}
                   </span>
                   {item.isPaid ? (
-                    <span className="px-2.5 py-0.5 bg-navy text-ivory text-[10px] font-bold rounded-full">
+                    <span className="px-3 py-1 bg-[#151C17] text-[#FDFBF7] text-[10px] font-bold rounded-full border border-white/10 shadow-xs">
                       Clinical Battery
                     </span>
                   ) : (
-                    <span className="px-2 py-0.5 bg-emerald-50 text-emerald-800 text-[10px] font-bold rounded-full border border-emerald-200">
+                    <span className="px-3 py-1 bg-emerald-50 text-emerald-800 text-[10px] font-bold rounded-full border border-emerald-200 shadow-xs">
                       FREE · {item.questions?.length || 0} Qs
                     </span>
                   )}
                 </div>
 
                 <div>
-                  <div className="text-[10px] text-navy/50 uppercase tracking-wider font-semibold">
+                  <div className="text-[10px] text-[#202923]/50 uppercase tracking-wider font-semibold">
                     {item.breadcrumb}
                   </div>
-                  <h3 className="font-serif text-lg font-bold text-navy group-hover:text-navy-light transition-colors mt-0.5 line-clamp-2">
+                  <h3 className="font-serif text-lg font-bold text-[#202923] group-hover:text-[#24483B] transition-colors mt-0.5 line-clamp-2">
                     {item.title}
                   </h3>
                 </div>
 
-                <p className="text-xs text-navy/70 leading-relaxed line-clamp-3">
+                <p className="text-xs text-[#202923]/75 leading-relaxed line-clamp-3 font-sans">
                   {desc}
                 </p>
 
-                <div className="flex flex-wrap gap-2 text-[11px] text-navy/60 pt-1">
-                  <span className="px-2 py-0.5 bg-cream/70 rounded-md border border-navy/5">
+                <div className="flex flex-wrap gap-2 text-[11px] text-[#202923]/65 pt-1">
+                  <span className="px-3 py-1 bg-[#F5EFE6]/70 rounded-full border border-[#24483B]/10">
                     {item.whoCanTake}
                   </span>
                   {item.duration && (
-                    <span className="px-2 py-0.5 bg-cream/70 rounded-md border border-navy/5 flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-navy/40" />
+                    <span className="px-3 py-1 bg-[#F5EFE6]/70 rounded-full border border-[#24483B]/10 flex items-center gap-1.5">
+                      <Clock className="w-3 h-3 text-[#202923]/40" />
                       {item.duration}
                     </span>
                   )}
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="pt-5 mt-5 border-t border-navy/10 space-y-3">
+              {/* Action Buttons: Pure Liquid Glass Buttons with 9 Alive Details */}
+              <div className="pt-6 mt-6 border-t border-[#24483B]/10 space-y-3">
                 {item.isPaid ? (
-                  <div className="space-y-2">
-                    <div className="flex items-baseline justify-between">
-                      <span className="text-xs text-navy/50">Fee:</span>
+                  <div className="space-y-3">
+                    <div className="flex items-baseline justify-between px-1">
+                      <span className="text-xs text-[#202923]/55">Professional Fee:</span>
                       <div className="text-right">
-                        <span className="font-serif font-bold text-base text-navy">
+                        <span className="font-serif font-bold text-base text-[#202923]">
                           {typeof item.priceINR === "number" ? `₹${item.priceINR.toLocaleString("en-IN")}` : "—"}
                         </span>
-                        <span className="text-xs text-navy/50 ml-1">
+                        <span className="text-xs text-[#202923]/50 ml-1">
                           {typeof item.priceUSD === "number" ? `($${item.priceUSD})` : ""}
                         </span>
                       </div>
                     </div>
-                    <Link
+                    <LiquidGlassButton
                       href="/contact"
-                      className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-cream border border-navy/20 hover:bg-navy hover:text-ivory text-xs font-semibold text-navy transition-all"
+                      variant="gold"
+                      size="md"
+                      className="w-full justify-between"
+                      showArrow
+                      signalDot={false}
                     >
-                      <Calendar className="w-3.5 h-3.5" />
-                      <span>Enquire About This Assessment</span>
-                    </Link>
+                      <span className="flex items-center gap-2">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span>Enquire About Battery</span>
+                      </span>
+                    </LiquidGlassButton>
                   </div>
                 ) : (
-                  <button
+                  <LiquidGlassButton
+                    type="button"
                     onClick={() => handleStartTest(item)}
-                    className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-navy hover:bg-navy-light text-ivory text-xs font-semibold shadow-xs transition-all cursor-pointer"
+                    variant="primary"
+                    size="md"
+                    className="w-full justify-between shadow-sm"
+                    showArrow
+                    signalDot
                   >
                     <span>Take Free Assessment</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </button>
+                  </LiquidGlassButton>
                 )}
               </div>
             </div>
@@ -396,16 +410,16 @@ ${interpretationResult.note}
         })}
       </div>
 
-      {/* 4. FAQ — shown next to the descriptions above, not buried in the footer */}
-      <section aria-labelledby="assessment-faq-heading" className="space-y-5">
+      {/* 4. FAQ */}
+      <section aria-labelledby="assessment-faq-heading" className="space-y-5 pt-4">
         <div className="mx-auto max-w-3xl space-y-2 text-center">
-          <span className="text-xs font-semibold uppercase tracking-widest text-sage-dark block">
+          <span className="text-xs font-semibold uppercase tracking-widest text-[#24483B] block">
             Before you start
           </span>
-          <h2 id="assessment-faq-heading" className="font-serif text-2xl sm:text-3xl font-bold text-navy">
+          <h2 id="assessment-faq-heading" className="font-serif text-2xl sm:text-3xl font-bold text-[#202923]">
             Questions about the assessments
           </h2>
-          <p className="text-sm text-navy/70">
+          <p className="text-sm text-[#202923]/70 font-sans">
             How answers, results, practitioner review and your data are actually handled.
           </p>
         </div>
@@ -414,53 +428,57 @@ ${interpretationResult.note}
         </div>
       </section>
 
-      {/* 5. INTERACTIVE TEST MODAL / RESULTS RUNNER */}
+      {/* 5. INTERACTIVE TEST MODAL / RESULTS RUNNER (FULL LIQUID GLASS SANCTUARY) */}
       {activeTest && activeTest.questions && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-navy/60 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-ivory rounded-2xl border border-navy/20 shadow-2xl max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#151C17]/75 backdrop-blur-md animate-fadeIn">
+          <div className="bg-[#FDFBF7]/95 backdrop-blur-2xl rounded-3xl border border-white/30 shadow-2xl max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden">
             {/* Modal Header */}
-            <div className="p-5 sm:p-6 border-b border-navy/10 bg-cream/80 flex items-start justify-between gap-4">
+            <div className="p-6 sm:p-7 border-b border-[#24483B]/10 bg-[#F5EFE6]/80 backdrop-blur-md flex items-start justify-between gap-4">
               <div>
-                <div className="text-[10px] text-navy/50 font-bold uppercase tracking-wider">
+                <div className="text-[10px] text-[#202923]/50 font-bold uppercase tracking-wider">
                   {activeTest.breadcrumb}
                 </div>
-                <h2 className="font-serif text-xl sm:text-2xl font-bold text-navy mt-1">
+                <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#202923] mt-1">
                   {activeTest.title}
                 </h2>
-                <p className="text-xs text-navy/60 mt-0.5">
+                <p className="text-xs text-[#202923]/60 mt-0.5 font-sans">
                   {activeTest.whoCanTake} · Self-Administered · Free
                   {userName ? ` · Respondent: ${userName}` : ""}
                 </p>
               </div>
 
-              <button
+              <LiquidGlassButton
+                type="button"
                 onClick={() => setActiveTest(null)}
-                className="p-1.5 rounded-lg text-navy/50 hover:text-navy hover:bg-navy/5 text-lg font-bold cursor-pointer"
+                variant="subtle"
+                size="icon"
+                signalDot={false}
                 aria-label="Close modal"
+                className="shrink-0"
               >
-                ✕
-              </button>
+                <X className="w-4 h-4 text-[#202923]" />
+              </LiquidGlassButton>
             </div>
 
             {/* Modal Body: Questionnaire OR Full Clinical Result Profile */}
-            <div className="p-5 sm:p-6 overflow-y-auto space-y-6">
+            <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
               {!interpretationResult ? (
                 /* QUESTIONNAIRE RUNNER */
                 <form onSubmit={handleSubmitAnswers} className="space-y-6">
                   {/* Progress & Quick Question Jump Bar */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-xs text-navy/60">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-xs text-[#202923]/70 font-sans">
                       <span>
-                        Prompt <strong className="text-navy">{currentQuestionIndex + 1}</strong> of {activeTest.questions.length}
+                        Prompt <strong className="text-[#202923] font-semibold">{currentQuestionIndex + 1}</strong> of {activeTest.questions.length}
                       </span>
                       <span>
-                        Answered: <strong className="text-navy">{answers.filter((a) => a !== -1).length}</strong> / {activeTest.questions.length}
+                        Answered: <strong className="text-[#202923] font-semibold">{answers.filter((a) => a !== -1).length}</strong> / {activeTest.questions.length}
                       </span>
                     </div>
 
-                    <div className="w-full h-2 bg-navy/10 rounded-full overflow-hidden">
+                    <div className="w-full h-2.5 bg-[#202923]/10 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-sage-600 transition-all duration-300 rounded-full"
+                        className="h-full bg-gradient-to-r from-[#24483B] to-[#C6A46A] transition-all duration-300 rounded-full"
                         style={{
                           width: `${((answers.filter((a) => a !== -1).length) / activeTest.questions.length) * 100}%`,
                         }}
@@ -468,42 +486,41 @@ ${interpretationResult.note}
                     </div>
 
                     {/* Question Jump Pills */}
-                    <div className="flex flex-wrap gap-1.5 pt-2">
+                    <div className="flex flex-wrap gap-2 pt-2">
                       {activeTest.questions.map((_, qIdx) => {
                         const isAnswered = answers[qIdx] !== -1;
                         const isCurrent = currentQuestionIndex === qIdx;
                         return (
-                          <button
+                          <LiquidGlassButton
                             type="button"
                             key={qIdx}
                             onClick={() => setCurrentQuestionIndex(qIdx)}
-                            className={`w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center border ${
-                              isCurrent
-                                ? "bg-navy text-ivory border-navy ring-2 ring-navy/20"
-                                : isAnswered
-                                ? "bg-sage-100 text-sage-900 border-sage-300 hover:bg-sage-200"
-                                : "bg-ivory text-navy/40 border-navy/15 hover:border-navy/40"
+                            variant={isCurrent ? "primary" : isAnswered ? "secondary" : "subtle"}
+                            size="icon"
+                            signalDot={false}
+                            className={`size-9 min-h-[36px] min-w-[36px] text-xs font-bold ${
+                              isCurrent ? "ring-2 ring-[#C6A46A]" : ""
                             }`}
                             aria-label={`Jump to item ${qIdx + 1}`}
                           >
-                            {qIdx + 1}
-                          </button>
+                            <span>{qIdx + 1}</span>
+                          </LiquidGlassButton>
                         );
                       })}
                     </div>
                   </div>
 
-                  {/* Active Question Card */}
-                  <div className="bg-cream/60 rounded-xl p-5 sm:p-6 border border-navy/10 space-y-4">
-                    <span className="text-[11px] font-semibold text-sage-700 uppercase tracking-wider block">
+                  {/* Active Question Card (Liquid Glass Surface) */}
+                  <div className="bg-[#F5EFE6]/75 backdrop-blur-xl rounded-3xl p-6 sm:p-7 border border-[#24483B]/15 space-y-5 shadow-xs">
+                    <span className="text-[11px] font-semibold text-[#24483B] uppercase tracking-wider block">
                       Item {currentQuestionIndex + 1} of {activeTest.questions.length}
                     </span>
-                    <h3 className="font-serif text-lg sm:text-xl text-navy font-bold leading-relaxed">
+                    <h3 className="font-serif text-lg sm:text-xl text-[#202923] font-bold leading-relaxed">
                       {activeTest.questions[currentQuestionIndex]}
                     </h3>
 
-                    {/* Radio Options Grid */}
-                    <div className="space-y-2.5 pt-2">
+                    {/* Radio Options Grid — Converted to Pure Liquid Glass Buttons with Alive Details */}
+                    <div className="space-y-3 pt-2">
                       {activeTest.options?.map((optionText, optIdx) => {
                         const isSelected = answers[currentQuestionIndex] === optIdx;
                         return (
@@ -511,18 +528,38 @@ ${interpretationResult.note}
                             type="button"
                             key={optIdx}
                             onClick={() => handleSelectOption(currentQuestionIndex, optIdx)}
-                            className={`w-full text-left p-3.5 rounded-xl border text-sm font-medium transition-all flex items-center justify-between gap-3 cursor-pointer ${
+                            className={`w-full text-left min-h-[50px] p-4 sm:px-6 sm:py-3.5 rounded-2xl sm:rounded-full border text-sm font-medium transition-all duration-[350ms] flex items-center justify-between gap-3.5 cursor-pointer active:scale-[0.97] group relative overflow-hidden ${
                               isSelected
-                                ? "bg-navy text-ivory border-navy shadow-xs"
-                                : "bg-ivory text-navy/85 hover:bg-white border-navy/15 hover:border-navy/30"
+                                ? "bg-[#151C17] text-[#FDFBF7] border-white/25 shadow-md font-semibold"
+                                : "bg-white/60 text-[#202923] hover:bg-white/95 border-[#24483B]/15 hover:border-[#24483B]/35 shadow-xs"
                             }`}
                           >
-                            <span>{optionText}</span>
+                            {/* Inner cursor glow effect for each option */}
                             <span
-                              className={`w-5 h-5 rounded-full border flex items-center justify-center text-xs shrink-0 ${
+                              className="pointer-events-none absolute -inset-px rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{
+                                background: isSelected
+                                  ? "radial-gradient(120px circle, rgba(255,255,255,0.18), transparent 70%)"
+                                  : "radial-gradient(120px circle, rgba(36,72,59,0.08), transparent 70%)",
+                              }}
+                            />
+
+                            <span className="flex items-center gap-3 relative z-10">
+                              {/* Signal red dot when selected */}
+                              {isSelected && (
+                                <span className="relative flex h-2 w-2 shrink-0 items-center justify-center">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E85D3F] opacity-75" />
+                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E85D3F] shadow-[0_0_8px_rgba(232,93,63,0.9)]" />
+                                </span>
+                              )}
+                              <span>{optionText}</span>
+                            </span>
+
+                            <span
+                              className={`w-5 h-5 rounded-full border flex items-center justify-center text-xs shrink-0 relative z-10 ${
                                 isSelected
-                                  ? "border-ivory bg-ivory text-navy font-bold"
-                                  : "border-navy/30 text-transparent"
+                                  ? "border-white/40 bg-white/20 text-[#FDFBF7] font-bold"
+                                  : "border-[#202923]/30 text-transparent"
                               }`}
                             >
                               ✓
@@ -533,105 +570,111 @@ ${interpretationResult.note}
                     </div>
                   </div>
 
-                  {/* Action Buttons & Submit Bar */}
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
-                    <div className="flex items-center gap-2">
-                      <button
+                  {/* Action Buttons & Submit Bar with 9 Alive Details */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-2">
+                    <div className="flex items-center gap-2.5">
+                      <LiquidGlassButton
                         type="button"
                         disabled={currentQuestionIndex === 0}
                         onClick={() => setCurrentQuestionIndex((prev) => Math.max(0, prev - 1))}
-                        className="px-4 py-2.5 rounded-xl border border-navy/20 text-xs font-semibold text-navy hover:bg-navy/5 disabled:opacity-30 cursor-pointer"
+                        variant="subtle"
+                        size="md"
+                        signalDot={false}
+                        className="px-5"
                       >
-                        ← Previous
-                      </button>
+                        <span>← Previous</span>
+                      </LiquidGlassButton>
 
                       {currentQuestionIndex < activeTest.questions.length - 1 && (
-                        <button
+                        <LiquidGlassButton
                           type="button"
                           onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
-                          className="px-4 py-2.5 rounded-xl border border-navy/20 text-xs font-semibold text-navy hover:bg-navy/5 cursor-pointer"
+                          variant="secondary"
+                          size="md"
+                          showArrow
+                          signalDot={false}
+                          className="px-5"
                         >
-                          Next →
-                        </button>
+                          <span>Next</span>
+                        </LiquidGlassButton>
                       )}
                     </div>
 
-                    {/* Submit Button (Always accessible or prominent when answers complete) */}
-                    <button
+                    {/* Submit Button (Almost Black Liquid Glass with Signal Red Dot & 350ms Arrow Turn) */}
+                    <LiquidGlassButton
                       type="submit"
-                      className={`px-6 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer ${
-                        answers.every((a) => a !== -1)
-                          ? "bg-sage-700 hover:bg-sage-800 text-white ring-2 ring-sage-500/30"
-                          : "bg-navy hover:bg-navy-light text-ivory"
-                      }`}
+                      variant="primary"
+                      size="lg"
+                      signalDot
+                      showArrow
+                      className="px-8 shadow-md"
                     >
-                      <CheckCircle2 className="w-4 h-4" />
                       <span>
                         {answers.every((a) => a !== -1)
                           ? "Submit Assessment & View Results"
                           : `Submit Assessment (${answers.filter((a) => a !== -1).length}/${activeTest.questions.length} Answered)`}
                       </span>
-                    </button>
+                    </LiquidGlassButton>
                   </div>
                 </form>
               ) : (
                 /* COMPLETE INDIVIDUAL SCORING, FACTOR ANALYSIS, RESULT, DISCUSSION & CONCLUSION */
                 <div className="space-y-8 animate-fadeIn">
                   {/* 1. HERO RESULT BANNER */}
-                  <div className="bg-cream rounded-2xl p-6 border border-navy/15 shadow-xs space-y-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-navy/10 pb-4">
+                  <div className="bg-[#F5EFE6]/85 backdrop-blur-xl rounded-3xl p-7 border border-[#24483B]/15 shadow-xs space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#24483B]/10 pb-4">
                       <div>
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-navy/50 block">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#202923]/50 block">
                           {interpretationResult.category}
                         </span>
-                        <h3 className="font-serif text-2xl font-bold text-navy mt-0.5">
+                        <h3 className="font-serif text-2xl font-bold text-[#202923] mt-0.5">
                           {activeTest.title}
                         </h3>
-                        <p className="text-xs text-navy/60 mt-0.5">
+                        <p className="text-xs text-[#202923]/60 mt-0.5 font-sans">
                           Results for {userName || "Valued Respondent"} · Self-Administered
                         </p>
                       </div>
-                      <span className="px-3.5 py-1.5 rounded-full text-xs font-bold tracking-wide bg-navy text-ivory self-start sm:self-auto">
+                      <span className="px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-[#151C17] text-[#FDFBF7] self-start sm:self-auto border border-white/10 shadow-xs">
                         {interpretationResult.title}
                       </span>
                     </div>
 
-                    <div className="bg-ivory rounded-xl p-4 border border-navy/10 space-y-2">
-                      <div className="text-xs font-semibold text-navy/50 uppercase tracking-wider">
+                    <div className="bg-[#FDFBF7] rounded-2xl p-5 border border-[#24483B]/10 space-y-2">
+                      <div className="text-xs font-semibold text-[#202923]/50 uppercase tracking-wider">
                         Result Statement
                       </div>
-                      <p className="text-sm font-medium text-navy leading-relaxed">
+                      <p className="text-sm font-medium text-[#202923] leading-relaxed font-sans">
                         {interpretationResult.statement}
                       </p>
                     </div>
                   </div>
 
                   {/* 2. FACTOR ANALYSIS & MEASURES TABLE */}
-                  <div className="bg-ivory rounded-2xl p-6 border border-navy/15 space-y-4">
-                    <div className="flex items-center gap-2 border-b border-navy/10 pb-3">
-                      <Layers className="w-4 h-4 text-navy" />
-                      <h4 className="font-serif text-lg font-bold text-navy">
+                  <div className="bg-[#FDFBF7]/90 backdrop-blur-xl rounded-3xl p-7 border border-[#24483B]/15 space-y-4">
+                    <div className="flex items-center gap-2 border-b border-[#24483B]/10 pb-3">
+                      <Layers className="w-4 h-4 text-[#202923]" />
+                      <h4 className="font-serif text-lg font-bold text-[#202923]">
                         Itemized Measures & Factor Profile
                       </h4>
                     </div>
 
                     {/* Factor Progress Bars */}
-                    <div className="space-y-3 pt-1">
+                    <div className="space-y-4 pt-1">
                       {interpretationResult.rows.map((row, idx) => (
-                        <div key={idx} className="space-y-1">
+                        <div key={idx} className="space-y-1.5">
                           <div className="flex items-center justify-between text-xs">
-                            <span className="font-semibold text-navy">{row.measure}</span>
-                            <span className="text-navy/60 font-mono">
+                            <span className="font-semibold text-[#202923]">{row.measure}</span>
+                            <span className="text-[#202923]/60 font-mono">
                               {row.score} / {row.maxScore} ({row.percentage.toFixed(1)}%) — <strong>{row.level}</strong>
                             </span>
                           </div>
-                          <div className="w-full h-2.5 bg-navy/10 rounded-full overflow-hidden">
+                          <div className="w-full h-2.5 bg-[#202923]/10 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-navy-700 rounded-full transition-all duration-300"
+                              className="h-full bg-gradient-to-r from-[#24483B] to-[#C6A46A] rounded-full transition-all duration-300"
                               style={{ width: `${Math.min(100, Math.max(0, row.percentage))}%` }}
                             />
                           </div>
-                          <p className="text-[11px] text-navy/65 leading-relaxed pt-0.5">
+                          <p className="text-[11px] text-[#202923]/65 leading-relaxed pt-0.5 font-sans">
                             {row.meaning}
                           </p>
                         </div>
@@ -640,16 +683,16 @@ ${interpretationResult.note}
                   </div>
 
                   {/* 3. CLINICAL INTERPRETATION & DISCUSSION */}
-                  <div className="bg-ivory rounded-2xl p-6 border border-navy/15 space-y-4">
-                    <div className="flex items-center gap-2 border-b border-navy/10 pb-3">
-                      <Brain className="w-4 h-4 text-navy" />
-                      <h4 className="font-serif text-lg font-bold text-navy">
+                  <div className="bg-[#FDFBF7]/90 backdrop-blur-xl rounded-3xl p-7 border border-[#24483B]/15 space-y-4">
+                    <div className="flex items-center gap-2 border-b border-[#24483B]/10 pb-3">
+                      <Brain className="w-4 h-4 text-[#202923]" />
+                      <h4 className="font-serif text-lg font-bold text-[#202923]">
                         Detailed Clinical & Reflective Discussion
                       </h4>
                     </div>
 
-                    <div className="space-y-3 text-sm text-navy/80 leading-relaxed">
-                      <p className="font-medium text-navy/90">
+                    <div className="space-y-3.5 text-sm text-[#202923]/80 leading-relaxed font-sans">
+                      <p className="font-medium text-[#202923]/95">
                         {interpretationResult.interpretation}
                       </p>
                       {interpretationResult.discussion.map((p, idx) => (
@@ -659,68 +702,83 @@ ${interpretationResult.note}
                   </div>
 
                   {/* 4. SYNTHESIS CONCLUSION */}
-                  <div className="bg-sage-50/80 rounded-2xl p-6 border border-sage-200 space-y-3">
+                  <div className="bg-[#A6B7A1]/20 backdrop-blur-xl rounded-3xl p-7 border border-[#A6B7A1]/40 space-y-3">
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-sage-700" />
-                      <h4 className="font-serif text-lg font-bold text-sage-900">
+                      <CheckCircle2 className="w-4 h-4 text-[#24483B]" />
+                      <h4 className="font-serif text-lg font-bold text-[#1A3529]">
                         Conclusion & Reflective Next Steps
                       </h4>
                     </div>
-                    <p className="text-sm text-sage-900/90 leading-relaxed">
+                    <p className="text-sm text-[#1A3529]/90 leading-relaxed font-sans">
                       {interpretationResult.conclusion}
                     </p>
                   </div>
 
                   {/* 5. EDUCATIONAL DISCLAIMER */}
-                  <div className="p-4 rounded-xl bg-amber-50/80 border border-amber-200 text-xs text-amber-900 flex items-start gap-2.5 leading-relaxed">
+                  <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 text-xs text-amber-900 flex items-start gap-3 leading-relaxed font-sans">
                     <AlertCircle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
                     <span>{interpretationResult.note}</span>
                   </div>
 
                   {/* 6. QUESTIONS ABOUT YOUR RESULTS */}
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2 border-b border-navy/10 pb-2">
-                      <Info className="w-4 h-4 text-navy" />
-                      <h4 className="font-serif text-lg font-bold text-navy">
+                  <div className="space-y-3 pt-2">
+                    <div className="flex items-center gap-2 border-b border-[#24483B]/10 pb-2">
+                      <Info className="w-4 h-4 text-[#202923]" />
+                      <h4 className="font-serif text-lg font-bold text-[#202923]">
                         Questions about your results
                       </h4>
                     </div>
                     <FaqAccordion compact groups={[{ items: ASSESSMENT_RESULT_FAQS }]} />
                   </div>
 
-                  {/* 7. ACTION BUTTONS */}
-                  <div className="pt-2 flex flex-wrap items-center gap-3">
-                    <button
+                  {/* 7. ACTION BUTTONS (ALL LIQUID GLASS WITH 9 ALIVE DETAILS) */}
+                  <div className="pt-4 flex flex-wrap items-center gap-3.5">
+                    <LiquidGlassButton
+                      type="button"
                       onClick={handleCopySummary}
-                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-cream border border-navy/20 hover:bg-navy hover:text-ivory text-xs font-semibold text-navy transition-all cursor-pointer"
+                      variant="secondary"
+                      size="md"
+                      signalDot={false}
                     >
-                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-600 mr-1" /> : <Copy className="w-3.5 h-3.5 mr-1" />}
                       <span>{copied ? "Copied to Clipboard!" : "Copy Full Profile"}</span>
-                    </button>
+                    </LiquidGlassButton>
 
-                    <button
+                    <LiquidGlassButton
+                      type="button"
                       onClick={() => window.print()}
-                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-cream border border-navy/20 hover:bg-navy hover:text-ivory text-xs font-semibold text-navy transition-all cursor-pointer"
+                      variant="subtle"
+                      size="md"
+                      signalDot={false}
                     >
-                      <Printer className="w-3.5 h-3.5" />
+                      <Printer className="w-3.5 h-3.5 mr-1" />
                       <span>Print Profile</span>
-                    </button>
+                    </LiquidGlassButton>
 
-                    <button
+                    <LiquidGlassButton
+                      type="button"
                       onClick={handleResetTest}
-                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-cream border border-navy/20 hover:bg-navy hover:text-ivory text-xs font-semibold text-navy transition-all cursor-pointer"
+                      variant="subtle"
+                      size="md"
+                      signalDot={false}
                     >
-                      <RotateCcw className="w-3.5 h-3.5" />
+                      <RotateCcw className="w-3.5 h-3.5 mr-1" />
                       <span>Retake Assessment</span>
-                    </button>
+                    </LiquidGlassButton>
 
-                    <Link
+                    <LiquidGlassButton
                       href="/contact"
-                      className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-navy text-ivory hover:bg-navy-light text-xs font-bold shadow-xs transition-all ml-auto"
+                      variant="primary"
+                      size="md"
+                      signalDot
+                      showArrow
+                      className="ml-auto px-7"
                     >
-                      <Calendar className="w-3.5 h-3.5" />
-                      <span>Book Review Session ({SERVICES_PRICING.counselling.singleSession.formattedInr})</span>
-                    </Link>
+                      <span className="flex items-center gap-2">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span>Book Review Session ({SERVICES_PRICING.counselling.singleSession.formattedInr})</span>
+                      </span>
+                    </LiquidGlassButton>
                   </div>
                 </div>
               )}

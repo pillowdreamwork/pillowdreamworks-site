@@ -6,25 +6,45 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 font-medium transition-all duration-300 cursor-pointer select-none tracking-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C6A46A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FDFBF7] disabled:pointer-events-none disabled:opacity-40 active:scale-[0.98] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+/**
+ * Button component embodying the 9 Alive Details:
+ * 1. Size: at least 44px
+ * 2. Shape: full pill (rounded-full)
+ * 3. Type: real font, clean tracking and readability
+ * 4. Color: almost black / liquid-glass surfaces
+ * 5. Signal: one red dot (configurable)
+ * 6. Hover: arrow turns (350ms)
+ * 7. Light: glow follows cursor
+ * 8. Magnet: leans toward cursor
+ * 9. Press: scale .97
+ */
+export const buttonVariants = cva(
+  "group relative inline-flex items-center justify-center gap-2.5 font-sans font-medium tracking-wide antialiased select-none cursor-pointer rounded-full transition-all duration-[350ms] ease-out disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C6A46A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FDFBF7] active:scale-[0.97] overflow-hidden [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        primary: "liquid-glass-primary text-[#FDFBF7] shadow-sm hover:text-white",
-        secondary: "liquid-glass-secondary text-[#24483B] hover:text-[#1A3529]",
-        gold: "bg-[#C6A46A]/90 text-[#202923] font-semibold border border-white/30 backdrop-blur-md shadow-sm hover:bg-[#C6A46A]",
-        sage: "liquid-glass-secondary text-[#202923] border-[#A6B7A1]/40 hover:border-[#A6B7A1]",
-        outline: "liquid-glass-subtle text-[#202923] hover:text-[#24483B]",
-        ghost: "bg-transparent text-[#202923] hover:bg-[#24483B]/5 active:bg-[#24483B]/10",
-        link: "text-[#24483B] underline-offset-4 hover:underline p-0 h-auto font-normal",
-        crisis: "bg-[#8B2626] text-[#FDFBF7] hover:bg-[#6D1B1B] shadow-sm border border-red-700/50",
+        primary:
+          "bg-[#151C17] text-[#FDFBF7] border border-white/15 shadow-[0_4px_20px_-3px_rgba(21,28,23,0.35),inset_0_1px_0_0_rgba(255,255,255,0.18),inset_0_-1px_0_0_rgba(0,0,0,0.5)] backdrop-blur-xl hover:bg-[#1D2720] hover:text-white",
+        secondary:
+          "bg-[#FDFBF7]/85 text-[#151C17] border border-[#24483B]/15 shadow-[0_2px_12px_-2px_rgba(32,41,35,0.08),inset_0_1px_0_0_rgba(255,255,255,0.9)] backdrop-blur-xl hover:bg-[#FDFBF7] hover:border-[#24483B]/30 hover:text-[#24483B]",
+        gold:
+          "bg-[#C6A46A] text-[#151C17] font-semibold border border-white/30 shadow-[0_4px_18px_-2px_rgba(198,164,106,0.4),inset_0_1px_0_0_rgba(255,255,255,0.4)] backdrop-blur-xl hover:bg-[#B89456]",
+        sage:
+          "bg-[#A6B7A1]/25 text-[#151C17] border border-[#A6B7A1]/40 backdrop-blur-md hover:bg-[#A6B7A1]/40 hover:border-[#A6B7A1]",
+        outline:
+          "bg-white/40 text-[#151C17] border border-[#24483B]/15 backdrop-blur-md hover:bg-white/75 hover:border-[#24483B]/30 hover:text-[#24483B]",
+        ghost:
+          "bg-transparent text-[#151C17] hover:bg-[#24483B]/5 active:bg-[#24483B]/10",
+        link:
+          "text-[#24483B] underline-offset-4 hover:underline p-0 h-auto font-normal rounded-none",
+        crisis:
+          "bg-[#8B2626] text-[#FDFBF7] border border-white/20 shadow-[0_4px_18px_-2px_rgba(139,38,38,0.4)] backdrop-blur-xl hover:bg-[#721F1F]",
       },
       size: {
-        sm: "h-8 px-3.5 text-xs rounded-full min-h-[36px]",
-        md: "h-11 px-5 text-sm rounded-full min-h-[44px]",
-        lg: "h-12 px-7 text-base rounded-full min-h-[48px]",
-        icon: "size-10 rounded-full p-0 flex items-center justify-center min-w-[40px] min-h-[40px]",
+        sm: "min-h-[44px] px-5 py-2 text-xs",
+        md: "min-h-[44px] px-6 py-2.5 text-sm",
+        lg: "min-h-[50px] px-8 py-3.5 text-base",
+        icon: "min-h-[44px] min-w-[44px] size-11 p-0",
       },
     },
     defaultVariants: {
@@ -40,76 +60,181 @@ export interface ButtonProps
   asChild?: boolean;
   href?: string;
   external?: boolean;
+  signalDot?: boolean;
+  magnet?: boolean;
+  glow?: boolean;
 }
 
 export const Button = React.forwardRef<
   HTMLButtonElement | HTMLAnchorElement,
   ButtonProps & React.AnchorHTMLAttributes<HTMLAnchorElement>
->(({ className, variant, size, asChild = false, href, external, children, disabled, ...props }, ref) => {
-  const classes = cn(buttonVariants({ variant, size }), className);
+>(
+  (
+    {
+      className,
+      variant = "primary",
+      size = "md",
+      asChild = false,
+      href,
+      external,
+      signalDot,
+      magnet = true,
+      glow = true,
+      children,
+      disabled,
+      ...props
+    },
+    ref
+  ) => {
+    const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
+    const [isHovered, setIsHovered] = React.useState(false);
+    const [magnetOffset, setMagnetOffset] = React.useState({ x: 0, y: 0 });
 
-  if (asChild) {
-    return (
-      <Slot
-        ref={ref as React.Ref<HTMLButtonElement>}
-        className={classes}
-        {...(props as React.HTMLAttributes<HTMLElement>)}
-      >
-        {children}
-      </Slot>
+    const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
+      if (disabled) return;
+      const target = e.currentTarget;
+      const rect = target.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      setMousePos({ x, y });
+      setIsHovered(true);
+
+      if (magnet) {
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const deltaX = (x - centerX) * 0.15;
+        const deltaY = (y - centerY) * 0.15;
+        setMagnetOffset({ x: deltaX, y: deltaY });
+      }
+    };
+
+    const handlePointerLeave = () => {
+      setIsHovered(false);
+      setMagnetOffset({ x: 0, y: 0 });
+    };
+
+    const isPrimaryLike = variant === "primary" || variant === undefined;
+    const shouldShowSignal = signalDot !== undefined ? signalDot : isPrimaryLike && size !== "icon";
+
+    const inlineStyle: React.CSSProperties = {
+      transform:
+        magnetOffset.x !== 0 || magnetOffset.y !== 0
+          ? `translate3d(${magnetOffset.x}px, ${magnetOffset.y}px, 0)`
+          : undefined,
+      transition: "transform 220ms cubic-bezier(0.16, 1, 0.3, 1)",
+      ...props.style,
+    };
+
+    const classes = cn(
+      buttonVariants({ variant, size }),
+      "[&_.button-arrow]:transition-transform [&_.button-arrow]:duration-[350ms] [&_.button-arrow]:ease-out group-hover:[&_.button-arrow]:rotate-45",
+      "[&_svg.lucide-arrow-right]:transition-transform [&_svg.lucide-arrow-right]:duration-[350ms] [&_svg.lucide-arrow-right]:ease-out group-hover:[&_svg.lucide-arrow-right]:rotate-45",
+      "[&_svg.lucide-arrow-up-right]:transition-transform [&_svg.lucide-arrow-up-right]:duration-[350ms] [&_svg.lucide-arrow-up-right]:ease-out group-hover:[&_svg.lucide-arrow-up-right]:rotate-45",
+      className
     );
-  }
 
-  if (href) {
-    const isExternal =
-      external ??
-      (href.startsWith("http://") ||
-        href.startsWith("https://") ||
-        href.startsWith("mailto:") ||
-        href.startsWith("tel:") ||
-        href.startsWith("https://wa.me"));
+    const innerContent = (
+      <>
+        {glow && variant !== "link" && (
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -inset-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100 overflow-hidden"
+            style={{
+              background: isHovered
+                ? `radial-gradient(130px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.22), transparent 70%)`
+                : undefined,
+            }}
+          />
+        )}
 
-    if (isExternal) {
+        {shouldShowSignal && (
+          <span
+            className="relative flex h-2 w-2 shrink-0 items-center justify-center mr-0.5"
+            aria-hidden="true"
+          >
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E85D3F] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E85D3F] shadow-[0_0_8px_rgba(232,93,63,0.9)]" />
+          </span>
+        )}
+
+        {children}
+      </>
+    );
+
+    if (asChild) {
       return (
-        <a
+        <Slot
+          ref={ref as React.Ref<HTMLButtonElement>}
+          className={classes}
+          style={inlineStyle}
+          onPointerMove={handlePointerMove}
+          onPointerLeave={handlePointerLeave}
+          {...(props as React.HTMLAttributes<HTMLElement>)}
+        >
+          {children}
+        </Slot>
+      );
+    }
+
+    if (href) {
+      const isExternal =
+        external ??
+        (href.startsWith("http://") ||
+          href.startsWith("https://") ||
+          href.startsWith("mailto:") ||
+          href.startsWith("tel:") ||
+          href.startsWith("https://wa.me"));
+
+      if (isExternal) {
+        return (
+          <a
+            ref={ref as React.Ref<HTMLAnchorElement>}
+            href={href}
+            className={classes}
+            style={inlineStyle}
+            target={href.startsWith("http") ? "_blank" : undefined}
+            rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+            aria-disabled={disabled}
+            onPointerMove={handlePointerMove}
+            onPointerLeave={handlePointerLeave}
+            {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+          >
+            {innerContent}
+          </a>
+        );
+      }
+
+      return (
+        <Link
           ref={ref as React.Ref<HTMLAnchorElement>}
           href={href}
           className={classes}
-          target={href.startsWith("http") ? "_blank" : undefined}
-          rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+          style={inlineStyle}
           aria-disabled={disabled}
+          onPointerMove={handlePointerMove}
+          onPointerLeave={handlePointerLeave}
           {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
         >
-          {children}
-        </a>
+          {innerContent}
+        </Link>
       );
     }
 
     return (
-      <Link
-        ref={ref as React.Ref<HTMLAnchorElement>}
-        href={href}
+      <button
+        ref={ref as React.Ref<HTMLButtonElement>}
         className={classes}
-        aria-disabled={disabled}
-        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        style={inlineStyle}
+        disabled={disabled}
+        type={(props as React.ButtonHTMLAttributes<HTMLButtonElement>).type || "button"}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+        {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
       >
-        {children}
-      </Link>
+        {innerContent}
+      </button>
     );
   }
-
-  return (
-    <button
-      ref={ref as React.Ref<HTMLButtonElement>}
-      className={classes}
-      disabled={disabled}
-      type={(props as React.ButtonHTMLAttributes<HTMLButtonElement>).type || "button"}
-      {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
-    >
-      {children}
-    </button>
-  );
-});
+);
 
 Button.displayName = "Button";
-export default Button;

@@ -144,8 +144,9 @@ export function HeroSection() {
                 href="/assessments"
                 variant="subtle"
                 size="lg"
+                showArrow
               >
-                <span>Explore 177 Psychometric Scales →</span>
+                <span>Explore 177 Psychometric Scales</span>
               </LiquidGlassButton>
             </motion.div>
 

@@ -64,11 +64,12 @@ export function AssessmentsPreviewSection() {
           </div>
         </div>
 
-        {/* Category Filters */}
-        <div className="flex flex-wrap items-center gap-2 mb-10 pb-4 border-b border-white/10">
+        {/* Category Filters (Liquid Glass Pills) */}
+        <div className="flex flex-wrap items-center gap-2.5 mb-10 pb-4 border-b border-white/10">
           {CATEGORIES.map((cat) => (
-            <button
+            <LiquidGlassButton
               key={cat}
+              type="button"
               onClick={() => {
                 setSelectedCategory(cat);
                 const first = cat === "All Frameworks" 
@@ -76,14 +77,17 @@ export function AssessmentsPreviewSection() {
                   : ASSESSMENTS_CATALOG.find((item) => item.category === cat);
                 if (first) setActiveTestId(first.id);
               }}
-              className={`text-xs uppercase tracking-wider px-4 py-2 rounded-full transition-all cursor-pointer font-medium ${
+              variant={selectedCategory === cat ? "gold" : "subtle"}
+              size="sm"
+              signalDot={selectedCategory === cat}
+              className={`text-xs uppercase tracking-wider font-medium ${
                 selectedCategory === cat
-                  ? "bg-[#C6A46A] text-[#202923] font-semibold shadow-xs"
-                  : "bg-white/5 text-[#FDFBF7]/70 hover:bg-white/10 hover:text-[#FDFBF7]"
+                  ? "shadow-sm"
+                  : "bg-white/5 text-[#FDFBF7]/75 border-white/10 hover:bg-white/15 hover:text-white"
               }`}
             >
-              {cat}
-            </button>
+              <span>{cat}</span>
+            </LiquidGlassButton>
           ))}
         </div>
 

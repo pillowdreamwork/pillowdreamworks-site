@@ -37,29 +37,29 @@ export default function PricingPage() {
             Every publication, psychological screening scale, and clinical session is structured with complete price transparency.
           </p>
 
-          {/* Currency Toggle */}
+          {/* Currency Toggle (Liquid Glass Pills) */}
           <div className="pt-2 flex justify-center">
-            <div className="inline-flex p-1 rounded-xl bg-cream border border-navy/15 shadow-inner">
-              <button
+            <div className="inline-flex p-1.5 rounded-full bg-cream/80 border border-navy/15 backdrop-blur-md shadow-xs gap-2">
+              <Button
+                type="button"
                 onClick={() => setCurrency("inr")}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                  isIndia
-                    ? "bg-navy text-ivory shadow-xs"
-                    : "text-navy/70 hover:text-navy"
-                }`}
+                variant={isIndia ? "primary" : "ghost"}
+                size="sm"
+                signalDot={isIndia}
+                className="px-5 text-xs font-semibold"
               >
                 <span>🇮🇳 India Pricing (INR ₹)</span>
-              </button>
-              <button
+              </Button>
+              <Button
+                type="button"
                 onClick={() => setCurrency("usd")}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                  !isIndia
-                    ? "bg-navy text-ivory shadow-xs"
-                    : "text-navy/70 hover:text-navy"
-                }`}
+                variant={!isIndia ? "primary" : "ghost"}
+                size="sm"
+                signalDot={!isIndia}
+                className="px-5 text-xs font-semibold"
               >
                 <span>🌐 International / Global (USD $)</span>
-              </button>
+              </Button>
             </div>
           </div>
         </div>

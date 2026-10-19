@@ -104,25 +104,31 @@ export function BooksPreviewSection() {
             </p>
           </div>
 
-          {/* Carousel Controls */}
+          {/* Carousel Controls (Liquid Glass) */}
           <div className="flex items-center gap-3">
-            <button
+            <LiquidGlassButton
+              type="button"
               onClick={() => setActiveSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1))}
-              className="p-3 rounded-full border border-[#24483B]/20 text-[#202923] hover:bg-[#F5EFE6] transition-colors cursor-pointer"
+              variant="subtle"
+              size="icon"
+              signalDot={false}
               aria-label="Previous publication"
             >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <span className="font-mono text-xs text-[#202923]/60">
+              <ChevronLeft className="w-5 h-5 text-[#202923]" />
+            </LiquidGlassButton>
+            <span className="font-mono text-xs text-[#202923]/60 px-1">
               0{activeSlide + 1} / 0{slides.length}
             </span>
-            <button
+            <LiquidGlassButton
+              type="button"
               onClick={() => setActiveSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1))}
-              className="p-3 rounded-full border border-[#24483B]/20 text-[#202923] hover:bg-[#F5EFE6] transition-colors cursor-pointer"
+              variant="subtle"
+              size="icon"
+              signalDot={false}
               aria-label="Next publication"
             >
-              <ChevronRight className="w-5 h-5" />
-            </button>
+              <ChevronRight className="w-5 h-5 text-[#202923]" />
+            </LiquidGlassButton>
           </div>
         </div>
 
