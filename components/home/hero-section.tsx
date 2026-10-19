@@ -168,7 +168,7 @@ export function HeroSection() {
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <motion.div
               style={{ y: bookScrollY }}
-              className="w-full max-w-[340px] sm:max-w-[380px]"
+              className="w-full max-w-[290px] sm:max-w-[380px]"
             >
               <motion.div
                 initial={{ opacity: 0, y: 24 }}

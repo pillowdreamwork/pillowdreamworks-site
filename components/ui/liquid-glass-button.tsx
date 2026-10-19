@@ -18,6 +18,8 @@ export const liquidGlassVariants = cva(
           "liquid-glass-subtle text-[#202923] font-medium hover:text-[#24483B]",
         vermilion:
           "bg-[#E85D3F]/90 backdrop-blur-md text-[#FDFBF7] border border-white/20 shadow-sm hover:bg-[#E85D3F] hover:shadow-md",
+        crisis:
+          "bg-[#8B2626]/90 backdrop-blur-md text-[#FDFBF7] border border-white/20 shadow-sm hover:bg-[#8B2626] hover:shadow-md",
         gold:
           "bg-[#C6A46A]/90 backdrop-blur-md text-[#202923] border border-white/30 shadow-sm hover:bg-[#C6A46A] hover:text-[#1A3529] font-semibold",
       },

@@ -23,7 +23,7 @@ export function HomeExperience() {
   });
 
   return (
-    <div className="relative selection:bg-[#A6B7A1] selection:text-[#FDFBF7]">
+    <div className="relative selection:bg-[#A6B7A1] selection:text-[#FDFBF7] overflow-x-clip">
       {/* Scroll Reading Progress Indicator */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#24483B] via-[#C6A46A] to-[#E85D3F] z-50 origin-left pointer-events-none"
