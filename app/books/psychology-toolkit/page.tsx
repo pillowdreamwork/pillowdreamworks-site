@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 import { Badge } from "@/components/ui/badge";
 import { PSYCHOLOGY_TOOLKIT } from "@/data/books";
 import { BOOKS_PRICING, CAMPAIGN_METADATA } from "@/data/pricing";
@@ -75,15 +76,23 @@ export default function PsychologyToolkitPage() {
                 </div>
 
                 <div className="pt-2 flex flex-col sm:flex-row gap-3">
-                  <Button size="lg" variant="primary" className="w-full sm:w-auto">
+                  <LiquidGlassButton
+                    href={`https://wa.me/919728355421?text=${encodeURIComponent("Hello PillowDreamWorks, I would like to purchase The Psychology Toolkit digital edition (₹999 / $89).")}`}
+                    size="lg"
+                    variant="primary"
+                    className="w-full sm:w-auto"
+                  >
                     <span>Instant Digital Access (A4 PDF)</span>
                     <ArrowRight className="w-4 h-4 ml-1" />
-                  </Button>
-                  <Link href="/books/bundles">
-                    <Button size="lg" variant="secondary" className="w-full sm:w-auto">
-                      View Bundle Savings (₹1,079)
-                    </Button>
-                  </Link>
+                  </LiquidGlassButton>
+                  <LiquidGlassButton
+                    href="/books/bundles"
+                    size="lg"
+                    variant="secondary"
+                    className="w-full sm:w-auto"
+                  >
+                    <span>View Bundle Savings (₹1,079)</span>
+                  </LiquidGlassButton>
                 </div>
               </div>
             </div>
@@ -380,15 +389,21 @@ export default function PsychologyToolkitPage() {
             Instant digital download (Printable A4 PDF). Claim the Diwali discount price before {CAMPAIGN_METADATA.endDate}.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" variant="gold">
+            <LiquidGlassButton
+              href={`https://wa.me/919728355421?text=${encodeURIComponent(`Hello PillowDreamWorks, I would like to purchase The Psychology Toolkit for ${BOOKS_PRICING.toolkit.diwali.formattedInr} (${BOOKS_PRICING.toolkit.diwali.formattedUsd}).`)}`}
+              size="lg"
+              variant="gold"
+            >
               <span>Claim for {BOOKS_PRICING.toolkit.diwali.formattedInr} ({BOOKS_PRICING.toolkit.diwali.formattedUsd})</span>
               <ArrowRight className="w-4 h-4 ml-1" />
-            </Button>
-            <Link href="/books/bundles">
-              <Button size="lg" variant="outline" className="text-ivory border-ivory/30 hover:bg-ivory/10">
-                View Bundle (₹1,079 / $83)
-              </Button>
-            </Link>
+            </LiquidGlassButton>
+            <LiquidGlassButton
+              href="/books/bundles"
+              size="lg"
+              variant="secondary"
+            >
+              <span>View Bundle (₹1,079 / $83)</span>
+            </LiquidGlassButton>
           </div>
         </section>
       </Container>

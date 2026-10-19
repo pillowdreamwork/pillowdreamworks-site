@@ -12,7 +12,7 @@ export function EmergencyBanner() {
     <>
       <aside
         aria-label="Emergency Crisis Notification"
-        className="w-full bg-[#8B2626] text-ivory text-xs sm:text-sm py-2 px-4 shadow-inner relative z-50 transition-all border-b border-red-950/40"
+        className="w-full bg-[#8B2626] text-[#FDFBF7] text-xs sm:text-sm py-2 px-4 shadow-inner relative z-50 transition-all border-b border-red-950/40"
       >
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -50,25 +50,25 @@ export function EmergencyBanner() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="emergency-modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-dark/80 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#202923]/80 backdrop-blur-sm"
         >
-          <div className="bg-ivory text-navy max-w-lg w-full rounded-2xl p-6 sm:p-8 shadow-2xl border border-navy/15 relative">
+          <div className="bg-[#FDFBF7] text-[#202923] max-w-lg w-full rounded-2xl p-6 sm:p-8 shadow-2xl border border-[#24483B]/15 relative">
             <button
               onClick={() => setShowModal(false)}
               aria-label="Close emergency support modal"
-              className="absolute top-4 right-4 p-2 rounded-full hover:bg-navy/5 text-navy/70 hover:text-navy cursor-pointer"
+              className="absolute top-4 right-4 p-2 rounded-full hover:bg-[#24483B]/5 text-[#202923]/70 hover:text-[#202923] cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <div className="flex items-center gap-3 text-red-800 mb-4">
+            <div className="flex items-center gap-3 text-[#8B2626] mb-4">
               <AlertCircle className="w-7 h-7" />
-              <h3 id="emergency-modal-title" className="font-serif text-2xl font-bold text-navy">
+              <h3 id="emergency-modal-title" className="font-serif text-2xl font-bold text-[#202923]">
                 Immediate Crisis Support
               </h3>
             </div>
 
-            <p className="text-sm text-navy/80 mb-6 leading-relaxed">
+            <p className="text-sm text-[#202923]/80 mb-6 leading-relaxed">
               If you or someone you know is in immediate life danger or experiencing an acute mental health crisis, please reach out to dedicated emergency helplines immediately.
             </p>
 
@@ -76,10 +76,10 @@ export function EmergencyBanner() {
               {EMERGENCY_INFO.phoneNumbers.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between p-3 rounded-lg bg-cream border border-navy/10 text-sm"
+                  className="flex items-center justify-between p-3.5 rounded-xl bg-[#F5EFE6] border border-[#24483B]/10 text-sm"
                 >
-                  <span className="font-medium text-navy">{item.country}</span>
-                  <span className="font-bold text-red-900 tracking-wide">{item.number}</span>
+                  <span className="font-medium text-[#202923]">{item.country}</span>
+                  <span className="font-bold font-mono text-[#8B2626] tracking-wide">{item.number}</span>
                 </div>
               ))}
             </div>
@@ -88,13 +88,13 @@ export function EmergencyBanner() {
               <Link
                 href="/services#crisis"
                 onClick={() => setShowModal(false)}
-                className="w-full text-center py-2.5 px-4 rounded-md bg-navy text-ivory font-medium hover:bg-navy-light text-sm"
+                className="w-full text-center py-2.5 px-4 rounded-full liquid-glass-primary text-[#FDFBF7] font-medium text-sm"
               >
                 Book Crisis Stabilization Call
               </Link>
               <button
                 onClick={() => setShowModal(false)}
-                className="w-full py-2.5 px-4 rounded-md bg-cream text-navy border border-navy/15 font-medium hover:bg-navy/5 text-sm cursor-pointer"
+                className="w-full py-2.5 px-4 rounded-full liquid-glass-secondary text-[#202923] font-medium text-sm cursor-pointer"
               >
                 Close Window
               </button>

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { Container } from "@/components/ui/container";
 
 const NOISE_FRAGMENTS = [
@@ -59,21 +59,32 @@ const marginNotes = [
     number: "04",
     observation: "Too many disconnected tools, no continuous thread.",
     expansion:
-      "An app here, a worksheet there, a YouTube video somewhere else — without architecture, fragments don't become insight.",
+      "An app here, a worksheet there, a video somewhere else — without architecture, fragments don't become insight.",
   },
 ];
 
 export function ProblemSection() {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  // Scroll scrub for continuum visualization
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "center center"],
+  });
+
+  const continuumWidth = useTransform(scrollYProgress, [0.1, 0.85], ["0%", "100%"]);
+
   return (
     <section
-      className="py-24 md:py-32 bg-cream/40 border-b border-navy/8 relative overflow-hidden"
+      id="continuum"
+      className="py-24 md:py-32 bg-[#F5EFE6]/50 border-b border-[#24483B]/10 relative overflow-hidden scroll-mt-16"
       aria-label="The Noise to Architecture Continuum"
     >
       <Container>
         {/* Eyebrow + Section Headline */}
         <div className="max-w-2xl mb-16">
           <motion.span
-            className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-sage-dark mb-4 font-mono"
+            className="block text-xs font-semibold uppercase tracking-[0.2em] text-[#24483B] mb-4 font-mono"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -83,7 +94,7 @@ export function ProblemSection() {
           </motion.span>
 
           <motion.h2
-            className="font-serif text-3xl sm:text-4xl lg:text-[2.6rem] text-navy font-normal leading-[1.15] tracking-tight"
+            className="font-serif text-3xl sm:text-4xl lg:text-[2.6rem] text-[#202923] font-normal leading-[1.15] tracking-tight"
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -91,16 +102,27 @@ export function ProblemSection() {
           >
             From fragmented noise to inner structure.
           </motion.h2>
-          <p className="mt-4 text-base text-navy/70 font-sans leading-relaxed">
+          <p className="mt-4 text-base text-[#202923]/75 font-sans leading-relaxed">
             Modern psychology is often trapped between disconnected digital noise and overwhelming clinical textbooks. We replace the chaos with a clear three-stage continuum.
           </p>
         </div>
 
         {/* ── INTERACTIVE CONTINUUM SCENE: NOISE TO STRUCTURE ── */}
-        <div className="my-12 p-8 sm:p-12 rounded-2xl bg-ivory border border-navy/12 space-y-12">
+        <div
+          ref={containerRef}
+          className="my-12 p-8 sm:p-12 rounded-2xl bg-[#FDFBF7] border border-[#24483B]/12 space-y-12 shadow-sm relative overflow-hidden"
+        >
+          {/* Subtle scroll progress thread at top of card */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-[#24483B]/5 overflow-hidden">
+            <motion.div
+              style={{ width: continuumWidth }}
+              className="h-full bg-gradient-to-r from-[#E85D3F] via-[#C6A46A] to-[#24483B]"
+            />
+          </div>
+
           {/* Phase A: The Scattered Fragments */}
           <div className="space-y-4">
-            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-navy/40 block">
+            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#202923]/50 block font-semibold">
               1. The Scattered Inputs (Everyday Experience)
             </span>
             <div className="flex flex-wrap gap-2.5">
@@ -111,9 +133,9 @@ export function ProblemSection() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: idx * 0.04 }}
-                  className="px-3.5 py-1.5 rounded-full bg-cream/70 border border-navy/10 text-xs font-mono text-navy/70 inline-flex items-center gap-1.5"
+                  className="px-3.5 py-1.5 rounded-full bg-[#F5EFE6] border border-[#24483B]/10 text-xs font-mono text-[#202923]/70 inline-flex items-center gap-2 hover:border-[#24483B]/30 transition-colors"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-800/40" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E85D3F]" />
                   <span>{item.label}</span>
                 </motion.span>
               ))}
@@ -123,16 +145,16 @@ export function ProblemSection() {
           {/* Transition Connecting Line */}
           <div className="relative flex items-center justify-center">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-dashed border-navy/20" />
+              <div className="w-full border-t border-dashed border-[#24483B]/20" />
             </div>
-            <span className="relative bg-ivory px-4 text-xs font-mono text-sage-dark uppercase tracking-widest">
+            <span className="relative bg-[#FDFBF7] px-4 text-xs font-mono text-[#24483B] uppercase tracking-widest font-semibold">
               Synthesized through deliberate architecture ↓
             </span>
           </div>
 
           {/* Phase B: The 3 Structured Pillars (UNDERSTAND → REFLECT → PRACTICE) */}
           <div>
-            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-gold-dark font-semibold block mb-6">
+            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#C6A46A] font-bold block mb-6">
               2. The Three-Stage Continuum
             </span>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -143,16 +165,16 @@ export function ProblemSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: idx * 0.1, ease: "easeOut" }}
-                  className="p-6 rounded-xl bg-cream/50 border border-navy/10 space-y-3 relative hover:border-navy/25 transition-all"
+                  className="p-6 rounded-xl bg-[#F5EFE6]/70 border border-[#24483B]/10 space-y-3 relative hover:border-[#24483B]/30 hover:shadow-xs transition-all"
                 >
-                  <div className="flex items-center justify-between font-mono text-xs text-navy/50">
-                    <span className="text-gold-dark font-bold">[{step.step}]</span>
-                    <span className="uppercase tracking-widest text-[10px] font-semibold text-navy/60">{step.concept}</span>
+                  <div className="flex items-center justify-between font-mono text-xs text-[#202923]/50">
+                    <span className="text-[#C6A46A] font-bold">[{step.step}]</span>
+                    <span className="uppercase tracking-widest text-[10px] font-semibold text-[#24483B]">{step.concept}</span>
                   </div>
-                  <h3 className="font-serif text-2xl font-normal text-navy tracking-tight">
+                  <h3 className="font-serif text-2xl font-normal text-[#202923] tracking-tight">
                     {step.title}
                   </h3>
-                  <p className="text-xs text-navy/70 leading-relaxed font-sans">
+                  <p className="text-xs text-[#202923]/70 leading-relaxed font-sans">
                     {step.description}
                   </p>
                 </motion.div>
@@ -162,14 +184,14 @@ export function ProblemSection() {
         </div>
 
         {/* Margin Notes — four editorial observations */}
-        <div className="border-t border-navy/12 pt-8">
-          <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-navy/40 block mb-6">
+        <div className="border-t border-[#24483B]/15 pt-8">
+          <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-[#24483B] font-semibold block mb-6">
             The Margin Notes
           </span>
           {marginNotes.map((note, idx) => (
             <motion.div
               key={note.number}
-              className="grid grid-cols-12 gap-6 sm:gap-8 py-8 sm:py-10 border-b border-navy/8"
+              className="grid grid-cols-12 gap-6 sm:gap-8 py-8 sm:py-10 border-b border-[#24483B]/10"
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -181,20 +203,20 @@ export function ProblemSection() {
             >
               {/* Number */}
               <div className="col-span-1">
-                <span className="text-[11px] font-mono text-navy/30 block pt-1">
+                <span className="text-xs font-mono text-[#24483B]/50 block pt-1 font-semibold">
                   {note.number}
                 </span>
               </div>
 
               {/* Observation + Expansion */}
               <div className="col-span-11 sm:col-span-6">
-                <p className="font-serif text-xl sm:text-2xl text-navy font-normal leading-snug mb-3">
+                <p className="font-serif text-xl sm:text-2xl text-[#202923] font-normal leading-snug mb-3">
                   {note.observation}
                 </p>
               </div>
 
               <div className="col-span-11 sm:col-span-5 col-start-2 sm:col-start-auto">
-                <p className="text-sm text-navy/65 font-sans leading-relaxed">
+                <p className="text-sm text-[#202923]/70 font-sans leading-relaxed">
                   {note.expansion}
                 </p>
               </div>
@@ -210,10 +232,10 @@ export function ProblemSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.55, ease: "easeOut" }}
         >
-          <p className="font-serif text-xl sm:text-2xl text-navy font-normal leading-relaxed italic">
+          <p className="font-serif text-xl sm:text-2xl text-[#202923] font-normal leading-relaxed italic">
             What if the experience had architecture?
           </p>
-          <p className="mt-3 text-sm text-navy/60 font-sans leading-relaxed">
+          <p className="mt-3 text-sm text-[#202923]/65 font-sans leading-relaxed">
             A structured system for understanding yourself — progressively, clearly and at your own pace.
           </p>
         </motion.div>

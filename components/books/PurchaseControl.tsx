@@ -1,49 +1,74 @@
 "use client";
 
 import React, { useState } from "react";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
+import { FOUNDER_CONTACT } from "@/data/navigation";
+import { MessageSquare, ArrowRight } from "lucide-react";
 
 interface PurchaseControlProps {
   label: string;
-  /** Approved checkout destination. When absent a calm, honest fallback is shown. */
   checkoutUrl?: string;
   onReturn: () => void;
   variant?: "link" | "solid";
 }
 
-export const PurchaseControl = ({ label, checkoutUrl, onReturn, variant = "link" }: PurchaseControlProps) => {
+export const PurchaseControl = ({
+  label,
+  checkoutUrl,
+  onReturn,
+  variant = "link",
+}: PurchaseControlProps) => {
   const [notice, setNotice] = useState(false);
-
-  const focus =
-    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-stone-900";
-  const base =
-    variant === "solid"
-      ? "inline-flex min-h-12 items-center border border-stone-900 bg-stone-900 px-8 font-serif text-sm uppercase tracking-[0.2em] text-stone-50 transition-colors hover:bg-stone-700"
-      : "inline-flex min-h-12 items-center border-b border-stone-900 font-serif text-sm uppercase tracking-[0.18em] text-stone-900 transition-colors hover:text-stone-600";
 
   if (checkoutUrl) {
     return (
-      <a href={checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${base} ${focus}`}>
-        {label}
-      </a>
+      <LiquidGlassButton
+        href={checkoutUrl}
+        variant={variant === "solid" ? "primary" : "secondary"}
+        size="md"
+      >
+        <span>{label}</span>
+        <ArrowRight className="w-4 h-4 ml-1" />
+      </LiquidGlassButton>
     );
   }
 
   return (
-    <div>
-      <button type="button" onClick={() => setNotice(true)} className={`${base} ${focus} cursor-pointer`}>
-        {label}
-      </button>
+    <div className="space-y-3">
+      <LiquidGlassButton
+        onClick={() => setNotice(true)}
+        variant={variant === "solid" ? "primary" : "secondary"}
+        size="md"
+      >
+        <span>{label}</span>
+      </LiquidGlassButton>
+
       <div role="status" aria-live="polite">
         {notice && (
-          <div className="mt-4 border-t border-stone-300 pt-4">
-            <p className="font-serif text-stone-600">Checkout is being prepared.</p>
-            <button
-              type="button"
-              onClick={onReturn}
-              className={`mt-2 min-h-12 cursor-pointer border-0 bg-transparent p-0 font-serif text-sm uppercase tracking-[0.18em] text-stone-900 underline underline-offset-4 ${focus}`}
-            >
-              Return to the library
-            </button>
+          <div className="mt-4 p-4 rounded-xl bg-[#F5EFE6] border border-[#24483B]/15 text-xs text-[#202923]/80 space-y-3 font-sans">
+            <p className="font-serif text-sm font-semibold text-[#202923]">
+              Direct Checkout Being Finalized
+            </p>
+            <p className="leading-relaxed">
+              Automated card checkout for this edition is being connected. You can acquire your digital copy or reserve your print edition immediately via the Foundation desk.
+            </p>
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <LiquidGlassButton
+                href={`${FOUNDER_CONTACT.whatsapp}?text=${encodeURIComponent(`Hello PillowDreamWorks Foundation, I would like to order: ${label}`)}`}
+                variant="primary"
+                size="sm"
+              >
+                <MessageSquare className="w-3.5 h-3.5 mr-1" />
+                <span>Order via Foundation WhatsApp</span>
+              </LiquidGlassButton>
+              <button
+                type="button"
+                onClick={onReturn}
+                className="px-3 py-1.5 text-xs font-mono text-[#24483B] hover:underline cursor-pointer"
+              >
+                Return to library
+              </button>
+            </div>
           </div>
         )}
       </div>

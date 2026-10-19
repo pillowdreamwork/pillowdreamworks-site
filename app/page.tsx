@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { FoundationExperience } from "@/components/home/foundation-experience";
+import { HomeExperience } from "@/components/home/home-experience";
 
 export const metadata: Metadata = {
   title: "PillowDreamWorks Foundation — Calm on the surface. Ambition underneath.",
@@ -32,5 +32,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <FoundationExperience />;
+  return <HomeExperience />;
 }
