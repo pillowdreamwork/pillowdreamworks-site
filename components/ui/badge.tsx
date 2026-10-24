@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';const badgeVariants = cva(
+const badgeVariants = cva(
   "inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-medium tracking-wide uppercase rounded-full transition-colors",
   {
     variants: {

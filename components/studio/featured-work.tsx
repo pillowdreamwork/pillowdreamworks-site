@@ -1,8 +1,10 @@
-import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 "use client";
 
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
+
+
 import React, { useState } from "react";
-import { ArrowUpRight, Sparkles, Eye, Layers } from "lucide-react";
+import { ArrowUpRight, Layers } from "lucide-react";
 
 type ProjectCategory = "all" | "web" | "design" | "development" | "3d" | "animation" | "ar" | "concept";
 

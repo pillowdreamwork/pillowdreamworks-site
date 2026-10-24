@@ -6,7 +6,7 @@ import { BOOKS, BUNDLE_PRICING, formatPrice } from "@/data/books";
 import { PurchaseControl } from "./PurchaseControl";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface BundleRevealProps {
+interface BundleRevealProps {
   onReturn: () => void;
 }
 

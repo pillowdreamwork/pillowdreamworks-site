@@ -6,7 +6,7 @@ import { Book, formatPrice } from "@/data/books";
 import { PurchaseControl } from "./PurchaseControl";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface BookPricingProps {
+interface BookPricingProps {
   book: Book;
   onReturn: () => void;
 }

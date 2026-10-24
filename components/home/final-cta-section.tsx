@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ArrowRight, FileCheck, ShieldCheck, Download } from "lucide-react";
+import { FileCheck, ShieldCheck, Download } from "lucide-react";
 import { motion } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";

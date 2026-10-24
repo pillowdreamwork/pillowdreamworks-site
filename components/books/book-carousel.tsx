@@ -1,10 +1,12 @@
-import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 "use client";
 
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
+
+
 import * as React from "react";
-import Link from "next/link";
+
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BOOKS_PRICING } from "@/data/pricing";
 

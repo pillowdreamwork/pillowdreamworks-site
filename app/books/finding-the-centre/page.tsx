@@ -1,6 +1,6 @@
 import * as React from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
+
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,7 +10,7 @@ import { BOOKS_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 import { Feather } from "lucide-react";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export const metadata: Metadata = {
+export const metadata: Metadata = {
   title: "Finding The Centre — PillowDreamWorks Foundation",
   description:
     "A handbook for grounded living, emotional poise, and quiet solitude in an overstimulated world. Available in eBook and Collector's Print Edition.",

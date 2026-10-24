@@ -1,5 +1,7 @@
-import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 "use client";
+
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
+
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";

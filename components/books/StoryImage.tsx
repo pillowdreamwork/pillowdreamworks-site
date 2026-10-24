@@ -5,7 +5,7 @@ import React from "react";
 import { motion, useTransform, MotionValue } from "motion/react";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface StoryImageProps {
+interface StoryImageProps {
   /** Real page image. When absent, the layer is typographic (label only). */
   src?: string;
   alt?: string;

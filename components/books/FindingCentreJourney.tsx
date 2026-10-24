@@ -5,7 +5,7 @@ import { Book } from "@/data/books";
 import { StoryScene, StoryStep } from "./StoryScene";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export const FindingCentreJourney = ({ book }: { book: Book }) => {
+export const FindingCentreJourney = ({ book }: { book: Book }) => {
   const steps: StoryStep[] = book.chapters.map((chapter) => ({
     id: chapter.id,
     label: chapter.label,

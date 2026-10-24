@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/container";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 import { FOUNDER_CONTACT } from "@/data/navigation";
 import { BOOKS_PRICING, SERVICES_PRICING } from "@/data/pricing";
-import { Mail, Phone, MessageSquare, Check, ShieldCheck, ArrowRight } from "lucide-react";
+import { MessageSquare, Check } from "lucide-react";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = React.useState(false);

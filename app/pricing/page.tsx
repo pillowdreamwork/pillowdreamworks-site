@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
+
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ import {
 import { Sparkles, Info } from "lucide-react";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export default function PricingPage() {
+export default function PricingPage() {
   const [currency, setCurrency] = React.useState<"inr" | "usd">("inr");
 
   const isIndia = currency === "inr";
@@ -40,14 +40,14 @@ import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export d
 
           {/* Currency Toggle (Liquid Glass Pills) */}
           <div className="pt-2 flex justify-center">
-            <div className="inline-flex p-1.5 rounded-full bg-cream/80 border border-navy/15 backdrop-blur-md shadow-xs gap-2">
+            <div className="inline-flex w-full max-w-sm flex-col gap-2 rounded-2xl border border-navy/15 bg-cream/80 p-1.5 shadow-xs backdrop-blur-md sm:w-auto sm:max-w-none sm:flex-row sm:rounded-full">
               <Button
                 type="button"
                 onClick={() => setCurrency("inr")}
                 variant={isIndia ? "primary" : "ghost"}
                 size="sm"
                 signalDot={isIndia}
-                className="px-5 text-xs font-semibold"
+                className="w-full justify-center px-5 text-xs font-semibold sm:w-auto"
               >
                 <span>🇮🇳 India Pricing (INR ₹)</span>
               </Button>
@@ -57,7 +57,7 @@ import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export d
                 variant={!isIndia ? "primary" : "ghost"}
                 size="sm"
                 signalDot={!isIndia}
-                className="px-5 text-xs font-semibold"
+                className="w-full justify-center px-5 text-xs font-semibold sm:w-auto"
               >
                 <span>🌐 International / Global (USD $)</span>
               </Button>

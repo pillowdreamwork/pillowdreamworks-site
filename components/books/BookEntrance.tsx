@@ -6,7 +6,7 @@ import { BookObject } from "./BookObject";
 import { BOOKS } from "@/data/books";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface BookEntranceProps {
+interface BookEntranceProps {
   selectedBookId: string | null;
   onSelection: (id: string) => void;
 }

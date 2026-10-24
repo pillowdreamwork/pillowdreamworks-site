@@ -7,7 +7,7 @@ import { StoryImage } from "./StoryImage";
 import { StoryText } from "./StoryText";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export interface StoryStep {
+export interface StoryStep {
   id: string;
   label: string;
   title: string;

@@ -1,22 +1,14 @@
-import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 "use client";
 
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
+
+
 import React, { useState } from "react";
-import Link from "next/link";
 import {
   Sparkles,
-  ArrowRight,
-  ArrowUpRight,
-  BookOpen,
   Check,
-  Compass,
-  Layers,
-  HelpCircle,
-  ShieldCheck,
   ChevronDown,
-  Download,
-  BookMarked,
-  RotateCcw
+  RotateCcw,
 } from "lucide-react";
 import { BOOKS_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 
@@ -182,21 +174,6 @@ export function BooksJourneyExperience() {
     {
       q: "How long does it take to complete the workbook?",
       a: "The Toolkit is designed as a self-paced 5-week or 10-week practice. Most readers spend 30–45 minutes with each chapter's exercises, returning to key worksheets whenever specific triggers arise.",
-    },
-  ];
-
-  const centreFaqs = [
-    {
-      q: "What is the key difference between Finding The Centre and The Psychology Toolkit?",
-      a: "The Psychology Toolkit is an active, structured workbook with worksheets and exercises (Understand → Reflect → Practice → Track → Grow). Finding The Centre is a reflective, philosophical handbook focused on mindfulness, cognitive quiet, and regaining stillness.",
-    },
-    {
-      q: "What formats are available for Finding The Centre?",
-      a: "Finding The Centre is available in both a Digital eBook edition (PDF & EPUB) and a Collector Hardcover Print edition for physical libraries.",
-    },
-    {
-      q: "Can I read Finding The Centre before The Toolkit?",
-      a: "Yes. Both volumes are standalone works created within the same intellectual world. Many readers begin with Finding The Centre to establish quiet, then use The Toolkit for structured cognitive exercises.",
     },
   ];
 
@@ -588,12 +565,14 @@ export function BooksJourneyExperience() {
                 </div>
 
                 <div className="mt-8">
-                  <Link
+                  <LiquidGlassButton
                     href="/books/psychology-toolkit"
-                    className="w-full text-center py-4 rounded-full bg-[#CBA258] text-[#0F2038] font-bold text-xs uppercase tracking-wider block hover:bg-[#E5BE78] transition-colors shadow-lg"
+                    variant="primary"
+                    size="md"
+                    className="w-full"
                   >
                     Enquire About The Psychology Toolkit
-                  </Link>
+                  </LiquidGlassButton>
                   <p className="mt-4 text-[11px] font-sans text-ivory/70 leading-relaxed">
                     {CHECKOUT_NOTICE}
                   </p>
@@ -692,12 +671,14 @@ export function BooksJourneyExperience() {
                     </div>
                   </div>
                   <div className="mt-8">
-                    <Link
+                    <LiquidGlassButton
                       href="/books/finding-the-centre"
-                      className="w-full text-center py-3 rounded-full bg-white text-[#0F2038] font-bold text-xs uppercase tracking-wider block hover:bg-[#7B9B8A] hover:text-white transition-colors"
+                      variant="secondary"
+                      size="md"
+                      className="w-full"
                     >
                       Acquire eBook
-                    </Link>
+                    </LiquidGlassButton>
                   </div>
                 </div>
 
@@ -715,12 +696,14 @@ export function BooksJourneyExperience() {
                     </div>
                   </div>
                   <div className="mt-8">
-                    <Link
+                    <LiquidGlassButton
                       href="/books/finding-the-centre"
-                      className="w-full text-center py-3 rounded-full bg-white text-[#0F2038] font-bold text-xs uppercase tracking-wider block hover:bg-[#7B9B8A] hover:text-white transition-colors"
+                      variant="secondary"
+                      size="md"
+                      className="w-full"
                     >
                       Order Hardcover
-                    </Link>
+                    </LiquidGlassButton>
                   </div>
                 </div>
               </div>
@@ -792,12 +775,13 @@ export function BooksJourneyExperience() {
                 </span>
               </div>
 
-              <Link
+              <LiquidGlassButton
                 href="/books/bundles"
-                className="px-8 py-4 rounded-full bg-[#CBA258] text-[#0F2038] font-bold text-xs uppercase tracking-widest hover:bg-[#E5BE78] transition-colors shadow-lg"
+                variant="primary"
+                size="md"
               >
                 Claim Dual Companion Bundle
-              </Link>
+              </LiquidGlassButton>
             </div>
           </div>
         </div>

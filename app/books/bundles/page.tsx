@@ -1,16 +1,16 @@
 import * as React from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
+
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BOOKS_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 import { BOOK_BUYING_FAQS } from "@/data/books";
 import { FaqAccordion } from "@/components/ui/faq-accordion";
-import { ArrowRight, Info, ShieldCheck } from "lucide-react";
+import { Info, ShieldCheck } from "lucide-react";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export const metadata: Metadata = {
+export const metadata: Metadata = {
   title: "Complete Psychology & Inner Work Bundle — PillowDreamWorks Foundation",
   description:
     "Get The Psychology Toolkit (80-page workbook) together with Finding The Centre (eBook edition) as one digital collection.",

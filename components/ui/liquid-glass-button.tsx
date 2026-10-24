@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
  * - Reduced motion & Touchscreens respected
  */
 export const liquidGlassVariants = cva(
-  "group relative inline-flex items-center justify-center font-['Space_Grotesk',var(--font-space-grotesk),var(--font-inter),sans-serif] font-medium tracking-wide antialiased select-none cursor-pointer rounded-full transition-all duration-[350ms] ease-out disabled:pointer-events-none disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF3E3E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF8F5] active:scale-[0.97] overflow-hidden leading-none",
+  "group relative inline-flex items-center justify-center text-center font-display font-medium tracking-wide antialiased select-none cursor-pointer rounded-full transition-all duration-[350ms] ease-out disabled:pointer-events-none disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF3E3E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF8F5] active:scale-[0.97] overflow-hidden leading-tight",
   {
     variants: {
       variant: {
@@ -209,7 +209,7 @@ export const LiquidGlassButton = React.forwardRef<
           </span>
         )}
 
-        <span className="relative z-10 flex items-center gap-2 whitespace-nowrap">
+        <span className="relative z-10 flex min-w-0 items-center gap-2">
           {children}
         </span>
 
@@ -288,18 +288,18 @@ export const LiquidGlassButton = React.forwardRef<
 
     // Interactive button element
     return (
-      <LiquidGlassButton
+      <button
         ref={ref as React.Ref<HTMLButtonElement>}
         className={classes}
         style={inlineStyle}
         disabled={disabled}
         type={(props as React.ButtonHTMLAttributes<HTMLButtonElement>).type || "button"}
-        onPointerMove={handlePointerMove as React.PointerEventHandler<HTMLButtonElement>}
-        onPointerLeave={handlePointerLeave as React.PointerEventHandler<HTMLButtonElement>}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
         {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
       >
         {content}
-      </LiquidGlassButton>
+      </button>
     );
   }
 );

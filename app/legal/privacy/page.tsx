@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/container";
 import { LegalReviewNotice } from "@/components/legal/legal-review-notice";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export const metadata: Metadata = {
+export const metadata: Metadata = {
   title: "Privacy Policy — PillowDreamWorks Foundation",
   description: "Privacy policy and data governance practices of PillowDreamWorks Foundation.",
 };

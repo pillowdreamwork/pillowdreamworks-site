@@ -46,6 +46,7 @@
   /* Typography */
   --font-serif: var(--font-libre-baskerville), Georgia, serif;
   --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-space-grotesk), "Space Grotesk", system-ui, -apple-system, sans-serif;
 }
 
 
@@ -53,11 +54,9 @@
    Base Resets & Defaults
    ═══════════════════════════════════════════════════════════════════════════ */
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* Tailwind Preflight already resets margin/padding/box-sizing in the base
+   layer. A universal reset here would be unlayered and therefore override
+   every margin/padding utility (mx-auto, px-*, py-*), so it must not exist. */
 
 html {
   scroll-behavior: smooth;

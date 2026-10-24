@@ -5,32 +5,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Sparkles,
-  BookOpen,
   Brain,
   HeartHandshake,
   ArrowRight,
-  ArrowUpRight,
-  Shield,
-  Clock,
-  Compass,
-  Check,
-  Flame,
-  Volume2,
   VolumeX,
-  Play,
   X,
   Search,
-  Filter,
-  Layers,
   Send,
-  HelpCircle,
-  Activity,
-  AlertTriangle,
-  Award,
-  FileText
 } from "lucide-react";
 import { Canvas3DHero } from "@/components/studio/canvas-3d-hero";
-import { LiquidButton, MetalButton } from "@/components/ui/liquid-glass-button";
+import { LiquidGlassButton, LiquidButton, MetalButton } from "@/components/ui/liquid-glass-button";
 import { BOOKS_PRICING } from "@/data/pricing";
 
 interface AssessmentSample {
@@ -54,7 +38,7 @@ export function FoundationExperience() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedAssessment, setSelectedAssessment] = useState<AssessmentSample | null>(null);
-  const [activeTestStep, setActiveTestStep] = useState<number>(0);
+  const [, setActiveTestStep] = useState<number>(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [reflectionText, setReflectionText] = useState("");
   const [reflectionSaved, setReflectionSaved] = useState(false);
@@ -294,13 +278,13 @@ export function FoundationExperience() {
               )}
             </LiquidGlassButton>
 
-            <Link
+            <LiquidGlassButton
               href="/books/psychology-toolkit"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black hover:bg-[#1A1D26] text-white text-xs md:text-sm font-semibold tracking-tight transition-all duration-200 shadow-[0_6px_10px_rgba(0,0,0,0.08)] hover:-translate-y-0.5"
+              variant="primary"
+              size="md"
             >
               <span>Get The Toolkit</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-[#00FFFF]" />
-            </Link>
+            </LiquidGlassButton>
           </div>
         </div>
       </header>
@@ -473,13 +457,13 @@ export function FoundationExperience() {
               </div>
 
               <div className="mt-10 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-                <Link
+                <LiquidGlassButton
                   href="/books/psychology-toolkit"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider hover:bg-[#00FFFF] transition-colors"
+                  variant="secondary"
+                  size="md"
                 >
                   <span>Acquire Toolkit Now</span>
-                  <ArrowUpRight className="w-4 h-4 text-black" />
-                </Link>
+                </LiquidGlassButton>
                 <span className="text-xs font-mono text-zinc-500">Instant PDF &amp; Worksheet Delivery</span>
               </div>
             </div>
@@ -524,13 +508,13 @@ export function FoundationExperience() {
               </div>
 
               <div className="mt-10 pt-6 border-t border-zinc-200 flex items-center justify-between">
-                <Link
+                <LiquidGlassButton
                   href="/books/finding-the-centre"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-black text-white font-bold text-xs uppercase tracking-wider hover:bg-zinc-800 transition-colors"
+                  variant="primary"
+                  size="md"
                 >
                   <span>Explore Finding The Centre</span>
-                  <ArrowUpRight className="w-4 h-4 text-[#00FFFF]" />
-                </Link>
+                </LiquidGlassButton>
               </div>
             </div>
           </div>
@@ -651,13 +635,13 @@ export function FoundationExperience() {
           </div>
 
           <div className="mt-12 text-center">
-            <Link
+            <LiquidGlassButton
               href="/assessments"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-black text-white text-xs font-mono uppercase tracking-widest font-bold hover:bg-zinc-800 transition-all shadow-md"
+              variant="primary"
+              size="md"
             >
               <span>View Complete 177 Psychometric Archive</span>
-              <ArrowRight className="w-4 h-4 text-[#00FFFF]" />
-            </Link>
+            </LiquidGlassButton>
           </div>
         </div>
       </section>
@@ -702,12 +686,14 @@ export function FoundationExperience() {
               </div>
 
               <div className="pt-6 border-t border-white/10">
-                <Link
+                <LiquidGlassButton
                   href="/services"
-                  className="w-full text-center py-3 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider block hover:bg-[#00FFFF] transition-colors"
+                  variant="secondary"
+                  size="md"
+                  className="w-full"
                 >
                   Schedule Initial Consultation
-                </Link>
+                </LiquidGlassButton>
               </div>
             </div>
 
@@ -729,12 +715,14 @@ export function FoundationExperience() {
               </div>
 
               <div className="pt-6 border-t border-white/10">
-                <Link
+                <LiquidGlassButton
                   href="/services"
-                  className="w-full text-center py-3 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider block hover:bg-[#CBA258] transition-colors"
+                  variant="secondary"
+                  size="md"
+                  className="w-full"
                 >
                   Order Graphotherapy Audit
-                </Link>
+                </LiquidGlassButton>
               </div>
             </div>
 
@@ -757,12 +745,14 @@ export function FoundationExperience() {
               </div>
 
               <div className="pt-6 border-t border-white/10">
-                <Link
+                <LiquidGlassButton
                   href="/services#crisis"
-                  className="w-full text-center py-3 rounded-full bg-[#FF3333] text-white font-bold text-xs uppercase tracking-wider block hover:bg-red-600 transition-colors"
+                  variant="crisis"
+                  size="md"
+                  className="w-full"
                 >
                   View National Crisis Helplines
-                </Link>
+                </LiquidGlassButton>
               </div>
             </div>
           </div>
@@ -1051,12 +1041,13 @@ export function FoundationExperience() {
             {/* Modal Actions */}
             <div className="pt-6 border-t border-white/10 flex items-center justify-between">
               <span className="text-xs font-mono text-zinc-500">{selectedAssessment.clinicalBasis}</span>
-              <Link
+              <LiquidGlassButton
                 href="/assessments"
-                className="px-6 py-3 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider hover:bg-[#00FFFF] transition-colors"
+                variant="secondary"
+                size="md"
               >
                 Launch Full Standardized Scale
-              </Link>
+              </LiquidGlassButton>
             </div>
           </div>
         </div>

@@ -1,5 +1,7 @@
-import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 "use client";
+
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
+
 
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -183,7 +185,7 @@ export function ScrollNavigator() {
       {/* ── MOBILE / TABLET DISCREET READING PILL (bottom-right) ── */}
       <aside
         aria-label="Current chapter indicator"
-        className="xl:hidden fixed bottom-16 right-4 z-40 pointer-events-auto"
+        className={`xl:hidden fixed bottom-16 right-4 z-40 transition-opacity duration-300 ${hasScrolled ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
       >
         <LiquidGlassButton
           onClick={() => {

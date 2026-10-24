@@ -1,9 +1,11 @@
-import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 "use client";
+
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
+
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Volume2, VolumeX, Menu, X, ArrowUpRight } from "lucide-react";
+import { VolumeX, Menu, X, ArrowUpRight } from "lucide-react";
 
 interface StudioNavbarProps {
   isAudioActive: boolean;
