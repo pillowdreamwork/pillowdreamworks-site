@@ -16,6 +16,7 @@ export interface ParticipantProfile {
   gender: string;
   education: string;
   occupation: string;
+  country: string;
   marketingConsent: boolean;
   registeredAt: string;
 }
@@ -115,6 +116,7 @@ export function AssessmentRegistrationGate({
       gender,
       education,
       occupation,
+      country,
       marketingConsent,
       registeredAt: new Date().toISOString(),
     };
@@ -309,6 +311,30 @@ export function AssessmentRegistrationGate({
                     <option value="Other">Other</option>
                   </select>
                   {errors.occupation && <p className="text-[11px] text-red-600 font-medium">{errors.occupation}</p>}
+                </div>
+
+                {/* Country */}
+                <div className="space-y-1.5">
+                  <label htmlFor="intake-country" className="text-xs font-semibold text-[#202923] flex items-center gap-1">
+                    <span>Country / Region</span>
+                  </label>
+                  <select
+                    id="intake-country"
+                    name="country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="w-full px-4 py-2.5 rounded-full bg-white border border-[#24483B]/20 text-sm text-[#202923] focus:outline-none focus:ring-2 focus:ring-[#C6A46A] cursor-pointer"
+                  >
+                    <option value="Prefer not to say">Prefer not to say</option>
+                    <option value="India">India</option>
+                    <option value="United States">United States</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Germany">Germany</option>
+                    <option value="France">France</option>
+                    <option value="Other">Other</option>
+                  </select>
                 </div>
               </div>
 
