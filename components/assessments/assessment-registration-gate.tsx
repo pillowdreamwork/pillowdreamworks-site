@@ -128,15 +128,15 @@ export function AssessmentRegistrationGate({
       aria-labelledby="registration-gate-title"
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#151C17]/80 backdrop-blur-md overflow-y-auto animate-fadeIn"
     >
-      <div className="bg-[#FDFBF7] text-[#202923] max-w-2xl w-full rounded-3xl border border-white/40 shadow-2xl overflow-hidden my-6 relative max-h-[92vh] flex flex-col">
+      <div className="glass-surface text-ink max-w-2xl w-full rounded-3xl border border-white/60 shadow-2xl overflow-hidden my-6 relative max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="p-6 sm:p-8 bg-[#F5EFE6]/90 border-b border-[#24483B]/10 flex items-start justify-between gap-4">
+        <div className="p-6 sm:p-8 glass-content-card border-b border-sage/15 flex items-start justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#24483B] text-[#FDFBF7]">
+              <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-forest text-ivory">
                 {targetAssessmentIsPaid ? "Clinical Intake Gate" : "Mandatory Assessment Intake"}
               </span>
-              <span className="text-xs text-[#202923]/60 font-sans">
+              <span className="text-xs text-ink-muted/70 font-sans">
                 Step {step === "profile" ? "1 of 2: Profile" : "2 of 2: Informed Consent"}
               </span>
             </div>

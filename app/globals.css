@@ -231,6 +231,173 @@ select:focus-visible {
 
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   Premium Glassmorphism Page Surfaces
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Hero Glass Panel — deep frosted ivory with sage edge glow */
+.glass-hero-panel {
+  background: linear-gradient(
+    165deg,
+    rgba(253, 251, 247, 0.92) 0%,
+    rgba(245, 239, 230, 0.88) 50%,
+    rgba(253, 251, 247, 0.85) 100%
+  );
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border: 1px solid rgba(36, 72, 59, 0.12);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 0 rgba(36, 72, 59, 0.04),
+    0 8px 40px -6px rgba(32, 41, 35, 0.08),
+    0 2px 8px -2px rgba(36, 72, 59, 0.04);
+}
+
+/* Content Glass Card — translucent cream surface with sage accent edge */
+.glass-content-card {
+  background: linear-gradient(
+    140deg,
+    rgba(253, 251, 247, 0.82) 0%,
+    rgba(245, 239, 230, 0.78) 100%
+  );
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(36, 72, 59, 0.10);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.55),
+    0 4px 24px -4px rgba(32, 41, 35, 0.06),
+    0 1px 4px -1px rgba(32, 41, 35, 0.04);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-content-card:hover {
+  background: linear-gradient(
+    140deg,
+    rgba(253, 251, 247, 0.92) 0%,
+    rgba(245, 239, 230, 0.88) 100%
+  );
+  border-color: rgba(36, 72, 59, 0.18);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.65),
+    0 12px 40px -6px rgba(32, 41, 35, 0.1),
+    0 4px 12px -2px rgba(36, 72, 59, 0.06);
+}
+
+/* Section Glass Container — large wrapper with soft sage border glow */
+.glass-section {
+  background: linear-gradient(
+    175deg,
+    rgba(253, 251, 247, 0.78) 0%,
+    rgba(245, 239, 230, 0.72) 40%,
+    rgba(220, 231, 221, 0.15) 100%
+  );
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  border: 1px solid rgba(36, 72, 59, 0.10);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 0 rgba(36, 72, 59, 0.03),
+    0 16px 64px -8px rgba(32, 41, 35, 0.06);
+}
+
+/* Modal Glass Overlay — deep frosted backdrop with cream surface */
+.glass-modal {
+  background: linear-gradient(
+    160deg,
+    rgba(253, 251, 247, 0.96) 0%,
+    rgba(245, 239, 230, 0.94) 100%
+  );
+  backdrop-filter: blur(32px) saturate(1.8);
+  -webkit-backdrop-filter: blur(32px) saturate(1.8);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.8),
+    0 24px 80px -12px rgba(32, 41, 35, 0.18),
+    0 8px 24px -4px rgba(32, 41, 35, 0.08);
+}
+
+/* Floating 3D Console Glass */
+.glass-3d-console {
+  background: linear-gradient(
+    180deg,
+    rgba(245, 239, 230, 0.75) 0%,
+    rgba(253, 251, 247, 0.65) 100%
+  );
+  backdrop-filter: blur(32px) saturate(1.6);
+  -webkit-backdrop-filter: blur(32px) saturate(1.6);
+  border: 1px solid rgba(36, 72, 59, 0.12);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 0 rgba(36, 72, 59, 0.04),
+    0 16px 60px -8px rgba(32, 41, 35, 0.08),
+    0 4px 16px -4px rgba(36, 72, 59, 0.04);
+}
+
+/* Dark Glass Card (premium tier cards) */
+.glass-dark-card {
+  background: linear-gradient(
+    160deg,
+    rgba(21, 28, 23, 0.95) 0%,
+    rgba(32, 41, 35, 0.92) 100%
+  );
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.3),
+    0 16px 48px -6px rgba(0, 0, 0, 0.25),
+    0 4px 12px -2px rgba(0, 0, 0, 0.15);
+}
+
+/* Vermilion Accent Glow — subtle warm halo */
+.vermilion-glow {
+  box-shadow: 0 0 24px -6px rgba(232, 93, 63, 0.25);
+}
+
+/* Sage Edge Luminescence */
+.sage-edge-glow {
+  box-shadow:
+    0 0 0 1px rgba(166, 183, 161, 0.2),
+    0 0 20px -4px rgba(166, 183, 161, 0.15);
+}
+
+/* Forest Accent Line */
+.forest-accent-top {
+  border-top: 2px solid rgba(36, 72, 59, 0.2);
+}
+
+.forest-accent-left {
+  border-left: 3px solid rgba(36, 72, 59, 0.15);
+}
+
+/* Ambient background shimmer for page-level decoration */
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-orb-sage {
+  background: radial-gradient(circle, rgba(166, 183, 161, 0.5) 0%, transparent 70%);
+}
+
+.ambient-orb-gold {
+  background: radial-gradient(circle, rgba(198, 164, 106, 0.4) 0%, transparent 70%);
+}
+
+.ambient-orb-vermilion {
+  background: radial-gradient(circle, rgba(232, 93, 63, 0.2) 0%, transparent 70%);
+}
+
+.ambient-orb-ivory {
+  background: radial-gradient(circle, rgba(253, 251, 247, 0.6) 0%, transparent 70%);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
    Animations
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -246,6 +413,56 @@ select:focus-visible {
 
 .animate-fadeIn {
   animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes orbDrift {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(20px, -15px); }
+  66% { transform: translate(-10px, 10px); }
+  100% { transform: translate(0, 0); }
+}
+
+.animate-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+}
+
+.animate-orb-drift {
+  animation: orbDrift 12s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

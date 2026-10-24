@@ -117,27 +117,50 @@ export function KnowledgeArchiveCanvas({
       topicMeshes.push({ mesh: card, data: t });
     });
 
-    // Particle field
-    const particleCount = 200;
+    // Particle field (Ivory, Sage, Gold, Vermilion)
+    const particleCount = 240;
     const particleGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
+    const pColors = new Float32Array(particleCount * 3);
+
+    const ivoryCol = new THREE.Color(0xFDFBF7);
+    const sageCol = new THREE.Color(0x8FA89E);
+    const goldCol = new THREE.Color(0xC6A46A);
+    const vermilionCol = new THREE.Color(0xE85D3F);
+
     for (let i = 0; i < particleCount; i++) {
       positions[i * 3] = (Math.random() - 0.5) * 8;
       positions[i * 3 + 1] = (Math.random() - 0.5) * 4;
       positions[i * 3 + 2] = (Math.random() - 0.5) * 6;
+
+      const rnd = Math.random();
+      const mixed =
+        rnd > 0.75
+          ? vermilionCol
+          : rnd > 0.5
+          ? sageCol
+          : rnd > 0.25
+          ? goldCol
+          : ivoryCol;
+
+      pColors[i * 3] = mixed.r;
+      pColors[i * 3 + 1] = mixed.g;
+      pColors[i * 3 + 2] = mixed.b;
     }
     particleGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    particleGeo.setAttribute("color", new THREE.BufferAttribute(pColors, 3));
+
     const particleMat = new THREE.PointsMaterial({
-      size: 0.035,
-      color: 0xC5A880,
+      size: 0.042,
+      vertexColors: true,
       transparent: true,
-      opacity: 0.4,
+      opacity: 0.5,
     });
     const particles = new THREE.Points(particleGeo, particleMat);
     mainGroup.add(particles);
 
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 1.4);
+    // Dynamic 3D Lighting — Warm Ivory, Gold, Vermilion Rim, & Forest Ambient
+    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 1.3);
     scene.add(ambientLight);
 
     const dirLight = new THREE.DirectionalLight(0xFDFBF7, 2.0);
@@ -147,6 +170,14 @@ export function KnowledgeArchiveCanvas({
     const goldPoint = new THREE.PointLight(0xC6A46A, 2.2, 10);
     goldPoint.position.set(-3, -2, 4);
     scene.add(goldPoint);
+
+    const vermilionPoint = new THREE.PointLight(0xE85D3F, 2.2, 9);
+    vermilionPoint.position.set(3, -2, 2);
+    scene.add(vermilionPoint);
+
+    const forestPoint = new THREE.PointLight(0x24483B, 2.0, 9);
+    forestPoint.position.set(-3, 2, -2);
+    scene.add(forestPoint);
 
     // Mouse Interaction
     let mouseX = 0;
@@ -294,17 +325,20 @@ export function KnowledgeArchiveCanvas({
     <div className={`relative w-full h-[300px] sm:h-[380px] select-none ${className || ""}`}>
       <div ref={containerRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
 
-      <div className="absolute top-4 left-4 pointer-events-none flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#151C17]/85 text-[#FDFBF7] text-[11px] font-medium backdrop-blur-md border border-white/15 shadow-sm">
-        <span className="w-2 h-2 rounded-full bg-[#C5A880] animate-ping" />
-        <span>Interactive 3D Reading Archive</span>
-        <span className="text-white/40 hidden sm:inline">| Drag to orbit • Click cards to filter</span>
+      <div className="absolute top-4 left-4 pointer-events-none flex items-center gap-2.5 px-4 py-2 rounded-full glass-content-card border border-sage/25 text-ink text-[11px] font-medium shadow-md">
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-vermilion opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-vermilion shadow-[0_0_8px_rgba(232,93,63,0.7)]" />
+        </span>
+        <span className="font-semibold text-forest">Interactive 3D Reading Archive</span>
+        <span className="text-ink-muted/60 hidden sm:inline">| Drag to orbit • Click cards to filter</span>
       </div>
 
       {hoveredTopic && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none px-4 py-2 rounded-full bg-[#FDFBF7]/90 backdrop-blur-xl border border-[#24483B]/20 text-[#151C17] text-xs font-serif font-semibold shadow-lg animate-fadeIn flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#24483B]" />
-          <span>{hoveredTopic}</span>
-          <span className="text-[10px] font-sans font-normal text-navy/60">Click to filter articles</span>
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none px-5 py-2.5 rounded-full glass-card border border-forest/25 text-ink text-xs font-serif font-semibold shadow-xl animate-fadeIn flex items-center gap-2.5">
+          <span className="w-2 h-2 rounded-full bg-forest" />
+          <span className="text-forest font-bold">{hoveredTopic}</span>
+          <span className="text-[10px] font-sans font-normal text-ink-muted">· Click to filter collection</span>
         </div>
       )}
     </div>

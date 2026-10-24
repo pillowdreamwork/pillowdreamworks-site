@@ -333,14 +333,17 @@ ${interpretationResult.note}
       </div>
 
       {/* 2. INTERACTIVE 3D MIND MATRIX CONSOLE */}
-      <div className="bg-[#FDFBF7]/85 backdrop-blur-2xl border border-[#24483B]/15 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#24483B]/10 pb-4">
+      <div className="glass-section border border-sage/20 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-sage/15 pb-4">
           <div>
-            <div className="text-xs font-semibold text-[#24483B] uppercase tracking-wider flex items-center gap-2">
-              <Compass className="w-4 h-4 text-[#24483B]" />
+            <div className="text-xs font-semibold text-forest uppercase tracking-wider flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-vermilion opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-vermilion shadow-[0_0_8px_rgba(232,93,63,0.7)]" />
+              </span>
               <span>Interactive Psychometric Exploration</span>
             </div>
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#202923] mt-0.5">
+            <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink mt-1">
               3D Neural Domain Constellation
             </h2>
           </div>
@@ -358,7 +361,7 @@ ${interpretationResult.note}
         </div>
 
         {viewMode === "3d" && (
-          <div className="rounded-2xl overflow-hidden bg-gradient-to-b from-[#F5EFE6]/60 to-[#FDFBF7]/40 border border-[#24483B]/10">
+          <div className="rounded-3xl overflow-hidden glass-card border border-sage/25 shadow-inner">
             <PsychometricMindCanvas
               selectedDomain={selectedDomain}
               onSelectDomain={(domKey) => {
@@ -371,9 +374,9 @@ ${interpretationResult.note}
         )}
 
         {/* Top Controls: 5 Liquid Glass Pill Tabs */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-5 border-b border-[#24483B]/10 pb-6 pt-2">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-5 border-b border-sage/15 pb-6 pt-2">
           {/* Filter Pills */}
-          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-full bg-[#F5EFE6]/70 border border-[#24483B]/10 backdrop-blur-md">
+          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-full glass-pill border border-sage/20 backdrop-blur-xl">
             <LiquidGlassButton
               type="button"
               onClick={() => setActiveTab("all")}
@@ -431,9 +434,9 @@ ${interpretationResult.note}
           </div>
 
           {/* Results Counter */}
-          <div className="text-xs font-semibold text-[#202923]/60 flex items-center gap-2 self-center lg:self-auto px-4 py-2 rounded-full bg-white/40 border border-[#24483B]/10">
+          <div className="text-xs font-semibold text-ink-muted flex items-center gap-2 self-center lg:self-auto px-4 py-2 rounded-full glass-content-card border border-sage/20 shadow-xs">
             <span>Displaying</span>
-            <strong className="text-[#202923] text-sm font-serif">{filteredAssessments.length}</strong>
+            <strong className="text-forest text-sm font-serif">{filteredAssessments.length}</strong>
             <span>instruments</span>
           </div>
         </div>
@@ -442,25 +445,25 @@ ${interpretationResult.note}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           <div className="md:col-span-8 relative">
             <label htmlFor={searchInputId} className="sr-only">Search assessments</label>
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#202923]/40 pointer-events-none" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted/50 pointer-events-none" />
             <input
               id={searchInputId}
               type="text"
               placeholder="Search by instrument name, code, domain, or clinical keyword (e.g. anxiety, bdi, trauma, big five, rorschach)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-5 py-3 rounded-full bg-white/70 backdrop-blur-md border border-[#24483B]/15 text-sm text-[#202923] placeholder:text-[#202923]/40 focus:outline-none focus:ring-2 focus:ring-[#C6A46A] min-h-[44px] transition-all shadow-xs"
+              className="w-full pl-11 pr-5 py-3 rounded-full glass-input text-sm text-ink placeholder:text-ink-muted/50 focus:outline-none focus:ring-2 focus:ring-gold min-h-[44px] transition-all shadow-xs"
             />
           </div>
 
           <div className="md:col-span-4 relative">
             <label htmlFor={domainSelectId} className="sr-only">Filter by psychological domain</label>
-            <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#202923]/40 pointer-events-none" />
+            <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted/50 pointer-events-none" />
             <select
               id={domainSelectId}
               value={selectedDomain}
               onChange={(e) => setSelectedDomain(e.target.value)}
-              className="w-full pl-11 pr-10 py-3 rounded-full bg-white/70 backdrop-blur-md border border-[#24483B]/15 text-xs sm:text-sm font-medium text-[#202923] focus:outline-none focus:ring-2 focus:ring-[#C6A46A] min-h-[44px] transition-all appearance-none cursor-pointer shadow-xs"
+              className="w-full pl-11 pr-10 py-3 rounded-full glass-input text-xs sm:text-sm font-medium text-ink focus:outline-none focus:ring-2 focus:ring-gold min-h-[44px] transition-all appearance-none cursor-pointer shadow-xs"
             >
               <option value="all">Filter Domain: All 15 Domains</option>
               {domains
@@ -514,10 +517,10 @@ ${interpretationResult.note}
       </div>
 
       {/* Checkout Notice */}
-      <div className="p-5 rounded-3xl bg-[#F5EFE6]/80 backdrop-blur-md border border-[#24483B]/15 flex items-start gap-3.5 text-sm text-[#202923]/80 shadow-xs">
-        <Info className="w-4 h-4 text-[#24483B] shrink-0 mt-0.5" />
+      <div className="p-5 rounded-3xl glass-content-card border border-sage/20 flex items-start gap-3.5 text-sm text-ink-muted shadow-sm">
+        <Info className="w-4 h-4 text-forest shrink-0 mt-0.5" />
         <p className="font-sans leading-relaxed">
-          <strong className="text-[#202923] font-semibold">{CHECKOUT_NOTICE}</strong> Practitioner-administered
+          <strong className="text-ink font-semibold">{CHECKOUT_NOTICE}</strong> Practitioner-administered
           assessments are currently arranged by enquiry, and free screeners can be taken here at
           no cost.
         </p>
@@ -607,56 +610,58 @@ ${interpretationResult.note}
             return (
               <TiltCard
                 key={item.id}
-                maxTilt={5}
-                className="bg-[#FDFBF7]/90 backdrop-blur-xl rounded-3xl p-7 border border-[#24483B]/15 hover:border-[#24483B]/35 hover:shadow-xl transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
+                maxTilt={6}
+                className="glass-card rounded-3xl p-7 border border-sage/20 hover:border-forest/40 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
               >
                 <div className="space-y-3.5">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#24483B] bg-[#F5EFE6] px-3 py-1 rounded-full border border-[#24483B]/10">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-forest bg-sage/10 px-3 py-1 rounded-full border border-sage/25">
                       {item.domain}
                     </span>
                     {item.isPaid ? (
-                      <span className="px-3 py-1 bg-[#151C17] text-[#FDFBF7] text-[10px] font-bold rounded-full border border-white/10 shadow-xs">
-                        Clinical Battery
+                      <span className="px-3 py-1 bg-ink text-ivory text-[10px] font-bold rounded-full border border-white/20 shadow-xs flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-vermilion animate-pulse-glow" />
+                        <span>Clinical Battery</span>
                       </span>
                     ) : isSourceBacked ? (
-                      <span className="px-3 py-1 bg-emerald-50 text-emerald-800 text-[10px] font-bold rounded-full border border-emerald-200 shadow-xs">
-                        Validated · {item.questions?.length || 0} Qs
+                      <span className="px-3 py-1 bg-sage/15 text-forest text-[10px] font-bold rounded-full border border-sage/30 shadow-xs flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-forest" />
+                        <span>Validated · {item.questions?.length || 0} Qs</span>
                       </span>
                     ) : (
-                      <span className="px-3 py-1 bg-[#F5EFE6] text-[#24483B] text-[10px] font-bold rounded-full border border-[#24483B]/10 shadow-xs">
+                      <span className="px-3 py-1 glass-pill text-forest text-[10px] font-bold rounded-full border border-sage/20 shadow-xs">
                         Educational · {item.questions?.length || 0} Qs
                       </span>
                     )}
                   </div>
 
                   <div>
-                    <div className="text-[10px] text-[#202923]/50 uppercase tracking-wider font-semibold">
+                    <div className="text-[10px] text-ink-muted/60 uppercase tracking-wider font-semibold">
                       {item.breadcrumb}
                     </div>
-                    <h3 className="font-serif text-lg font-bold text-[#202923] group-hover:text-[#24483B] transition-colors mt-0.5 line-clamp-2">
+                    <h3 className="font-serif text-lg font-bold text-ink group-hover:text-forest transition-colors mt-0.5 line-clamp-2">
                       {item.title}
                     </h3>
                   </div>
 
-                  <p className="text-xs text-[#202923]/75 leading-relaxed line-clamp-3 font-sans">
+                  <p className="text-xs text-ink-muted leading-relaxed line-clamp-3 font-sans">
                     {desc}
                   </p>
 
-                  <div className="flex flex-wrap gap-2 text-[11px] text-[#202923]/65 pt-1">
-                    <span className="px-3 py-1 bg-[#F5EFE6]/70 rounded-full border border-[#24483B]/10">
+                  <div className="flex flex-wrap gap-2 text-[11px] text-ink-muted/80 pt-1">
+                    <span className="px-3 py-1 glass-pill rounded-full border border-sage/15">
                       {item.whoCanTake}
                     </span>
                     {item.duration && (
-                      <span className="px-3 py-1 bg-[#F5EFE6]/70 rounded-full border border-[#24483B]/10 flex items-center gap-1.5">
-                        <Clock className="w-3 h-3 text-[#202923]/40" />
+                      <span className="px-3 py-1 glass-pill rounded-full border border-sage/15 flex items-center gap-1.5">
+                        <Clock className="w-3 h-3 text-ink-muted/50" />
                         {item.duration}
                       </span>
                     )}
                   </div>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-[#24483B]/10 space-y-3">
+                <div className="pt-6 mt-6 border-t border-sage/15 space-y-3">
                   {item.isPaid ? (
                     <div className="space-y-3">
                       <div className="flex items-baseline justify-between px-1">
@@ -746,9 +751,9 @@ ${interpretationResult.note}
           aria-labelledby="active-assessment-title"
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#151C17]/80 backdrop-blur-md animate-fadeIn"
         >
-          <div className="bg-[#FDFBF7] text-[#202923] rounded-3xl border border-white/40 shadow-2xl max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden relative">
+          <div className="glass-surface text-ink rounded-3xl border border-white/60 shadow-2xl max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden relative">
             {/* Modal Header */}
-            <div className="p-6 sm:p-7 border-b border-[#24483B]/10 bg-[#F5EFE6]/90 backdrop-blur-md flex items-start justify-between gap-4">
+            <div className="p-6 sm:p-7 border-b border-sage/15 glass-content-card flex items-start justify-between gap-4">
               <div>
                 <div className="text-[10px] text-[#202923]/50 font-bold uppercase tracking-wider">
                   {activeTest.breadcrumb}

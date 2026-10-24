@@ -88,28 +88,39 @@ export function PsychometricMindCanvas({
     const cage = new THREE.Mesh(cageGeo, cageMat);
     group.add(cage);
 
-    // 5. Ambient Particles Dust Field
-    const particleCount = 280;
+    // 5. Ambient Particles Dust Field (Ivory, Sage, Gold, Vermilion)
+    const particleCount = 320;
     const particleGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
 
-    const ivoryColor = new THREE.Color(0xF5F1E9);
-    const goldColor = new THREE.Color(0xC5A880);
+    const ivoryColor = new THREE.Color(0xFDFBF7);
+    const sageColor = new THREE.Color(0x8FA89E);
+    const goldColor = new THREE.Color(0xC6A46A);
+    const vermilionColor = new THREE.Color(0xE85D3F);
 
     for (let i = 0; i < particleCount; i++) {
       const u = Math.random();
       const v = Math.random();
       const theta = u * 2.0 * Math.PI;
       const phi = Math.acos(2.0 * v - 1.0);
-      const r = 2.4 + Math.random() * 2.2;
+      const r = 2.4 + Math.random() * 2.4;
       const sinPhi = Math.sin(phi);
 
       positions[i * 3] = r * sinPhi * Math.cos(theta);
       positions[i * 3 + 1] = r * sinPhi * Math.sin(theta);
       positions[i * 3 + 2] = r * Math.cos(phi);
 
-      const mixed = Math.random() > 0.6 ? goldColor : ivoryColor;
+      const rnd = Math.random();
+      const mixed =
+        rnd > 0.75
+          ? vermilionColor
+          : rnd > 0.5
+          ? sageColor
+          : rnd > 0.25
+          ? goldColor
+          : ivoryColor;
+
       colors[i * 3] = mixed.r;
       colors[i * 3 + 1] = mixed.g;
       colors[i * 3 + 2] = mixed.b;
@@ -118,10 +129,10 @@ export function PsychometricMindCanvas({
     particleGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
     const particleMat = new THREE.PointsMaterial({
-      size: 0.045,
+      size: 0.048,
       vertexColors: true,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.55,
     });
     const particles = new THREE.Points(particleGeo, particleMat);
     group.add(particles);
@@ -134,8 +145,8 @@ export function PsychometricMindCanvas({
     DOMAIN_NODES.forEach((node) => {
       const mat = new THREE.MeshStandardMaterial({
         color: node.color,
-        roughness: 0.3,
-        metalness: 0.7,
+        roughness: 0.25,
+        metalness: 0.75,
       });
       const mesh = new THREE.Mesh(sphereGeo, mat);
       mesh.position.set(node.pos[0], node.pos[1], node.pos[2]);
@@ -144,7 +155,7 @@ export function PsychometricMindCanvas({
         color: node.color,
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: 0.4,
+        opacity: 0.45,
       });
       const halo = new THREE.Mesh(haloGeo, haloMat);
       halo.position.copy(mesh.position);
@@ -161,7 +172,7 @@ export function PsychometricMindCanvas({
     const lineMat = new THREE.LineBasicMaterial({
       color: 0xC5A880,
       transparent: true,
-      opacity: 0.16,
+      opacity: 0.18,
     });
 
     for (let i = 0; i < DOMAIN_NODES.length; i++) {
@@ -176,17 +187,25 @@ export function PsychometricMindCanvas({
       }
     }
 
-    // 8. Lights
-    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 1.4);
+    // 8. Dynamic 3D Lights — Ivory, Forest, Gold, & Vermilion
+    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 1.3);
     scene.add(ambientLight);
 
     const dirLight = new THREE.DirectionalLight(0xFDFBF7, 2.0);
     dirLight.position.set(5, 8, 6);
     scene.add(dirLight);
 
-    const goldPoint = new THREE.PointLight(0xC6A46A, 2.5, 12);
+    const goldPoint = new THREE.PointLight(0xC6A46A, 2.2, 12);
     goldPoint.position.set(-3, -2, 4);
     scene.add(goldPoint);
+
+    const vermilionPoint = new THREE.PointLight(0xE85D3F, 2.4, 11);
+    vermilionPoint.position.set(4, -3, 3);
+    scene.add(vermilionPoint);
+
+    const forestPoint = new THREE.PointLight(0x24483B, 2.0, 10);
+    forestPoint.position.set(-4, 3, -2);
+    scene.add(forestPoint);
 
     // 9. Interactive Pointer Drag & Inertia
     let mouseX = 0;
@@ -344,17 +363,20 @@ export function PsychometricMindCanvas({
       <div ref={containerRef} className="w-full h-full cursor-grab active:cursor-grabbing" />
 
       {/* Floating 3D HUD & Instructions */}
-      <div className="absolute top-4 left-4 pointer-events-none flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#151C17]/80 text-[#FDFBF7] text-[11px] font-medium backdrop-blur-md border border-white/15 shadow-sm">
-        <span className="w-2 h-2 rounded-full bg-[#C6A46A] animate-ping" />
-        <span>Interactive 3D Mind Matrix</span>
-        <span className="text-white/40 hidden sm:inline">| Drag to rotate • Click nodes to filter</span>
+      <div className="absolute top-4 left-4 pointer-events-none flex items-center gap-2.5 px-4 py-2 rounded-full glass-content-card border border-sage/25 text-ink text-[11px] font-medium shadow-md">
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-vermilion opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-vermilion shadow-[0_0_8px_rgba(232,93,63,0.7)]" />
+        </span>
+        <span className="font-semibold text-forest">Interactive 3D Mind Matrix</span>
+        <span className="text-ink-muted/60 hidden sm:inline">| Drag to inspect • Click nodes to filter</span>
       </div>
 
       {hoveredNode && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none px-4 py-2 rounded-full bg-[#FDFBF7]/90 backdrop-blur-xl border border-[#24483B]/20 text-[#151C17] text-xs font-serif font-semibold shadow-lg animate-fadeIn flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#24483B]" />
-          <span>{hoveredNode}</span>
-          <span className="text-[10px] font-sans font-normal text-navy/60">Click to filter catalog</span>
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none px-5 py-2.5 rounded-full glass-card border border-forest/25 text-ink text-xs font-serif font-semibold shadow-xl animate-fadeIn flex items-center gap-2.5">
+          <span className="w-2 h-2 rounded-full bg-forest" />
+          <span className="text-forest font-bold">{hoveredNode}</span>
+          <span className="text-[10px] font-sans font-normal text-ink-muted">· Click to isolate domain</span>
         </div>
       )}
     </div>

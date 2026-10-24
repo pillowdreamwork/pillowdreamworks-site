@@ -89,6 +89,7 @@ export const Button = React.forwardRef<
     const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
     const [isHovered, setIsHovered] = React.useState(false);
     const [magnetOffset, setMagnetOffset] = React.useState({ x: 0, y: 0 });
+    const [tiltAngle, setTiltAngle] = React.useState({ rotateX: 0, rotateY: 0 });
 
     const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
       if (disabled) return;
@@ -99,29 +100,41 @@ export const Button = React.forwardRef<
       setMousePos({ x, y });
       setIsHovered(true);
 
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
       if (magnet) {
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
         const deltaX = (x - centerX) * 0.15;
         const deltaY = (y - centerY) * 0.15;
         setMagnetOffset({ x: deltaX, y: deltaY });
       }
+
+      // Interactive 3D Perspective Tilt Physics
+      const normX = (x - centerX) / Math.max(centerX, 1);
+      const normY = (y - centerY) / Math.max(centerY, 1);
+      setTiltAngle({
+        rotateX: -normY * 6.5,
+        rotateY: normX * 6.5,
+      });
     };
 
     const handlePointerLeave = () => {
       setIsHovered(false);
       setMagnetOffset({ x: 0, y: 0 });
+      setTiltAngle({ rotateX: 0, rotateY: 0 });
     };
 
     const isPrimaryLike = variant === "primary" || variant === undefined;
     const shouldShowSignal = signalDot !== undefined ? signalDot : isPrimaryLike && size !== "icon";
 
     const inlineStyle: React.CSSProperties = {
-      transform:
-        magnetOffset.x !== 0 || magnetOffset.y !== 0
-          ? `translate3d(${magnetOffset.x}px, ${magnetOffset.y}px, 0)`
-          : undefined,
-      transition: "transform 220ms cubic-bezier(0.16, 1, 0.3, 1)",
+      transform: isHovered
+        ? `perspective(600px) translate3d(${magnetOffset.x}px, ${magnetOffset.y}px, 6px) rotateX(${tiltAngle.rotateX.toFixed(2)}deg) rotateY(${tiltAngle.rotateY.toFixed(2)}deg)`
+        : "perspective(600px) translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)",
+      transformStyle: "preserve-3d",
+      transition: isHovered
+        ? "transform 140ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease"
+        : "transform 350ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease",
       ...props.style,
     };
 

@@ -186,3 +186,41 @@
    - File: `components/home/learn-preview-section.tsx`
    - Added interactive insight reveal drawers on each PsychSnap note providing somatic & behavioral directives on click.
 
+---
+
+# Phase 4 — Ultra-Luxury Glassmorphism & Interactive 3D Architecture (Assessments, Services, Learn)
+
+- **Date:** 2026-10-25
+- **Design Philosophy:** 1-Million-Dollar Tasteful Editorial Glassmorphism & Interactive 3D Depth
+- **Skills Applied:** `frontend-design`, `frontend-developer`, `3d-web-experience`, `ui-ux-pro-max`, `scroll-experience`, `mobile-design`, `tailwind-patterns`, `react-best-practices`.
+
+## Architecture & Visual Tokens
+1. **Glassmorphism Surfaces (`app/globals.css`)**:
+   - Added `.glass-surface`, `.glass-surface-warm`, `.glass-card`, `.glass-content-card`, `.glass-nav`, `.glass-pill`, `.glass-input`, `.glass-section`.
+   - Frosted ivory (`#FAF8F5`) and cream (`#F4EFEA`) backgrounds with double specular highlights (`inset 0 1px 0 rgba(255,255,255,0.85)`).
+   - Structural borders in sage green (`#8FA89E`, `#7B9B8A`, `#A6B7A1`) and forest green (`#24483B`, `#1E3A2F`).
+   - Signal accents in luminous vermilion (`#E85D3F`) with pulsing depth and glow.
+   - Atmospheric floating orbs with smooth multi-axis drift physics.
+
+2. **Interactive 3D Buttons (`components/ui/liquid-glass-button.tsx` & `components/ui/button.tsx`)**:
+   - Preserved all 9 alive details, all original button variants (`primary`, `secondary`, `gold`, `sage`, `subtle`, `vermilion`, `crisis`), sizes, and HTML/Next.js link capabilities.
+   - Enhanced with **interactive 3D perspective tilt physics** (`perspective(600px) translate3d(...) rotateX(...) rotateY(...)`) dynamically derived from cursor proximity to center.
+   - Smooth 3D spring return inertia and real-time cursor light highlight reflection.
+
+3. **3D Canvases Elevated (`components/3d/`)**:
+   - **`PsychometricMindCanvas`**: 15 domain nodes in 3D sacred geometry cage with 4-color ambient dust field (Ivory, Sage, Gold, Vermilion) and multi-point 3D lighting (Warm Ivory directional, Gold point, Vermilion rim point at `(4, -3, 3)`, Forest green ambient point). Glassmorphism HUD with vermilion pulse dot.
+   - **`TherapeuticSanctuaryCanvas`**: 4 clinical sculptures (Octahedron, Torus, Möbius, Gyroscope) with 220 multi-tone dust particles, vermilion rim light, and glassmorphism HUD.
+   - **`KnowledgeArchiveCanvas`**: Interactive origami mind archive with equatorial ring, multi-tone particle dust, dynamic vermilion rim light, and glassmorphic HUD.
+
+4. **Page Implementations**:
+   - **`app/assessments/page.tsx` & `components/assessments/assessment-centre.tsx`**:
+     - Editorial hero with vermilion signal dot, 3D Neural Constellation console, glass filter pill tabs, glass search input & domain dropdown, 177 luxury 3D tilt cards, glass checkout notice, and frosted test runner modals.
+   - **`app/services/page.tsx`**:
+     - Therapeutic Sanctuary 3D console, 1-on-1 consultation cards, CentreLine crisis de-escalation bar with 24/7 helpline badges, Graphotherapy subconscious alignment tier, and masterclasses.
+   - **`app/learn/page.tsx`**:
+     - 3D Knowledge Archive origami console, category filter pills, search bar, PsychSnaps and editorial essay tilt cards, and full interactive sliding reading drawer.
+
+## Verification
+- `npx tsc --noEmit` → 0 errors ✓
+- `npm run build` → 22 static pages generated successfully ✓
+
