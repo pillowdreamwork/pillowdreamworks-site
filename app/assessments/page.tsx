@@ -2,42 +2,29 @@ import * as React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { AssessmentCentre } from "@/components/assessments/assessment-centre";
-import { ShieldAlert } from "lucide-react";
+import { ShieldAlert, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Psychological Assessment Centre — PillowDreamWorks Foundation",
   description:
-    "Explore 16 standardized clinical psychometrics, projective protocols, personality inventories (HAM-A, BDI-II, 16PF, Rorschach, TAT, MMPI, WAIS-IV) and free self-inventories.",
+    "Explore 177 clinical psychometrics, 32 source-backed screeners, 112 educational scales, and 16 practitioner batteries across 15 psychological domains with 3D Mind Matrix.",
 };
 
 export default function AssessmentsPage() {
   return (
-    <main className="min-h-screen bg-ivory text-navy py-12 sm:py-20">
+    <main className="min-h-screen bg-[#FAF9F5] text-[#1A2A4A] py-12 sm:py-20">
       <Container>
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-          <span className="text-xs font-semibold uppercase tracking-widest text-sage-dark block">
-            Clinical Psychometrics & Structured Insight
-          </span>
-          <h1 className="font-serif text-4xl sm:text-5xl font-normal tracking-tight text-navy">
-            The Psychological Assessment Centre
-          </h1>
-          <p className="text-base sm:text-lg text-navy/75 leading-relaxed font-sans">
-            A comprehensive catalog of standardized screening instruments, personality scales, and practitioner-evaluated projective diagnostics.
-          </p>
-        </div>
-
-        {/* Master Catalog Component */}
+        {/* Master Assessment Centre Component with Interactive 3D Mind Matrix */}
         <AssessmentCentre />
 
         {/* Global Assessment Safety Notice */}
-        <div className="mt-20 p-6 rounded-2xl bg-cream border border-navy/15 text-xs text-navy/75 leading-relaxed space-y-2">
-          <div className="flex items-center gap-2 font-semibold text-navy">
-            <ShieldAlert className="w-4 h-4 text-sage-dark" />
-            <span>Ethical Standards & Psychometric Boundaries</span>
+        <div className="mt-20 p-6 rounded-3xl bg-[#F5F1E9] border border-[#24483B]/15 text-xs text-[#1A2A4A]/75 leading-relaxed space-y-2 font-sans shadow-xs">
+          <div className="flex items-center gap-2 font-semibold text-[#1A2A4A]">
+            <ShieldAlert className="w-4 h-4 text-[#24483B]" />
+            <span>Ethical Standards &amp; Psychometric Boundaries</span>
           </div>
           <p>
-            Standardized psychological instruments (such as WAIS-IV, MMPI, 16PF, and projective tests like Rorschach & TAT) require qualitative scoring and clinical interpretation by trained practitioners. These tools are provided for self-reflection, psychoeducational insight, and pre-consultation screening. They should not be utilized as autonomous psychiatric verdicts without professional consultation.
+            Standardized psychological instruments (such as WAIS-IV, MMPI, 16PF, and projective tests like Rorschach &amp; TAT) require qualitative scoring and clinical interpretation by trained practitioners. These tools are provided for self-reflection, psychoeducational insight, and pre-consultation screening. They should not be utilized as autonomous psychiatric verdicts without professional consultation.
           </p>
         </div>
       </Container>
