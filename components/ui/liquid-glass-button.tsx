@@ -2,47 +2,57 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * The 9 Details that turn a default button into one that feels ALIVE:
- * 1. Size: at least 44px (min-h-[44px] with generous padding)
- * 2. Shape: a full pill (rounded-full)
- * 3. Type: a real font (refined typography, tracking-wide, clear contrast)
- * 4. Color: almost black (#151C17 / rgba(21, 28, 23, 0.94))
- * 5. Signal: one red dot (luminous, pulsing vermilion dot indicator)
- * 6. Hover: the arrow turns (350ms smooth rotation)
- * 7. Light: a glow follows your cursor (radial gradient light overlay)
- * 8. Magnet: it leans toward you (smooth magnetic displacement toward pointer)
- * 9. Press: scale .97 (active:scale-[0.97])
- * + Spacing: ample room around text so labels are clean and easily readable
+ * PillowDreamWorks Premium Liquid-Magnetic Button System:
+ * - Height: min 44px, target 52px for primary buttons
+ * - Shape: Fully rounded pill (border-radius: 9999px)
+ * - Background: Almost black #121214 (with frosted liquid specular highlight)
+ * - Text: White/light grey using Space Grotesk 500 (font-medium)
+ * - Accent: Vermilion red #FF3E3E circular arrow element at the right
+ * - Spacing: Generous horizontal padding, perfectly centered text
+ * - Magnet: Leans toward cursor without excessive movement (disabled on touch)
+ * - Light: Soft glow follows cursor within button
+ * - Press: scale 0.97 with smooth return
+ * - Hover: Arrow rotates 45deg over 350ms, circular element shifts toward pointer
+ * - Reduced motion & Touchscreens respected
  */
 export const liquidGlassVariants = cva(
-  "group relative inline-flex items-center justify-center gap-2.5 font-sans font-medium tracking-wide antialiased select-none cursor-pointer rounded-full transition-all duration-[350ms] ease-out disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C6A46A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FDFBF7] active:scale-[0.97] overflow-hidden [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "group relative inline-flex items-center justify-center font-['Space_Grotesk',var(--font-space-grotesk),var(--font-inter),sans-serif] font-medium tracking-wide antialiased select-none cursor-pointer rounded-full transition-all duration-[350ms] ease-out disabled:pointer-events-none disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF3E3E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF8F5] active:scale-[0.97] overflow-hidden leading-none",
   {
     variants: {
       variant: {
         primary:
-          "bg-[#151C17] text-[#FDFBF7] border border-white/15 shadow-[0_4px_20px_-3px_rgba(21,28,23,0.35),inset_0_1px_0_0_rgba(255,255,255,0.18),inset_0_-1px_0_0_rgba(0,0,0,0.5)] backdrop-blur-xl hover:bg-[#1D2720] hover:shadow-[0_8px_28px_-4px_rgba(21,28,23,0.45),inset_0_1px_0_0_rgba(255,255,255,0.25)] hover:text-white",
+          "bg-[#121214] text-[#FDFBF7] border border-white/15 shadow-[0_4px_24px_-3px_rgba(18,18,20,0.45),inset_0_1px_0_0_rgba(255,255,255,0.22),inset_0_-1px_0_0_rgba(0,0,0,0.6)] backdrop-blur-xl hover:bg-[#1A1A1E] hover:shadow-[0_8px_32px_-4px_rgba(18,18,20,0.6),inset_0_1px_0_0_rgba(255,255,255,0.32)] hover:text-white",
         secondary:
-          "bg-[#FDFBF7]/85 text-[#151C17] border border-[#24483B]/15 shadow-[0_2px_12px_-2px_rgba(32,41,35,0.08),inset_0_1px_0_0_rgba(255,255,255,0.9)] backdrop-blur-xl hover:bg-[#FDFBF7] hover:border-[#24483B]/30 hover:shadow-[0_6px_20px_-2px_rgba(32,41,35,0.12)] hover:text-[#24483B]",
+          "bg-[#FDFBF7]/90 text-[#121214] border border-[#24483B]/15 shadow-[0_2px_14px_-2px_rgba(32,41,35,0.08),inset_0_1px_0_0_rgba(255,255,255,0.95)] backdrop-blur-xl hover:bg-[#FDFBF7] hover:border-[#24483B]/30 hover:shadow-[0_6px_24px_-2px_rgba(32,41,35,0.14)] hover:text-[#24483B]",
         subtle:
-          "bg-white/40 text-[#151C17] border border-[#24483B]/12 backdrop-blur-md hover:bg-white/75 hover:border-[#24483B]/25 hover:shadow-xs hover:text-[#24483B]",
-        vermilion:
-          "bg-[#E85D3F] text-[#FDFBF7] border border-white/20 shadow-[0_4px_18px_-2px_rgba(232,93,63,0.4),inset_0_1px_0_0_rgba(255,255,255,0.25)] backdrop-blur-xl hover:bg-[#D64E32] hover:shadow-[0_8px_24px_-2px_rgba(232,93,63,0.5)]",
-        crisis:
-          "bg-[#8B2626] text-[#FDFBF7] border border-white/20 shadow-[0_4px_18px_-2px_rgba(139,38,38,0.4),inset_0_1px_0_0_rgba(255,255,255,0.2)] backdrop-blur-xl hover:bg-[#721F1F]",
+          "bg-white/50 text-[#121214] border border-[#24483B]/12 backdrop-blur-md hover:bg-white/85 hover:border-[#24483B]/25 hover:shadow-xs hover:text-[#24483B]",
+        outline:
+          "bg-white/40 text-[#121214] border border-[#24483B]/15 backdrop-blur-md hover:bg-white/80 hover:border-[#24483B]/30 hover:text-[#24483B]",
+        ghost:
+          "bg-transparent text-[#121214] hover:bg-[#24483B]/5 active:bg-[#24483B]/10",
         gold:
-          "bg-[#C6A46A] text-[#151C17] font-semibold border border-white/30 shadow-[0_4px_18px_-2px_rgba(198,164,106,0.4),inset_0_1px_0_0_rgba(255,255,255,0.4)] backdrop-blur-xl hover:bg-[#B89456]",
+          "bg-[#C6A46A] text-[#121214] border border-white/30 shadow-[0_4px_20px_-2px_rgba(198,164,106,0.4),inset_0_1px_0_0_rgba(255,255,255,0.45)] backdrop-blur-xl hover:bg-[#B89456]",
+        sage:
+          "bg-[#8FA89E]/25 text-[#121214] border border-[#8FA89E]/40 backdrop-blur-md hover:bg-[#8FA89E]/40 hover:border-[#8FA89E]",
+        crisis:
+          "bg-[#8B2626] text-[#FDFBF7] border border-white/20 shadow-[0_4px_20px_-2px_rgba(139,38,38,0.4),inset_0_1px_0_0_rgba(255,255,255,0.25)] backdrop-blur-xl hover:bg-[#721F1F]",
+        vermilion:
+          "bg-[#FF3E3E] text-white border border-white/25 shadow-[0_4px_20px_-2px_rgba(255,62,62,0.45),inset_0_1px_0_0_rgba(255,255,255,0.3)] backdrop-blur-xl hover:bg-[#E63535]",
+        link:
+          "text-[#24483B] underline-offset-4 hover:underline p-0 h-auto font-normal rounded-none",
       },
       size: {
-        sm: "min-h-[44px] px-5 py-2 text-xs",
-        md: "min-h-[44px] px-6 py-2.5 text-sm",
-        lg: "min-h-[50px] px-8 py-3.5 text-base",
-        xl: "min-h-[56px] px-9 py-4 text-base",
-        icon: "min-h-[44px] min-w-[44px] size-11 p-0",
+        sm: "min-h-[44px] px-5 py-2 text-xs sm:text-sm gap-2",
+        md: "min-h-[52px] px-7 py-3 text-sm sm:text-base gap-3",
+        lg: "min-h-[56px] px-8 py-3.5 text-base gap-3.5",
+        xl: "min-h-[60px] px-9 py-4 text-base sm:text-lg gap-4",
+        icon: "min-h-[44px] min-w-[44px] size-11 p-0 justify-center",
       },
     },
     defaultVariants: {
@@ -53,8 +63,9 @@ export const liquidGlassVariants = cva(
 );
 
 export interface LiquidGlassButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onAnimationStart" | "onDrag" | "onDragStart" | "onDragEnd">,
     VariantProps<typeof liquidGlassVariants> {
+  asChild?: boolean;
   href?: string;
   external?: boolean;
   signalDot?: boolean;
@@ -72,10 +83,11 @@ export const LiquidGlassButton = React.forwardRef<
       className,
       variant = "primary",
       size = "md",
+      asChild = false,
       href,
       external,
       signalDot,
-      showArrow = false,
+      showArrow,
       magnet = true,
       glow = true,
       children,
@@ -88,9 +100,22 @@ export const LiquidGlassButton = React.forwardRef<
     const [isHovered, setIsHovered] = React.useState(false);
     const [magnetOffset, setMagnetOffset] = React.useState({ x: 0, y: 0 });
     const [tiltAngle, setTiltAngle] = React.useState({ rotateX: 0, rotateY: 0 });
+    const [isTouchDevice, setIsTouchDevice] = React.useState(false);
+    const prefersReducedMotion = React.useRef(false);
+
+    React.useEffect(() => {
+      if (typeof window !== "undefined") {
+        setIsTouchDevice(
+          "ontouchstart" in window ||
+          navigator.maxTouchPoints > 0 ||
+          window.matchMedia("(pointer: coarse)").matches
+        );
+        prefersReducedMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      }
+    }, []);
 
     const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
-      if (disabled) return;
+      if (disabled || isTouchDevice || prefersReducedMotion.current) return;
       const target = e.currentTarget;
       const rect = target.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -102,17 +127,17 @@ export const LiquidGlassButton = React.forwardRef<
       const centerY = rect.height / 2;
 
       if (magnet) {
-        const deltaX = (x - centerX) * 0.15;
-        const deltaY = (y - centerY) * 0.15;
+        const deltaX = (x - centerX) * 0.12;
+        const deltaY = (y - centerY) * 0.12;
         setMagnetOffset({ x: deltaX, y: deltaY });
       }
 
-      // Interactive 3D Perspective Tilt Physics
+      // Subtle, tactile 3D perspective tilt (max 5.5 degrees)
       const normX = (x - centerX) / Math.max(centerX, 1);
       const normY = (y - centerY) / Math.max(centerY, 1);
       setTiltAngle({
-        rotateX: -normY * 6.5,
-        rotateY: normX * 6.5,
+        rotateX: -normY * 5.5,
+        rotateY: normX * 5.5,
       });
     };
 
@@ -122,13 +147,30 @@ export const LiquidGlassButton = React.forwardRef<
       setTiltAngle({ rotateX: 0, rotateY: 0 });
     };
 
-    const isPrimaryLike = variant === "primary" || variant === undefined;
-    const shouldShowSignal = signalDot !== undefined ? signalDot : isPrimaryLike && size !== "icon";
+    // Determine circular arrow visibility:
+    // By default, action buttons (primary, secondary, gold, crisis, vermilion) show the red circular arrow unless explicitly set to false or size is icon
+    const isPrimaryAction =
+      variant === "primary" ||
+      variant === "secondary" ||
+      variant === "gold" ||
+      variant === "crisis" ||
+      variant === "vermilion";
+
+    const shouldShowArrow =
+      size !== "icon" &&
+      size !== "sm" &&
+      variant !== "link" &&
+      variant !== "ghost" &&
+      (showArrow !== undefined ? showArrow : isPrimaryAction);
+
+    // Explicit showArrow override for small/subtle when requested
+    const renderArrow = showArrow !== undefined ? showArrow : shouldShowArrow;
 
     const inlineStyle: React.CSSProperties = {
-      transform: isHovered
-        ? `perspective(600px) translate3d(${magnetOffset.x}px, ${magnetOffset.y}px, 6px) rotateX(${tiltAngle.rotateX.toFixed(2)}deg) rotateY(${tiltAngle.rotateY.toFixed(2)}deg)`
-        : "perspective(600px) translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)",
+      transform:
+        !prefersReducedMotion.current && !isTouchDevice && isHovered
+          ? `perspective(600px) translate3d(${magnetOffset.x.toFixed(1)}px, ${magnetOffset.y.toFixed(1)}px, 4px) rotateX(${tiltAngle.rotateX.toFixed(2)}deg) rotateY(${tiltAngle.rotateY.toFixed(2)}deg)`
+          : undefined,
       transformStyle: "preserve-3d",
       transition: isHovered
         ? "transform 140ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease"
@@ -138,47 +180,68 @@ export const LiquidGlassButton = React.forwardRef<
 
     const classes = cn(
       liquidGlassVariants({ variant, size }),
-      "[&_.button-arrow]:transition-transform [&_.button-arrow]:duration-[350ms] [&_.button-arrow]:ease-out group-hover:[&_.button-arrow]:rotate-45",
-      "[&_svg.lucide-arrow-right]:transition-transform [&_svg.lucide-arrow-right]:duration-[350ms] [&_svg.lucide-arrow-right]:ease-out group-hover:[&_svg.lucide-arrow-right]:rotate-45",
-      "[&_svg.lucide-arrow-up-right]:transition-transform [&_svg.lucide-arrow-up-right]:duration-[350ms] [&_svg.lucide-arrow-up-right]:ease-out group-hover:[&_svg.lucide-arrow-up-right]:rotate-45",
       className
     );
 
     const content = (
       <>
-        {/* Detail 7: Cursor Light Glow */}
-        {glow && (
+        {/* Soft cursor-following light glow within button */}
+        {glow && !isTouchDevice && (
           <span
             aria-hidden="true"
             className="pointer-events-none absolute -inset-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100 overflow-hidden"
             style={{
               background: isHovered
-                ? `radial-gradient(130px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.22), transparent 70%)`
+                ? `radial-gradient(140px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.22), transparent 70%)`
                 : undefined,
             }}
           />
         )}
 
-        {/* Detail 5: Signal Red Dot */}
-        {shouldShowSignal && (
+        {/* Optional signal dot */}
+        {signalDot && (
           <span
             className="relative flex h-2 w-2 shrink-0 items-center justify-center mr-0.5"
             aria-hidden="true"
           >
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E85D3F] opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E85D3F] shadow-[0_0_8px_rgba(232,93,63,0.9)]" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF3E3E] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF3E3E] shadow-[0_0_8px_rgba(255,62,62,0.9)]" />
           </span>
         )}
 
-        {children}
+        <span className="relative z-10 flex items-center gap-2 whitespace-nowrap">
+          {children}
+        </span>
 
-        {/* Detail 6: Hover Arrow Turns (350ms) */}
-        {showArrow && (
-          <ArrowRight className="button-arrow ml-1" />
+        {/* Circular Vermilion Red (#FF3E3E) Arrow Accent */}
+        {renderArrow && (
+          <span
+            aria-hidden="true"
+            className="button-arrow-circle relative z-10 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FF3E3E] text-white shrink-0 ml-1.5 shadow-[0_0_14px_rgba(255,62,62,0.45)] transition-all duration-[350ms] ease-out group-hover:scale-105 group-hover:translate-x-0.5"
+          >
+            <ArrowRight className="button-arrow w-3.5 h-3.5 sm:w-4 sm:h-4 text-white transition-transform duration-[350ms] ease-out group-hover:rotate-45" />
+          </span>
         )}
       </>
     );
 
+    // If asChild is requested, use Radix Slot
+    if (asChild) {
+      return (
+        <Slot
+          ref={ref as React.Ref<HTMLElement>}
+          className={classes}
+          style={inlineStyle}
+          onPointerMove={handlePointerMove}
+          onPointerLeave={handlePointerLeave}
+          {...props}
+        >
+          {children}
+        </Slot>
+      );
+    }
+
+    // Direct href link: Never nest a button inside an anchor!
     if (href) {
       const isExternal =
         external ??
@@ -223,8 +286,9 @@ export const LiquidGlassButton = React.forwardRef<
       );
     }
 
+    // Interactive button element
     return (
-      <button
+      <LiquidGlassButton
         ref={ref as React.Ref<HTMLButtonElement>}
         className={classes}
         style={inlineStyle}
@@ -235,7 +299,7 @@ export const LiquidGlassButton = React.forwardRef<
         {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
       >
         {content}
-      </button>
+      </LiquidGlassButton>
     );
   }
 );
@@ -244,3 +308,5 @@ LiquidGlassButton.displayName = "LiquidGlassButton";
 
 export const LiquidButton = LiquidGlassButton;
 export const MetalButton = LiquidGlassButton;
+export const Button = LiquidGlassButton;
+export const buttonVariants = liquidGlassVariants;

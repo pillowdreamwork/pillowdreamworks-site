@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 import { MobileDrawer } from "./mobile-drawer";
 
 export function Navbar() {
@@ -81,26 +82,42 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Right Action: Crisis Hotline Pill */}
+          {/* Right Action: Crisis Hotline Pill & Quick CTA */}
           <div className="hidden sm:flex items-center gap-3">
-            <a
+            <LiquidGlassButton
               href="tel:988"
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#8B2626]/10 hover:bg-[#8B2626]/15 text-[#8B2626] font-mono text-xs border border-[#8B2626]/20 transition-all active:scale-95"
+              variant="crisis"
+              size="sm"
+              showArrow={false}
+              signalDot
+              className="font-mono text-xs"
               title="US 988 Suicide & Crisis Lifeline / India 14416"
             >
-              <span className="w-2 h-2 rounded-full bg-[#8B2626] animate-pulse" />
-              <span className="font-semibold">Crisis: 988</span>
-            </a>
+              <span>Crisis: 988</span>
+            </LiquidGlassButton>
+
+            <LiquidGlassButton
+              href="/books/psychology-toolkit"
+              variant="primary"
+              size="sm"
+              showArrow
+              className="text-xs shadow-sm"
+            >
+              <span>Get Toolkit</span>
+            </LiquidGlassButton>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <LiquidGlassButton
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="Open mobile navigation menu"
-            className="lg:hidden p-2 rounded-lg text-[#202923] hover:bg-[#24483B]/5 cursor-pointer"
+            variant="subtle"
+            size="icon"
+            showArrow={false}
+            className="lg:hidden"
           >
-            <Menu className="w-6 h-6" />
-          </button>
+            <Menu className="w-5 h-5 text-ink" />
+          </LiquidGlassButton>
         </div>
       </header>
 

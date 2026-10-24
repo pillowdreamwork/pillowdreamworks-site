@@ -3,7 +3,8 @@
 import * as React from "react";
 import * as THREE from "three";
 
-interface PsychometricMindCanvasProps {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface PsychometricMindCanvasProps {
   selectedDomain: string;
   onSelectDomain: (domain: string) => void;
   className?: string;

@@ -6,7 +6,8 @@ import { motion, useScroll, useMotionValueEvent, useReducedMotion } from "motion
 import { StoryImage } from "./StoryImage";
 import { StoryText } from "./StoryText";
 
-export interface StoryStep {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export interface StoryStep {
   id: string;
   label: string;
   title: string;

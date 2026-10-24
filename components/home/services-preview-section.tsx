@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { ArrowRight, Phone } from "lucide-react";
 import { motion } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
@@ -62,9 +61,9 @@ export function ServicesPreviewSection() {
                 href="/services#counselling"
                 variant="primary"
                 size="sm"
+                showArrow
               >
-                <span>Reserve Room</span>
-                <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                Reserve Room
               </LiquidGlassButton>
             </div>
           </motion.div>
@@ -102,9 +101,9 @@ export function ServicesPreviewSection() {
                 href="/services#crisis"
                 variant="crisis"
                 size="sm"
+                showArrow
               >
-                <span>Request a Call</span>
-                <Phone className="w-3.5 h-3.5 ml-1" />
+                Request a Call
               </LiquidGlassButton>
             </div>
           </motion.div>
@@ -142,9 +141,9 @@ export function ServicesPreviewSection() {
                 href="/services#centreline"
                 variant="secondary"
                 size="sm"
+                showArrow
               >
-                <span>Enter CentreLine</span>
-                <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                Enter CentreLine
               </LiquidGlassButton>
             </div>
           </motion.div>
@@ -182,9 +181,9 @@ export function ServicesPreviewSection() {
                 href="/services#graphology"
                 variant="secondary"
                 size="sm"
+                showArrow
               >
-                <span>View Analysis Protocol</span>
-                <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                View Analysis Protocol
               </LiquidGlassButton>
             </div>
           </motion.div>

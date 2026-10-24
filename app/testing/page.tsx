@@ -112,9 +112,9 @@ export default function TestingHarnessPage() {
           <input id="intake-privacy-consent" type="checkbox" name="consent" />
           <label htmlFor="intake-privacy-consent">I consent to the privacy terms</label>
         </div>
-        <button type="submit" className="border px-3 py-1">
+        <LiquidGlassButton type="submit" className="border px-3 py-1">
           Unlock Assessments
-        </button>
+        </LiquidGlassButton>
       </form>
 
       <div
@@ -122,7 +122,7 @@ export default function TestingHarnessPage() {
         className={`mt-8 grid grid-cols-2 gap-2 ${unlocked ? "" : "hidden"}`}
       >
         {freeAssessments.map((item) => (
-          <button
+          <LiquidGlassButton
             key={item.id}
             type="button"
             data-assess-id={item.id}
@@ -130,7 +130,7 @@ export default function TestingHarnessPage() {
             className="border p-2 text-left text-xs"
           >
             {item.title}
-          </button>
+          </LiquidGlassButton>
         ))}
       </div>
 
@@ -144,9 +144,9 @@ export default function TestingHarnessPage() {
           <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto bg-white p-6">
             <div className="flex items-start justify-between">
               <h4 className="font-serif text-lg font-bold">{activeTest.title}</h4>
-              <button type="button" aria-label="Close" onClick={closeModal}>
+              <LiquidGlassButton type="button" aria-label="Close" onClick={closeModal}>
                 ✕
-              </button>
+              </LiquidGlassButton>
             </div>
 
             <div id="active-assessment-modal-content" className="mt-4">
@@ -170,9 +170,9 @@ export default function TestingHarnessPage() {
                       ))}
                     </fieldset>
                   ))}
-                  <button type="submit" className="border px-3 py-1">
+                  <LiquidGlassButton type="submit" className="border px-3 py-1">
                     Submit
-                  </button>
+                  </LiquidGlassButton>
                 </form>
               ) : (
                 <div id="active-test-results-output" className="space-y-4 text-sm">

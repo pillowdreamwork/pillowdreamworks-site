@@ -1,7 +1,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface SectionHeadingProps extends React.HTMLAttributes<HTMLDivElement> {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export interface SectionHeadingProps extends React.HTMLAttributes<HTMLDivElement> {
   eyebrow?: string;
   title: string;
   description?: string;

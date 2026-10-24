@@ -4,7 +4,8 @@ import * as React from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { Container } from "@/components/ui/container";
 
-const NOISE_FRAGMENTS = [
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';const NOISE_FRAGMENTS = [
   { label: "unexamined expectations", tag: "NOISE" },
   { label: "catastrophic projections", tag: "NOISE" },
   { label: "contradictory advice", tag: "NOISE" },

@@ -2,7 +2,8 @@
 
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
-export default function DemoOne() {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export default function DemoOne() {
   return (
     <> 
       <div className="relative h-[200px] w-[800px]"> 

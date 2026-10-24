@@ -81,13 +81,13 @@ export function ReflectionSection() {
           {/* Subtle lined paper texture styling */}
           <div className="flex items-center justify-between border-b border-[#24483B]/10 pb-4 text-xs font-mono text-[#202923]/60">
             <span>SPECIMEN WORKBOOK PAGE · CH. 01</span>
-            <button
+            <LiquidGlassButton
               onClick={handleNextPrompt}
               className="inline-flex items-center gap-1.5 text-[#24483B] hover:text-[#1A3529] font-sans text-xs font-semibold cursor-pointer transition-colors"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Change Prompt ({promptIndex + 1}/{PROMPTS.length})</span>
-            </button>
+            </LiquidGlassButton>
           </div>
 
           {/* Active Question */}

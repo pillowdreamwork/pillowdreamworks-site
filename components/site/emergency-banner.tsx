@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { AlertCircle, Phone, X } from "lucide-react";
 import { EMERGENCY_INFO } from "@/data/navigation";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 export function EmergencyBanner() {
   const [showModal, setShowModal] = React.useState(false);
@@ -26,13 +27,13 @@ export function EmergencyBanner() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
+            <LiquidGlassButton
               onClick={() => setShowModal(true)}
               className="underline underline-offset-4 font-semibold hover:text-red-100 flex items-center gap-1.5 focus-visible:outline-2 focus-visible:outline-white cursor-pointer"
             >
               <Phone className="w-3.5 h-3.5 inline" />
               <span>{EMERGENCY_INFO.actionText}</span>
-            </button>
+            </LiquidGlassButton>
             <span className="text-white/40 hidden sm:inline">|</span>
             <Link
               href="/services#crisis"
@@ -53,13 +54,13 @@ export function EmergencyBanner() {
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#202923]/80 backdrop-blur-sm"
         >
           <div className="bg-[#FDFBF7] text-[#202923] max-w-lg w-full rounded-2xl p-6 sm:p-8 shadow-2xl border border-[#24483B]/15 relative">
-            <button
+            <LiquidGlassButton
               onClick={() => setShowModal(false)}
               aria-label="Close emergency support modal"
               className="absolute top-4 right-4 p-2 rounded-full hover:bg-[#24483B]/5 text-[#202923]/70 hover:text-[#202923] cursor-pointer"
             >
               <X className="w-5 h-5" />
-            </button>
+            </LiquidGlassButton>
 
             <div className="flex items-center gap-3 text-[#8B2626] mb-4">
               <AlertCircle className="w-7 h-7" />
@@ -85,19 +86,26 @@ export function EmergencyBanner() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <Link
+              <LiquidGlassButton
                 href="/services#crisis"
                 onClick={() => setShowModal(false)}
-                className="w-full text-center py-2.5 px-4 rounded-full liquid-glass-primary text-[#FDFBF7] font-medium text-sm"
+                variant="crisis"
+                size="md"
+                showArrow
+                className="w-full"
               >
-                Book Crisis Stabilization Call
-              </Link>
-              <button
+                <span>Book Crisis Stabilization Call</span>
+              </LiquidGlassButton>
+              <LiquidGlassButton
+                type="button"
                 onClick={() => setShowModal(false)}
-                className="w-full py-2.5 px-4 rounded-full liquid-glass-secondary text-[#202923] font-medium text-sm cursor-pointer"
+                variant="secondary"
+                size="md"
+                showArrow={false}
+                className="w-full"
               >
-                Close Window
-              </button>
+                <span>Close Window</span>
+              </LiquidGlassButton>
             </div>
           </div>
         </div>

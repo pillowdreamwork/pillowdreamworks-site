@@ -38,7 +38,7 @@ export const BookFAQ = ({ book }: BookFAQProps) => {
             return (
               <div key={faq.question} className="border-b border-stone-200">
                 <h3>
-                  <button
+                  <LiquidGlassButton
                     id={buttonId}
                     type="button"
                     aria-expanded={open}
@@ -64,7 +64,7 @@ export const BookFAQ = ({ book }: BookFAQProps) => {
                         {open && reducedMotion ? "−" : "+"}
                       </motion.span>
                     </span>
-                  </button>
+                  </LiquidGlassButton>
                 </h3>
 
                 <motion.div

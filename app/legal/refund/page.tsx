@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { LegalReviewNotice } from "@/components/legal/legal-review-notice";
 
-export const metadata: Metadata = {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export const metadata: Metadata = {
   title: "Refund & Cancellation Policy — PillowDreamWorks Foundation",
   description: "Refund and cancellation guidelines for digital workbooks and clinical counselling sessions.",
 };

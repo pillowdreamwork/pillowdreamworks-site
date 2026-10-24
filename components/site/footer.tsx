@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { FOUNDER_CONTACT, LEGAL_ROUTES } from "@/data/navigation";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 export function Footer() {
   return (
@@ -27,14 +28,16 @@ export function Footer() {
               An educational psychology and wellbeing foundation publishing structured workbooks, reflective journals, and accessible assessment tools for thoughtful self-inquiry.
             </p>
             <div className="pt-2">
-              <a
+              <LiquidGlassButton
                 href={FOUNDER_CONTACT.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#24483B] hover:bg-[#2D5A4A] text-[#FDFBF7] text-xs font-mono border border-white/10 transition-colors"
+                variant="secondary"
+                size="sm"
+                showArrow
+                external
+                className="font-mono text-xs"
               >
                 <span>WhatsApp: +91 97283 55421</span>
-              </a>
+              </LiquidGlassButton>
             </div>
           </div>
 

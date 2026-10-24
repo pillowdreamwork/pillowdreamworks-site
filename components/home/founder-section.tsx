@@ -99,7 +99,7 @@ export function FounderSection() {
             </div>
 
             <div className="pt-4 flex flex-wrap items-center gap-4">
-              <LiquidGlassButton href="/about" variant="primary" size="md">
+              <LiquidGlassButton href="/about" variant="primary" size="md" showArrow>
                 <span>Read Foundation Story</span>
               </LiquidGlassButton>
               <LiquidGlassButton href={`mailto:${FOUNDER_CONTACT.email}`} variant="subtle" size="md">

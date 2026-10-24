@@ -5,7 +5,8 @@ import { Play, ArrowDown, Sparkles } from "lucide-react";
 import { Canvas3DHero } from "./canvas-3d-hero";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
-interface HeroProps {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface HeroProps {
   onOpenReel: () => void;
   isAudioActive: boolean;
 }
@@ -53,15 +54,14 @@ export function StudioHero({ onOpenReel, isAudioActive }: HeroProps) {
         {/* CTA & Showreel Interaction Bar */}
         <div className="mt-10 flex flex-wrap items-center gap-4 sm:gap-6">
           {/* Primary Play Reel Button */}
-          <button
+          <LiquidButton
             onClick={onOpenReel}
-            className="group relative inline-flex items-center gap-3 px-7 py-4 rounded-full bg-black text-white text-sm font-semibold tracking-tight shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.25)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+            variant="primary"
+            size="lg"
+            showArrow
           >
-            <div className="w-7 h-7 rounded-full bg-white/20 group-hover:bg-[#00FFFF] group-hover:text-black text-white flex items-center justify-center transition-colors">
-              <Play className="w-3.5 h-3.5 fill-current translate-x-0.5" />
-            </div>
-            <span className="font-mono text-xs uppercase tracking-widest">Play Showreel 2026</span>
-          </button>
+            Play Showreel 2026
+          </LiquidButton>
 
           {/* Liquid Glass Interactive Button */}
           <LiquidButton

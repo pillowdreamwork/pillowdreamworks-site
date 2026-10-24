@@ -116,18 +116,21 @@ export function BookCarousel() {
 
         {/* Action and Controls */}
         <div className="pt-8 mt-6 border-t border-navy/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-          <Button asChild size="lg" variant="primary" className="w-full sm:w-auto">
-            <Link href={slide.href}>
-              <span>{slide.buttonText}</span>
-              <ArrowRight className="w-4 h-4 ml-1" />
-            </Link>
+          <Button
+            href={slide.href}
+            size="lg"
+            variant="primary"
+            className="w-full sm:w-auto"
+            showArrow
+          >
+            {slide.buttonText}
           </Button>
 
           {/* Carousel Controls */}
           <div className="flex items-center justify-between sm:justify-end gap-3">
             <div className="flex items-center gap-1.5 mr-2">
               {SLIDES.map((_, idx) => (
-                <button
+                <LiquidGlassButton
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
                   aria-label={`Go to slide ${idx + 1}`}
@@ -139,20 +142,20 @@ export function BookCarousel() {
             </div>
 
             <div className="flex items-center gap-1">
-              <button
+              <LiquidGlassButton
                 onClick={prevSlide}
                 aria-label="Previous Book Slide"
                 className="p-2 rounded-full bg-ivory border border-navy/15 text-navy hover:bg-navy/5 cursor-pointer"
               >
                 <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
+              </LiquidGlassButton>
+              <LiquidGlassButton
                 onClick={nextSlide}
                 aria-label="Next Book Slide"
                 className="p-2 rounded-full bg-ivory border border-navy/15 text-navy hover:bg-navy/5 cursor-pointer"
               >
                 <ChevronRight className="w-5 h-5" />
-              </button>
+              </LiquidGlassButton>
             </div>
           </div>
         </div>

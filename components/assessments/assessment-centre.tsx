@@ -493,21 +493,24 @@ ${interpretationResult.note}
 
           <div className="flex items-center gap-3">
             {!profile ? (
-              <button
+              <LiquidGlassButton
                 type="button"
                 onClick={() => setIsRegistrationOpen(true)}
-                className="text-xs font-semibold text-[#24483B] hover:underline cursor-pointer"
+                variant="primary"
+                size="sm"
+                showArrow
               >
-                Complete Registration &amp; Informed Consent →
-              </button>
+                Complete Registration
+              </LiquidGlassButton>
             ) : (
-              <button
+              <LiquidGlassButton
                 type="button"
                 onClick={() => setIsRegistrationOpen(true)}
-                className="text-xs text-[#202923]/60 hover:text-[#202923] cursor-pointer"
+                variant="subtle"
+                size="sm"
               >
-                Update Profile Details
-              </button>
+                Update Profile
+              </LiquidGlassButton>
             )}
             <span className="text-[11px] text-[#202923]/50 hidden sm:inline">
               🔒 Client-side Evaluation Only
@@ -538,13 +541,13 @@ ${interpretationResult.note}
               <p>{ageWarning}</p>
             </div>
           </div>
-          <button
+          <LiquidGlassButton
             type="button"
             onClick={() => setAgeWarning(null)}
             className="text-amber-800 hover:text-amber-950 text-xs font-semibold cursor-pointer"
           >
             Dismiss
-          </button>
+          </LiquidGlassButton>
         </div>
       )}
 

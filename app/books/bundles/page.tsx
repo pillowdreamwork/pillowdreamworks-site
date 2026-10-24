@@ -9,7 +9,8 @@ import { BOOK_BUYING_FAQS } from "@/data/books";
 import { FaqAccordion } from "@/components/ui/faq-accordion";
 import { ArrowRight, Info, ShieldCheck } from "lucide-react";
 
-export const metadata: Metadata = {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export const metadata: Metadata = {
   title: "Complete Psychology & Inner Work Bundle — PillowDreamWorks Foundation",
   description:
     "Get The Psychology Toolkit (80-page workbook) together with Finding The Centre (eBook edition) as one digital collection.",
@@ -79,11 +80,14 @@ export default function BundlesPage() {
               </span>
             </div>
 
-            <Button asChild size="lg" variant="gold" className="w-full sm:w-auto">
-              <Link href="/contact">
-                <span>Enquire About This Bundle</span>
-                <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
+            <Button
+              href="/contact"
+              size="lg"
+              variant="primary"
+              className="w-full sm:w-auto"
+              showArrow
+            >
+              Enquire About This Bundle
             </Button>
           </div>
 

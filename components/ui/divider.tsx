@@ -1,7 +1,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
   variant?: "subtle" | "gold" | "sage" | "navy";
 }
 

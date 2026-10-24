@@ -6,7 +6,8 @@ import { ArrowRight, Compass, Heart, Shield, Sparkles } from "lucide-react";
 import { motion } from "motion/react";
 import { Container } from "@/components/ui/container";
 
-const rows = [
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';const rows = [
   {
     number: "01",
     title: "Guided Books",

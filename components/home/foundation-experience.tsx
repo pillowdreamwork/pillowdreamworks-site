@@ -272,7 +272,7 @@ export function FoundationExperience() {
 
           {/* Action Area */}
           <div className="flex items-center gap-3">
-            <button
+            <LiquidGlassButton
               onClick={() => setIsAudioActive(!isAudioActive)}
               className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-mono transition-all cursor-pointer border border-zinc-200"
               title="Toggle interactive breathing audio waves"
@@ -292,7 +292,7 @@ export function FoundationExperience() {
                   <span className="text-zinc-500">SOUND: OFF</span>
                 </>
               )}
-            </button>
+            </LiquidGlassButton>
 
             <Link
               href="/books/psychology-toolkit"
@@ -445,7 +445,7 @@ export function FoundationExperience() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {toolkitChapters.map((ch, idx) => (
-                      <button
+                      <LiquidGlassButton
                         key={ch.number}
                         onClick={() => setActiveChapterTab(idx)}
                         className={`text-left p-3 rounded-xl text-xs font-mono border transition-all cursor-pointer ${
@@ -459,7 +459,7 @@ export function FoundationExperience() {
                           <span>{ch.pages}</span>
                         </div>
                         <p className="mt-1 font-sans font-medium text-white truncate">{ch.title}</p>
-                      </button>
+                      </LiquidGlassButton>
                     ))}
                   </div>
 
@@ -581,7 +581,7 @@ export function FoundationExperience() {
                 { label: "Relationships", value: "relationship" },
                 { label: "Crisis Safety", value: "crisis" },
               ].map((cat) => (
-                <button
+                <LiquidGlassButton
                   key={cat.value}
                   onClick={() => setActiveCategory(cat.value)}
                   className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-200 cursor-pointer ${
@@ -591,7 +591,7 @@ export function FoundationExperience() {
                   }`}
                 >
                   {cat.label}
-                </button>
+                </LiquidGlassButton>
               ))}
             </div>
           </div>
@@ -800,7 +800,7 @@ export function FoundationExperience() {
                 {reflectionText.length} characters written • Private local session
               </span>
 
-              <button
+              <LiquidGlassButton
                 onClick={() => {
                   if (!reflectionText) return;
                   setReflectionSaved(true);
@@ -809,7 +809,7 @@ export function FoundationExperience() {
                 className="px-6 py-2.5 rounded-full bg-black text-white text-xs font-mono uppercase tracking-wider font-bold hover:bg-zinc-800 transition-colors cursor-pointer"
               >
                 {reflectionSaved ? "✓ Thought Captured" : "Anchor This Thought"}
-              </button>
+              </LiquidGlassButton>
             </div>
           </div>
         </div>
@@ -952,13 +952,13 @@ export function FoundationExperience() {
                     required
                     className="w-full px-4 py-3 rounded-full bg-zinc-100 text-black placeholder:text-zinc-400 text-xs font-mono border border-zinc-200 focus:outline-none focus:border-black pr-10"
                   />
-                  <button
+                  <LiquidGlassButton
                     type="submit"
                     className="absolute right-1.5 top-1.5 p-2 rounded-full bg-black text-white hover:bg-zinc-800 transition-colors cursor-pointer"
                     aria-label="Subscribe"
                   >
                     <Send className="w-3.5 h-3.5" />
-                  </button>
+                  </LiquidGlassButton>
                 </form>
               </div>
 
@@ -994,13 +994,13 @@ export function FoundationExperience() {
                   {selectedAssessment.code} • {selectedAssessment.domain}
                 </span>
               </div>
-              <button
+              <LiquidGlassButton
                 onClick={() => setSelectedAssessment(null)}
                 className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white hover:text-[#00FFFF] transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="w-4 h-4" />
-              </button>
+              </LiquidGlassButton>
             </div>
 
             {/* Test Content */}
@@ -1026,7 +1026,7 @@ export function FoundationExperience() {
                 {/* Likert Scale Options */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-6">
                   {["Not at all", "Several days", "More than half the days", "Nearly every day"].map((opt, i) => (
-                    <button
+                    <LiquidGlassButton
                       key={opt}
                       onClick={() => setSelectedAnswer(i)}
                       className={`p-3 rounded-xl text-xs font-mono text-center border transition-all cursor-pointer ${
@@ -1036,7 +1036,7 @@ export function FoundationExperience() {
                       }`}
                     >
                       {opt}
-                    </button>
+                    </LiquidGlassButton>
                   ))}
                 </div>
               </div>

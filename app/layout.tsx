@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Libre_Baskerville } from "next/font/google";
+import { Inter, Libre_Baskerville, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { LayoutShell } from "@/components/site/layout-shell";
 
-const inter = Inter({
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
@@ -13,6 +14,13 @@ const libreBaskerville = Libre_Baskerville({
   weight: ["400", "700"],
   subsets: ["latin"],
   variable: "--font-libre-baskerville",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
   display: "swap",
 });
 
@@ -53,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${libreBaskerville.variable}`}>
+    <html lang="en" className={`${inter.variable} ${libreBaskerville.variable} ${spaceGrotesk.variable}`}>
       <body className="antialiased min-h-screen bg-ivory text-navy flex flex-col justify-between selection:bg-sage selection:text-ivory">
         <LayoutShell>{children}</LayoutShell>
       </body>

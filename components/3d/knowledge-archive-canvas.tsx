@@ -3,7 +3,8 @@
 import * as React from "react";
 import * as THREE from "three";
 
-interface KnowledgeArchiveCanvasProps {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface KnowledgeArchiveCanvasProps {
   className?: string;
   onSelectTopic?: (category: string) => void;
 }

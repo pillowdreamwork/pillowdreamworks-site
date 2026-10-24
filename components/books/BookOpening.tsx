@@ -5,7 +5,8 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Book } from "@/data/books";
 
-interface BookOpeningProps {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface BookOpeningProps {
   book: Book;
 }
 

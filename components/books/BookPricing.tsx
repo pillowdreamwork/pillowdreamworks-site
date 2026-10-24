@@ -5,7 +5,8 @@ import { motion, useReducedMotion } from "motion/react";
 import { Book, formatPrice } from "@/data/books";
 import { PurchaseControl } from "./PurchaseControl";
 
-interface BookPricingProps {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface BookPricingProps {
   book: Book;
   onReturn: () => void;
 }

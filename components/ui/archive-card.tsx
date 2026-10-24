@@ -1,5 +1,6 @@
 import React from "react";
 import { ClipboardCopy, Check, Copy, AlertCircle, Clock, Calendar } from "lucide-react";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 export interface ArchiveCardProps {
   /** Assessment item data */
@@ -58,19 +59,26 @@ export const ArchiveCard: React.FC<ArchiveCardProps> = ({ item, onStart, onBook 
       {/* Action area */}
       <div className="mt-4 pt-3 border-t border-sage-200 flex flex-col gap-2">
         {isPaid ? (
-          <button
+          <LiquidGlassButton
             onClick={() => onBook?.(item)}
-            className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-sage-800 text-ivory text-xs font-semibold hover:bg-sage-700 transition-colors"
+            variant="secondary"
+            size="sm"
+            className="w-full"
+            showArrow
           >
-            <Calendar className="w-3.5 h-3.5" /> Book Diagnostic Session
-          </button>
+            <Calendar className="w-3.5 h-3.5 mr-1" />
+            <span>Book Diagnostic Session</span>
+          </LiquidGlassButton>
         ) : (
-          <button
+          <LiquidGlassButton
             onClick={() => onStart?.(item)}
-            className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-navy text-ivory text-xs font-semibold hover:bg-navy-light transition-colors"
+            variant="primary"
+            size="sm"
+            className="w-full"
+            showArrow
           >
             Take Free Assessment
-          </button>
+          </LiquidGlassButton>
         )}
       </div>
     </div>

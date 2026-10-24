@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { ArrowUpRight, Copy, Check, Mail, Sparkles } from "lucide-react";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 export function StudioCTASection() {
   const [copied, setCopied] = useState(false);
@@ -41,23 +42,24 @@ export function StudioCTASection() {
             {/* Action Bar */}
             <div className="mt-12 flex flex-wrap items-center gap-4 sm:gap-6">
               {/* Direct Mailto Button */}
-              <a
+              <LiquidGlassButton
                 href={`mailto:${email}?subject=Project%20Inquiry%20—%20Lusion%20Studio`}
-                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-black font-bold text-sm tracking-tight hover:bg-[#00FFFF] transition-all duration-300 shadow-[0_8px_20px_rgba(255,255,255,0.15)] hover:scale-105 active:scale-95 cursor-pointer"
+                variant="primary"
+                size="lg"
+                showArrow
               >
-                <span>Start a Project Inquiry</span>
-                <ArrowUpRight className="w-4 h-4 text-black" />
-              </a>
+                Start a Project Inquiry
+              </LiquidGlassButton>
 
               {/* Copy Email Quick Pill */}
-              <button
+              <LiquidGlassButton
                 onClick={handleCopy}
                 className="inline-flex items-center gap-2.5 px-6 py-4 rounded-full bg-white/10 hover:bg-white/15 text-white font-mono text-xs border border-white/15 transition-all cursor-pointer"
                 title="Click to copy email address"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-[#00FFFF]" /> : <Copy className="w-3.5 h-3.5 text-zinc-400" />}
                 <span>{copied ? "COPIED TO CLIPBOARD" : email}</span>
-              </button>
+              </LiquidGlassButton>
             </div>
           </div>
         </div>

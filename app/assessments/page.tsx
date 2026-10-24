@@ -4,7 +4,8 @@ import { Container } from "@/components/ui/container";
 import { AssessmentCentre } from "@/components/assessments/assessment-centre";
 import { ShieldAlert, Sparkles } from "lucide-react";
 
-export const metadata: Metadata = {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export const metadata: Metadata = {
   title: "Psychological Assessment Centre — PillowDreamWorks Foundation",
   description:
     "Explore 177 clinical psychometrics, 32 source-backed screeners, 112 educational scales, and 16 practitioner batteries across 15 psychological domains with 3D Mind Matrix.",

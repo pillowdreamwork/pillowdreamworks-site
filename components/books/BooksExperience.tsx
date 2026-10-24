@@ -96,13 +96,13 @@ export const BooksExperience = () => {
       {/* Sub-Masthead */}
       <header className="sticky top-[60px] z-30 border-b border-[#24483B]/10 bg-[#FDFBF7]/95 backdrop-blur-sm">
         <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-6 md:px-8">
-          <button
+          <LiquidGlassButton
             type="button"
             onClick={handleReturn}
             className="cursor-pointer border-0 bg-transparent p-0 font-serif text-xs uppercase tracking-[0.25em] text-[#24483B] hover:text-[#1A3529] font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C6A46A]"
           >
             ← Library Shelf
-          </button>
+          </LiquidGlassButton>
           <span className="truncate pl-4 font-serif text-xs text-[#202923]/60" aria-live="off">
             {scene}
           </span>

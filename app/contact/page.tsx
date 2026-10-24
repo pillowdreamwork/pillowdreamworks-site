@@ -136,9 +136,9 @@ export default function ContactPage() {
                   variant="primary"
                   size="lg"
                   className="w-full sm:w-auto"
+                  showArrow
                 >
-                  <span>Send Message</span>
-                  <ArrowRight className="w-4 h-4 ml-1" />
+                  Send Message
                 </LiquidGlassButton>
               </div>
             ) : (
@@ -162,6 +162,7 @@ export default function ContactPage() {
               href={FOUNDER_CONTACT.whatsapp}
               variant="secondary"
               size="md"
+              showArrow
             >
               <MessageSquare className="w-4 h-4 mr-1 text-[#25d366]" />
               <span>WhatsApp: +91 97283 55421</span>

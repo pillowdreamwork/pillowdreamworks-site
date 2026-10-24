@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { HomeExperience } from "@/components/home/home-experience";
 
-export const metadata: Metadata = {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export const metadata: Metadata = {
   title: "PillowDreamWorks Foundation — Calm on the surface. Ambition underneath.",
   description:
     "An editorial psychology and wellbeing foundation combining guided workbooks, 177 standardized self-assessments, counselling, and structured learning for meaningful self-discovery.",

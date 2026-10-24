@@ -158,7 +158,7 @@ export default function LearnPage() {
               {/* Category Tabs — glassmorphism pills */}
               <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
-                  <button
+                  <LiquidGlassButton
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
                     className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 cursor-pointer ${
@@ -168,7 +168,7 @@ export default function LearnPage() {
                     }`}
                   >
                     {cat}
-                  </button>
+                  </LiquidGlassButton>
                 ))}
               </div>
 
@@ -256,14 +256,15 @@ export default function LearnPage() {
 
                       <div className="pt-6 mt-6 border-t border-forest/10 flex items-center justify-between">
                         <span className="text-xs font-mono text-ink/50">{item.date}</span>
-                        <button
+                        <LiquidGlassButton
                           type="button"
                           onClick={() => setSelectedArticle(item)}
-                          className="text-xs font-semibold uppercase tracking-wider text-forest hover:text-forest-dark flex items-center gap-1.5 cursor-pointer transition-colors group/btn"
+                          variant="secondary"
+                          size="sm"
+                          showArrow
                         >
-                          <span>Read Essay</span>
-                          <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
-                        </button>
+                          Read Essay
+                        </LiquidGlassButton>
                       </div>
 
                       {/* Vermilion accent indicator on hover */}
@@ -291,14 +292,14 @@ export default function LearnPage() {
               }}
             >
               <div className="glass-modal max-w-2xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl my-8 relative max-h-[90vh] overflow-y-auto">
-                <button
+                <LiquidGlassButton
                   type="button"
                   onClick={() => setSelectedArticle(null)}
                   aria-label="Close article modal"
                   className="absolute top-5 right-5 p-2 rounded-full hover:bg-ink/5 text-ink/70 hover:text-ink cursor-pointer transition-colors"
                 >
                   <X className="w-5 h-5" />
-                </button>
+                </LiquidGlassButton>
 
                 <div className="space-y-3 mb-6">
                   <span className="text-xs font-mono uppercase tracking-wider text-forest font-semibold px-3 py-1 rounded-full" style={{
@@ -328,20 +329,21 @@ export default function LearnPage() {
                 </div>
 
                 <div className="pt-8 mt-8 border-t border-forest/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <Link
+                  <LiquidGlassButton
                     href="/books/psychology-toolkit"
                     onClick={() => setSelectedArticle(null)}
-                    className="text-xs font-semibold text-forest hover:underline flex items-center gap-1"
+                    variant="primary"
+                    size="sm"
+                    showArrow
                   >
-                    <BookOpen className="w-3.5 h-3.5" />
-                    <span>Explore in The Psychology Toolkit →</span>
-                  </Link>
+                    Explore in The Psychology Toolkit
+                  </LiquidGlassButton>
                   <LiquidGlassButton
                     variant="secondary"
                     size="sm"
                     onClick={() => setSelectedArticle(null)}
                   >
-                    <span>Close Essay</span>
+                    Close Essay
                   </LiquidGlassButton>
                 </div>
               </div>

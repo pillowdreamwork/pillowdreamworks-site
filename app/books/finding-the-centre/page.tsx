@@ -9,7 +9,8 @@ import { FaqAccordion } from "@/components/ui/faq-accordion";
 import { BOOKS_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 import { Feather } from "lucide-react";
 
-export const metadata: Metadata = {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export const metadata: Metadata = {
   title: "Finding The Centre — PillowDreamWorks Foundation",
   description:
     "A handbook for grounded living, emotional poise, and quiet solitude in an overstimulated world. Available in eBook and Collector's Print Edition.",
@@ -60,8 +61,13 @@ export default function FindingTheCentrePage() {
                       ({BOOKS_PRICING.findingTheCentre.ebook.formattedUsd})
                     </span>
                   </div>
-                  <Button asChild variant="primary" className="w-full">
-                    <Link href="/contact">Enquire About eBook</Link>
+                  <Button
+                    href="/contact"
+                    variant="primary"
+                    className="w-full"
+                    showArrow
+                  >
+                    Enquire About eBook
                   </Button>
                 </div>
 
@@ -86,8 +92,13 @@ export default function FindingTheCentrePage() {
                       ({BOOKS_PRICING.findingTheCentre.print.formattedUsd})
                     </span>
                   </div>
-                  <Button asChild variant="gold" className="w-full">
-                    <Link href="/contact">Enquire About Paperback</Link>
+                  <Button
+                    href="/contact"
+                    variant="gold"
+                    className="w-full"
+                    showArrow
+                  >
+                    Enquire About Paperback
                   </Button>
                 </div>
               </div>
@@ -139,8 +150,13 @@ export default function FindingTheCentrePage() {
               Get the 80-page structured workbook alongside this eBook edition as one digital collection for {BOOKS_PRICING.bundle.formattedInr} ({BOOKS_PRICING.bundle.formattedUsd}).
             </p>
           </div>
-          <Button asChild variant="primary" size="lg">
-            <Link href="/books/bundles">Explore Complete Bundle</Link>
+          <Button
+            href="/books/bundles"
+            variant="primary"
+            size="lg"
+            showArrow
+          >
+            Explore Complete Bundle
           </Button>
         </section>
 

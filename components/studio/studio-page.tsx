@@ -10,7 +10,8 @@ import { StudioCTASection } from "./cta-section";
 import { StudioFooter } from "./footer";
 import { ShowreelModal } from "./showreel-modal";
 
-export function StudioPage() {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export function StudioPage() {
   const [isReelOpen, setIsReelOpen] = useState(false);
   const [isAudioActive, setIsAudioActive] = useState(false);
 

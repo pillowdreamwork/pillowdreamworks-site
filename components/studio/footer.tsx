@@ -156,13 +156,13 @@ export function StudioFooter() {
                   required
                   className="w-full px-4 py-3 rounded-full bg-[#F0F1FA] text-black placeholder:text-zinc-400 text-xs font-mono border border-zinc-200 focus:outline-none focus:border-[#00FFFF] transition-colors pr-10"
                 />
-                <button
+                <LiquidGlassButton
                   type="submit"
                   className="absolute right-1.5 top-1.5 p-2 rounded-full bg-black text-white hover:bg-zinc-800 transition-colors cursor-pointer"
                   aria-label="Subscribe"
                 >
                   {subscribed ? <Check className="w-3.5 h-3.5 text-[#00FFFF]" /> : <Send className="w-3.5 h-3.5" />}
-                </button>
+                </LiquidGlassButton>
               </form>
               {subscribed && (
                 <p className="mt-2 text-[11px] font-mono text-[#008888] animate-fadeIn">

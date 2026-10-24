@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { Compass, Sparkles, Cpu, Code2, ArrowRight } from "lucide-react";
 
-export function StudioApproachSection() {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export function StudioApproachSection() {
   const [activePillar, setActivePillar] = useState(0);
 
   const pillars = [

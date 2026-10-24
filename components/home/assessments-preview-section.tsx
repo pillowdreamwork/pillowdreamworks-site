@@ -57,9 +57,9 @@ export function AssessmentsPreviewSection() {
               href="/assessments"
               variant="secondary"
               size="md"
+              showArrow
             >
               <span>Explore Complete 177 Catalogue</span>
-              <ArrowRight className="w-4 h-4 ml-1" />
             </LiquidGlassButton>
           </div>
         </div>
@@ -196,12 +196,12 @@ export function AssessmentsPreviewSection() {
                   <div className="pt-2">
                     <LiquidGlassButton
                       href={`/assessments#${activeTest.id}`}
-                      variant="gold"
+                      variant="primary"
                       size="md"
-                      className="w-full"
+                      showArrow
+                      className="w-full justify-between"
                     >
                       <span>Begin Psychometric Screener</span>
-                      <ArrowRight className="w-4 h-4 ml-1" />
                     </LiquidGlassButton>
                   </div>
                 </motion.div>

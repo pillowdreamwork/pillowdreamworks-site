@@ -135,7 +135,7 @@ export default function ServicesPage() {
 
             {/* Quick Navigator Tabs — glass pill cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2">
-              <button
+              <LiquidGlassButton
                 type="button"
                 onClick={() => scrollToSection("counselling")}
                 className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer"
@@ -146,9 +146,9 @@ export default function ServicesPage() {
                 </div>
                 <p className="text-[11px] text-ink-muted mt-1.5">From ₹799 ($69)</p>
                 <div className="w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-sage to-forest mt-2 transition-all duration-500" />
-              </button>
+              </LiquidGlassButton>
 
-              <button
+              <LiquidGlassButton
                 type="button"
                 onClick={() => scrollToSection("crisis")}
                 className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer"
@@ -159,9 +159,9 @@ export default function ServicesPage() {
                 </div>
                 <p className="text-[11px] text-ink-muted mt-1.5">Scheduled call &amp; check-ins</p>
                 <div className="w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-vermilion/60 to-crisis mt-2 transition-all duration-500" />
-              </button>
+              </LiquidGlassButton>
 
-              <button
+              <LiquidGlassButton
                 type="button"
                 onClick={() => scrollToSection("graphology")}
                 className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer"
@@ -172,9 +172,9 @@ export default function ServicesPage() {
                 </div>
                 <p className="text-[11px] text-ink-muted mt-1.5">From ₹1,499 ($99)</p>
                 <div className="w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-gold to-gold-dark mt-2 transition-all duration-500" />
-              </button>
+              </LiquidGlassButton>
 
-              <button
+              <LiquidGlassButton
                 type="button"
                 onClick={() => scrollToSection("courses")}
                 className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer"
@@ -185,7 +185,7 @@ export default function ServicesPage() {
                 </div>
                 <p className="text-[11px] text-ink-muted mt-1.5">Curricula &amp; Bundles</p>
                 <div className="w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-sage to-ink mt-2 transition-all duration-500" />
-              </button>
+              </LiquidGlassButton>
             </div>
           </div>
 
@@ -233,8 +233,13 @@ export default function ServicesPage() {
                           ({SERVICES_PRICING.counselling.singleSession.formattedUsd})
                         </span>
                       </div>
-                      <Button asChild variant="primary" className="w-full">
-                        <Link href="/contact">Book 1 Session</Link>
+                      <Button
+                        href="/contact"
+                        variant="primary"
+                        className="w-full"
+                        showArrow
+                      >
+                        Book 1 Session
                       </Button>
                     </div>
                   </div>
@@ -263,8 +268,13 @@ export default function ServicesPage() {
                           ({SERVICES_PRICING.counselling.package4.formattedUsd})
                         </span>
                       </div>
-                      <Button asChild variant="secondary" className="w-full">
-                        <Link href="/contact">Select 4 Sessions</Link>
+                      <Button
+                        href="/contact"
+                        variant="secondary"
+                        className="w-full"
+                        showArrow
+                      >
+                        Select 4 Sessions
                       </Button>
                     </div>
                   </div>
@@ -299,8 +309,13 @@ export default function ServicesPage() {
                           ({SERVICES_PRICING.counselling.package8.formattedUsd})
                         </span>
                       </div>
-                      <Button asChild variant="gold" className="w-full">
-                        <Link href="/contact">Select 8 Sessions</Link>
+                      <Button
+                        href="/contact"
+                        variant="primary"
+                        className="w-full"
+                        showArrow
+                      >
+                        Select 8 Sessions
                       </Button>
                     </div>
                   </div>
@@ -368,8 +383,12 @@ export default function ServicesPage() {
                       </span>
                     </div>
 
-                    <Button asChild variant="crisis">
-                      <Link href="/contact">Request Stabilisation Call</Link>
+                    <Button
+                      href="/contact"
+                      variant="crisis"
+                      showArrow
+                    >
+                      Request Stabilisation Call
                     </Button>
                   </div>
                 </div>
@@ -415,8 +434,12 @@ export default function ServicesPage() {
                       </span>
                     </div>
 
-                    <Button asChild variant="secondary">
-                      <Link href="/contact">Join CentreLine</Link>
+                    <Button
+                      href="/contact"
+                      variant="secondary"
+                      showArrow
+                    >
+                      Join CentreLine
                     </Button>
                   </div>
                 </div>
@@ -546,8 +569,13 @@ export default function ServicesPage() {
                     <span className="font-serif text-xl font-bold text-ink">
                       {SERVICES_PRICING.courses.crisisCounselling.formattedInr} ({SERVICES_PRICING.courses.crisisCounselling.formattedUsd})
                     </span>
-                    <Button asChild variant="outline" size="sm">
-                      <Link href="/contact">Enroll</Link>
+                    <Button
+                      href="/contact"
+                      variant="outline"
+                      size="sm"
+                      showArrow
+                    >
+                      Enroll
                     </Button>
                   </div>
                 </div>
@@ -568,8 +596,13 @@ export default function ServicesPage() {
                     <span className="font-serif text-xl font-bold text-ink">
                       {SERVICES_PRICING.courses.cognitiveCounselling.formattedInr} ({SERVICES_PRICING.courses.cognitiveCounselling.formattedUsd})
                     </span>
-                    <Button asChild variant="outline" size="sm">
-                      <Link href="/contact">Enroll</Link>
+                    <Button
+                      href="/contact"
+                      variant="outline"
+                      size="sm"
+                      showArrow
+                    >
+                      Enroll
                     </Button>
                   </div>
                 </div>
@@ -590,8 +623,13 @@ export default function ServicesPage() {
                     <span className="font-serif text-xl font-bold text-gold">
                       {SERVICES_PRICING.courses.bundle.formattedInr} ({SERVICES_PRICING.courses.bundle.formattedUsd})
                     </span>
-                    <Button asChild variant="gold" size="sm">
-                      <Link href="/contact">Get Bundle</Link>
+                    <Button
+                      href="/contact"
+                      variant="primary"
+                      size="sm"
+                      showArrow
+                    >
+                      Get Bundle
                     </Button>
                   </div>
                 </div>

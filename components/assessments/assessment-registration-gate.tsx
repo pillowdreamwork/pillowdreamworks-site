@@ -152,14 +152,14 @@ export function AssessmentRegistrationGate({
             )}
           </div>
 
-          <button
+          <LiquidGlassButton
             type="button"
             onClick={onClose}
             aria-label="Decline and close registration"
             className="p-2 rounded-full hover:bg-black/5 text-[#202923]/60 hover:text-[#202923] transition-colors cursor-pointer shrink-0"
           >
             <X className="w-5 h-5" />
-          </button>
+          </LiquidGlassButton>
         </div>
 
         {/* Modal Scrollable Body */}
@@ -323,13 +323,13 @@ export function AssessmentRegistrationGate({
               </div>
 
               <div className="pt-4 flex items-center justify-between border-t border-[#24483B]/10">
-                <button
+                <LiquidGlassButton
                   type="button"
                   onClick={onClose}
                   className="text-xs font-semibold text-[#202923]/60 hover:text-[#202923] cursor-pointer"
                 >
                   Cancel &amp; Return to Catalog
-                </button>
+                </LiquidGlassButton>
 
                 <LiquidGlassButton
                   type="submit"
@@ -456,13 +456,13 @@ export function AssessmentRegistrationGate({
 
               {/* Action Buttons */}
               <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-[#24483B]/10">
-                <button
+                <LiquidGlassButton
                   type="button"
                   onClick={() => setStep("profile")}
                   className="text-xs font-semibold text-[#202923]/60 hover:text-[#202923] cursor-pointer"
                 >
                   ← Back to Profile
-                </button>
+                </LiquidGlassButton>
 
                 <LiquidGlassButton
                   type="submit"

@@ -111,7 +111,7 @@ export function ScrollNavigator() {
             {CHAPTERS.map((ch) => {
               const isActive = ch.id === activeId;
               return (
-                <button
+                <LiquidGlassButton
                   key={ch.id}
                   onClick={() => scrollTo(ch.id)}
                   aria-current={isActive ? "step" : undefined}
@@ -144,7 +144,7 @@ export function ScrollNavigator() {
                         : "bg-[#24483B]/25 group-hover:bg-[#24483B]/60"
                     }`}
                   />
-                </button>
+                </LiquidGlassButton>
               );
             })}
           </nav>
@@ -166,7 +166,7 @@ export function ScrollNavigator() {
 
           {/* Quick Back to Top */}
           {hasScrolled && (
-            <button
+            <LiquidGlassButton
               onClick={scrollToTop}
               title="Return to folio beginning"
               aria-label="Scroll back to top"
@@ -174,7 +174,7 @@ export function ScrollNavigator() {
             >
               <ChevronUp className="w-3.5 h-3.5" />
               <span>Top</span>
-            </button>
+            </LiquidGlassButton>
           )}
         </div>
       </aside>
@@ -184,7 +184,7 @@ export function ScrollNavigator() {
         aria-label="Current chapter indicator"
         className="xl:hidden fixed bottom-16 right-4 z-40 pointer-events-auto"
       >
-        <button
+        <LiquidGlassButton
           onClick={() => {
             const nextIdx = (CHAPTERS.findIndex((c) => c.id === activeId) + 1) % CHAPTERS.length;
             scrollTo(CHAPTERS[nextIdx].id);
@@ -194,7 +194,7 @@ export function ScrollNavigator() {
           <BookOpen className="w-3.5 h-3.5 text-[#C6A46A]" />
           <span className="font-mono text-[10px] text-[#C6A46A]">{activeChapter.num}</span>
           <span className="font-serif max-w-[120px] truncate">{activeChapter.title}</span>
-        </button>
+        </LiquidGlassButton>
       </aside>
     </>
   );

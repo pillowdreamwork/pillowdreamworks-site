@@ -14,7 +14,8 @@ import {
 } from "@/data/pricing";
 import { Sparkles, Info } from "lucide-react";
 
-export default function PricingPage() {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export default function PricingPage() {
   const [currency, setCurrency] = React.useState<"inr" | "usd">("inr");
 
   const isIndia = currency === "inr";
@@ -101,8 +102,13 @@ export default function PricingPage() {
                   </span>
                 </div>
               </div>
-              <Button asChild variant="primary" className="w-full mt-6">
-                <Link href="/books/psychology-toolkit">Get Toolkit</Link>
+              <Button
+                href="/books/psychology-toolkit"
+                variant="primary"
+                className="w-full mt-6"
+                showArrow
+              >
+                Get Toolkit
               </Button>
             </div>
 
@@ -134,8 +140,13 @@ export default function PricingPage() {
                   </div>
                 </div>
               </div>
-              <Button asChild variant="secondary" className="w-full mt-6">
-                <Link href="/books/finding-the-centre">Explore Formats</Link>
+              <Button
+                href="/books/finding-the-centre"
+                variant="secondary"
+                className="w-full mt-6"
+                showArrow
+              >
+                Explore Formats
               </Button>
             </div>
 
@@ -158,8 +169,13 @@ export default function PricingPage() {
                   </span>
                 </div>
               </div>
-              <Button asChild variant="gold" className="w-full mt-6">
-                <Link href="/books/bundles">View Complete Bundle</Link>
+              <Button
+                href="/books/bundles"
+                variant="primary"
+                className="w-full mt-6"
+                showArrow
+              >
+                View Complete Bundle
               </Button>
             </div>
           </div>

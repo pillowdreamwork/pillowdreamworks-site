@@ -405,7 +405,7 @@ export function BooksJourneyExperience() {
                 {/* Chapter Selector (5 Cols) */}
                 <div className="lg:col-span-5 flex flex-col gap-3">
                   {toolkitChapters.map((ch, idx) => (
-                    <button
+                    <LiquidGlassButton
                       key={ch.number}
                       onClick={() => setActiveToolkitChapter(idx)}
                       className={`text-left p-5 rounded-[18px] border transition-all duration-200 cursor-pointer ${
@@ -421,7 +421,7 @@ export function BooksJourneyExperience() {
                         <span>{ch.pages}</span>
                       </div>
                       <h3 className="font-serif text-xl font-normal mt-2">{ch.title}</h3>
-                    </button>
+                    </LiquidGlassButton>
                   ))}
                 </div>
 
@@ -511,7 +511,7 @@ export function BooksJourneyExperience() {
                     key={idx}
                     className="rounded-2xl border border-[#0F2038]/10 bg-[#FAFAFC] overflow-hidden"
                   >
-                    <button
+                    <LiquidGlassButton
                       onClick={() => setOpenFaqIndex(openFaqIndex === idx ? null : idx)}
                       className="w-full p-5 text-left flex items-center justify-between gap-4 font-serif text-base sm:text-lg font-normal text-[#0F2038] cursor-pointer"
                     >
@@ -521,7 +521,7 @@ export function BooksJourneyExperience() {
                           openFaqIndex === idx ? "rotate-180" : ""
                         }`}
                       />
-                    </button>
+                    </LiquidGlassButton>
                     {openFaqIndex === idx && (
                       <div className="p-5 pt-0 text-xs sm:text-sm text-[#0F2038]/75 leading-relaxed font-sans border-t border-[#0F2038]/5 animate-fadeIn">
                         {faq.a}
@@ -625,7 +625,7 @@ export function BooksJourneyExperience() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div className="lg:col-span-5 flex flex-col gap-3">
                   {centreThemes.map((theme, idx) => (
-                    <button
+                    <LiquidGlassButton
                       key={theme.number}
                       onClick={() => setActiveCentreTheme(idx)}
                       className={`text-left p-5 rounded-[18px] border transition-all duration-200 cursor-pointer ${
@@ -640,7 +640,7 @@ export function BooksJourneyExperience() {
                         </span>
                       </div>
                       <h3 className="font-serif text-xl font-normal mt-2">{theme.title}</h3>
-                    </button>
+                    </LiquidGlassButton>
                   ))}
                 </div>
 
@@ -757,7 +757,7 @@ export function BooksJourneyExperience() {
 
               {/* 2-Way Return Links to Explore Either Book */}
               <div className="pt-4 flex flex-wrap gap-4 text-xs font-mono">
-                <button
+                <LiquidGlassButton
                   onClick={() => {
                     setSelectedBook("toolkit");
                     window.scrollTo({ top: 400, behavior: "smooth" });
@@ -766,9 +766,9 @@ export function BooksJourneyExperience() {
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>Review The Psychology Toolkit</span>
-                </button>
+                </LiquidGlassButton>
                 <span className="text-ivory/30">•</span>
-                <button
+                <LiquidGlassButton
                   onClick={() => {
                     setSelectedBook("centre");
                     window.scrollTo({ top: 400, behavior: "smooth" });
@@ -777,7 +777,7 @@ export function BooksJourneyExperience() {
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>Review Finding The Centre</span>
-                </button>
+                </LiquidGlassButton>
               </div>
             </div>
 

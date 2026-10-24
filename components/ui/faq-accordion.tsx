@@ -71,7 +71,7 @@ export function FaqAccordion({
               </h3>
             )}
             <div className="overflow-hidden rounded-xl border border-navy/10 bg-cream">
-              <button
+              <LiquidGlassButton
                 id={buttonId}
                 type="button"
                 aria-expanded={open}
@@ -86,7 +86,7 @@ export function FaqAccordion({
                   aria-hidden="true"
                   className={`h-5 w-5 shrink-0 text-navy/50 transition-transform ${open ? "rotate-180" : ""}`}
                 />
-              </button>
+              </LiquidGlassButton>
               <div
                 id={panelId}
                 role="region"

@@ -71,19 +71,19 @@ export function StudioNavbar({ isAudioActive, onToggleAudio, onOpenReel }: Studi
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#00FFFF] transition-all duration-300 group-hover:w-full" />
             </a>
 
-            <button
+            <LiquidGlassButton
               onClick={onOpenReel}
               className="hover:text-black transition-colors duration-200 text-xs font-mono uppercase tracking-wider text-zinc-500 hover:text-zinc-900 border border-zinc-300/80 hover:border-zinc-900 px-2.5 py-1 rounded-full cursor-pointer flex items-center gap-1.5"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#00FFFF] animate-ping" />
               <span>Play Reel</span>
-            </button>
+            </LiquidGlassButton>
           </nav>
 
           {/* Right Action Controls */}
           <div className="flex items-center gap-4">
             {/* Audio Soundscape Toggle Button */}
-            <button
+            <LiquidGlassButton
               onClick={onToggleAudio}
               className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-mono transition-all cursor-pointer border border-zinc-200"
               title="Toggle interactive audio waves"
@@ -103,7 +103,7 @@ export function StudioNavbar({ isAudioActive, onToggleAudio, onOpenReel }: Studi
                   <span className="text-zinc-500">SOUND: OFF</span>
                 </>
               )}
-            </button>
+            </LiquidGlassButton>
 
             {/* Primary Action Paper Pill CTA */}
             <a
@@ -115,13 +115,13 @@ export function StudioNavbar({ isAudioActive, onToggleAudio, onOpenReel }: Studi
             </a>
 
             {/* Mobile Menu Toggle Button */}
-            <button
+            <LiquidGlassButton
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-full md:hidden bg-zinc-100 text-zinc-900 hover:bg-zinc-200 cursor-pointer"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+            </LiquidGlassButton>
           </div>
         </div>
       </header>
@@ -152,7 +152,7 @@ export function StudioNavbar({ isAudioActive, onToggleAudio, onOpenReel }: Studi
               <span>Labs &amp; R&amp;D</span>
               <span className="w-2 h-2 rounded-full bg-[#FF3333]" />
             </a>
-            <button
+            <LiquidGlassButton
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenReel();
@@ -160,17 +160,17 @@ export function StudioNavbar({ isAudioActive, onToggleAudio, onOpenReel }: Studi
               className="text-left text-xl text-zinc-600 hover:text-black"
             >
               Play Showreel 2026
-            </button>
+            </LiquidGlassButton>
           </div>
 
           <div className="flex flex-col gap-4 pt-8 border-t border-zinc-200">
-            <button
+            <LiquidGlassButton
               onClick={onToggleAudio}
               className="flex items-center justify-between p-3 rounded-xl bg-zinc-100 text-sm font-mono"
             >
               <span>Interactive Ambient Sound</span>
               <span>{isAudioActive ? "AUDIO ON" : "MUTED"}</span>
-            </button>
+            </LiquidGlassButton>
             <a
               href="#contact"
               onClick={() => setMobileMenuOpen(false)}

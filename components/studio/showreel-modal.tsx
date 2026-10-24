@@ -72,21 +72,21 @@ export function ShowreelModal({ isOpen, onClose }: ShowreelModalProps) {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
+            <LiquidGlassButton
               onClick={() => setIsMuted(!isMuted)}
               className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-mono transition-colors cursor-pointer"
             >
               {isMuted ? <VolumeX className="w-3.5 h-3.5 text-zinc-400" /> : <Volume2 className="w-3.5 h-3.5 text-[#00FFFF]" />}
               <span>{isMuted ? "MUTED" : "AUDIO ON"}</span>
-            </button>
+            </LiquidGlassButton>
 
-            <button
+            <LiquidGlassButton
               onClick={onClose}
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white hover:text-[#00FFFF] transition-colors cursor-pointer"
               aria-label="Close Showreel"
             >
               <X className="w-4 h-4" />
-            </button>
+            </LiquidGlassButton>
           </div>
         </div>
 
@@ -111,13 +111,13 @@ export function ShowreelModal({ isOpen, onClose }: ShowreelModalProps) {
           </div>
 
           {/* Central Play/Pause overlay */}
-          <button
+          <LiquidGlassButton
             onClick={() => setIsPlaying(!isPlaying)}
             className="absolute z-20 w-16 h-16 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all transform hover:scale-110 cursor-pointer shadow-lg"
             aria-label={isPlaying ? "Pause" : "Play"}
           >
             {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 translate-x-0.5" />}
-          </button>
+          </LiquidGlassButton>
         </div>
 
         {/* Bottom Timeline & Chapter Selector */}
@@ -133,7 +133,7 @@ export function ShowreelModal({ isOpen, onClose }: ShowreelModalProps) {
           <div className="flex items-center justify-between text-xs font-mono text-zinc-400">
             <div className="flex gap-4">
               {chapters.map((ch, idx) => (
-                <button
+                <LiquidGlassButton
                   key={ch.client}
                   onClick={() => {
                     setCurrentChapter(idx);
@@ -144,7 +144,7 @@ export function ShowreelModal({ isOpen, onClose }: ShowreelModalProps) {
                   }`}
                 >
                   0{idx + 1}. {ch.client}
-                </button>
+                </LiquidGlassButton>
               ))}
             </div>
             <div>0{currentChapter + 1} / 0{chapters.length}</div>

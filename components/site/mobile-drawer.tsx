@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X, PhoneCall } from "lucide-react";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -39,13 +40,15 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
               <span className="text-[9px] uppercase tracking-wider text-[#24483B]/70 font-sans font-semibold">Foundation</span>
             </div>
           </div>
-          <button
+          <LiquidGlassButton
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-[#24483B]/5 text-[#202923] cursor-pointer"
+            variant="subtle"
+            size="icon"
+            showArrow={false}
             aria-label="Close navigation"
           >
-            <X className="w-5 h-5" />
-          </button>
+            <X className="w-4 h-4 text-ink" />
+          </LiquidGlassButton>
         </div>
 
         {/* Navigation Links */}
@@ -61,7 +64,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
-                className={`p-3.5 rounded-xl transition-all ${
+                className={`p-3.5 rounded-2xl transition-all ${
                   isActive
                     ? "bg-[#24483B] text-[#FDFBF7] shadow-xs"
                     : "hover:bg-[#F5EFE6] text-[#202923]"
@@ -80,15 +83,30 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           })}
         </nav>
 
-        {/* Drawer Footer / Crisis Hotline */}
+        {/* Drawer Footer / Primary Action & Crisis Hotline */}
         <div className="pt-6 border-t border-[#24483B]/10 flex flex-col gap-3">
-          <a
-            href="tel:988"
-            className="flex items-center justify-center gap-2 py-3 rounded-xl bg-[#8B2626]/10 text-[#8B2626] font-mono text-xs border border-[#8B2626]/20 font-bold hover:bg-[#8B2626]/15 transition-colors"
+          <LiquidGlassButton
+            href="/books/psychology-toolkit"
+            onClick={onClose}
+            variant="primary"
+            size="md"
+            showArrow
+            className="w-full justify-between"
           >
-            <PhoneCall className="w-3.5 h-3.5" />
-            <span>Crisis Support: Call 988 / 14416</span>
-          </a>
+            <span>Get Psychology Toolkit</span>
+          </LiquidGlassButton>
+
+          <LiquidGlassButton
+            href="tel:988"
+            variant="crisis"
+            size="sm"
+            showArrow={false}
+            signalDot
+            className="w-full justify-center font-mono text-xs"
+          >
+            <PhoneCall className="w-3.5 h-3.5 mr-1" />
+            <span>Crisis Support: 988 / 14416</span>
+          </LiquidGlassButton>
           <p className="text-center text-[11px] font-mono text-[#202923]/50">
             PillowDreamWorks Foundation • Edition 2026
           </p>

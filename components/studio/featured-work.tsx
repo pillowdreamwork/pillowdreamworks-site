@@ -127,7 +127,7 @@ export function FeaturedWorkSection() {
           {categories.map((cat) => {
             const isActive = activeCategory === cat.value;
             return (
-              <button
+              <LiquidGlassButton
                 key={cat.value}
                 onClick={() => setActiveCategory(cat.value)}
                 className={`px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-200 cursor-pointer ${
@@ -137,7 +137,7 @@ export function FeaturedWorkSection() {
                 }`}
               >
                 {cat.label}
-              </button>
+              </LiquidGlassButton>
             );
           })}
         </div>
@@ -227,12 +227,12 @@ export function FeaturedWorkSection() {
                   {selectedProject.client} • {selectedProject.year}
                 </span>
               </div>
-              <button
+              <LiquidGlassButton
                 onClick={() => setSelectedProject(null)}
                 className="text-xs font-mono px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 cursor-pointer"
               >
                 CLOSE [ESC]
-              </button>
+              </LiquidGlassButton>
             </div>
 
             <div className="py-6">
@@ -250,12 +250,12 @@ export function FeaturedWorkSection() {
             </div>
 
             <div className="pt-4 flex justify-end gap-3">
-              <button
+              <LiquidGlassButton
                 onClick={() => setSelectedProject(null)}
                 className="px-5 py-2.5 rounded-full bg-white text-black text-xs font-mono uppercase font-bold hover:bg-[#00FFFF] transition-colors cursor-pointer"
               >
                 Launch Case Study
-              </button>
+              </LiquidGlassButton>
             </div>
           </div>
         </div>

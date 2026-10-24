@@ -90,14 +90,23 @@ export default function PsychologyToolkitPage() {
                 </div>
 
                 <div className="pt-2 flex flex-col sm:flex-row gap-3">
-                  <Button asChild size="lg" variant="primary" className="w-full sm:w-auto">
-                    <Link href="/contact">
-                      <span>Enquire About Digital Access (A4 PDF)</span>
-                      <ArrowRight className="w-4 h-4 ml-1" />
-                    </Link>
+                  <Button
+                    href="/contact"
+                    size="lg"
+                    variant="primary"
+                    className="w-full sm:w-auto"
+                    showArrow
+                  >
+                    Enquire About Digital Access (A4 PDF)
                   </Button>
-                  <Button asChild size="lg" variant="secondary" className="w-full sm:w-auto">
-                    <Link href="/books/bundles">View Complete Bundle</Link>
+                  <Button
+                    href="/books/bundles"
+                    size="lg"
+                    variant="secondary"
+                    className="w-full sm:w-auto"
+                    showArrow
+                  >
+                    View Complete Bundle
                   </Button>
                 </div>
 
@@ -361,7 +370,7 @@ export default function PsychologyToolkitPage() {
                     </h3>
                   )}
                   <div className="bg-cream rounded-xl border border-navy/10 overflow-hidden">
-                    <button
+                    <LiquidGlassButton
                       onClick={() => setActiveFaq(isOpen ? null : idx)}
                       className="w-full p-5 text-left font-serif text-lg font-bold text-navy flex items-center justify-between gap-4 cursor-pointer"
                     >
@@ -371,7 +380,7 @@ export default function PsychologyToolkitPage() {
                           isOpen ? "rotate-180" : ""
                         }`}
                       />
-                    </button>
+                    </LiquidGlassButton>
                     {isOpen && (
                       <div className="px-5 pb-5 text-sm text-navy/75 leading-relaxed border-t border-navy/5 pt-3">
                         {faq.answer}
@@ -414,16 +423,21 @@ export default function PsychologyToolkitPage() {
             Digital workbook (printable A4 PDF). {CHECKOUT_NOTICE}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg" variant="gold">
-              <Link href="/contact">
-                <span>Enquire — {BOOKS_PRICING.toolkit.formattedInr} ({BOOKS_PRICING.toolkit.formattedUsd})</span>
-                <ArrowRight className="w-4 h-4 ml-1" />
-              </Link>
+            <Button
+              href="/contact"
+              size="lg"
+              variant="primary"
+              showArrow
+            >
+              Enquire — {BOOKS_PRICING.toolkit.formattedInr} ({BOOKS_PRICING.toolkit.formattedUsd})
             </Button>
-            <Button asChild size="lg" variant="outline" className="text-ivory border-ivory/30 hover:bg-ivory/10">
-              <Link href="/books/bundles">
-                View Complete Bundle ({BOOKS_PRICING.bundle.formattedInr} / {BOOKS_PRICING.bundle.formattedUsd})
-              </Link>
+            <Button
+              href="/books/bundles"
+              size="lg"
+              variant="secondary"
+              showArrow
+            >
+              View Complete Bundle ({BOOKS_PRICING.bundle.formattedInr} / {BOOKS_PRICING.bundle.formattedUsd})
             </Button>
           </div>
         </section>

@@ -3,7 +3,8 @@
 import React from "react";
 import { motion } from "motion/react";
 
-interface StoryTextProps {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface StoryTextProps {
   label: string;
   title: string;
   text?: string;

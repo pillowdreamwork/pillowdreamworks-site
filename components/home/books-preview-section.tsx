@@ -175,7 +175,7 @@ export function BooksPreviewSection() {
                         {CHAPTER_DETAILS.map((ch, idx) => {
                           const isSelected = activeChapter === idx;
                           return (
-                            <button
+                            <LiquidGlassButton
                               key={ch.num}
                               onClick={() => setActiveChapter(idx)}
                               className={`w-full text-left p-3 rounded-lg text-xs font-mono transition-all flex items-center justify-between cursor-pointer ${
@@ -188,7 +188,7 @@ export function BooksPreviewSection() {
                               <span className={`text-[10px] ${isSelected ? "text-[#C6A46A]" : "text-[#202923]/40"}`}>
                                 Ch. {ch.num}
                               </span>
-                            </button>
+                            </LiquidGlassButton>
                           );
                         })}
                       </div>
@@ -283,9 +283,9 @@ export function BooksPreviewSection() {
                       href={slide.href}
                       variant={isNavy ? "gold" : "primary"}
                       size="lg"
+                      showArrow
                     >
                       <span>{slide.cta}</span>
-                      <ArrowRight className="w-4 h-4 ml-1" />
                     </LiquidGlassButton>
                   </div>
                 </div>

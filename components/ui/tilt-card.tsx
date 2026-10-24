@@ -3,7 +3,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface TiltCardProps extends React.HTMLAttributes<HTMLDivElement> {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export interface TiltCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
   maxTilt?: number;

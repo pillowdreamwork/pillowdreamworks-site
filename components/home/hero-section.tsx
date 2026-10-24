@@ -135,14 +135,14 @@ export function HeroSection() {
                 href="/books/psychology-toolkit"
                 variant="primary"
                 size="lg"
+                showArrow
               >
                 <span>Acquire The Psychology Toolkit</span>
-                <ArrowRight className="w-4 h-4 ml-1" />
               </LiquidGlassButton>
 
               <LiquidGlassButton
                 href="/assessments"
-                variant="subtle"
+                variant="secondary"
                 size="lg"
                 showArrow
               >

@@ -26,9 +26,9 @@ export const PurchaseControl = ({
         href={checkoutUrl}
         variant={variant === "solid" ? "primary" : "secondary"}
         size="md"
+        showArrow
       >
-        <span>{label}</span>
-        <ArrowRight className="w-4 h-4 ml-1" />
+        {label}
       </LiquidGlassButton>
     );
   }
@@ -39,8 +39,9 @@ export const PurchaseControl = ({
         onClick={() => setNotice(true)}
         variant={variant === "solid" ? "primary" : "secondary"}
         size="md"
+        showArrow
       >
-        <span>{label}</span>
+        {label}
       </LiquidGlassButton>
 
       <div role="status" aria-live="polite">
@@ -61,13 +62,13 @@ export const PurchaseControl = ({
                 <MessageSquare className="w-3.5 h-3.5 mr-1" />
                 <span>Order via Foundation Desk</span>
               </LiquidGlassButton>
-              <button
+              <LiquidGlassButton
                 type="button"
                 onClick={onReturn}
                 className="px-3 py-1.5 text-xs font-mono text-[#24483B] hover:underline cursor-pointer"
               >
                 Return to the library
-              </button>
+              </LiquidGlassButton>
             </div>
           </div>
         )}

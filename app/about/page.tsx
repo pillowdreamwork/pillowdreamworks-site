@@ -242,11 +242,11 @@ export default function AboutPage() {
             Explore the Resources
           </h2>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2">
-            <LiquidGlassButton href="/books" variant="primary" size="md">
-              <span>Browse Guided Books</span>
+            <LiquidGlassButton href="/books" variant="primary" size="md" showArrow>
+              Browse Guided Books
             </LiquidGlassButton>
-            <LiquidGlassButton href="/contact" variant="secondary" size="md">
-              <span>Direct Inquiries</span>
+            <LiquidGlassButton href="/contact" variant="secondary" size="md" showArrow>
+              Direct Inquiries
             </LiquidGlassButton>
           </div>
         </div>

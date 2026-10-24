@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { LegalReviewNotice } from "@/components/legal/legal-review-notice";
 
-export const metadata: Metadata = {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export const metadata: Metadata = {
   title: "Terms of Service — PillowDreamWorks Foundation",
   description: "Terms and conditions governing the use of PillowDreamWorks Foundation websites, publications, and services.",
 };

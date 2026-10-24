@@ -5,7 +5,8 @@ import { motion, useScroll, useTransform, useReducedMotion } from "motion/react"
 import { BOOKS, BUNDLE_PRICING, formatPrice } from "@/data/books";
 import { PurchaseControl } from "./PurchaseControl";
 
-interface BundleRevealProps {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface BundleRevealProps {
   onReturn: () => void;
 }
 

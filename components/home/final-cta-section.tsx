@@ -41,17 +41,18 @@ export function FinalCTASection() {
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <LiquidGlassButton
               href="/books/psychology-toolkit"
-              variant="gold"
+              variant="primary"
               size="lg"
+              showArrow
             >
               <span>Acquire Toolkit ({BOOKS_PRICING.toolkit.formattedInr} / {BOOKS_PRICING.toolkit.formattedUsd})</span>
-              <ArrowRight className="w-4 h-4 ml-1" />
             </LiquidGlassButton>
 
             <LiquidGlassButton
               href="/books"
               variant="secondary"
               size="lg"
+              showArrow
             >
               <span>Explore All Publications</span>
             </LiquidGlassButton>

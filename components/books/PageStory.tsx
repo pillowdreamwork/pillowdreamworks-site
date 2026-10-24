@@ -4,7 +4,8 @@ import React from "react";
 import { BookScrollItem } from "@/data/books";
 import { StoryScene, StoryStep } from "./StoryScene";
 
-interface PageStoryProps {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface PageStoryProps {
   items: BookScrollItem[];
   bookTitle: string;
   tone?: "default" | "centre";

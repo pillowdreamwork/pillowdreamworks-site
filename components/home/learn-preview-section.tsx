@@ -111,13 +111,14 @@ export function LearnPreviewSection() {
 
             <div className="pt-8 mt-6 border-t border-[#24483B]/10 flex items-center justify-between">
               <span className="text-xs text-[#202923]/50 font-mono">By {FEATURED_ESSAY.author} · {FEATURED_ESSAY.date}</span>
-              <Link
+              <LiquidGlassButton
                 href="/learn"
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-semibold text-[#24483B] hover:text-[#1A3529] group transition-colors"
+                variant="secondary"
+                size="sm"
+                showArrow
               >
-                <span>Read Full Essay</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </Link>
+                Read Full Essay
+              </LiquidGlassButton>
             </div>
           </motion.div>
 
@@ -148,13 +149,13 @@ export function LearnPreviewSection() {
                     {item.excerpt}
                   </p>
 
-                  <button
+                  <LiquidGlassButton
                     onClick={() => toggleSnap(item.code)}
                     className="inline-flex items-center gap-1.5 text-xs font-mono text-[#24483B] hover:text-[#1A3529] transition-colors cursor-pointer py-1 font-medium"
                   >
                     <span>{isOpen ? "Close Insight" : "Unfold Practical Insight"}</span>
                     <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? "rotate-180" : ""}`} />
-                  </button>
+                  </LiquidGlassButton>
 
                   <AnimatePresence>
                     {isOpen && (

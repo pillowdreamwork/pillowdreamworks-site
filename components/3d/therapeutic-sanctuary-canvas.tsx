@@ -3,7 +3,8 @@
 import * as React from "react";
 import * as THREE from "three";
 
-interface TherapeuticSanctuaryCanvasProps {
+
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface TherapeuticSanctuaryCanvasProps {
   className?: string;
   onSelectSculpture?: (sectionId: string) => void;
 }
