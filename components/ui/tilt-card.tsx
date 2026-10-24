@@ -3,22 +3,25 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-interface TiltCardProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TiltCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   className?: string;
   maxTilt?: number;
   glare?: boolean;
+  glassmorphism?: boolean;
 }
 
 /**
  * 3D Tilt Card with hardware-accelerated perspective, smooth spring interpolation,
- * and dynamic light reflection glare overlay.
+ * dynamic specular reflection glare overlay, and optional liquid ivory/cream glassmorphism.
  */
 export function TiltCard({
   children,
   className,
   maxTilt = 7,
   glare = true,
+  glassmorphism = false,
+  style,
   ...props
 }: TiltCardProps) {
   const cardRef = React.useRef<HTMLDivElement>(null);
@@ -60,7 +63,9 @@ export function TiltCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        "relative transition-transform duration-200 ease-out preserve-3d will-change-transform",
+        "relative transition-transform duration-200 ease-out will-change-transform",
+        glassmorphism &&
+          "bg-[#FAF9F5]/70 backdrop-blur-xl border border-[#24483B]/15 shadow-sm rounded-3xl",
         className
       )}
       style={{
@@ -68,6 +73,7 @@ export function TiltCard({
           ? `perspective(1000px) rotateX(${coords.x}deg) rotateY(${coords.y}deg) translateZ(6px)`
           : "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)",
         transformStyle: "preserve-3d",
+        ...style,
       }}
       {...props}
     >
