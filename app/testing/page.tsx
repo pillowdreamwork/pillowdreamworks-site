@@ -1,5 +1,5 @@
-import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 "use client";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 // TEST-ONLY HARNESS
 // Renders the real PSYCH_ASSESSMENTS catalog and its scoring/interpretation

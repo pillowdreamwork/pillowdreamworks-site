@@ -1,5 +1,5 @@
-import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 "use client";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 import React, { useState, useEffect, useRef } from "react";
 import { X, Play, Pause, Volume2, VolumeX, Sparkles } from "lucide-react";

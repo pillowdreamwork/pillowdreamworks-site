@@ -1,5 +1,5 @@
-import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 "use client";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 import React, { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
