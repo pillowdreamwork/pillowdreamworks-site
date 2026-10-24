@@ -294,8 +294,8 @@ export const LiquidGlassButton = React.forwardRef<
         style={inlineStyle}
         disabled={disabled}
         type={(props as React.ButtonHTMLAttributes<HTMLButtonElement>).type || "button"}
-        onPointerMove={handlePointerMove}
-        onPointerLeave={handlePointerLeave}
+        onPointerMove={handlePointerMove as React.PointerEventHandler<HTMLButtonElement>}
+        onPointerLeave={handlePointerLeave as React.PointerEventHandler<HTMLButtonElement>}
         {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
       >
         {content}
