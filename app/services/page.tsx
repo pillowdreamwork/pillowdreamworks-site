@@ -4,7 +4,6 @@ import * as React from "react";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TiltCard } from "@/components/ui/tilt-card";
 import { TherapeuticSanctuaryCanvas } from "@/components/3d/therapeutic-sanctuary-canvas";
@@ -58,7 +57,7 @@ export default function ServicesPage() {
   return (
     <main className="min-h-screen bg-ivory text-ink relative overflow-hidden">
 
-      {/* ═══ Ambient Background Orbs ═══ */}
+      {/* ═══ Ambient Background Orbs — Premium Glass Depth ═══ */}
       <div className="ambient-orb ambient-orb-sage w-[600px] h-[600px] top-[-120px] right-[-200px] animate-orb-drift" />
       <div className="ambient-orb ambient-orb-gold w-[500px] h-[500px] top-[40%] left-[-250px] animate-orb-drift" style={{ animationDelay: "-4s" }} />
       <div className="ambient-orb ambient-orb-vermilion w-[400px] h-[400px] bottom-[10%] right-[-150px] animate-orb-drift" style={{ animationDelay: "-8s" }} />
@@ -68,23 +67,23 @@ export default function ServicesPage() {
         <Container>
 
           {/* ═══════════════════════════════════════════════════════════════
-               Hero — Glassmorphism Editorial Header
+               Hero — Premium Glassmorphism Editorial Header
              ═══════════════════════════════════════════════════════════════ */}
           <div
             ref={hero.ref}
             className={`text-center max-w-4xl mx-auto space-y-6 mb-16 transition-all duration-1000 ease-out ${hero.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
             {/* Vermilion-accented badge */}
-            <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass-content-card text-forest text-xs font-semibold tracking-wide">
+            <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass-hero-panel text-forest text-xs font-semibold tracking-wide shadow-sm">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-vermilion opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-vermilion shadow-[0_0_8px_rgba(232,93,63,0.7)]" />
               </span>
-              <span>Clinical Care &amp; Ongoing Guidance</span>
+              <span>Clinical Care & Ongoing Guidance</span>
             </div>
 
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-ink">
-              Services &amp; Therapeutic Support
+              Services & Therapeutic Support
             </h1>
 
             <p className="text-base sm:text-lg text-ink-muted leading-relaxed font-sans max-w-2xl mx-auto">
@@ -101,7 +100,7 @@ export default function ServicesPage() {
 
 
           {/* ═══════════════════════════════════════════════════════════════
-               3D Therapeutic Sanctuary — Glass Console
+               3D Therapeutic Sanctuary — Premium Glass Console
              ═══════════════════════════════════════════════════════════════ */}
           <div className="glass-3d-console rounded-3xl p-6 sm:p-8 space-y-6 mb-20">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-forest/10 pb-4">
@@ -116,76 +115,81 @@ export default function ServicesPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                <Button
-                  type="button"
-                  onClick={() => setShow3d(!show3d)}
-                  variant="outline"
-                  size="sm"
-                >
-                  <span>{show3d ? "Hide 3D Space" : "Show 3D Space"}</span>
-                </Button>
+                <Link href="#counselling" passHref>
+                  <TiltCard maxTilt={3} className="inline-block">
+                    <span className="cursor-pointer text-xs font-medium text-forest hover:text-ink transition-colors px-4 py-2 rounded-full glass-content-card border border-forest/15">
+                      Jump to Counselling
+                    </span>
+                  </TiltCard>
+                </Link>
               </div>
             </div>
 
-            {show3d && (
-              <div className="rounded-2xl overflow-hidden border border-forest/8" style={{ background: "linear-gradient(to bottom, rgba(245,239,230,0.4), rgba(253,251,247,0.7))" }}>
-                <TherapeuticSanctuaryCanvas onSelectSculpture={scrollToSection} />
-              </div>
-            )}
+            <div className="rounded-2xl overflow-hidden border border-forest/8" style={{ background: "linear-gradient(to bottom, rgba(245,239,230,0.4), rgba(253,251,247,0.7))" }}>
+              <TherapeuticSanctuaryCanvas onSelectSculpture={scrollToSection} />
+            </div>
 
-            {/* Quick Navigator Tabs — glass pill cards */}
+            {/* Quick Navigator Tabs — premium glass pill cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2">
-              <LiquidGlassButton
-                type="button"
-                onClick={() => scrollToSection("counselling")}
-                className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer"
-              >
-                <div className="flex items-center gap-2 text-xs font-semibold text-forest">
-                  <HeartHandshake className="w-3.5 h-3.5" />
-                  <span>1-on-1 Counselling</span>
-                </div>
-                <p className="text-[11px] text-ink-muted mt-1.5">From ₹799 ($69)</p>
-                <div className="w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-sage to-forest mt-2 transition-all duration-500" />
-              </LiquidGlassButton>
+              <Link href="#counselling" passHref>
+                <a className="block">
+                  <TiltCard maxTilt={4} className="h-full">
+                    <div className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer h-full flex flex-col">
+                      <div className="flex items-center gap-2 text-xs font-semibold text-forest">
+                        <HeartHandshake className="w-3.5 h-3.5" />
+                        <span>1-on-1 Counselling</span>
+                      </div>
+                      <p className="text-[11px] text-ink-muted mt-1.5 font-sans">{SERVICES_PRICING.crisis.centreLine.formattedInr}</p>
+                      <div className="mt-auto w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-sage to-forest mt-2 transition-all duration-500" />
+                    </div>
+                  </TiltCard>
+                </a>
+              </Link>
 
-              <LiquidGlassButton
-                type="button"
-                onClick={() => scrollToSection("crisis")}
-                className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer"
-              >
-                <div className="flex items-center gap-2 text-xs font-semibold text-crisis">
-                  <Phone className="w-3.5 h-3.5" />
-                  <span>Crisis &amp; CentreLine</span>
-                </div>
-                <p className="text-[11px] text-ink-muted mt-1.5">Scheduled call &amp; check-ins</p>
-                <div className="w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-vermilion/60 to-crisis mt-2 transition-all duration-500" />
-              </LiquidGlassButton>
+              <Link href="#crisis" passHref>
+                <a className="block">
+                  <TiltCard maxTilt={4} className="h-full">
+                    <div className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer h-full flex flex-col">
+                      <div className="flex items-center gap-2 text-xs font-semibold text-crisis">
+                        <Phone className="w-3.5 h-3.5" />
+                        <span>Crisis & CentreLine</span>
+                      </div>
+                      <p className="text-[11px] text-ink-muted mt-1.5 font-sans">Scheduled call & check-ins</p>
+                      <div className="mt-auto w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-vermilion/60 to-crisis mt-2 transition-all duration-500" />
+                    </div>
+                  </TiltCard>
+                </a>
+              </Link>
 
-              <LiquidGlassButton
-                type="button"
-                onClick={() => scrollToSection("graphology")}
-                className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer"
-              >
-                <div className="flex items-center gap-2 text-xs font-semibold text-gold-dark">
-                  <PenTool className="w-3.5 h-3.5" />
-                  <span>Graphotherapy</span>
-                </div>
-                <p className="text-[11px] text-ink-muted mt-1.5">From ₹1,499 ($99)</p>
-                <div className="w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-gold to-gold-dark mt-2 transition-all duration-500" />
-              </LiquidGlassButton>
+              <Link href="#graphology" passHref>
+                <a className="block">
+                  <TiltCard maxTilt={4} className="h-full">
+                    <div className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer h-full flex flex-col">
+                      <div className="flex items-center gap-2 text-xs font-semibold text-gold-dark">
+                        <PenTool className="w-3.5 h-3.5" />
+                        <span>Graphotherapy</span>
+                      </div>
+                      <p className="text-[11px] text-ink-muted mt-1.5 font-sans">From ₹1,499 ($99)</p>
+                      <div className="mt-auto w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-gold to-gold-dark mt-2 transition-all duration-500" />
+                    </div>
+                  </TiltCard>
+                </a>
+              </Link>
 
-              <LiquidGlassButton
-                type="button"
-                onClick={() => scrollToSection("courses")}
-                className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer"
-              >
-                <div className="flex items-center gap-2 text-xs font-semibold text-ink">
-                  <GraduationCap className="w-3.5 h-3.5" />
-                  <span>Masterclasses</span>
-                </div>
-                <p className="text-[11px] text-ink-muted mt-1.5">Curricula &amp; Bundles</p>
-                <div className="w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-sage to-ink mt-2 transition-all duration-500" />
-              </LiquidGlassButton>
+              <Link href="#courses" passHref>
+                <a className="block">
+                  <TiltCard maxTilt={4} className="h-full">
+                    <div className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer h-full flex flex-col">
+                      <div className="flex items-center gap-2 text-xs font-semibold text-ink">
+                        <GraduationCap className="w-3.5 h-3.5" />
+                        <span>Masterclasses</span>
+                      </div>
+                      <p className="text-[11px] text-ink-muted mt-1.5 font-sans">Curricula & bundles</p>
+                      <div className="mt-auto w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-sage to-ink mt-2 transition-all duration-500" />
+                    </div>
+                  </TiltCard>
+                </a>
+              </Link>
             </div>
           </div>
 
@@ -212,7 +216,7 @@ export default function ServicesPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Single Session */}
                 <TiltCard maxTilt={5}>
-                  <div className="h-full glass-content-card rounded-3xl p-7 flex flex-col justify-between">
+                  <div className="h-full glass-hero-panel rounded-3xl p-7 flex flex-col justify-between">
                     <div className="space-y-4">
                       <span className="text-xs font-semibold uppercase tracking-wider text-forest block">
                         Single Consultation
@@ -233,21 +237,23 @@ export default function ServicesPage() {
                           ({SERVICES_PRICING.counselling.singleSession.formattedUsd})
                         </span>
                       </div>
-                      <Button
-                        href="/contact"
-                        variant="primary"
-                        className="w-full"
-                        showArrow
-                      >
-                        Book 1 Session
-                      </Button>
+                      <Link href="/contact">
+                        <a className="block">
+                          <TiltCard maxTilt={3} className="inline-block">
+                            <span className="liquid-glass-primary text-sm font-medium cursor-pointer px-6 py-3 rounded-full inline-flex items-center gap-2 shadow-lg hover:shadow-xl transition-all">
+                              Book 1 Session
+                              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                            </span>
+                          </TiltCard>
+                        </a>
+                      </Link>
                     </div>
                   </div>
                 </TiltCard>
 
                 {/* Package 4 */}
                 <TiltCard maxTilt={5}>
-                  <div className="h-full glass-content-card rounded-3xl p-7 flex flex-col justify-between">
+                  <div className="h-full glass-hero-panel rounded-3xl p-7 flex flex-col justify-between">
                     <div className="space-y-4">
                       <span className="text-xs font-semibold uppercase tracking-wider text-forest block">
                         Month-Long Progress
@@ -268,14 +274,16 @@ export default function ServicesPage() {
                           ({SERVICES_PRICING.counselling.package4.formattedUsd})
                         </span>
                       </div>
-                      <Button
-                        href="/contact"
-                        variant="secondary"
-                        className="w-full"
-                        showArrow
-                      >
-                        Select 4 Sessions
-                      </Button>
+                      <Link href="/contact">
+                        <a className="block">
+                          <TiltCard maxTilt={3} className="inline-block">
+                            <span className="liquid-glass-secondary text-sm font-medium cursor-pointer px-6 py-3 rounded-full inline-flex items-center gap-2 hover:shadow-md transition-all">
+                              Select 4 Sessions
+                              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                            </span>
+                          </TiltCard>
+                        </a>
+                      </Link>
                     </div>
                   </div>
                 </TiltCard>
@@ -309,14 +317,16 @@ export default function ServicesPage() {
                           ({SERVICES_PRICING.counselling.package8.formattedUsd})
                         </span>
                       </div>
-                      <Button
-                        href="/contact"
-                        variant="primary"
-                        className="w-full"
-                        showArrow
-                      >
-                        Select 8 Sessions
-                      </Button>
+                      <Link href="/contact">
+                        <a className="block">
+                          <TiltCard maxTilt={3} className="inline-block">
+                            <span className="liquid-glass-primary text-sm font-medium cursor-pointer px-6 py-3 rounded-full inline-flex items-center gap-2 shadow-lg hover:shadow-xl transition-all">
+                              Select 8 Sessions
+                              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                            </span>
+                          </TiltCard>
+                        </a>
+                      </Link>
                     </div>
                   </div>
                 </TiltCard>
@@ -363,9 +373,9 @@ export default function ServicesPage() {
                         <span>National crisis helplines:</span>
                       </div>
                       <ul className="space-y-1 font-mono text-[11px]">
-                        <li><strong>India — Tele-MANAS:</strong> 14416</li>
-                        <li><strong>India — Vandrevala Foundation:</strong> +91 9999 666 555</li>
-                        <li><strong>United States — 988 Suicide &amp; Crisis Lifeline:</strong> 988</li>
+                          <li><strong>India — Tele-MANAS:</strong> 14416</li>
+                          <li><strong>India — Vandrevala Foundation:</strong> +91 9999 666 555</li>
+                          <li><strong>United States — 988 Suicide & Crisis Lifeline:</strong> 988</li>
                       </ul>
                       <p className="text-[11px] text-ink-muted font-sans">
                         If you are in immediate danger, contact your local emergency number.
@@ -383,20 +393,23 @@ export default function ServicesPage() {
                       </span>
                     </div>
 
-                    <Button
-                      href="/contact"
-                      variant="crisis"
-                      showArrow
-                    >
-                      Request Stabilisation Call
-                    </Button>
+                    <Link href="/contact">
+                      <a className="block">
+                        <TiltCard maxTilt={3} className="inline-block">
+                          <span className="liquid-glass-primary text-sm font-medium cursor-pointer px-6 py-3 rounded-full inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all">
+                            Request Stabilisation Call
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                          </span>
+                        </TiltCard>
+                      </a>
+                    </Link>
                   </div>
                 </div>
               </TiltCard>
 
               {/* CentreLine — Sage Glass */}
               <TiltCard maxTilt={4}>
-                <div id="centreline" className="h-full glass-section rounded-3xl p-8 sm:p-10 flex flex-col justify-between space-y-6 scroll-mt-24">
+                <div id="centreline" className="h-full glass-hero-panel rounded-3xl p-8 sm:p-10 flex flex-col justify-between space-y-6 scroll-mt-24">
                   <div className="space-y-4">
                     <Badge variant="sage">Ongoing Support</Badge>
 
@@ -434,13 +447,16 @@ export default function ServicesPage() {
                       </span>
                     </div>
 
-                    <Button
-                      href="/contact"
-                      variant="secondary"
-                      showArrow
-                    >
-                      Join CentreLine
-                    </Button>
+                    <Link href="/contact">
+                      <a className="block">
+                        <TiltCard maxTilt={3} className="inline-block">
+                          <span className="liquid-glass-secondary text-sm font-medium cursor-pointer px-6 py-3 rounded-full inline-flex items-center justify-center gap-2 hover:shadow-md transition-all">
+                            Join CentreLine
+                            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                          </span>
+                        </TiltCard>
+                      </a>
+                    </Link>
                   </div>
                 </div>
               </TiltCard>
@@ -461,7 +477,7 @@ export default function ServicesPage() {
               <div className="space-y-3">
                 <Badge variant="gold">Subconscious Handwriting Analysis</Badge>
                 <h2 className="font-serif text-3xl sm:text-4xl font-bold text-ink">
-                  Graphotherapy &amp; Handwriting Realignment
+                  Graphotherapy & Handwriting Realignment
                 </h2>
                 <p className="text-sm text-ink-muted max-w-2xl font-sans">
                   Discover how stroke patterns, margins, pressure, and letter formations reflect your subconscious emotional defenses and learn targeted realignment strokes.
@@ -476,7 +492,7 @@ export default function ServicesPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {/* Basic */}
                 <TiltCard maxTilt={5}>
-                  <div className="h-full p-6 sm:p-7 rounded-2xl glass-content-card flex flex-col justify-between">
+                  <div className="h-full p-6 sm:p-7 rounded-2xl glass-hero-panel flex flex-col justify-between">
                     <div className="space-y-2">
                       <h4 className="font-serif text-lg font-bold text-ink">
                         {SERVICES_PRICING.graphology.basic.title}
@@ -496,7 +512,7 @@ export default function ServicesPage() {
 
                 {/* Standard */}
                 <TiltCard maxTilt={5}>
-                  <div className="h-full p-6 sm:p-7 rounded-2xl glass-content-card flex flex-col justify-between">
+                  <div className="h-full p-6 sm:p-7 rounded-2xl glass-hero-panel flex flex-col justify-between">
                     <div className="space-y-2">
                       <h4 className="font-serif text-lg font-bold text-ink">
                         {SERVICES_PRICING.graphology.standard.title}
@@ -516,7 +532,7 @@ export default function ServicesPage() {
 
                 {/* Deep */}
                 <TiltCard maxTilt={5}>
-                  <div className="h-full p-6 sm:p-7 rounded-2xl glass-content-card flex flex-col justify-between">
+                  <div className="h-full p-6 sm:p-7 rounded-2xl glass-hero-panel flex flex-col justify-between">
                     <div className="space-y-2">
                       <h4 className="font-serif text-lg font-bold text-ink">
                         {SERVICES_PRICING.graphology.deep.title}
@@ -555,7 +571,7 @@ export default function ServicesPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <TiltCard maxTilt={5}>
-                <div className="h-full glass-content-card rounded-3xl p-7 flex flex-col justify-between">
+                <div className="h-full glass-hero-panel rounded-3xl p-7 flex flex-col justify-between">
                   <div className="space-y-3">
                     <Badge variant="navy">Curriculum 01</Badge>
                     <h4 className="font-serif text-xl font-bold text-ink">
@@ -569,20 +585,22 @@ export default function ServicesPage() {
                     <span className="font-serif text-xl font-bold text-ink">
                       {SERVICES_PRICING.courses.crisisCounselling.formattedInr} ({SERVICES_PRICING.courses.crisisCounselling.formattedUsd})
                     </span>
-                    <Button
-                      href="/contact"
-                      variant="outline"
-                      size="sm"
-                      showArrow
-                    >
-                      Enroll
-                    </Button>
+                    <Link href="/contact">
+                      <a className="block">
+                        <TiltCard maxTilt={3} className="inline-block">
+                          <span className="liquid-glass-subtle text-xs font-medium cursor-pointer px-4 py-2 rounded-full inline-flex items-center gap-1.5 transition-all">
+                            Enroll
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </TiltCard>
+                      </a>
+                    </Link>
                   </div>
                 </div>
               </TiltCard>
 
               <TiltCard maxTilt={5}>
-                <div className="h-full glass-content-card rounded-3xl p-7 flex flex-col justify-between">
+                <div className="h-full glass-hero-panel rounded-3xl p-7 flex flex-col justify-between">
                   <div className="space-y-3">
                     <Badge variant="navy">Curriculum 02</Badge>
                     <h4 className="font-serif text-xl font-bold text-ink">
@@ -596,14 +614,16 @@ export default function ServicesPage() {
                     <span className="font-serif text-xl font-bold text-ink">
                       {SERVICES_PRICING.courses.cognitiveCounselling.formattedInr} ({SERVICES_PRICING.courses.cognitiveCounselling.formattedUsd})
                     </span>
-                    <Button
-                      href="/contact"
-                      variant="outline"
-                      size="sm"
-                      showArrow
-                    >
-                      Enroll
-                    </Button>
+                    <Link href="/contact">
+                      <a className="block">
+                        <TiltCard maxTilt={3} className="inline-block">
+                          <span className="liquid-glass-subtle text-xs font-medium cursor-pointer px-4 py-2 rounded-full inline-flex items-center gap-1.5 transition-all">
+                            Enroll
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </TiltCard>
+                      </a>
+                    </Link>
                   </div>
                 </div>
               </TiltCard>
@@ -623,14 +643,16 @@ export default function ServicesPage() {
                     <span className="font-serif text-xl font-bold text-gold">
                       {SERVICES_PRICING.courses.bundle.formattedInr} ({SERVICES_PRICING.courses.bundle.formattedUsd})
                     </span>
-                    <Button
-                      href="/contact"
-                      variant="primary"
-                      size="sm"
-                      showArrow
-                    >
-                      Get Bundle
-                    </Button>
+                    <Link href="/contact">
+                      <a className="block">
+                        <TiltCard maxTilt={3} className="inline-block">
+                          <span className="liquid-glass-primary text-xs font-medium cursor-pointer px-4 py-2 rounded-full inline-flex items-center gap-1.5 shadow-lg hover:shadow-xl transition-all">
+                            Get Bundle
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </TiltCard>
+                      </a>
+                    </Link>
                   </div>
                 </div>
               </TiltCard>
@@ -641,10 +663,10 @@ export default function ServicesPage() {
           {/* ═══════════════════════════════════════════════════════════════
                Checkout Status Notice — Glass Notice Bar
              ═══════════════════════════════════════════════════════════════ */}
-          <div className="p-4 rounded-2xl glass-content-card flex items-start gap-3 text-sm text-ink/80">
+          <div className="p-5 rounded-3xl glass-content-card border border-sage/20 flex items-start gap-3.5 text-sm text-ink-muted shadow-sm">
             <Info className="w-4 h-4 text-forest shrink-0 mt-0.5" />
-            <p className="font-sans">
-              <strong className="text-ink">{CHECKOUT_NOTICE}</strong> Booking and course buttons
+            <p className="font-sans leading-relaxed">
+              <strong className="text-ink font-semibold">{CHECKOUT_NOTICE}</strong> Booking and course buttons
               above open the enquiry form; payment is not yet available.
             </p>
           </div>

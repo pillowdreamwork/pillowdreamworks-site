@@ -1,11 +1,13 @@
+"use client";
+
 import * as React from "react";
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { AssessmentCentre } from "@/components/assessments/assessment-centre";
 import { ShieldAlert, Sparkles } from "lucide-react";
 
-
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export const metadata: Metadata = {
+import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';
+export const metadata: Metadata = {
   title: "Psychological Assessment Centre — PillowDreamWorks Foundation",
   description:
     "Explore 177 clinical psychometrics, 32 source-backed screeners, 112 educational scales, and 16 practitioner batteries across 15 psychological domains with 3D Mind Matrix.",
@@ -29,7 +31,7 @@ export default function AssessmentsPage() {
              ═══════════════════════════════════════════════════════════════ */}
           <div className="text-center max-w-4xl mx-auto space-y-6 mb-10">
             {/* Vermilion-accented editorial badge */}
-            <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass-content-card text-forest text-xs font-semibold tracking-wide">
+            <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass-hero-panel text-forest text-xs font-semibold tracking-wide shadow-sm">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-vermilion opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-vermilion shadow-[0_0_8px_rgba(232,93,63,0.7)]" />
@@ -66,10 +68,10 @@ export default function AssessmentsPage() {
           <div className="mt-20 p-6 rounded-3xl glass-section text-xs text-ink/75 leading-relaxed space-y-2 font-sans">
             <div className="flex items-center gap-2 font-semibold text-ink">
               <ShieldAlert className="w-4 h-4 text-forest" />
-              <span>Ethical Standards &amp; Psychometric Boundaries</span>
+              <span>Ethical Standards & Psychometric Boundaries</span>
             </div>
             <p>
-              Standardized psychological instruments (such as WAIS-IV, MMPI, 16PF, and projective tests like Rorschach &amp; TAT) require qualitative scoring and clinical interpretation by trained practitioners. These tools are provided for self-reflection, psychoeducational insight, and pre-consultation screening. They should not be utilized as autonomous psychiatric verdicts without professional consultation.
+              Standardized psychological instruments (such as WAIS-IV, MMPI, 16PF, and projective tests like Rorschach & TAT) require qualitative scoring and clinical interpretation by trained practitioners. These tools are provided for self-reflection, psychoeducational insight, and pre-consultation screening. They should not be utilized as autonomous psychiatric verdicts without professional consultation.
             </p>
           </div>
 

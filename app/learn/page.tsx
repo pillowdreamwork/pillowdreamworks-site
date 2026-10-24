@@ -74,7 +74,7 @@ export default function LearnPage() {
   return (
     <main className="min-h-screen bg-ivory text-ink relative overflow-hidden">
 
-      {/* ═══ Ambient Background Orbs ═══ */}
+      {/* ═══ Ambient Background Orbs — Premium Glass Depth ═══ */}
       <div className="ambient-orb ambient-orb-sage w-[550px] h-[550px] top-[-100px] left-[-200px] animate-orb-drift" />
       <div className="ambient-orb ambient-orb-gold w-[450px] h-[450px] top-[35%] right-[-200px] animate-orb-drift" style={{ animationDelay: "-5s" }} />
       <div className="ambient-orb ambient-orb-vermilion w-[350px] h-[350px] bottom-[15%] left-[-100px] animate-orb-drift" style={{ animationDelay: "-9s" }} />
@@ -85,18 +85,18 @@ export default function LearnPage() {
 
           {/* ═══════════════════════════════════════════════════════════════
                Hero — The Reading Room Editorial Header
-             ═══════════════════════════════════════════════════════════════ */}
+             ══════════════════════════════════════════════════════════════ */}
           <div
             ref={hero.ref}
             className={`text-center max-w-4xl mx-auto space-y-6 mb-16 transition-all duration-1000 ease-out ${hero.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
             {/* Vermilion-accented editorial badge */}
-            <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass-content-card text-forest text-xs font-semibold tracking-wide">
+            <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass-hero-panel text-forest text-xs font-semibold tracking-wide shadow-sm">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-vermilion opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-vermilion shadow-[0_0_8px_rgba(232,93,63,0.7)]" />
               </span>
-              <span>The Psychology Editorial &amp; PsychSnaps</span>
+              <span>The Psychology Editorial & PsychSnaps</span>
             </div>
 
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-ink">
@@ -117,7 +117,7 @@ export default function LearnPage() {
 
 
           {/* ═══════════════════════════════════════════════════════════════
-               3D Knowledge Archive — Glass Console
+               3D Knowledge Archive — Premium Glass Console
              ═══════════════════════════════════════════════════════════════ */}
           <div className="glass-3d-console rounded-3xl p-6 sm:p-8 space-y-6 mb-14">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-forest/10 pb-4">
@@ -127,7 +127,7 @@ export default function LearnPage() {
                   <span>Interactive 3D Knowledge Archive</span>
                 </div>
                 <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink mt-0.5">
-                  Parchment &amp; Mind Origami
+                  Parchment & Mind Origami
                 </h2>
               </div>
 
@@ -155,16 +155,17 @@ export default function LearnPage() {
 
             {/* Filter & Search Bar */}
             <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 pt-2">
-              {/* Category Tabs — glassmorphism pills */}
+              {/* Category Tabs — premium glassmorphism pills */}
               <div className="flex flex-wrap gap-2">
                 {categories.map((cat) => (
                   <LiquidGlassButton
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
+                    variant={selectedCategory === cat ? "secondary" : "subtle"}
                     className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 cursor-pointer ${
                       selectedCategory === cat
                         ? "bg-forest text-ivory font-semibold shadow-sm"
-                        : "glass-content-card text-ink/75 hover:text-forest"
+                        : "glass-content-card text-ink/75 hover:text-forest hover:border-sage/40"
                     }`}
                   >
                     {cat}
@@ -180,7 +181,7 @@ export default function LearnPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search essays & psychsnaps..."
-                  className="w-full pl-10 pr-4 py-2.5 text-xs rounded-full text-ink placeholder:text-ink-muted/50 focus:outline-none focus:ring-2 focus:ring-gold"
+                  className="w-full pl-10 pr-4 py-2.5 text-xs rounded-full text-ink placeholder:text-ink-muted/50 focus:outline-none focus:ring-2 focus:ring-gold min-h-[44px] transition-all shadow-xs"
                   style={{
                     background: "linear-gradient(140deg, rgba(253,251,247,0.85), rgba(245,239,230,0.8))",
                     backdropFilter: "blur(16px)",
@@ -223,7 +224,7 @@ export default function LearnPage() {
                 {filteredItems.map((item, index) => (
                   <TiltCard key={item.id} maxTilt={5}>
                     <article
-                      className="h-full glass-content-card rounded-3xl p-7 sm:p-8 flex flex-col justify-between group"
+                      className="h-full glass-hero-panel rounded-3xl p-7 sm:p-8 flex flex-col justify-between group"
                       style={{ transitionDelay: `${index * 50}ms` }}
                     >
                       <div className="space-y-4">
@@ -263,7 +264,7 @@ export default function LearnPage() {
                           size="sm"
                           showArrow
                         >
-                          Read Essay
+                          <span>Read Essay</span>
                         </LiquidGlassButton>
                       </div>
 
@@ -292,14 +293,16 @@ export default function LearnPage() {
               }}
             >
               <div className="glass-modal max-w-2xl w-full rounded-3xl p-6 sm:p-10 shadow-2xl my-8 relative max-h-[90vh] overflow-y-auto">
-                <LiquidGlassButton
-                  type="button"
-                  onClick={() => setSelectedArticle(null)}
-                  aria-label="Close article modal"
-                  className="absolute top-5 right-5 p-2 rounded-full hover:bg-ink/5 text-ink/70 hover:text-ink cursor-pointer transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </LiquidGlassButton>
+                <div className="absolute top-5 right-5 p-2 rounded-full glass-card border border-forest/20 text-ink/70 hover:bg-ink/5 hover:text-ink cursor-pointer transition-all shadow-lg">
+                  <LiquidGlassButton
+                    type="button"
+                    onClick={() => setSelectedArticle(null)}
+                    aria-label="Close article modal"
+                    className="p-0 h-full w-full bg-transparent border-none shadow-none hover:bg-transparent hover:border-none"
+                  >
+                    <X className="w-5 h-5" />
+                  </LiquidGlassButton>
+                </div>
 
                 <div className="space-y-3 mb-6">
                   <span className="text-xs font-mono uppercase tracking-wider text-forest font-semibold px-3 py-1 rounded-full" style={{
@@ -329,21 +332,24 @@ export default function LearnPage() {
                 </div>
 
                 <div className="pt-8 mt-8 border-t border-forest/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <LiquidGlassButton
-                    href="/books/psychology-toolkit"
-                    onClick={() => setSelectedArticle(null)}
-                    variant="primary"
-                    size="sm"
-                    showArrow
-                  >
-                    Explore in The Psychology Toolkit
-                  </LiquidGlassButton>
+                  <Link href="/books/psychology-toolkit">
+                    <a className="block">
+                      <LiquidGlassButton
+                        onClick={() => setSelectedArticle(null)}
+                        variant="primary"
+                        size="sm"
+                        showArrow
+                      >
+                        <span>Explore in The Psychology Toolkit</span>
+                      </LiquidGlassButton>
+                    </a>
+                  </Link>
                   <LiquidGlassButton
                     variant="secondary"
                     size="sm"
                     onClick={() => setSelectedArticle(null)}
                   >
-                    Close Essay
+                    <span>Close Essay</span>
                   </LiquidGlassButton>
                 </div>
               </div>
