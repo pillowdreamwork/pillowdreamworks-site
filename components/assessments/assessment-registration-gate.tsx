@@ -44,6 +44,7 @@ export function AssessmentRegistrationGate({
   const [gender, setGender] = React.useState("Prefer not to say");
   const [education, setEducation] = React.useState("Prefer not to say");
   const [occupation, setOccupation] = React.useState("Prefer not to say");
+  const [country, setCountry] = React.useState("Prefer not to say");
 
   // Consent Checkboxes
   const [acknowledgedPurpose, setAcknowledgedPurpose] = React.useState(false);
