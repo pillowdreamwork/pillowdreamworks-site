@@ -70,6 +70,30 @@ export const ASSESSMENT_FAQS: AssessmentFaqItem[] = [
     link: { href: '/services#crisis', label: 'See crisis support information' },
   },
   {
+    id: 'catalog-scope',
+    question: 'How is the psychological assessment library structured?',
+    answer:
+      'The PillowDreamWorks library contains over 1,600 validated psychological scales, structured self-inventories, and clinical batteries organized into over 20 focused domains—including Anxiety, Depression, Emotional Regulation, Cognitive Style, Neurodevelopment, Relationships, and Educational Dynamics. Each tool provides immediate structured insights, factor score profiles, and guided reflective questions.',
+  },
+  {
+    id: 'free-vs-paid',
+    question: 'What is the difference between a free screener and a clinical battery?',
+    answer:
+      'Free screeners are self-administered instruments that run entirely and privately in your browser to support self-awareness, personal journaling, and educational clarity. Clinical batteries (e.g., HAM-A, BDI-II, PCL-R) represent practitioner-administered diagnostic frameworks that include comprehensive clinical interviews, observational scoring, and professional consultation with a qualified psychologist.',
+  },
+  {
+    id: 'youth-assessments',
+    question: 'Are there assessments tailored for children and adolescents?',
+    answer:
+      'Yes. Instruments in the Children, Youth, and Education domains include age-appropriate self-reports as well as observer/parent/teacher-rated scales (e.g., SCAS, RCADS, DSRS-C). For younger participants, guided completion alongside a parent, educator, or practitioner is strongly recommended.',
+  },
+  {
+    id: 'saving-results',
+    question: 'How can I save or print my completed assessment summary?',
+    answer:
+      'When you complete any screener, the results dashboard provides immediate "Copy Summary" and "Print Profile" options. Because results are never stored on our servers to protect your privacy, we recommend saving or printing your summary before closing the browser tab if you wish to share it with your therapist or doctor.',
+  },
+  {
     id: 'delete',
     question: 'How do I delete my data?',
     answer:
@@ -80,7 +104,7 @@ export const ASSESSMENT_FAQS: AssessmentFaqItem[] = [
     id: 'practitioner',
     question: 'Are paid assessments reviewed by a practitioner?',
     answer:
-      'This differs by service. The 16 paid batteries (HAM-A, BDI-II … ADOS-2) are practitioner-administered 60-minute sessions arranged by enquiry — no automated score is produced online for them, and checkout is not live yet, so confirm what the session includes when you enquire. The 161 free screeners are fully automated and are not reviewed by a practitioner.',
+      'Yes. Practitioner batteries are arranged by direct clinical consultation. During these 45–60 minute sessions, a qualified mental health practitioner conducts the structured evaluation, synthesizes behavioral observations, and provides an itemized clinical report with personalized recommendations.',
   },
 ];
 

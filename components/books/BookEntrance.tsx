@@ -52,12 +52,36 @@ export const BookEntrance = ({ selectedBookId, onSelection }: BookEntranceProps)
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: reducedMotion ? 0 : 1.8, duration: reducedMotion ? 0.2 : 0.8 }}
-        className="mt-20 flex flex-col items-center gap-3"
+        className="mt-14 flex flex-col items-center gap-5"
       >
-        <span className="text-[11px] uppercase tracking-[0.3em] text-stone-500">
-          {selectedBookId ? "Continue scrolling" : "Choose a book"}
+        <span className="text-[11px] uppercase tracking-[0.3em] text-stone-500 font-mono">
+          {selectedBookId ? "Selected Work · Continue Scrolling" : "Choose a book"}
         </span>
-        <div className="h-12 w-px bg-stone-400" />
+
+        {/* 2 Interactive Buttons for each book */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 z-10">
+          {BOOKS.map((book) => {
+            const isSelected = selectedBookId === book.id;
+            return (
+              <LiquidGlassButton
+                key={book.id}
+                onClick={() => onSelection(book.id)}
+                variant={isSelected ? "primary" : "secondary"}
+                magnet={true}
+                glow={true}
+                showArrow={true}
+                size="md"
+                className={`font-serif text-sm tracking-wide transition-all ${
+                  isSelected ? "ring-2 ring-[#C6A46A] ring-offset-2 ring-offset-[#FAF8F5]" : ""
+                }`}
+              >
+                <span>{book.title}</span>
+              </LiquidGlassButton>
+            );
+          })}
+        </div>
+
+        <div className="h-10 w-px bg-stone-400/60 mt-1" />
       </motion.div>
     </section>
   );

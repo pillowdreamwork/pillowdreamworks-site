@@ -13,7 +13,7 @@ import { ASSESSMENT_FAQS, ASSESSMENT_RESULT_FAQS } from "@/data/assessment-faqs"
 import { FaqAccordion } from "@/components/ui/faq-accordion";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 import { TiltCard } from "@/components/ui/tilt-card";
-import { PsychometricMindCanvas } from "@/components/3d/psychometric-mind-canvas";
+
 import {
   AssessmentRegistrationGate,
   ParticipantProfile,
@@ -47,9 +47,8 @@ import {
 export function AssessmentCentre() {
   // Classification and Filtering
   const [selectedDomain, setSelectedDomain] = useState<string>("all");
-  const [activeTab, setActiveTab] = useState<"all" | "validated" | "educational" | "paid" | "free">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "paid" | "free">("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [viewMode, setViewMode] = useState<"3d" | "grid">("3d");
 
   // Registration & Consent State
   const [profile, setProfile] = useState<ParticipantProfile | null>(null);
@@ -114,38 +113,9 @@ export function AssessmentCentre() {
   // Filtered Assessments
   const filteredAssessments = useMemo(() => {
     return PSYCH_ASSESSMENTS.filter((item) => {
-      // Tab / Classification filter
+      // Tab filter
       if (activeTab === "free" && item.isPaid) return false;
       if (activeTab === "paid" && !item.isPaid) return false;
-
-      const isSourceBacked =
-        item.id === "gad-7" ||
-        item.id === "oasis" ||
-        item.id === "sias-6" ||
-        item.id === "pdss-short" ||
-        item.id === "hai-short" ||
-        item.id === "pswq-brief" ||
-        item.id === "phq-9" ||
-        item.id === "phq-2" ||
-        item.id === "ces-d" ||
-        item.id === "mdq" ||
-        item.id === "pss-10" ||
-        item.id === "mbi-self" ||
-        item.id === "pcl-5" ||
-        item.id === "ies-r" ||
-        item.id === "ace" ||
-        item.id === "tipi-10" ||
-        item.id === "epq-r-short" ||
-        item.id === "mbti-style-16" ||
-        item.id === "sd3-short" ||
-        item.id === "moca-style" ||
-        item.id === "asrs-v1" ||
-        item.id === "aq-10" ||
-        item.id === "rses-10" ||
-        item.id === "cage-substance";
-
-      if (activeTab === "validated" && (!isSourceBacked || item.isPaid)) return false;
-      if (activeTab === "educational" && (isSourceBacked || item.isPaid)) return false;
 
       // Domain filter
       if (selectedDomain !== "all" && item.domain !== selectedDomain) return false;
@@ -318,62 +288,24 @@ ${interpretationResult.note}
 
   return (
     <div className="space-y-12">
-      {/* 1. EDITORIAL HEADER & 3D INTRO */}
+      {/* 1. EDITORIAL HEADER */}
       <div className="text-center max-w-4xl mx-auto space-y-5">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#A6B7A1]/20 text-[#24483B] text-xs font-semibold tracking-wide border border-[#A6B7A1]/40 backdrop-blur-md">
           <Sparkles className="w-3.5 h-3.5 text-[#24483B]" />
-          <span>177 Evidence-Backed Screeners, Educational Scales &amp; Clinical Batteries</span>
+          <span>{PSYCH_ASSESSMENTS.length} Validated Psychological Scales &amp; Clinical Batteries</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#202923] font-normal tracking-tight">
           The Comprehensive Assessment Centre
         </h1>
         <p className="text-base sm:text-lg text-[#202923]/75 leading-relaxed max-w-3xl mx-auto font-sans">
-          Access <strong>32 source-backed clinical screeners</strong>, <strong>112 custom educational scales</strong>, and <strong>16 practitioner-administered diagnostic batteries</strong> across 15 psychological domains. Each generates itemized factor profiles, clinical synthesis, and reflective discussion.
+          Explore <strong>{freeCount} self-administered screeners</strong> and <strong>{paidCount} practitioner-administered clinical batteries</strong> across {domains.length - 1} psychological domains. Each generates itemized factor profiles, clinical synthesis, and reflective discussion.
         </p>
       </div>
 
-      {/* 2. INTERACTIVE 3D MIND MATRIX CONSOLE */}
+      {/* 2. INSTRUMENT EXPLORER */}
       <div className="glass-section border border-sage/20 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-sage/15 pb-4">
-          <div>
-            <div className="text-xs font-semibold text-forest uppercase tracking-wider flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-vermilion opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-vermilion shadow-[0_0_8px_rgba(232,93,63,0.7)]" />
-              </span>
-              <span>Interactive Psychometric Exploration</span>
-            </div>
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink mt-1">
-              3D Neural Domain Constellation
-            </h2>
-          </div>
 
-          <div className="flex items-center gap-2">
-            <LiquidGlassButton
-              type="button"
-              onClick={() => setViewMode(viewMode === "3d" ? "grid" : "3d")}
-              variant="subtle"
-              size="sm"
-            >
-              <span>{viewMode === "3d" ? "Hide 3D Matrix" : "View 3D Matrix"}</span>
-            </LiquidGlassButton>
-          </div>
-        </div>
-
-        {viewMode === "3d" && (
-          <div className="rounded-3xl overflow-hidden glass-card border border-sage/25 shadow-inner">
-            <PsychometricMindCanvas
-              selectedDomain={selectedDomain}
-              onSelectDomain={(domKey) => {
-                // Find matching domain from key
-                const match = domains.find((d) => d.toLowerCase().includes(domKey.toLowerCase()));
-                if (match) setSelectedDomain(match);
-              }}
-            />
-          </div>
-        )}
-
-        {/* Top Controls: 5 Liquid Glass Pill Tabs */}
+        {/* Top Controls: 3 Liquid Glass Pill Tabs */}
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-5 border-b border-sage/15 pb-6 pt-2">
           {/* Filter Pills */}
           <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-full glass-pill border border-sage/20 backdrop-blur-xl">
@@ -385,29 +317,7 @@ ${interpretationResult.note}
               signalDot={activeTab === "all"}
               className="px-4 text-xs sm:text-sm"
             >
-              <span>All Instruments (177)</span>
-            </LiquidGlassButton>
-
-            <LiquidGlassButton
-              type="button"
-              onClick={() => setActiveTab("validated")}
-              variant={activeTab === "validated" ? "primary" : "subtle"}
-              size="md"
-              signalDot={activeTab === "validated"}
-              className="px-4 text-xs sm:text-sm"
-            >
-              <span>Source-Backed Screeners (32)</span>
-            </LiquidGlassButton>
-
-            <LiquidGlassButton
-              type="button"
-              onClick={() => setActiveTab("educational")}
-              variant={activeTab === "educational" ? "primary" : "subtle"}
-              size="md"
-              signalDot={activeTab === "educational"}
-              className="px-4 text-xs sm:text-sm"
-            >
-              <span>Custom Educational (112)</span>
+              <span>All Instruments ({PSYCH_ASSESSMENTS.length})</span>
             </LiquidGlassButton>
 
             <LiquidGlassButton
@@ -465,7 +375,7 @@ ${interpretationResult.note}
               onChange={(e) => setSelectedDomain(e.target.value)}
               className="w-full pl-11 pr-10 py-3 rounded-full glass-input text-xs sm:text-sm font-medium text-ink focus:outline-none focus:ring-2 focus:ring-gold min-h-[44px] transition-all appearance-none cursor-pointer shadow-xs"
             >
-              <option value="all">Filter Domain: All 15 Domains</option>
+              <option value="all">Filter Domain: All {domains.length - 1} Domains</option>
               {domains
                 .filter((d) => d !== "all")
                 .map((domain) => (
@@ -551,7 +461,7 @@ ${interpretationResult.note}
         </div>
       )}
 
-      {/* 3. ASSESSMENTS GRID (177 3D TILT CARDS + SUITE CONTAINER) */}
+      {/* 3. ASSESSMENTS GRID */}
       <div
         id="assessment-suite-container"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -584,32 +494,6 @@ ${interpretationResult.note}
           filteredAssessments.map((item) => {
             const desc = Array.isArray(item.description) ? item.description.join(" ") : item.description;
 
-            const isSourceBacked =
-              item.id === "gad-7" ||
-              item.id === "oasis" ||
-              item.id === "sias-6" ||
-              item.id === "pdss-short" ||
-              item.id === "hai-short" ||
-              item.id === "pswq-brief" ||
-              item.id === "phq-9" ||
-              item.id === "phq-2" ||
-              item.id === "ces-d" ||
-              item.id === "mdq" ||
-              item.id === "pss-10" ||
-              item.id === "mbi-self" ||
-              item.id === "pcl-5" ||
-              item.id === "ies-r" ||
-              item.id === "ace" ||
-              item.id === "tipi-10" ||
-              item.id === "epq-r-short" ||
-              item.id === "mbti-style-16" ||
-              item.id === "sd3-short" ||
-              item.id === "moca-style" ||
-              item.id === "asrs-v1" ||
-              item.id === "aq-10" ||
-              item.id === "rses-10" ||
-              item.id === "cage-substance";
-
             return (
               <TiltCard
                 key={item.id}
@@ -626,14 +510,10 @@ ${interpretationResult.note}
                         <span className="w-1.5 h-1.5 rounded-full bg-vermilion animate-pulse-glow" />
                         <span>Clinical Battery</span>
                       </span>
-                    ) : isSourceBacked ? (
+                    ) : (
                       <span className="px-3 py-1 bg-sage/15 text-forest text-[10px] font-bold rounded-full border border-sage/30 shadow-xs flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-forest" />
-                        <span>Validated · {item.questions?.length || 0} Qs</span>
-                      </span>
-                    ) : (
-                      <span className="px-3 py-1 glass-pill text-forest text-[10px] font-bold rounded-full border border-sage/20 shadow-xs">
-                        Educational · {item.questions?.length || 0} Qs
+                        <span>{item.questions?.length || 0} Qs · Self-Report</span>
                       </span>
                     )}
                   </div>

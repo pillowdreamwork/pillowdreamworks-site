@@ -6,7 +6,6 @@ import { Container } from "@/components/ui/container";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 import { Badge } from "@/components/ui/badge";
 import { TiltCard } from "@/components/ui/tilt-card";
-import { KnowledgeArchiveCanvas } from "@/components/3d/knowledge-archive-canvas";
 import { LEARN_CATALOG, LearnItem } from "@/data/learn";
 import { Search, Clock, ArrowRight, X, Sparkles, BookOpen, Compass, HelpCircle } from "lucide-react";
 
@@ -31,7 +30,6 @@ export default function LearnPage() {
   const [selectedCategory, setSelectedCategory] = React.useState<string>("All");
   const [searchQuery, setSearchQuery] = React.useState<string>("");
   const [selectedArticle, setSelectedArticle] = React.useState<LearnItem | null>(null);
-  const [show3d, setShow3d] = React.useState<boolean>(true);
 
   const hero = useScrollReveal(0.1);
   const grid = useScrollReveal(0.08);
@@ -117,41 +115,24 @@ export default function LearnPage() {
 
 
           {/* ═══════════════════════════════════════════════════════════════
-               3D Knowledge Archive — Premium Glass Console
+               Knowledge Archive Console & Articles
              ═══════════════════════════════════════════════════════════════ */}
           <div className="glass-3d-console rounded-3xl p-6 sm:p-8 space-y-6 mb-14">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-forest/10 pb-4">
               <div>
                 <div className="text-xs font-semibold text-forest uppercase tracking-wider flex items-center gap-2">
-                  <Compass className="w-4 h-4 text-forest" />
-                  <span>Interactive 3D Knowledge Archive</span>
+                  <Compass className="w-4 h-4 text-[#C6A46A]" />
+                  <span>Curated Psychoeducation</span>
                 </div>
-                <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink mt-0.5">
-                  Parchment & Mind Origami
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink mt-0.5">
+                  Knowledge Archive &amp; PsychSnaps
                 </h2>
               </div>
 
-              <div className="flex items-center gap-2">
-                <LiquidGlassButton
-                  type="button"
-                  onClick={() => setShow3d(!show3d)}
-                  variant="subtle"
-                  size="sm"
-                >
-                  <span>{show3d ? "Hide 3D Archive" : "Show 3D Archive"}</span>
-                </LiquidGlassButton>
-              </div>
+              <p className="text-xs font-mono text-ink-muted">
+                {LEARN_CATALOG.length} Curated Essays &amp; Guides
+              </p>
             </div>
-
-            {show3d && (
-              <div className="rounded-2xl overflow-hidden border border-forest/8" style={{ background: "linear-gradient(to bottom, rgba(245,239,230,0.4), rgba(253,251,247,0.7))" }}>
-                <KnowledgeArchiveCanvas
-                  onSelectTopic={(cat) => {
-                    setSelectedCategory(cat);
-                  }}
-                />
-              </div>
-            )}
 
             {/* Filter & Search Bar */}
             <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 pt-2">

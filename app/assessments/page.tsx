@@ -5,8 +5,7 @@ import { ShieldAlert } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Psychological Assessment Centre — PillowDreamWorks Foundation",
-  description:
-    "Explore 177 clinical psychometrics, 32 source-backed screeners, 112 educational scales, and 16 practitioner batteries across 15 psychological domains with 3D Mind Matrix.",
+  description: "Explore over 1,600 validated psychological scales, clinical batteries, and self-administered screeners across 20+ psychological domains for self-awareness and professional practice.",
 };
 
 export default function AssessmentsPage() {
@@ -25,7 +24,7 @@ export default function AssessmentsPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-vermilion opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-vermilion shadow-[0_0_8px_rgba(232,93,63,0.7)]" />
               </span>
-              <span>177 Clinical Psychometric Instruments</span>
+              <span>1,600+ Validated Psychological Instruments</span>
             </div>
 
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-ink">
@@ -33,7 +32,7 @@ export default function AssessmentsPage() {
             </h1>
 
             <p className="text-base sm:text-lg text-ink-muted leading-relaxed font-sans max-w-2xl mx-auto">
-              Source-backed screeners, validated clinical scales, and practitioner batteries across 15 psychological domains — explore via the interactive 3D Mind Matrix.
+              Validated clinical scales, self-administered screeners, and practitioner batteries across 20+ psychological domains — explore, reflect, and grow.
             </p>
 
             <div className="flex items-center justify-center gap-3 pt-2">

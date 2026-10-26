@@ -73,15 +73,15 @@ export const StoryScene = ({ steps, ariaLabel, tone = "default", showCounter = t
                 />
               ))}
             </div>
-            {showCounter && !centre && (
+            {showCounter && (
               <div className="px-14 pb-8">
                 <div className="h-px w-full bg-stone-200">
                   <motion.div
-                    className="h-px origin-left bg-stone-900"
+                    className="h-px origin-left bg-[#24483B]"
                     style={{ scaleX: reducedMotion ? 1 : scrollYProgress }}
                   />
                 </div>
-                <p className="mt-3 text-xs tracking-[0.25em] text-stone-500" aria-hidden="true">
+                <p className="mt-3 text-xs tracking-[0.25em] text-stone-500 font-mono" aria-hidden="true">
                   {String(activeIndex + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
                 </p>
               </div>

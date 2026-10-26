@@ -4,100 +4,181 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { BOOKS, BUNDLE_PRICING, formatPrice } from "@/data/books";
 import { PurchaseControl } from "./PurchaseControl";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
+import { ArrowRight, BookOpen, Layers, Sparkles } from "lucide-react";
 
-
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface BundleRevealProps {
+interface BundleRevealProps {
   onReturn: () => void;
+  onSelectBook?: (id: string) => void;
 }
 
-export const BundleReveal = ({ onReturn }: BundleRevealProps) => {
+export const BundleReveal = ({ onReturn, onSelectBook }: BundleRevealProps) => {
   const reducedMotion = Boolean(useReducedMotion());
   const sectionRef = useRef<HTMLElement>(null);
-
-  // Two covers converge on a shared shelf line as the section scrolls into place.
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "center center"],
-  });
-
-  const leftX = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [-90, -6]);
-  const rightX = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [90, 6]);
-  const leftRotate = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [-4, -1]);
-  const rightRotate = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [4, 1]);
 
   const first = BOOKS.find((b) => b.id === "finding-the-centre") ?? BOOKS[0];
   const second = BOOKS.find((b) => b.id === "psychology-toolkit") ?? BOOKS[1];
 
-  const goTo = (id: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    document.getElementById(`world-${id}`)?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+  const handleExplore = (id: string) => {
+    if (onSelectBook) {
+      onSelectBook(id);
+    } else {
+      document.getElementById(`world-${id}`)?.scrollIntoView({
+        behavior: reducedMotion ? "auto" : "smooth",
+        block: "start",
+      });
+    }
   };
 
-  const linkClass =
-    "inline-flex min-h-12 items-center font-serif text-sm uppercase tracking-[0.18em] text-stone-700 underline underline-offset-4 hover:text-stone-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-stone-900";
-
   return (
-    <section ref={sectionRef} aria-label="The complete library" className="border-t border-stone-300 bg-[#faf8f5] py-32">
+    <section
+      ref={sectionRef}
+      aria-label="The complete library collection"
+      className="border-t border-stone-300 bg-[#FAF8F5] py-28 md:py-36 relative overflow-hidden"
+    >
       <div className="mx-auto max-w-5xl px-6 text-center md:px-8">
-        <p className="mb-6 text-xs uppercase tracking-[0.3em] text-stone-500">The complete library</p>
+        <span className="inline-block px-3.5 py-1 rounded-full bg-[#C6A46A]/15 text-[#8F7034] font-mono text-xs uppercase tracking-[0.25em] font-semibold mb-4">
+          The Complete Library Bundle
+        </span>
 
-        <div className="flex items-end justify-center gap-0 md:gap-2">
-          <motion.img
-            src={first.cover}
-            alt={`${first.title} cover`}
-            loading="lazy"
-            decoding="async"
-            style={{ x: leftX, rotate: leftRotate, transformOrigin: "bottom right" }}
-            className="h-[16rem] w-auto object-contain shadow-[0_18px_28px_-20px_rgba(40,30,20,0.5)] md:h-[26rem]"
-          />
-          <motion.img
-            src={second.cover}
-            alt={`${second.title} cover`}
-            loading="lazy"
-            decoding="async"
-            style={{ x: rightX, rotate: rightRotate, transformOrigin: "bottom left" }}
-            className="h-[16rem] w-auto object-contain shadow-[0_18px_28px_-20px_rgba(40,30,20,0.5)] md:h-[26rem]"
-          />
-        </div>
-
-        <div className="mx-auto mt-4 h-px w-full max-w-xl bg-stone-400" aria-hidden="true" />
-
-        <h2 className="mt-16 font-serif text-4xl leading-tight text-stone-900 md:text-6xl">
-          {first.title}
-          <span className="my-3 block font-serif text-2xl italic text-stone-500 md:text-3xl">+</span>
-          {second.title}
+        <h2 className="font-serif text-4xl text-stone-900 md:text-6xl leading-tight">
+          Two Complementary Works. One Unified Foundation.
         </h2>
 
-        <p className="mx-auto mt-8 max-w-md font-serif text-lg text-stone-600">{BUNDLE_PRICING.summary}</p>
-
-        <ul className="mx-auto mt-10 max-w-sm border-t border-stone-300 text-left">
-          {BUNDLE_PRICING.includes.map((item) => (
-            <li key={item} className="border-b border-stone-200 py-3 font-serif text-stone-700">
-              {item}
-            </li>
-          ))}
-        </ul>
-
-        <p className="mt-12 font-serif text-4xl text-stone-900 md:text-5xl">
-          {formatPrice(BUNDLE_PRICING.bundlePriceINR, BUNDLE_PRICING.bundlePriceUSD)}
+        <p className="mx-auto mt-6 max-w-xl font-serif text-lg text-stone-600 leading-relaxed">
+          {BUNDLE_PRICING.summary} Explore both works side-by-side or acquire the complete digital set.
         </p>
 
+        {/* ── SQUARE MARKUPS WITH HORIZONTAL SCROLL & ANIMATION (Slightly separated) ── */}
+        <div className="mt-14 w-full">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 overflow-x-auto pb-6 px-4">
+            {/* Book 1 Square Markup */}
+            <motion.div
+              whileHover={{ y: reducedMotion ? 0 : -6, scale: reducedMotion ? 1 : 1.02 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => handleExplore(first.id)}
+              className="group relative flex flex-col items-center justify-between w-full max-w-[320px] aspect-square rounded-3xl bg-white p-6 shadow-lg border border-stone-200/90 hover:border-[#C6A46A]/60 hover:shadow-xl transition-all cursor-pointer text-left"
+            >
+              <div className="w-full flex items-center justify-between pb-3 border-b border-stone-100">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#C6A46A] font-semibold">
+                  01 · Therapeutic Art
+                </span>
+                <span className="text-stone-400 group-hover:text-[#24483B] transition-colors">
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+
+              <div className="my-auto flex items-center justify-center h-44 w-auto">
+                <img
+                  src={first.cover}
+                  alt={`${first.title} square cover presentation`}
+                  loading="lazy"
+                  decoding="async"
+                  className="max-h-40 w-auto object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+
+              <div className="w-full pt-3 border-t border-stone-100">
+                <h3 className="font-serif text-lg font-bold text-stone-900 leading-tight">
+                  {first.title}
+                </h3>
+                <p className="font-serif text-xs italic text-stone-500 mt-0.5 truncate">
+                  {first.subtitle}
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Book 2 Square Markup */}
+            <motion.div
+              whileHover={{ y: reducedMotion ? 0 : -6, scale: reducedMotion ? 1 : 1.02 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => handleExplore(second.id)}
+              className="group relative flex flex-col items-center justify-between w-full max-w-[320px] aspect-square rounded-3xl bg-white p-6 shadow-lg border border-stone-200/90 hover:border-[#C6A46A]/60 hover:shadow-xl transition-all cursor-pointer text-left"
+            >
+              <div className="w-full flex items-center justify-between pb-3 border-b border-stone-100">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#C6A46A] font-semibold">
+                  02 · Applied Psychology
+                </span>
+                <span className="text-stone-400 group-hover:text-[#24483B] transition-colors">
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+
+              <div className="my-auto flex items-center justify-center h-44 w-auto">
+                <img
+                  src={second.cover}
+                  alt={`${second.title} square cover presentation`}
+                  loading="lazy"
+                  decoding="async"
+                  className="max-h-40 w-auto object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+
+              <div className="w-full pt-3 border-t border-stone-100">
+                <h3 className="font-serif text-lg font-bold text-stone-900 leading-tight">
+                  {second.title}
+                </h3>
+                <p className="font-serif text-xs italic text-stone-500 mt-0.5 truncate">
+                  {second.subtitle}
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* ── BUNDLE SPECIFICATION & INCLUSIONS ── */}
+        <div className="mx-auto mt-12 max-w-md rounded-2xl bg-[#F7F4EE] p-6 border border-stone-300/80 text-left">
+          <p className="font-mono text-xs uppercase tracking-wider text-stone-500 font-semibold mb-3">
+            What is Included
+          </p>
+          <ul className="space-y-2.5">
+            {BUNDLE_PRICING.includes.map((item) => (
+              <li key={item} className="flex items-center gap-2.5 font-serif text-stone-800 text-sm sm:text-base">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#C6A46A] shrink-0" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Bundle Price */}
+        <div className="mt-10">
+          <span className="block font-mono text-xs uppercase tracking-[0.25em] text-stone-500 mb-1">
+            Complete Digital Collection
+          </span>
+          <p className="font-serif text-4xl sm:text-5xl text-stone-900 font-medium">
+            {formatPrice(BUNDLE_PRICING.bundlePriceINR, BUNDLE_PRICING.bundlePriceUSD)}
+          </p>
+        </div>
+
+        {/* Purchase Button */}
         <div className="mt-8 flex flex-col items-center">
           <PurchaseControl
-            label="Purchase Collection"
+            label="Purchase Complete Collection"
             checkoutUrl={BUNDLE_PRICING.checkoutUrl}
             onReturn={onReturn}
             variant="solid"
           />
         </div>
 
-        <nav aria-label="Explore the individual books" className="mt-12 flex flex-col items-center gap-1 md:flex-row md:justify-center md:gap-10">
-          <a href={`#world-${first.id}`} onClick={goTo(first.id)} className={linkClass}>
-            Explore {first.title}
-          </a>
-          <a href={`#world-${second.id}`} onClick={goTo(second.id)} className={linkClass}>
-            Explore {second.title}
-          </a>
+        {/* Explore Individual Books Navigation */}
+        <nav aria-label="Explore individual books" className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
+          <button
+            type="button"
+            onClick={() => handleExplore(first.id)}
+            className="inline-flex items-center gap-2 font-serif text-sm uppercase tracking-[0.2em] text-stone-700 hover:text-[#24483B] transition-colors underline underline-offset-4 cursor-pointer"
+          >
+            <span>Explore {first.title}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => handleExplore(second.id)}
+            className="inline-flex items-center gap-2 font-serif text-sm uppercase tracking-[0.2em] text-stone-700 hover:text-[#24483B] transition-colors underline underline-offset-4 cursor-pointer"
+          >
+            <span>Explore {second.title}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
         </nav>
       </div>
     </section>

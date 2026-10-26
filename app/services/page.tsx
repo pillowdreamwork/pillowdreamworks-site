@@ -6,7 +6,6 @@ import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
 import { TiltCard } from "@/components/ui/tilt-card";
-import { TherapeuticSanctuaryCanvas } from "@/components/3d/therapeutic-sanctuary-canvas";
 import { SERVICES_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 import {
   Phone,
@@ -100,22 +99,22 @@ export default function ServicesPage() {
 
 
           {/* ═══════════════════════════════════════════════════════════════
-               3D Therapeutic Sanctuary — Premium Glass Console
+               Pillars of Clinical Care — Quick Navigation Console
              ═══════════════════════════════════════════════════════════════ */}
           <div className="glass-3d-console rounded-3xl p-6 sm:p-8 space-y-6 mb-20">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-forest/10 pb-4">
               <div>
                 <div className="text-xs font-semibold text-forest uppercase tracking-wider flex items-center gap-2">
-                  <Compass className="w-4 h-4 text-forest" />
-                  <span>Interactive 3D Sanctuary</span>
+                  <Compass className="w-4 h-4 text-[#C6A46A]" />
+                  <span>Clinical Practices</span>
                 </div>
-                <h2 className="font-serif text-xl sm:text-2xl font-bold text-ink mt-0.5">
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink mt-0.5">
                   Pillars of Clinical Care
                 </h2>
               </div>
 
               <div className="flex items-center gap-2">
-                <Link href="#counselling" passHref>
+                <Link href="#counselling">
                   <TiltCard maxTilt={3} className="inline-block">
                     <span className="cursor-pointer text-xs font-medium text-forest hover:text-ink transition-colors px-4 py-2 rounded-full glass-content-card border border-forest/15">
                       Jump to Counselling
@@ -125,25 +124,19 @@ export default function ServicesPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl overflow-hidden border border-forest/8" style={{ background: "linear-gradient(to bottom, rgba(245,239,230,0.4), rgba(253,251,247,0.7))" }}>
-              <TherapeuticSanctuaryCanvas onSelectSculpture={scrollToSection} />
-            </div>
-
             {/* Quick Navigator Tabs — premium glass pill cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2">
-              <Link href="#counselling" passHref>
-                <a className="block">
-                  <TiltCard maxTilt={4} className="h-full">
-                    <div className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer h-full flex flex-col">
-                      <div className="flex items-center gap-2 text-xs font-semibold text-forest">
-                        <HeartHandshake className="w-3.5 h-3.5" />
-                        <span>1-on-1 Counselling</span>
-                      </div>
-                      <p className="text-[11px] text-ink-muted mt-1.5 font-sans">{SERVICES_PRICING.crisis.centreLine.formattedInr}</p>
-                      <div className="mt-auto w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-sage to-forest mt-2 transition-all duration-500" />
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+              <Link href="#counselling" className="block">
+                <TiltCard maxTilt={4} className="h-full">
+                  <div className="p-5 rounded-2xl glass-content-card text-left group cursor-pointer h-full flex flex-col hover:border-forest/30 transition-all">
+                    <div className="flex items-center gap-2 text-xs font-semibold text-forest">
+                      <HeartHandshake className="w-4 h-4 text-[#C6A46A]" />
+                      <span>1-on-1 Counselling</span>
                     </div>
-                  </TiltCard>
-                </a>
+                    <p className="text-xs text-ink-muted mt-2 font-sans">{SERVICES_PRICING.crisis.centreLine.formattedInr}</p>
+                    <div className="mt-auto w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-sage to-forest mt-3 transition-all duration-500" />
+                  </div>
+                </TiltCard>
               </Link>
 
               <Link href="#crisis" passHref>

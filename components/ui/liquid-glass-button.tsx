@@ -288,18 +288,18 @@ export const LiquidGlassButton = React.forwardRef<
 
     // Interactive button element
     return (
-      <LiquidGlassButton
+      <button
         ref={ref as React.Ref<HTMLButtonElement>}
         className={classes}
         style={inlineStyle}
         disabled={disabled}
         type={(props as React.ButtonHTMLAttributes<HTMLButtonElement>).type || "button"}
-        onPointerMove={handlePointerMove as React.PointerEventHandler<HTMLButtonElement>}
-        onPointerLeave={handlePointerLeave as React.PointerEventHandler<HTMLButtonElement>}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
         {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
       >
         {content}
-      </LiquidGlassButton>
+      </button>
     );
   }
 );
