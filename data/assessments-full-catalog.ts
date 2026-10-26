@@ -1,3 +1,4 @@
+import { EXTENDED_PSYCH_ASSESSMENTS } from "./assessments-extended-catalog";
 // PillowDreamWorks — Unified Psychological Assessments Database
 import { PAID_ASSESSMENT_PRICES } from "./pricing";
 // Complete 177 Clinical & Self-Inventories: 161 Free Screeners + 16 Practitioner Batteries
@@ -253,7 +254,7 @@ export function buildAssessmentInterpretation(item: FullAssessmentItem, result: 
 
 
 
-export const PSYCH_ASSESSMENTS: FullAssessmentItem[] = [
+const BASE_PSYCH_ASSESSMENTS: FullAssessmentItem[] = [
 
   {
     id: "gad-7",
@@ -6386,6 +6387,11 @@ export const PSYCH_ASSESSMENTS: FullAssessmentItem[] = [
       return { score: sum, maxScore: 15, level, badge };
     }
   }
+];
+
+export const PSYCH_ASSESSMENTS: FullAssessmentItem[] = [
+  ...BASE_PSYCH_ASSESSMENTS,
+  ...EXTENDED_PSYCH_ASSESSMENTS,
 ];
 
 export const allCatalogAssessments: FullAssessmentItem[] = PSYCH_ASSESSMENTS;

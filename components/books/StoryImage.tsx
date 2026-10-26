@@ -43,29 +43,49 @@ export const StoryImage = ({
   const step = count > 1 ? 1 / (count - 1) : 1;
   const c = index * step;
 
-  const opacityKeyframes =
-    count === 1
-      ? { input: [0, 1], output: [1, 1] }
-      : index === 0
-        ? { input: [0, step * 0.4, 1], output: [1, 1, 0] }
-        : index === count - 1
-          ? { input: [0, 1 - step * 0.4, 1], output: [0, 1, 1] }
-          : {
-              input: [0, c - step * 0.4, c + step * 0.4, 1],
-              output: [0, 1, 0, 0],
-            };
-  const opacity = useTransform(progress, opacityKeyframes.input, opacityKeyframes.output);
+  let opacityInput: number[];
+  let opacityOutput: number[];
+
+  if (count === 1) {
+    opacityInput = [0, 1];
+    opacityOutput = [1, 1];
+  } else if (index === 0) {
+    opacityInput = [0, Math.max(0.01, step * 0.25), Math.min(0.99, step * 0.6), 1];
+    opacityOutput = [1, 1, 0, 0];
+  } else if (index === count - 1) {
+    opacityInput = [0, Math.max(0.01, 1 - step * 0.6), Math.min(0.99, 1 - step * 0.25), 1];
+    opacityOutput = [0, 0, 1, 1];
+  } else {
+    const startFadeIn = Math.max(0, c - step * 0.5);
+    const fullIn = Math.max(startFadeIn + 0.01, c - step * 0.15);
+    const startFadeOut = Math.min(1, c + step * 0.15);
+    const fullOut = Math.min(1, c + step * 0.5);
+    opacityInput = [0, startFadeIn, fullIn, startFadeOut, fullOut, 1];
+    opacityOutput = [0, 0, 1, 1, 0, 0];
+  }
+
+  const opacity = useTransform(progress, opacityInput, opacityOutput);
 
   const delta = reducedMotion ? 0 : scaleDelta;
-  const scaleKeyframes =
+  const scaleInput =
     count === 1
-      ? { input: [0, 1], output: [1, 1] }
+      ? [0, 1]
       : index === 0
-        ? { input: [0, step, 1], output: [1, 1, 1 + delta] }
+        ? [0, step * 0.5, 1]
         : index === count - 1
-          ? { input: [0, 1 - step, 1], output: [1 - delta, 1, 1] }
-          : { input: [0, c, 1], output: [1 - delta, 1, 1 + delta] };
-  const scale = useTransform(progress, scaleKeyframes.input, scaleKeyframes.output);
+          ? [0, 1 - step * 0.5, 1]
+          : [0, Math.max(0, c - step * 0.3), c, Math.min(1, c + step * 0.3), 1];
+
+  const scaleOutput =
+    count === 1
+      ? [1, 1]
+      : index === 0
+        ? [1, 1.02, 1.02 + delta]
+        : index === count - 1
+          ? [1 - delta, 1, 1]
+          : [1 - delta, 1 - delta * 0.5, 1, 1 + delta * 0.5, 1 + delta];
+
+  const scale = useTransform(progress, scaleInput, scaleOutput);
 
   return (
     <motion.div

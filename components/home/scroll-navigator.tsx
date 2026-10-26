@@ -1,5 +1,4 @@
 "use client";
-
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 
@@ -92,19 +91,17 @@ export function ScrollNavigator() {
         <div
           onMouseEnter={() => setIsExpanded(true)}
           onMouseLeave={() => setIsExpanded(false)}
-          className={`transition-all duration-300 rounded-2xl p-3 border backdrop-blur-md shadow-sm ${
-            isExpanded
-              ? "bg-[#FDFBF7]/95 border-[#24483B]/20 w-64 shadow-md"
-              : "bg-[#FDFBF7]/75 border-[#24483B]/10 w-auto"
+          className={`transition-all duration-300 rounded-2xl p-3.5 border backdrop-blur-md shadow-md bg-[#FDFBF7]/95 border-[#24483B]/20 ${
+            isExpanded ? "w-64" : "w-56"
           }`}
         >
           {/* Header indicator */}
-          <div className="flex items-center justify-between gap-3 pb-2 border-b border-[#24483B]/10 mb-2">
-            <div className="flex items-center gap-2 text-xs font-mono font-semibold text-[#24483B]">
-              <Compass className="w-3.5 h-3.5 text-[#C6A46A] animate-pulse" />
-              <span>FOLIO COMPASS</span>
+          <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[#24483B]/15 mb-2">
+            <div className="flex items-center gap-2 text-xs font-sans font-semibold tracking-wide text-[#24483B]">
+              <Compass className="w-4 h-4 text-[#C6A46A] shrink-0" />
+              <span className="whitespace-nowrap">Charting Our Work</span>
             </div>
-            <span className="text-[10px] font-mono text-[#202923]/60">
+            <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-[#24483B]/10 text-[#24483B]">
               {activeChapter.num}/{CHAPTERS.length}
             </span>
           </div>

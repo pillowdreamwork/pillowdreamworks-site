@@ -19,33 +19,53 @@ export const BookOpening = ({ book }: BookOpeningProps) => {
     offset: ["start start", "end end"],
   });
 
-  const coverY = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [40, -70]);
-  const coverScale = useTransform(scrollYProgress, [0, 1], reducedMotion ? [1, 1] : [0.96, 1.04]);
-  // Fully visible at progress 0, so the opening never starts on an empty frame.
-  const coverOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 1, reducedMotion ? 1 : 0]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [1, 1, reducedMotion ? 1 : 0]);
+  const titleY = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [0, -20]);
 
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.3, 0.6], reducedMotion ? [1, 1, 1] : [0, 1, 1]);
-  const titleY = useTransform(scrollYProgress, [0, 0.3], reducedMotion ? [0, 0] : [40, 0]);
+  const coverY = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [15, -30]);
+  const coverScale = useTransform(scrollYProgress, [0, 1], reducedMotion ? [1, 1] : [0.98, 1.02]);
+  const coverOpacity = useTransform(scrollYProgress, [0, 0.75, 1], [1, 1, reducedMotion ? 1 : 0]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-[180vh] bg-[#faf8f5]" aria-label={`${book.title}: opening`}>
-      <div className="sticky top-10 flex h-[calc(100svh-2.5rem)] items-center justify-center">
-        <motion.div style={{ y: coverY, scale: coverScale, opacity: coverOpacity }} className="relative">
+    <section ref={sectionRef} className="relative min-h-[170vh] bg-[#faf8f5]" aria-label={`${book.title}: opening`}>
+      <div className="sticky top-12 flex h-[calc(100svh-3rem)] flex-col items-center justify-center px-6 text-center">
+        {/* Title above image */}
+        <motion.div
+          style={{ opacity: titleOpacity, y: titleY }}
+          className="mb-4 max-w-3xl shrink-0"
+        >
+          <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.3em] text-[#C6A46A]">
+            PillowDreamWorks Foundation
+          </p>
+          <h2 className="font-serif text-4xl text-stone-900 md:text-6xl lg:text-7xl leading-tight">
+            {book.title}
+          </h2>
+          <p className="mt-2 font-serif text-lg md:text-xl italic text-stone-600 max-w-xl mx-auto">
+            {book.subtitle}
+          </p>
+        </motion.div>
+
+        {/* Front page image below the title while scrolling */}
+        <motion.div
+          style={{ y: coverY, scale: coverScale, opacity: coverOpacity }}
+          className="relative flex items-center justify-center max-h-[50svh] md:max-h-[58svh] w-auto my-2"
+        >
           <img
             src={book.cover}
-            alt={`${book.title} cover`}
+            alt={`${book.title} front page cover`}
             loading="eager"
             decoding="async"
-            className="h-[60svh] w-auto object-contain md:h-[70svh]"
+            className="h-full max-h-[50svh] md:max-h-[58svh] w-auto object-contain rounded-lg shadow-xl border border-stone-200/60"
           />
         </motion.div>
-      </div>
 
-      <div className="relative z-10 px-6 py-20 text-center md:px-8">
-        <motion.div style={{ opacity: titleOpacity, y: titleY }}>
-          <h2 className="mb-6 font-serif text-5xl text-stone-900 md:text-7xl">{book.title}</h2>
-          <p className="mx-auto max-w-2xl font-serif text-xl italic text-stone-500">{book.subtitle}</p>
-          <p className="mt-6 text-xs uppercase tracking-[0.3em] text-stone-500">{book.author}</p>
+        <motion.div
+          style={{ opacity: titleOpacity }}
+          className="mt-3 shrink-0"
+        >
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-stone-500">
+            {book.author}
+          </p>
         </motion.div>
       </div>
     </section>

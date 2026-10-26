@@ -138,6 +138,8 @@ export interface LiquidGlassButtonProps
   external?: boolean;
   signalDot?: boolean;
   showArrow?: boolean;
+  magnet?: boolean;
+  glow?: boolean;
 }
 
 export const LiquidGlassButton = React.forwardRef<

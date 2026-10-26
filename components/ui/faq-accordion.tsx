@@ -1,5 +1,4 @@
 "use client";
-
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 
@@ -73,40 +72,43 @@ export function FaqAccordion({
                 {title}
               </h3>
             )}
-            <div className="overflow-hidden rounded-xl border border-navy/10 bg-cream">
-              <LiquidGlassButton
+            <div className="overflow-hidden rounded-2xl border border-[#24483B]/15 bg-[#FDFBF7]/90 shadow-xs transition-all duration-300 hover:border-[#24483B]/35 hover:shadow-md group">
+              <button
                 id={buttonId}
                 type="button"
                 aria-expanded={open}
                 aria-controls={panelId}
                 onClick={() => setOpenKey(open ? null : key)}
-                className={`flex w-full cursor-pointer items-center justify-between gap-4 text-left font-serif font-bold text-navy transition-colors hover:bg-cream/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy/40 ${
-                  compact ? "p-3.5 text-sm" : "p-5 text-base sm:text-lg"
+                className={`flex w-full cursor-pointer items-center justify-between gap-4 text-left font-serif font-bold text-[#202923] group-hover:text-[#24483B] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24483B]/40 ${
+                  compact ? "p-4 text-sm" : "p-5 text-base sm:text-lg"
                 }`}
               >
-                <span>{item.question}</span>
-                <ChevronDown
-                  aria-hidden="true"
-                  className={`h-5 w-5 shrink-0 text-navy/50 transition-transform ${open ? "rotate-180" : ""}`}
-                />
-              </LiquidGlassButton>
+                <span className="leading-snug">{item.question}</span>
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[#24483B]/5 group-hover:bg-[#24483B]/10 text-[#24483B] transition-transform duration-300 shrink-0">
+                  <ChevronDown
+                    aria-hidden="true"
+                    className={`h-4 w-4 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+                  />
+                </span>
+              </button>
               <div
                 id={panelId}
                 role="region"
                 aria-labelledby={buttonId}
                 hidden={!open}
-                className={`border-t border-navy/5 font-sans leading-relaxed text-navy/75 ${
-                  compact ? "px-3.5 pb-3.5 pt-3 text-xs" : "px-5 pb-5 pt-3.5 text-sm sm:text-base"
+                className={`border-t border-[#24483B]/10 font-sans leading-relaxed text-[#202923]/80 bg-[#FAF8F5]/60 ${
+                  compact ? "px-4 pb-4 pt-3 text-xs" : "px-5 pb-5 pt-4 text-sm sm:text-base"
                 }`}
               >
                 <p>{item.answer}</p>
                 {item.link && (
-                  <p className="pt-2">
+                  <p className="pt-3">
                     <Link
                       href={item.link.href}
-                      className="font-semibold text-sage-dark underline underline-offset-2 hover:text-navy"
+                      className="inline-flex items-center gap-1 font-semibold text-[#24483B] underline underline-offset-4 hover:text-[#C6A46A] transition-colors"
                     >
-                      {item.link.label}
+                      <span>{item.link.label}</span>
+                      <span aria-hidden="true">→</span>
                     </Link>
                   </p>
                 )}

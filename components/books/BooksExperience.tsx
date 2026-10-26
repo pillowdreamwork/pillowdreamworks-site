@@ -10,28 +10,24 @@ import { BookEntrance } from "./BookEntrance";
 import { BookOpening } from "./BookOpening";
 import { ToolkitJourney } from "./ToolkitJourney";
 import { FindingCentreJourney } from "./FindingCentreJourney";
-import { PageStory } from "./PageStory";
-import { ChapterFlow } from "./ChapterFlow";
 import { BookDetails } from "./BookDetails";
 import { BookFAQ } from "./BookFAQ";
 import { BookPricing } from "./BookPricing";
-import { SecondBookDiscovery } from "./SecondBookDiscovery";
 import { BundleReveal } from "./BundleReveal";
 
 interface BookWorldProps {
   book: Book;
   onReturn: () => void;
+  onSelectBook: (id: string) => void;
 }
 
-/** One book's complete story inside the single continuous document. */
-const BookWorld = ({ book, onReturn }: BookWorldProps) => {
+/** One book's complete story inside the continuous document. */
+const BookWorld = ({ book, onReturn, onSelectBook }: BookWorldProps) => {
   const centre = book.personality === "centre";
   return (
     <div id={`world-${book.id}`} data-scene={book.title} className="scroll-mt-10">
       <BookOpening book={book} />
       {centre ? <FindingCentreJourney book={book} /> : <ToolkitJourney book={book} />}
-      <PageStory items={book.scrollJourney} bookTitle={book.title} tone={centre ? "centre" : "default"} />
-      <ChapterFlow book={book} />
       <BookDetails book={book} />
       <BookFAQ book={book} />
       <BookPricing book={book} onReturn={onReturn} />
@@ -47,14 +43,13 @@ export const BooksExperience = () => {
   const firstWorldRef = useRef<HTMLDivElement>(null);
 
   const selectedBook = selectedBookId ? BOOKS.find((book) => book.id === selectedBookId) ?? null : null;
-  const otherBook = selectedBook ? BOOKS.find((book) => book.id !== selectedBook.id) ?? null : null;
 
   const handleSelect = (id: string) => {
     setSelectedBookId(id);
     setPendingScroll(true);
   };
 
-  // After a choice, carry the visitor into the book once (normal scrolling takes over from there).
+  // After a choice, smoothly scroll visitor into the book
   useEffect(() => {
     if (!pendingScroll || !selectedBookId) return;
     const timer = window.setTimeout(
@@ -62,12 +57,12 @@ export const BooksExperience = () => {
         firstWorldRef.current?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
         setPendingScroll(false);
       },
-      reducedMotion ? 0 : 650
+      reducedMotion ? 0 : 500
     );
     return () => window.clearTimeout(timer);
   }, [pendingScroll, selectedBookId, reducedMotion]);
 
-  // Closes the current book, resets selection, and returns to the shelf.
+  // Closes current book and returns to the shelf
   const handleReturn = () => {
     setPendingScroll(false);
     setSelectedBookId(null);
@@ -77,7 +72,7 @@ export const BooksExperience = () => {
     });
   };
 
-  // Ambient orientation: follow the scene that is actually in view, not button state.
+  // Follow the scene actually in view
   useEffect(() => {
     const targets = document.querySelectorAll<HTMLElement>("[data-scene]");
     const observer = new IntersectionObserver(
@@ -88,7 +83,7 @@ export const BooksExperience = () => {
           }
         }
       },
-      { rootMargin: "-50% 0px -50% 0px" }
+      { rootMargin: "-40% 0px -40% 0px" }
     );
     targets.forEach((target) => observer.observe(target));
     return () => observer.disconnect();
@@ -99,13 +94,13 @@ export const BooksExperience = () => {
       {/* Sub-Masthead */}
       <header className="sticky top-[60px] z-30 border-b border-[#24483B]/10 bg-[#FDFBF7]/95 backdrop-blur-sm">
         <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-6 md:px-8">
-          <LiquidGlassButton
+          <button
             type="button"
             onClick={handleReturn}
             className="cursor-pointer border-0 bg-transparent p-0 font-serif text-xs uppercase tracking-[0.25em] text-[#24483B] hover:text-[#1A3529] font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C6A46A]"
           >
             ← Library Shelf
-          </LiquidGlassButton>
+          </button>
           <span className="truncate pl-4 font-serif text-xs text-[#202923]/60" aria-live="off">
             {scene}
           </span>
@@ -119,19 +114,22 @@ export const BooksExperience = () => {
 
         {selectedBook && (
           <>
+            {/* The Selected Book World */}
             <div ref={firstWorldRef} key={selectedBook.id} className="scroll-mt-10">
-              <BookWorld book={selectedBook} onReturn={handleReturn} />
+              <BookWorld
+                book={selectedBook}
+                onReturn={handleReturn}
+                onSelectBook={handleSelect}
+              />
             </div>
 
-            {otherBook && (
-              <>
-                <SecondBookDiscovery currentBook={selectedBook} nextBook={otherBook} />
-                <BookWorld key={otherBook.id} book={otherBook} onReturn={handleReturn} />
-                <div data-scene="The Collection">
-                  <BundleReveal onReturn={handleReturn} />
-                </div>
-              </>
-            )}
+            {/* Immediately show the Bundle / Complete Library (Abolishing the second book repetition) */}
+            <div data-scene="The Collection">
+              <BundleReveal
+                onReturn={handleReturn}
+                onSelectBook={handleSelect}
+              />
+            </div>
           </>
         )}
       </div>
