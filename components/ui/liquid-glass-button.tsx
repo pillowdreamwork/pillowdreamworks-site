@@ -15,11 +15,12 @@ import { cn } from "@/lib/utils";
  * - Text: White/light grey using Space Grotesk 500 (font-medium)
  * - Accent: Vermilion red #FF3E3E circular arrow element at the right
  * - Spacing: Generous horizontal padding, perfectly centered text
- * - Magnet: Leans toward cursor without excessive movement (disabled on touch)
- * - Light: Soft glow follows cursor within button
+ * - Light: glow follows the cursor inside the button (compulsory on every button)
+ * - Magnet: leans toward the cursor (compulsory on every button)
  * - Press: scale 0.97 with smooth return
- * - Hover: Arrow rotates 45deg over 350ms, circular element shifts toward pointer
- * - Reduced motion & Touchscreens respected
+ * - Hover: arrow rests 45deg above horizontal and turns level (0deg) over 350ms;
+ *   circular element shifts toward the pointer
+ * - Reduced motion & coarse pointers respected
  */
 export const liquidGlassVariants = cva(
   "group relative inline-flex items-center justify-center text-center font-display font-medium tracking-wide antialiased select-none cursor-pointer rounded-full transition-all duration-[350ms] ease-out disabled:pointer-events-none disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF3E3E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF8F5] active:scale-[0.97] overflow-hidden leading-tight",
@@ -70,8 +71,6 @@ export interface LiquidGlassButtonProps
   external?: boolean;
   signalDot?: boolean;
   showArrow?: boolean;
-  magnet?: boolean;
-  glow?: boolean;
 }
 
 export const LiquidGlassButton = React.forwardRef<
@@ -88,8 +87,6 @@ export const LiquidGlassButton = React.forwardRef<
       external,
       signalDot,
       showArrow,
-      magnet = true,
-      glow = true,
       children,
       disabled,
       ...props
@@ -100,22 +97,32 @@ export const LiquidGlassButton = React.forwardRef<
     const [isHovered, setIsHovered] = React.useState(false);
     const [magnetOffset, setMagnetOffset] = React.useState({ x: 0, y: 0 });
     const [tiltAngle, setTiltAngle] = React.useState({ rotateX: 0, rotateY: 0 });
-    const [isTouchDevice, setIsTouchDevice] = React.useState(false);
-    const prefersReducedMotion = React.useRef(false);
+    // Light + Magnet are compulsory on every button. They are only switched
+    // off for coarse pointers (touch) and visitors who prefer reduced motion.
+    // A hover-capable test is used instead of maxTouchPoints so touchscreen
+    // laptops with a mouse still receive the effects.
+    const [pointerEffects, setPointerEffects] = React.useState(false);
 
     React.useEffect(() => {
-      if (typeof window !== "undefined") {
-        setIsTouchDevice(
-          "ontouchstart" in window ||
-          navigator.maxTouchPoints > 0 ||
-          window.matchMedia("(pointer: coarse)").matches
-        );
-        prefersReducedMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      }
+      const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      const syncPreferences = () => {
+        setPointerEffects(finePointer.matches && !reduceMotion.matches);
+      };
+
+      syncPreferences();
+      finePointer.addEventListener("change", syncPreferences);
+      reduceMotion.addEventListener("change", syncPreferences);
+
+      return () => {
+        finePointer.removeEventListener("change", syncPreferences);
+        reduceMotion.removeEventListener("change", syncPreferences);
+      };
     }, []);
 
     const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
-      if (disabled || isTouchDevice || prefersReducedMotion.current) return;
+      if (disabled || !pointerEffects) return;
       const target = e.currentTarget;
       const rect = target.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -126,11 +133,9 @@ export const LiquidGlassButton = React.forwardRef<
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      if (magnet) {
-        const deltaX = (x - centerX) * 0.12;
-        const deltaY = (y - centerY) * 0.12;
-        setMagnetOffset({ x: deltaX, y: deltaY });
-      }
+      const deltaX = (x - centerX) * 0.12;
+      const deltaY = (y - centerY) * 0.12;
+      setMagnetOffset({ x: deltaX, y: deltaY });
 
       // Subtle, tactile 3D perspective tilt (max 5.5 degrees)
       const normX = (x - centerX) / Math.max(centerX, 1);
@@ -166,9 +171,16 @@ export const LiquidGlassButton = React.forwardRef<
     // Explicit showArrow override for small/subtle when requested
     const renderArrow = showArrow !== undefined ? showArrow : shouldShowArrow;
 
+    // Light: compulsory on every variant — a white sheen over dark fills and a
+    // warm gold sheen over the ivory/gold fills so the glow always reads.
+    const glowTint =
+      variant === "primary" || variant === "crisis" || variant === "vermilion"
+        ? "rgba(255, 255, 255, 0.30)"
+        : "rgba(198, 164, 106, 0.38)";
+
     const inlineStyle: React.CSSProperties = {
       transform:
-        !prefersReducedMotion.current && !isTouchDevice && isHovered
+        pointerEffects && isHovered
           ? `perspective(600px) translate3d(${magnetOffset.x.toFixed(1)}px, ${magnetOffset.y.toFixed(1)}px, 4px) rotateX(${tiltAngle.rotateX.toFixed(2)}deg) rotateY(${tiltAngle.rotateY.toFixed(2)}deg)`
           : undefined,
       transformStyle: "preserve-3d",
@@ -185,14 +197,14 @@ export const LiquidGlassButton = React.forwardRef<
 
     const content = (
       <>
-        {/* Soft cursor-following light glow within button */}
-        {glow && !isTouchDevice && (
+        {/* Light: cursor-following glow, present on every button */}
+        {pointerEffects && (
           <span
             aria-hidden="true"
             className="pointer-events-none absolute -inset-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100 overflow-hidden"
             style={{
               background: isHovered
-                ? `radial-gradient(140px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.22), transparent 70%)`
+                ? `radial-gradient(150px circle at ${mousePos.x}px ${mousePos.y}px, ${glowTint}, transparent 72%)`
                 : undefined,
             }}
           />
@@ -219,7 +231,7 @@ export const LiquidGlassButton = React.forwardRef<
             aria-hidden="true"
             className="button-arrow-circle relative z-10 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FF3E3E] text-white shrink-0 ml-1.5 shadow-[0_0_14px_rgba(255,62,62,0.45)] transition-all duration-[350ms] ease-out group-hover:scale-105 group-hover:translate-x-0.5"
           >
-            <ArrowRight className="button-arrow w-3.5 h-3.5 sm:w-4 sm:h-4 text-white transition-transform duration-[350ms] ease-out group-hover:rotate-45" />
+            <ArrowRight className="button-arrow w-3.5 h-3.5 sm:w-4 sm:h-4 text-white transition-transform duration-[350ms] ease-out -rotate-45 group-hover:[rotate:0deg]" />
           </span>
         )}
       </>

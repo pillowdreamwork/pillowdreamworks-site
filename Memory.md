@@ -224,3 +224,21 @@
 - `npx tsc --noEmit` → 0 errors ✓
 - `npm run build` → 22 static pages generated successfully ✓
 
+
+---
+
+# Phase 5 — Button Hover Refinement (Arrow Direction, Light, Magnet)
+
+- **Date:** 2026-10-26
+- **File:** `components/ui/liquid-glass-button.tsx` — shared by every button on the site
+
+1. **Arrow:** rests at 45° above horizontal (`-rotate-45`) and turns level to 0° over 350ms on hover. This replaces the previous 0° → 45° downward turn for every arrow-accent button.
+2. **Light:** the cursor-following glow is compulsory on every button. Dark variants use a white sheen; ivory/gold variants use a warm gold sheen so the glow stays visible.
+3. **Magnet:** the lean/tilt toward the cursor is compulsory wherever a fine pointer exists. Detection now uses `(hover: hover) and (pointer: fine)` instead of `maxTouchPoints`/`ontouchstart`, which silently disabled both effects on touchscreen laptops.
+4. **Config:** `next.config.mjs` reads `NEXT_ALLOWED_DEV_ORIGINS` for dev previews without hardcoding a hostname.
+
+## Verification
+- `npx tsc --noEmit` → 0 errors ✓
+- `npm run lint` → 0 errors ✓
+- `npm run build` → 22 static pages ✓
+- Dev preview on port 3002: all 74 arrow buttons render `-rotate-45 group-hover:[rotate:0deg]` ✓
