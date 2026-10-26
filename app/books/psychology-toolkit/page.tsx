@@ -1,6 +1,7 @@
 "use client";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
+
 import * as React from "react";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
@@ -10,7 +11,6 @@ import { Badge } from "@/components/ui/badge";
 import { PSYCHOLOGY_TOOLKIT, BOOK_BUYING_FAQS } from "@/data/books";
 import { BOOKS_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 import {
-  ArrowRight,
   CheckCircle2,
   ChevronDown,
   FileCheck,

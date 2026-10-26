@@ -1,13 +1,12 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
-import { Badge } from "@/components/ui/badge";
+
 import { TiltCard } from "@/components/ui/tilt-card";
 import { LEARN_CATALOG, LearnItem } from "@/data/learn";
-import { Search, Clock, ArrowRight, X, Sparkles, BookOpen, Compass, HelpCircle } from "lucide-react";
+import { Search, Clock, X, Compass, HelpCircle } from "lucide-react";
 
 /* ─── Scroll-reveal hook ─── */
 function useScrollReveal(threshold = 0.12) {
@@ -313,18 +312,15 @@ export default function LearnPage() {
                 </div>
 
                 <div className="pt-8 mt-8 border-t border-forest/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <Link href="/books/psychology-toolkit">
-                    <a className="block">
-                      <LiquidGlassButton
-                        onClick={() => setSelectedArticle(null)}
-                        variant="primary"
-                        size="sm"
-                        showArrow
-                      >
-                        <span>Explore in The Psychology Toolkit</span>
-                      </LiquidGlassButton>
-                    </a>
-                  </Link>
+                  <LiquidGlassButton
+                    href="/books/psychology-toolkit"
+                    onClick={() => setSelectedArticle(null)}
+                    variant="primary"
+                    size="sm"
+                    showArrow
+                  >
+                    <span>Explore in The Psychology Toolkit</span>
+                  </LiquidGlassButton>
                   <LiquidGlassButton
                     variant="secondary"
                     size="sm"

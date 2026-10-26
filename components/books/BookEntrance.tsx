@@ -4,9 +4,10 @@ import React from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { BookObject } from "./BookObject";
 import { BOOKS } from "@/data/books";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface BookEntranceProps {
+interface BookEntranceProps {
   selectedBookId: string | null;
   onSelection: (id: string) => void;
 }

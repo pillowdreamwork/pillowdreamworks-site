@@ -5,15 +5,14 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Badge } from "@/components/ui/badge";
+import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 import { TiltCard } from "@/components/ui/tilt-card";
 import { SERVICES_PRICING, CHECKOUT_NOTICE } from "@/data/pricing";
 import {
   Phone,
   Check,
   Info,
-  Sparkles,
-  ShieldAlert,
-  ArrowRight,
+
   Compass,
   HeartHandshake,
   PenTool,
@@ -38,8 +37,6 @@ function useScrollReveal(threshold = 0.12) {
 }
 
 export default function ServicesPage() {
-  const [show3d, setShow3d] = React.useState(true);
-
   const hero = useScrollReveal(0.1);
   const counselling = useScrollReveal();
   const crisis = useScrollReveal();
@@ -114,13 +111,9 @@ export default function ServicesPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                <Link href="#counselling">
-                  <TiltCard maxTilt={3} className="inline-block">
-                    <span className="cursor-pointer text-xs font-medium text-forest hover:text-ink transition-colors px-4 py-2 rounded-full glass-content-card border border-forest/15">
-                      Jump to Counselling
-                    </span>
-                  </TiltCard>
-                </Link>
+                <LiquidGlassButton href="#counselling" variant="secondary" size="sm">
+                  Jump to Counselling
+                </LiquidGlassButton>
               </div>
             </div>
 
@@ -139,8 +132,7 @@ export default function ServicesPage() {
                 </TiltCard>
               </Link>
 
-              <Link href="#crisis" passHref>
-                <a className="block">
+              <Link href="#crisis" className="block">
                   <TiltCard maxTilt={4} className="h-full">
                     <div className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer h-full flex flex-col">
                       <div className="flex items-center gap-2 text-xs font-semibold text-crisis">
@@ -151,11 +143,9 @@ export default function ServicesPage() {
                       <div className="mt-auto w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-vermilion/60 to-crisis mt-2 transition-all duration-500" />
                     </div>
                   </TiltCard>
-                </a>
               </Link>
 
-              <Link href="#graphology" passHref>
-                <a className="block">
+              <Link href="#graphology" className="block">
                   <TiltCard maxTilt={4} className="h-full">
                     <div className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer h-full flex flex-col">
                       <div className="flex items-center gap-2 text-xs font-semibold text-gold-dark">
@@ -166,11 +156,9 @@ export default function ServicesPage() {
                       <div className="mt-auto w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-gold to-gold-dark mt-2 transition-all duration-500" />
                     </div>
                   </TiltCard>
-                </a>
               </Link>
 
-              <Link href="#courses" passHref>
-                <a className="block">
+              <Link href="#courses" className="block">
                   <TiltCard maxTilt={4} className="h-full">
                     <div className="p-4 rounded-2xl glass-content-card text-left group cursor-pointer h-full flex flex-col">
                       <div className="flex items-center gap-2 text-xs font-semibold text-ink">
@@ -181,7 +169,6 @@ export default function ServicesPage() {
                       <div className="mt-auto w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-sage to-ink mt-2 transition-all duration-500" />
                     </div>
                   </TiltCard>
-                </a>
               </Link>
             </div>
           </div>
@@ -230,16 +217,9 @@ export default function ServicesPage() {
                           ({SERVICES_PRICING.counselling.singleSession.formattedUsd})
                         </span>
                       </div>
-                      <Link href="/contact">
-                        <a className="block">
-                          <TiltCard maxTilt={3} className="inline-block">
-                            <span className="liquid-glass-primary text-sm font-medium cursor-pointer px-6 py-3 rounded-full inline-flex items-center gap-2 shadow-lg hover:shadow-xl transition-all">
-                              Book 1 Session
-                              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                            </span>
-                          </TiltCard>
-                        </a>
-                      </Link>
+                      <LiquidGlassButton href="/contact" variant="primary" size="md">
+                        Book 1 Session
+                      </LiquidGlassButton>
                     </div>
                   </div>
                 </TiltCard>
@@ -267,16 +247,9 @@ export default function ServicesPage() {
                           ({SERVICES_PRICING.counselling.package4.formattedUsd})
                         </span>
                       </div>
-                      <Link href="/contact">
-                        <a className="block">
-                          <TiltCard maxTilt={3} className="inline-block">
-                            <span className="liquid-glass-secondary text-sm font-medium cursor-pointer px-6 py-3 rounded-full inline-flex items-center gap-2 hover:shadow-md transition-all">
-                              Select 4 Sessions
-                              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                            </span>
-                          </TiltCard>
-                        </a>
-                      </Link>
+                      <LiquidGlassButton href="/contact" variant="secondary" size="md">
+                        Select 4 Sessions
+                      </LiquidGlassButton>
                     </div>
                   </div>
                 </TiltCard>
@@ -310,16 +283,9 @@ export default function ServicesPage() {
                           ({SERVICES_PRICING.counselling.package8.formattedUsd})
                         </span>
                       </div>
-                      <Link href="/contact">
-                        <a className="block">
-                          <TiltCard maxTilt={3} className="inline-block">
-                            <span className="liquid-glass-primary text-sm font-medium cursor-pointer px-6 py-3 rounded-full inline-flex items-center gap-2 shadow-lg hover:shadow-xl transition-all">
-                              Select 8 Sessions
-                              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                            </span>
-                          </TiltCard>
-                        </a>
-                      </Link>
+                      <LiquidGlassButton href="/contact" variant="primary" size="md">
+                        Select 8 Sessions
+                      </LiquidGlassButton>
                     </div>
                   </div>
                 </TiltCard>
@@ -386,16 +352,9 @@ export default function ServicesPage() {
                       </span>
                     </div>
 
-                    <Link href="/contact">
-                      <a className="block">
-                        <TiltCard maxTilt={3} className="inline-block">
-                          <span className="liquid-glass-primary text-sm font-medium cursor-pointer px-6 py-3 rounded-full inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all">
-                            Request Stabilisation Call
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                          </span>
-                        </TiltCard>
-                      </a>
-                    </Link>
+                    <LiquidGlassButton href="/contact" variant="primary" size="md">
+                      Request Stabilisation Call
+                    </LiquidGlassButton>
                   </div>
                 </div>
               </TiltCard>
@@ -440,16 +399,9 @@ export default function ServicesPage() {
                       </span>
                     </div>
 
-                    <Link href="/contact">
-                      <a className="block">
-                        <TiltCard maxTilt={3} className="inline-block">
-                          <span className="liquid-glass-secondary text-sm font-medium cursor-pointer px-6 py-3 rounded-full inline-flex items-center justify-center gap-2 hover:shadow-md transition-all">
-                            Join CentreLine
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                          </span>
-                        </TiltCard>
-                      </a>
-                    </Link>
+                    <LiquidGlassButton href="/contact" variant="secondary" size="md">
+                      Join CentreLine
+                    </LiquidGlassButton>
                   </div>
                 </div>
               </TiltCard>
@@ -578,16 +530,9 @@ export default function ServicesPage() {
                     <span className="font-serif text-xl font-bold text-ink">
                       {SERVICES_PRICING.courses.crisisCounselling.formattedInr} ({SERVICES_PRICING.courses.crisisCounselling.formattedUsd})
                     </span>
-                    <Link href="/contact">
-                      <a className="block">
-                        <TiltCard maxTilt={3} className="inline-block">
-                          <span className="liquid-glass-subtle text-xs font-medium cursor-pointer px-4 py-2 rounded-full inline-flex items-center gap-1.5 transition-all">
-                            Enroll
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </span>
-                        </TiltCard>
-                      </a>
-                    </Link>
+                    <LiquidGlassButton href="/contact" variant="secondary" size="sm" showArrow>
+                      Enroll
+                    </LiquidGlassButton>
                   </div>
                 </div>
               </TiltCard>
@@ -607,16 +552,9 @@ export default function ServicesPage() {
                     <span className="font-serif text-xl font-bold text-ink">
                       {SERVICES_PRICING.courses.cognitiveCounselling.formattedInr} ({SERVICES_PRICING.courses.cognitiveCounselling.formattedUsd})
                     </span>
-                    <Link href="/contact">
-                      <a className="block">
-                        <TiltCard maxTilt={3} className="inline-block">
-                          <span className="liquid-glass-subtle text-xs font-medium cursor-pointer px-4 py-2 rounded-full inline-flex items-center gap-1.5 transition-all">
-                            Enroll
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </span>
-                        </TiltCard>
-                      </a>
-                    </Link>
+                    <LiquidGlassButton href="/contact" variant="secondary" size="sm" showArrow>
+                      Enroll
+                    </LiquidGlassButton>
                   </div>
                 </div>
               </TiltCard>
@@ -636,16 +574,9 @@ export default function ServicesPage() {
                     <span className="font-serif text-xl font-bold text-gold">
                       {SERVICES_PRICING.courses.bundle.formattedInr} ({SERVICES_PRICING.courses.bundle.formattedUsd})
                     </span>
-                    <Link href="/contact">
-                      <a className="block">
-                        <TiltCard maxTilt={3} className="inline-block">
-                          <span className="liquid-glass-primary text-xs font-medium cursor-pointer px-4 py-2 rounded-full inline-flex items-center gap-1.5 shadow-lg hover:shadow-xl transition-all">
-                            Get Bundle
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </span>
-                        </TiltCard>
-                      </a>
-                    </Link>
+                    <LiquidGlassButton href="/contact" variant="primary" size="sm" showArrow>
+                      Get Bundle
+                    </LiquidGlassButton>
                   </div>
                 </div>
               </TiltCard>

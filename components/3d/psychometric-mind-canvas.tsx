@@ -4,7 +4,7 @@ import * as React from "react";
 import * as THREE from "three";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface PsychometricMindCanvasProps {
+interface PsychometricMindCanvasProps {
   selectedDomain: string;
   onSelectDomain: (domain: string) => void;
   className?: string;
@@ -29,7 +29,6 @@ const DOMAIN_NODES = [
 ];
 
 export function PsychometricMindCanvas({
-  selectedDomain,
   onSelectDomain,
   className,
 }: PsychometricMindCanvasProps) {
@@ -262,7 +261,7 @@ export function PsychometricMindCanvas({
       container.style.cursor = "grabbing";
     };
 
-    const onPointerUp = (e: MouseEvent | TouchEvent) => {
+    const onPointerUp = (_e: MouseEvent | TouchEvent) => {
       if (isDragging) {
         // If it was a quick click without much drag, check intersect to select domain
         raycaster.setFromCamera(mouseVector, camera);

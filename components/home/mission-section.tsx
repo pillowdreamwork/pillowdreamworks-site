@@ -7,7 +7,7 @@ import { motion } from "motion/react";
 import { Container } from "@/components/ui/container";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';const rows = [
+const rows = [
   {
     number: "01",
     title: "Guided Books",

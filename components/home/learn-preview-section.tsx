@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
+
 import { ArrowRight, Clock, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Container } from "@/components/ui/container";

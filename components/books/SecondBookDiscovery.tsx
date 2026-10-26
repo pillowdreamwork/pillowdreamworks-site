@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from "motion/react"
 import { Book } from "@/data/books";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface SecondBookDiscoveryProps {
+interface SecondBookDiscoveryProps {
   currentBook: Book;
   nextBook: Book;
 }

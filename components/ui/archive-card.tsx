@@ -1,14 +1,25 @@
 import React from "react";
-import { ClipboardCopy, Check, Copy, AlertCircle, Clock, Calendar } from "lucide-react";
+import { Clock, Calendar } from "lucide-react";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
+
+export interface ArchiveCardItem {
+  title: string;
+  description: string | string[];
+  domain: string;
+  breadcrumb: string;
+  whoCanTake?: string;
+  duration?: string;
+  questions?: unknown[];
+  isPaid?: boolean;
+}
 
 export interface ArchiveCardProps {
   /** Assessment item data */
-  item: any;
+  item: ArchiveCardItem;
   /** Callback when user clicks start (for free assessments) */
-  onStart?: (item: any) => void;
+  onStart?: (item: ArchiveCardItem) => void;
   /** Callback for booking a clinical session */
-  onBook?: (item: any) => void;
+  onBook?: (item: ArchiveCardItem) => void;
 }
 
 /**

@@ -1,6 +1,7 @@
 "use client";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
+
 // TEST-ONLY HARNESS
 // Renders the real PSYCH_ASSESSMENTS catalog and its scoring/interpretation
 // engine behind a stable DOM contract so tests/assessment-centre.spec.js can

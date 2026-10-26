@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { Play, ArrowDown, Sparkles } from "lucide-react";
+import { ArrowDown, Sparkles } from "lucide-react";
 import { Canvas3DHero } from "./canvas-3d-hero";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface HeroProps {
+interface HeroProps {
   onOpenReel: () => void;
   isAudioActive: boolean;
 }

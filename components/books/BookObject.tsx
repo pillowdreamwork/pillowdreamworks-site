@@ -6,7 +6,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Book } from "@/data/books";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';interface BookObjectProps {
+interface BookObjectProps {
   book: Book;
   selected: boolean;
   /** True when another book has been chosen and this one should recede. */

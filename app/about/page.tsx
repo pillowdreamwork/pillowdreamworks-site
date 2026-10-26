@@ -1,8 +1,8 @@
 import * as React from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
+
 import { Container } from "@/components/ui/container";
-import { SectionHeading } from "@/components/ui/section-heading";
+
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 import { FOUNDER_CONTACT } from "@/data/navigation";
 import { ArrowUpRight, Compass, Heart, Shield, Sparkles, BookOpen, Users, Brain, Eye } from "lucide-react";

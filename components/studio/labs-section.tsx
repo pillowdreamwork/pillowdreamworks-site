@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Terminal, Cpu, Sparkles, Play, ArrowUpRight, Flame } from "lucide-react";
+import { ArrowUpRight, Flame } from "lucide-react";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export function StudioLabsSection() {
+export function StudioLabsSection() {
   const [activeExperiment, setActiveExperiment] = useState(0);
 
   const experiments = [

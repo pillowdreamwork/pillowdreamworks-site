@@ -11,7 +11,7 @@ import { StudioFooter } from "./footer";
 import { ShowreelModal } from "./showreel-modal";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export function StudioPage() {
+export function StudioPage() {
   const [isReelOpen, setIsReelOpen] = useState(false);
   const [isAudioActive, setIsAudioActive] = useState(false);
 

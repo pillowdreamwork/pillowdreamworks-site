@@ -1,7 +1,8 @@
 "use client";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
-import React, { useState, useEffect, useRef } from "react";
+
+import React, { useState, useEffect } from "react";
 import { X, Play, Pause, Volume2, VolumeX, Sparkles } from "lucide-react";
 
 interface ShowreelModalProps {

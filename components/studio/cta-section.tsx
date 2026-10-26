@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowUpRight, Copy, Check, Mail, Sparkles } from "lucide-react";
+import { Copy, Check, Sparkles } from "lucide-react";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 
 export function StudioCTASection() {

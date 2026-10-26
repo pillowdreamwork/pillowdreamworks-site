@@ -3,10 +3,10 @@
 import React, { useEffect, useRef, useState } from "react";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export function Canvas3DHero({ isPlayingAudio = false }: { isPlayingAudio?: boolean }) {
+export function Canvas3DHero({ isPlayingAudio = false }: { isPlayingAudio?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0, isHovered: false });
-  const [fps, setFps] = useState(60);
+  const [, setFps] = useState(60);
 
   useEffect(() => {
     const canvas = canvasRef.current;

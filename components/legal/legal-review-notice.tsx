@@ -2,7 +2,7 @@ import * as React from "react";
 import { AlertTriangle } from "lucide-react";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';/**
+/**
  * Visible notice on every legal page. It makes clear that these documents are
  * plain-language summaries still pending qualified legal review, and must not
  * be read as a claim of verified regulatory compliance.

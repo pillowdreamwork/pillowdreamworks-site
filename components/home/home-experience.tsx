@@ -15,7 +15,7 @@ import { FinalCTASection } from "@/components/home/final-cta-section";
 import { ScrollNavigator } from "@/components/home/scroll-navigator";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export function HomeExperience() {
+export function HomeExperience() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,

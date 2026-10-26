@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: "default" | "narrow" | "wide" | "full";
 }
 

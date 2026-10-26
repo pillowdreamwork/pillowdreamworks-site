@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
 import { FOUNDER_CONTACT } from "@/data/navigation";
-import { MessageSquare, ArrowRight } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 
 interface PurchaseControlProps {
   label: string;

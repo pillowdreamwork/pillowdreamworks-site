@@ -4,7 +4,7 @@ import "./globals.css";
 import { LayoutShell } from "@/components/site/layout-shell";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';const inter = Inter({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useId, useEffect, useRef } from "react";
-import Link from "next/link";
+
 import {
   PSYCH_ASSESSMENTS,
   FullAssessmentItem,
@@ -23,7 +23,6 @@ import {
   CheckCircle2,
   AlertCircle,
   Clock,
-  ArrowRight,
   Search,
   Copy,
   Check,
@@ -38,10 +37,8 @@ import {
   X,
   Phone,
   ShieldAlert,
-  Compass,
   CheckCircle,
   HelpCircle,
-  ExternalLink,
 } from "lucide-react";
 
 export function AssessmentCentre() {

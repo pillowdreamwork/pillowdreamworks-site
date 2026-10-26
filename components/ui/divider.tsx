@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 
-import { LiquidGlassButton } from '@/components/ui/liquid-glass-button';export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
+export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
   variant?: "subtle" | "gold" | "sage" | "navy";
 }
 

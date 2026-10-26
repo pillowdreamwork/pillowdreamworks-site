@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { motion, useMotionValue, useSpring, useTransform, useScroll } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { LiquidGlassButton } from "@/components/ui/liquid-glass-button";
@@ -129,7 +129,7 @@ export function HeroSection() {
             {/* Action Row */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2"
+              className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-4 pt-2"
             >
               <LiquidGlassButton
                 href="/books/psychology-toolkit"
