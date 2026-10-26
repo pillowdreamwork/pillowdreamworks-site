@@ -68,8 +68,6 @@ export const BookEntrance = ({ selectedBookId, onSelection }: BookEntranceProps)
                 key={book.id}
                 onClick={() => onSelection(book.id)}
                 variant={isSelected ? "primary" : "secondary"}
-                magnet={true}
-                glow={true}
                 showArrow={true}
                 size="md"
                 className={`font-serif text-sm tracking-wide transition-all ${

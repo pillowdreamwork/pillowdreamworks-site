@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
  * - Accent: Vermilion red #FF3E3E circular arrow element at the right
  * - Spacing: Generous horizontal padding, perfectly centered text
  * - Light: glow follows the cursor inside the button (compulsory on every button)
- * - Magnet: leans toward the cursor from inside the button or within 72px of
+ * - Magnet: leans toward the cursor from inside the button or within 110px of
  *   its edge (compulsory on every button)
  * - Press: scale 0.97 with smooth return
  * - Hover: arrow rests 45deg above horizontal and turns level (0deg) over 350ms;
@@ -72,9 +72,9 @@ export const liquidGlassVariants = cva(
  */
 type MagnetPointerListener = (x: number, y: number, pointerType: string) => void;
 
-const MAGNET_RADIUS = 72; // px of pull around the button edge
-const MAGNET_MAX_OFFSET = 12; // px the pill may lean from its resting place
-const MAGNET_STRENGTH = 0.2;
+const MAGNET_RADIUS = 110; // px of pull around the button edge
+const MAGNET_MAX_OFFSET = 18; // px the pill may lean from its resting place
+const MAGNET_STRENGTH = 0.28;
 
 const magnetListeners = new Set<MagnetPointerListener>();
 let magnetFrame = 0;
@@ -138,8 +138,6 @@ export interface LiquidGlassButtonProps
   external?: boolean;
   signalDot?: boolean;
   showArrow?: boolean;
-  magnet?: boolean;
-  glow?: boolean;
 }
 
 export const LiquidGlassButton = React.forwardRef<
@@ -320,7 +318,7 @@ export const LiquidGlassButton = React.forwardRef<
           : undefined,
       transformStyle: "preserve-3d",
       transition: magnetVisible
-        ? "transform 90ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 300ms ease"
+        ? "transform 70ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 300ms ease"
         : "transform 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease",
       ...props.style,
     };
