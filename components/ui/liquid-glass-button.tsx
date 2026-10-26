@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
  * - Reduced motion & coarse pointers respected
  */
 export const liquidGlassVariants = cva(
-  "group relative inline-flex items-center justify-center text-center font-display font-medium tracking-wide antialiased select-none cursor-pointer rounded-full transition-all duration-[350ms] ease-out disabled:pointer-events-none disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF3E3E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF8F5] active:scale-[0.97] overflow-hidden leading-tight",
+  "group relative inline-flex items-center justify-center text-center font-display font-medium tracking-wide antialiased select-none cursor-pointer rounded-full transition-[color,background-color,border-color,box-shadow,transform] duration-[350ms] ease-out disabled:pointer-events-none disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF3E3E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FAF8F5] active:scale-[0.97] overflow-hidden leading-tight",
   {
     variants: {
       variant: {
@@ -395,7 +395,7 @@ export const LiquidGlassButton = React.forwardRef<
         {renderArrow && (
           <span
             aria-hidden="true"
-            className="button-arrow-circle relative z-10 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FF3E3E] text-white shrink-0 ml-1.5 shadow-[0_0_14px_rgba(255,62,62,0.45)] transition-all duration-[350ms] ease-out group-hover:scale-105 group-hover:translate-x-0.5"
+            className="button-arrow-circle relative z-10 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FF3E3E] text-white shrink-0 ml-1.5 shadow-[0_0_14px_rgba(255,62,62,0.45)] transition-[color,background-color,border-color,box-shadow,transform] duration-[350ms] ease-out group-hover:scale-105 group-hover:translate-x-0.5"
           >
             <ArrowRight className="button-arrow w-3.5 h-3.5 sm:w-4 sm:h-4 text-white transition-transform duration-[350ms] ease-out -rotate-45 group-hover:[rotate:0deg]" />
           </span>

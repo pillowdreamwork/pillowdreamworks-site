@@ -72,7 +72,7 @@ export function FaqAccordion({
                 {title}
               </h3>
             )}
-            <div className="overflow-hidden rounded-2xl border border-[#24483B]/15 bg-[#FDFBF7]/90 shadow-xs transition-all duration-300 hover:border-[#24483B]/35 hover:shadow-md group">
+            <div className="overflow-hidden rounded-2xl border border-[#24483B]/15 bg-[#FDFBF7]/90 shadow-xs transition-[color,background-color,border-color,box-shadow,transform] duration-300 hover:border-[#24483B]/35 hover:shadow-md group">
               <button
                 id={buttonId}
                 type="button"
