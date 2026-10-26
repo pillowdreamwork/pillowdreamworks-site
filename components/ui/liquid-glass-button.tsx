@@ -97,32 +97,27 @@ export const LiquidGlassButton = React.forwardRef<
     const [isHovered, setIsHovered] = React.useState(false);
     const [magnetOffset, setMagnetOffset] = React.useState({ x: 0, y: 0 });
     const [tiltAngle, setTiltAngle] = React.useState({ rotateX: 0, rotateY: 0 });
-    // Light + Magnet are compulsory on every button. They are only switched
-    // off for coarse pointers (touch) and visitors who prefer reduced motion.
-    // A hover-capable test is used instead of maxTouchPoints so touchscreen
-    // laptops with a mouse still receive the effects.
-    const [pointerEffects, setPointerEffects] = React.useState(false);
+    // Light + Magnet are compulsory on every button. They are driven by real
+    // pointer events (not a hover media query, which reports false in some
+    // embedded browsers and touchscreen laptops, silently disabling both).
+    // Touch pointers and reduced-motion visitors are the only exceptions.
+    const prefersReducedMotion = React.useRef(false);
 
     React.useEffect(() => {
-      const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-      const syncPreferences = () => {
-        setPointerEffects(finePointer.matches && !reduceMotion.matches);
+      const syncPreference = () => {
+        prefersReducedMotion.current = reduceMotion.matches;
       };
 
-      syncPreferences();
-      finePointer.addEventListener("change", syncPreferences);
-      reduceMotion.addEventListener("change", syncPreferences);
-
-      return () => {
-        finePointer.removeEventListener("change", syncPreferences);
-        reduceMotion.removeEventListener("change", syncPreferences);
-      };
+      syncPreference();
+      reduceMotion.addEventListener("change", syncPreference);
+      return () => reduceMotion.removeEventListener("change", syncPreference);
     }, []);
 
     const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
-      if (disabled || !pointerEffects) return;
+      if (disabled) return;
+      if (e.pointerType === "touch") return;
+      if (prefersReducedMotion.current) return;
       const target = e.currentTarget;
       const rect = target.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -133,8 +128,11 @@ export const LiquidGlassButton = React.forwardRef<
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      const deltaX = (x - centerX) * 0.12;
-      const deltaY = (y - centerY) * 0.12;
+      // Magnet: follow the cursor, capped so the pill leans without drifting
+      // far enough to break its layout position.
+      const maxOffset = 12;
+      const deltaX = Math.max(-maxOffset, Math.min(maxOffset, (x - centerX) * 0.22));
+      const deltaY = Math.max(-maxOffset, Math.min(maxOffset, (y - centerY) * 0.22));
       setMagnetOffset({ x: deltaX, y: deltaY });
 
       // Subtle, tactile 3D perspective tilt (max 5.5 degrees)
@@ -180,13 +178,13 @@ export const LiquidGlassButton = React.forwardRef<
 
     const inlineStyle: React.CSSProperties = {
       transform:
-        pointerEffects && isHovered
+        isHovered
           ? `perspective(600px) translate3d(${magnetOffset.x.toFixed(1)}px, ${magnetOffset.y.toFixed(1)}px, 4px) rotateX(${tiltAngle.rotateX.toFixed(2)}deg) rotateY(${tiltAngle.rotateY.toFixed(2)}deg)`
           : undefined,
       transformStyle: "preserve-3d",
       transition: isHovered
-        ? "transform 140ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease"
-        : "transform 350ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease",
+        ? "transform 90ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 300ms ease"
+        : "transform 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease",
       ...props.style,
     };
 
@@ -197,18 +195,17 @@ export const LiquidGlassButton = React.forwardRef<
 
     const content = (
       <>
-        {/* Light: cursor-following glow, present on every button */}
-        {pointerEffects && (
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute -inset-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100 overflow-hidden"
-            style={{
-              background: isHovered
-                ? `radial-gradient(150px circle at ${mousePos.x}px ${mousePos.y}px, ${glowTint}, transparent 72%)`
-                : undefined,
-            }}
-          />
-        )}
+        {/* Light: cursor-following glow, mounted on every button */}
+        <span
+          aria-hidden="true"
+          data-button-glow=""
+          className="pointer-events-none absolute -inset-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100 overflow-hidden"
+          style={{
+            background: isHovered
+              ? `radial-gradient(150px circle at ${mousePos.x}px ${mousePos.y}px, ${glowTint}, transparent 72%)`
+              : undefined,
+          }}
+        />
 
         {/* Optional signal dot */}
         {signalDot && (

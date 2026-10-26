@@ -234,11 +234,12 @@
 
 1. **Arrow:** rests at 45° above horizontal (`-rotate-45`) and turns level to 0° over 350ms on hover. This replaces the previous 0° → 45° downward turn for every arrow-accent button.
 2. **Light:** the cursor-following glow is compulsory on every button. Dark variants use a white sheen; ivory/gold variants use a warm gold sheen so the glow stays visible.
-3. **Magnet:** the lean/tilt toward the cursor is compulsory wherever a fine pointer exists. Detection now uses `(hover: hover) and (pointer: fine)` instead of `maxTouchPoints`/`ontouchstart`, which silently disabled both effects on touchscreen laptops.
+3. **Magnet:** the lean/tilt toward the cursor is compulsory and now follows with a 90ms response, capped at 12px so the pill never drifts out of layout. Both effects are driven by real pointer events (`pointerType !== "touch"`) instead of a hover media query, which reports false in embedded/preview browsers and on touchscreen laptops and was silently disabling Light + Magnet.
 4. **Config:** `next.config.mjs` reads `NEXT_ALLOWED_DEV_ORIGINS` for dev previews without hardcoding a hostname.
 
 ## Verification
 - `npx tsc --noEmit` → 0 errors ✓
 - `npm run lint` → 0 errors ✓
 - `npm run build` → 22 static pages ✓
-- Dev preview on port 3002: all 74 arrow buttons render `-rotate-45 group-hover:[rotate:0deg]` ✓
+- Headless Chromium against a production build: glow radial-gradient x follows the cursor (65.9px → 302.4px), button translate3d follows it (-12px → +12px), arrow rests at -45deg and levels to 0 on hover ✓
+- Assessment portfolio: TiltCard tilt animation still runs; the button inside it gets its own glow + magnet ✓
