@@ -16,7 +16,8 @@ import { cn } from "@/lib/utils";
  * - Accent: Vermilion red #FF3E3E circular arrow element at the right
  * - Spacing: Generous horizontal padding, perfectly centered text
  * - Light: glow follows the cursor inside the button (compulsory on every button)
- * - Magnet: leans toward the cursor (compulsory on every button)
+ * - Magnet: leans toward the cursor from inside the button or within 72px of
+ *   its edge (compulsory on every button)
  * - Press: scale 0.97 with smooth return
  * - Hover: arrow rests 45deg above horizontal and turns level (0deg) over 350ms;
  *   circular element shifts toward the pointer
@@ -63,6 +64,72 @@ export const liquidGlassVariants = cva(
   }
 );
 
+/**
+ * One shared pointer tracker powers proximity magnetism for every button —
+ * mounting a window listener on each instance would mean dozens of duplicate
+ * listeners per page. Pointer positions are batched into a single animation
+ * frame, and a reset is broadcast when the pointer leaves or the page scrolls.
+ */
+type MagnetPointerListener = (x: number, y: number, pointerType: string) => void;
+
+const MAGNET_RADIUS = 72; // px of pull around the button edge
+const MAGNET_MAX_OFFSET = 12; // px the pill may lean from its resting place
+const MAGNET_STRENGTH = 0.2;
+
+const magnetListeners = new Set<MagnetPointerListener>();
+let magnetFrame = 0;
+let magnetPointer = {
+  x: Number.NEGATIVE_INFINITY,
+  y: Number.NEGATIVE_INFINITY,
+  type: "mouse",
+};
+
+const flushMagnetPointer = () => {
+  magnetFrame = 0;
+  const { x, y, type } = magnetPointer;
+  magnetListeners.forEach((listener) => listener(x, y, type));
+};
+
+const handleGlobalPointerMove = (event: PointerEvent) => {
+  magnetPointer = { x: event.clientX, y: event.clientY, type: event.pointerType || "mouse" };
+  if (!magnetFrame) {
+    magnetFrame = window.requestAnimationFrame(flushMagnetPointer);
+  }
+};
+
+const clearMagnetPointer = () => {
+  magnetPointer = {
+    x: Number.NEGATIVE_INFINITY,
+    y: Number.NEGATIVE_INFINITY,
+    type: magnetPointer.type,
+  };
+  magnetListeners.forEach((listener) => listener(magnetPointer.x, magnetPointer.y, magnetPointer.type));
+};
+
+function subscribeMagnetPointer(listener: MagnetPointerListener) {
+  magnetListeners.add(listener);
+
+  if (magnetListeners.size === 1) {
+    window.addEventListener("pointermove", handleGlobalPointerMove, { passive: true });
+    window.addEventListener("blur", clearMagnetPointer);
+    window.addEventListener("scroll", clearMagnetPointer, { passive: true });
+    document.addEventListener("pointerleave", clearMagnetPointer);
+  }
+
+  return () => {
+    magnetListeners.delete(listener);
+
+    if (magnetListeners.size === 0) {
+      window.removeEventListener("pointermove", handleGlobalPointerMove);
+      window.removeEventListener("blur", clearMagnetPointer);
+      window.removeEventListener("scroll", clearMagnetPointer);
+      document.removeEventListener("pointerleave", clearMagnetPointer);
+      if (magnetFrame) window.cancelAnimationFrame(magnetFrame);
+      magnetFrame = 0;
+    }
+  };
+}
+
 export interface LiquidGlassButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onAnimationStart" | "onDrag" | "onDragStart" | "onDragEnd">,
     VariantProps<typeof liquidGlassVariants> {
@@ -95,8 +162,11 @@ export const LiquidGlassButton = React.forwardRef<
   ) => {
     const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
     const [isHovered, setIsHovered] = React.useState(false);
+    const [isMagnetActive, setIsMagnetActive] = React.useState(false);
     const [magnetOffset, setMagnetOffset] = React.useState({ x: 0, y: 0 });
     const [tiltAngle, setTiltAngle] = React.useState({ rotateX: 0, rotateY: 0 });
+    const rootRef = React.useRef<HTMLElement | null>(null);
+    const magnetRectRef = React.useRef<DOMRect | null>(null);
     // Light + Magnet are compulsory on every button. They are driven by real
     // pointer events (not a hover media query, which reports false in some
     // embedded browsers and touchscreen laptops, silently disabling both).
@@ -114,41 +184,105 @@ export const LiquidGlassButton = React.forwardRef<
       return () => reduceMotion.removeEventListener("change", syncPreference);
     }, []);
 
+    const resetMagnet = React.useCallback(() => {
+      magnetRectRef.current = null;
+      setIsMagnetActive((active) => (active ? false : active));
+      setMagnetOffset((prev) => (prev.x === 0 && prev.y === 0 ? prev : { x: 0, y: 0 }));
+      setTiltAngle((prev) =>
+        prev.rotateX === 0 && prev.rotateY === 0 ? prev : { rotateX: 0, rotateY: 0 }
+      );
+    }, []);
+
+    // Magnet: pulls toward the pointer while it is over the button or within
+    // MAGNET_RADIUS of its edge. The resting rect is measured once per approach
+    // so the pill's own movement can never feed back into its target position.
+    React.useEffect(() => {
+      const element = rootRef.current;
+      if (!element) return;
+
+      const handleNearbyPointer = (clientX: number, clientY: number, pointerType: string) => {
+        if (
+          disabled ||
+          pointerType === "touch" ||
+          prefersReducedMotion.current ||
+          !Number.isFinite(clientX) ||
+          !Number.isFinite(clientY)
+        ) {
+          resetMagnet();
+          return;
+        }
+
+        const rect = magnetRectRef.current ?? element.getBoundingClientRect();
+        magnetRectRef.current = rect;
+
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const outsideX = Math.max(rect.left - clientX, 0, clientX - rect.right);
+        const outsideY = Math.max(rect.top - clientY, 0, clientY - rect.bottom);
+        const distance = Math.hypot(outsideX, outsideY);
+
+        if (distance > MAGNET_RADIUS) {
+          resetMagnet();
+          return;
+        }
+
+        // Gentle at the edge of the field, full strength over the button.
+        const strength = 1 - distance / MAGNET_RADIUS;
+        const clampOffset = (value: number) =>
+          Math.max(-MAGNET_MAX_OFFSET, Math.min(MAGNET_MAX_OFFSET, value));
+
+        const nextX = clampOffset((clientX - centerX) * MAGNET_STRENGTH * strength);
+        const nextY = clampOffset((clientY - centerY) * MAGNET_STRENGTH * strength);
+        setMagnetOffset((prev) =>
+          Math.abs(prev.x - nextX) < 0.2 && Math.abs(prev.y - nextY) < 0.2
+            ? prev
+            : { x: nextX, y: nextY }
+        );
+
+        // Tactile lean toward the pointer (max 5.5deg), scaled by proximity.
+        const normX = (clientX - centerX) / Math.max(rect.width / 2, 1);
+        const normY = (clientY - centerY) / Math.max(rect.height / 2, 1);
+        const nextRotateX = -normY * 5.5 * strength;
+        const nextRotateY = normX * 5.5 * strength;
+        setTiltAngle((prev) =>
+          Math.abs(prev.rotateX - nextRotateX) < 0.02 &&
+          Math.abs(prev.rotateY - nextRotateY) < 0.02
+            ? prev
+            : { rotateX: nextRotateX, rotateY: nextRotateY }
+        );
+
+        setIsMagnetActive(true);
+      };
+
+      return subscribeMagnetPointer(handleNearbyPointer);
+    }, [asChild, href, disabled, resetMagnet]);
+
     const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
       if (disabled) return;
       if (e.pointerType === "touch") return;
       if (prefersReducedMotion.current) return;
-      const target = e.currentTarget;
-      const rect = target.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      setMousePos({ x, y });
+      const rect = e.currentTarget.getBoundingClientRect();
+      setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
       setIsHovered(true);
-
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      // Magnet: follow the cursor, capped so the pill leans without drifting
-      // far enough to break its layout position.
-      const maxOffset = 12;
-      const deltaX = Math.max(-maxOffset, Math.min(maxOffset, (x - centerX) * 0.22));
-      const deltaY = Math.max(-maxOffset, Math.min(maxOffset, (y - centerY) * 0.22));
-      setMagnetOffset({ x: deltaX, y: deltaY });
-
-      // Subtle, tactile 3D perspective tilt (max 5.5 degrees)
-      const normX = (x - centerX) / Math.max(centerX, 1);
-      const normY = (y - centerY) / Math.max(centerY, 1);
-      setTiltAngle({
-        rotateX: -normY * 5.5,
-        rotateY: normX * 5.5,
-      });
     };
 
     const handlePointerLeave = () => {
       setIsHovered(false);
-      setMagnetOffset({ x: 0, y: 0 });
-      setTiltAngle({ rotateX: 0, rotateY: 0 });
     };
+
+    // Keep our own handle on the rendered element for proximity measurement
+    // while still honouring the forwarded ref.
+    const setRootRef = React.useCallback(
+      (node: HTMLElement | null) => {
+        rootRef.current = node;
+        if (typeof ref === "function") {
+          ref(node as HTMLButtonElement & HTMLAnchorElement);
+        } else if (ref) {
+          (ref as unknown as React.MutableRefObject<HTMLElement | null>).current = node;
+        }
+      },
+      [ref]
+    );
 
     // Determine circular arrow visibility:
     // By default, action buttons (primary, secondary, gold, crisis, vermilion) show the red circular arrow unless explicitly set to false or size is icon
@@ -176,13 +310,14 @@ export const LiquidGlassButton = React.forwardRef<
         ? "rgba(255, 255, 255, 0.30)"
         : "rgba(198, 164, 106, 0.38)";
 
+    const magnetVisible = isMagnetActive || isHovered;
     const inlineStyle: React.CSSProperties = {
       transform:
-        isHovered
+        magnetVisible
           ? `perspective(600px) translate3d(${magnetOffset.x.toFixed(1)}px, ${magnetOffset.y.toFixed(1)}px, 4px) rotateX(${tiltAngle.rotateX.toFixed(2)}deg) rotateY(${tiltAngle.rotateY.toFixed(2)}deg)`
           : undefined,
       transformStyle: "preserve-3d",
-      transition: isHovered
+      transition: magnetVisible
         ? "transform 90ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 300ms ease"
         : "transform 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease",
       ...props.style,
@@ -238,7 +373,7 @@ export const LiquidGlassButton = React.forwardRef<
     if (asChild) {
       return (
         <Slot
-          ref={ref as React.Ref<HTMLElement>}
+          ref={setRootRef as React.Ref<HTMLElement>}
           className={classes}
           style={inlineStyle}
           onPointerMove={handlePointerMove}
@@ -263,7 +398,7 @@ export const LiquidGlassButton = React.forwardRef<
       if (isExternal) {
         return (
           <a
-            ref={ref as React.Ref<HTMLAnchorElement>}
+            ref={setRootRef}
             href={href}
             className={classes}
             style={inlineStyle}
@@ -281,7 +416,7 @@ export const LiquidGlassButton = React.forwardRef<
 
       return (
         <Link
-          ref={ref as React.Ref<HTMLAnchorElement>}
+          ref={setRootRef}
           href={href}
           className={classes}
           style={inlineStyle}
@@ -298,7 +433,7 @@ export const LiquidGlassButton = React.forwardRef<
     // Interactive button element
     return (
       <button
-        ref={ref as React.Ref<HTMLButtonElement>}
+        ref={setRootRef}
         className={classes}
         style={inlineStyle}
         disabled={disabled}
