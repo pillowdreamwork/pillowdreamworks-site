@@ -52,14 +52,23 @@ export function AssessmentsPreviewSection() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 shrink-0">
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
             <LiquidGlassButton
-              href="/assessments"
+              href="/assessments?tab=free"
               variant="secondary"
               size="md"
               showArrow
             >
-              <span>Explore Complete 177 Catalogue</span>
+              <span>Free Scales (161)</span>
+            </LiquidGlassButton>
+
+            <LiquidGlassButton
+              href="/assessments?tab=paid"
+              variant="gold"
+              size="md"
+              showArrow
+            >
+              <span>Clinical Batteries (16)</span>
             </LiquidGlassButton>
           </div>
         </div>

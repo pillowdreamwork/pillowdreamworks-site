@@ -41,6 +41,67 @@ import {
   HelpCircle,
 } from "lucide-react";
 
+// Clinical and evidentiary usage priority rank (Gold standard instruments first)
+const MOST_USED_ASSESSMENT_IDS: Record<string, number> = {
+  "gad-7": 1000,
+  "phq-9": 990,
+  "bdi-ii": 980,
+  "ham-a": 970,
+  "dass-21": 960,
+  "dass-42": 950,
+  "audit": 940,
+  "cage": 930,
+  "cage-substance": 930,
+  "pss-10": 920,
+  "rosenberg-ses": 910,
+  "tipi-10": 900,
+  "mbti-style-16": 890,
+  "pcl-5": 880,
+  "isi": 870,
+  "who-5": 860,
+  "swls": 850,
+  "cd-risc-10": 840,
+  "wais-iv": 830,
+  "mmpi-2": 820,
+  "rorschach": 810,
+  "tat": 800,
+  "16pf": 790,
+  "aq-10": 780,
+  "asrs": 770,
+  "conners-adhd": 760,
+  "panss": 750,
+  "ucla-loneliness": 740,
+  "y-bocs": 730,
+  "hads": 720,
+  "bai": 710,
+  "ghq-12": 700,
+  "stai-y": 690,
+  "sd3-short": 680,
+  "bender-gestalt": 670,
+  "cat-child": 660,
+  "caps-5": 650,
+  "ados-2": 640,
+  "ssct": 630,
+  "htp": 620,
+  "hfdt": 610,
+};
+
+function getUsageRank(item: FullAssessmentItem): number {
+  if (MOST_USED_ASSESSMENT_IDS[item.id] !== undefined) {
+    return MOST_USED_ASSESSMENT_IDS[item.id];
+  }
+  // Core instruments with custom batteries
+  if (Array.isArray(item.questions) && item.questions.length > 0 && !item.id.startsWith("scale_")) {
+    return 300;
+  }
+  // Base catalog practitioner batteries
+  if (item.isPaid) {
+    return 200;
+  }
+  // Standard catalog screeners
+  return 100;
+}
+
 export function AssessmentCentre() {
   // Classification and Filtering
   const [selectedDomain, setSelectedDomain] = useState<string>("all");
@@ -74,6 +135,17 @@ export function AssessmentCentre() {
     }
   }, []);
 
+  // Sync tab filter from URL query param (?tab=free or ?tab=paid)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get("tab") || params.get("filter");
+      if (tabParam === "free" || tabParam === "paid" || tabParam === "all") {
+        setActiveTab(tabParam as "all" | "paid" | "free");
+      }
+    }
+  }, []);
+
   // Escape key handler and focus trapping
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -101,15 +173,17 @@ export function AssessmentCentre() {
     };
   }, [activeTest, isRegistrationOpen]);
 
-  // All unique domains
+  // All unique domains in alphabetical order
   const domains = useMemo(() => {
-    const list = Array.from(new Set(PSYCH_ASSESSMENTS.map((a) => a.domain)));
+    const list = Array.from(new Set(PSYCH_ASSESSMENTS.map((a) => a.domain)))
+      .filter((d): d is string => Boolean(d && d.trim()))
+      .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
     return ["all", ...list];
   }, []);
 
-  // Filtered Assessments
+  // Filtered Assessments: most used gold-standard instruments first, then alphabetical
   const filteredAssessments = useMemo(() => {
-    return PSYCH_ASSESSMENTS.filter((item) => {
+    const matched = PSYCH_ASSESSMENTS.filter((item) => {
       // Tab filter
       if (activeTab === "free" && item.isPaid) return false;
       if (activeTab === "paid" && !item.isPaid) return false;
@@ -131,10 +205,31 @@ export function AssessmentCentre() {
 
       return true;
     });
+
+    return matched.sort((a, b) => {
+      const rankA = getUsageRank(a);
+      const rankB = getUsageRank(b);
+      if (rankB !== rankA) return rankB - rankA;
+      return a.title.localeCompare(b.title, "en", { sensitivity: "base" });
+    });
   }, [activeTab, selectedDomain, searchQuery]);
 
   const freeCount = useMemo(() => PSYCH_ASSESSMENTS.filter((a) => !a.isPaid).length, []);
   const paidCount = useMemo(() => PSYCH_ASSESSMENTS.filter((a) => a.isPaid).length, []);
+
+  const handleTabChange = (tab: "all" | "paid" | "free") => {
+    setActiveTab(tab);
+    if (selectedDomain !== "all") {
+      const remaining = PSYCH_ASSESSMENTS.filter((item) => {
+        if (tab === "free" && item.isPaid) return false;
+        if (tab === "paid" && !item.isPaid) return false;
+        return item.domain === selectedDomain;
+      });
+      if (remaining.length === 0) {
+        setSelectedDomain("all");
+      }
+    }
+  };
 
   // Initiate starting an assessment
   const handleInitiateAssessment = (item: FullAssessmentItem, e?: React.MouseEvent) => {
@@ -295,7 +390,35 @@ ${interpretationResult.note}
           The Comprehensive Assessment Centre
         </h1>
         <p className="text-base sm:text-lg text-[#202923]/75 leading-relaxed max-w-3xl mx-auto font-sans">
-          Explore <strong>{freeCount} self-administered screeners</strong> and <strong>{paidCount} practitioner-administered clinical batteries</strong> across {domains.length - 1} psychological domains. Each generates itemized factor profiles, clinical synthesis, and reflective discussion.
+          Explore{" "}
+          <button
+            type="button"
+            onClick={() => {
+              handleTabChange("free");
+              const el = document.getElementById("assessment-suite-container");
+              if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#24483B]/10 hover:bg-[#24483B] text-[#24483B] hover:text-[#FDFBF7] font-semibold text-xs sm:text-sm transition-all duration-300 cursor-pointer border border-[#24483B]/20 shadow-xs hover:shadow-md align-middle"
+            title="Filter by Free Scales / Screeners"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-forest" />
+            <span>{freeCount} Free Scales / Screeners</span>
+          </button>{" "}
+          and{" "}
+          <button
+            type="button"
+            onClick={() => {
+              handleTabChange("paid");
+              const el = document.getElementById("assessment-suite-container");
+              if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C6A46A]/20 hover:bg-[#C6A46A] text-[#121214] font-semibold text-xs sm:text-sm transition-all duration-300 cursor-pointer border border-[#C6A46A]/40 shadow-xs hover:shadow-md align-middle"
+            title="Filter by Practitioner Clinical Batteries"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-vermilion" />
+            <span>{paidCount} Clinical Batteries</span>
+          </button>{" "}
+          across {domains.length - 1} psychological domains. Each generates itemized factor profiles, clinical synthesis, and reflective discussion.
         </p>
       </div>
 
@@ -308,7 +431,7 @@ ${interpretationResult.note}
           <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-full glass-pill border border-sage/20 backdrop-blur-xl">
             <LiquidGlassButton
               type="button"
-              onClick={() => setActiveTab("all")}
+              onClick={() => handleTabChange("all")}
               variant={activeTab === "all" ? "primary" : "subtle"}
               size="md"
               signalDot={activeTab === "all"}
@@ -319,24 +442,24 @@ ${interpretationResult.note}
 
             <LiquidGlassButton
               type="button"
-              onClick={() => setActiveTab("paid")}
+              onClick={() => handleTabChange("free")}
+              variant={activeTab === "free" ? "primary" : "subtle"}
+              size="md"
+              signalDot={activeTab === "free"}
+              className="px-4 text-xs sm:text-sm"
+            >
+              <span>Free Scales ({freeCount})</span>
+            </LiquidGlassButton>
+
+            <LiquidGlassButton
+              type="button"
+              onClick={() => handleTabChange("paid")}
               variant={activeTab === "paid" ? "primary" : "subtle"}
               size="md"
               signalDot={activeTab === "paid"}
               className="px-4 text-xs sm:text-sm"
             >
               <span>Clinical Batteries ({paidCount})</span>
-            </LiquidGlassButton>
-
-            <LiquidGlassButton
-              type="button"
-              onClick={() => setActiveTab("free")}
-              variant={activeTab === "free" ? "primary" : "subtle"}
-              size="md"
-              signalDot={activeTab === "free"}
-              className="px-4 text-xs sm:text-sm"
-            >
-              <span>Free Screeners ({freeCount})</span>
             </LiquidGlassButton>
           </div>
 
@@ -495,9 +618,9 @@ ${interpretationResult.note}
               <TiltCard
                 key={item.id}
                 maxTilt={6}
-                className="glass-card rounded-3xl p-7 border border-sage/20 hover:border-forest/40 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group relative overflow-hidden"
+                className="glass-card rounded-3xl p-7 border border-sage/20 hover:border-forest/40 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group relative"
               >
-                <div className="space-y-3.5">
+                <div className="space-y-3.5 relative z-10">
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-[10px] uppercase font-bold tracking-widest text-forest bg-sage/10 px-3 py-1 rounded-full border border-sage/25">
                       {item.domain}
@@ -541,7 +664,7 @@ ${interpretationResult.note}
                   </div>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-sage/15 space-y-3">
+                <div className="pt-6 mt-6 border-t border-sage/15 space-y-3 relative z-20">
                   {item.isPaid ? (
                     <div className="space-y-3">
                       <div className="flex items-baseline justify-between px-1">
@@ -561,7 +684,7 @@ ${interpretationResult.note}
                         onClick={(e) => handleInitiateAssessment(item, e)}
                         variant="gold"
                         size="md"
-                        className="w-full justify-between"
+                        className="w-full justify-between relative z-20 shadow-xs hover:shadow-md"
                         showArrow
                         signalDot={false}
                       >
@@ -578,7 +701,7 @@ ${interpretationResult.note}
                       onClick={(e) => handleInitiateAssessment(item, e)}
                       variant="primary"
                       size="md"
-                      className="w-full justify-between shadow-sm"
+                      className="w-full justify-between shadow-sm relative z-20 hover:shadow-md"
                       showArrow
                       signalDot
                     >

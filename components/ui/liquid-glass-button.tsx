@@ -259,11 +259,31 @@ export const LiquidGlassButton = React.forwardRef<
 
     const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
       if (disabled) return;
-      if (e.pointerType === "touch") return;
-      if (prefersReducedMotion.current) return;
-      const rect = e.currentTarget.getBoundingClientRect();
-      setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+      const target = e.currentTarget;
+      const rect = target.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      setMousePos({ x, y });
       setIsHovered(true);
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      // Magnet: pull toward cursor, smooth and tactile
+      const dampener = prefersReducedMotion.current ? 0.35 : 1;
+      const maxOffset = 14 * dampener;
+      const deltaX = Math.max(-maxOffset, Math.min(maxOffset, (x - centerX) * 0.28 * dampener));
+      const deltaY = Math.max(-maxOffset, Math.min(maxOffset, (y - centerY) * 0.28 * dampener));
+      setMagnetOffset({ x: deltaX, y: deltaY });
+
+      // Subtle, tactile 3D perspective tilt (max 5.5 degrees)
+      const normX = (x - centerX) / Math.max(centerX, 1);
+      const normY = (y - centerY) / Math.max(centerY, 1);
+      setTiltAngle({
+        rotateX: -normY * 5.5 * dampener,
+        rotateY: normX * 5.5 * dampener,
+      });
+      setIsMagnetActive(true);
     };
 
     const handlePointerLeave = () => {
@@ -303,12 +323,25 @@ export const LiquidGlassButton = React.forwardRef<
     // Explicit showArrow override for small/subtle when requested
     const renderArrow = showArrow !== undefined ? showArrow : shouldShowArrow;
 
-    // Light: compulsory on every variant — a white sheen over dark fills and a
-    // warm gold sheen over the ivory/gold fills so the glow always reads.
-    const glowTint =
-      variant === "primary" || variant === "crisis" || variant === "vermilion"
-        ? "rgba(255, 255, 255, 0.30)"
-        : "rgba(198, 164, 106, 0.38)";
+    const isDarkVariant =
+      variant === "primary" ||
+      variant === "crisis" ||
+      variant === "vermilion";
+
+    // Multi-stop high-luminosity radial light sheen centered on the exact cursor coordinates
+    const glowGradient = isHovered
+      ? isDarkVariant
+        ? `radial-gradient(180px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.28) 35%, rgba(255, 255, 255, 0.08) 60%, transparent 80%)`
+        : variant === "gold"
+        ? `radial-gradient(180px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.85) 0%, rgba(255, 240, 200, 0.40) 35%, rgba(255, 255, 255, 0.12) 60%, transparent 80%)`
+        : `radial-gradient(180px circle at ${mousePos.x}px ${mousePos.y}px, rgba(198, 164, 106, 0.75) 0%, rgba(198, 164, 106, 0.35) 35%, rgba(36, 72, 59, 0.14) 60%, transparent 80%)`
+      : undefined;
+
+    const hoverShadow = isHovered
+      ? isDarkVariant
+        ? "0 10px 32px -4px rgba(18,18,20,0.65), 0 0 20px rgba(255,255,255,0.22)"
+        : "0 10px 28px -2px rgba(32,41,35,0.18), 0 0 16px rgba(198,164,106,0.35)"
+      : undefined;
 
     const magnetVisible = isMagnetActive || isHovered;
     const inlineStyle: React.CSSProperties = {
@@ -316,10 +349,11 @@ export const LiquidGlassButton = React.forwardRef<
         magnetVisible
           ? `perspective(600px) translate3d(${magnetOffset.x.toFixed(1)}px, ${magnetOffset.y.toFixed(1)}px, 4px) rotateX(${tiltAngle.rotateX.toFixed(2)}deg) rotateY(${tiltAngle.rotateY.toFixed(2)}deg)`
           : undefined,
+      boxShadow: hoverShadow || props.style?.boxShadow,
       transformStyle: "preserve-3d",
       transition: magnetVisible
-        ? "transform 70ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 300ms ease"
-        : "transform 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease",
+        ? "transform 75ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 200ms ease"
+        : "transform 350ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease",
       ...props.style,
     };
 
@@ -330,15 +364,15 @@ export const LiquidGlassButton = React.forwardRef<
 
     const content = (
       <>
-        {/* Light: cursor-following glow, mounted on every button */}
+        {/* Light: cursor-following luminous sheen mounted on every button */}
         <span
           aria-hidden="true"
           data-button-glow=""
-          className="pointer-events-none absolute -inset-px rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100 overflow-hidden"
+          className="pointer-events-none absolute -inset-px rounded-full overflow-hidden"
           style={{
-            background: isHovered
-              ? `radial-gradient(150px circle at ${mousePos.x}px ${mousePos.y}px, ${glowTint}, transparent 72%)`
-              : undefined,
+            opacity: isHovered ? 1 : 0,
+            background: glowGradient,
+            transition: "opacity 160ms ease",
           }}
         />
 
@@ -376,6 +410,7 @@ export const LiquidGlassButton = React.forwardRef<
           ref={setRootRef as React.Ref<HTMLElement>}
           className={classes}
           style={inlineStyle}
+          onPointerEnter={handlePointerMove}
           onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
           {...props}
@@ -405,6 +440,7 @@ export const LiquidGlassButton = React.forwardRef<
             target={href.startsWith("http") ? "_blank" : undefined}
             rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
             aria-disabled={disabled}
+            onPointerEnter={handlePointerMove}
             onPointerMove={handlePointerMove}
             onPointerLeave={handlePointerLeave}
             {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
@@ -421,6 +457,7 @@ export const LiquidGlassButton = React.forwardRef<
           className={classes}
           style={inlineStyle}
           aria-disabled={disabled}
+          onPointerEnter={handlePointerMove}
           onPointerMove={handlePointerMove}
           onPointerLeave={handlePointerLeave}
           {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
@@ -438,6 +475,7 @@ export const LiquidGlassButton = React.forwardRef<
         style={inlineStyle}
         disabled={disabled}
         type={(props as React.ButtonHTMLAttributes<HTMLButtonElement>).type || "button"}
+        onPointerEnter={handlePointerMove}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
         {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}

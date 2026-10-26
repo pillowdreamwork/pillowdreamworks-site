@@ -91,90 +91,43 @@ export function ScrollNavigator() {
         <div
           onMouseEnter={() => setIsExpanded(true)}
           onMouseLeave={() => setIsExpanded(false)}
-          className={`transition-all duration-300 rounded-2xl p-3.5 border backdrop-blur-md shadow-md bg-[#FDFBF7]/95 border-[#24483B]/20 ${
-            isExpanded ? "w-64" : "w-56"
-          }`}
+          className="transition-all duration-300 rounded-2xl p-3.5 border backdrop-blur-md shadow-lg bg-[#FDFBF7]/98 border-[#24483B]/20 w-[268px]"
         >
           {/* Header indicator */}
           <div className="flex items-center justify-between gap-2 pb-2.5 border-b border-[#24483B]/15 mb-2">
-            <div className="flex items-center gap-2 text-xs font-sans font-semibold tracking-wide text-[#24483B]">
+            <div className="flex items-center gap-2 text-xs font-sans font-bold tracking-wide text-[#24483B]">
               <Compass className="w-4 h-4 text-[#C6A46A] shrink-0" />
-              <span className="whitespace-nowrap">Charting Our Work</span>
+              <span className="whitespace-nowrap font-medium">Charting Our Work</span>
             </div>
-            <span className="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-[#24483B]/10 text-[#24483B]">
+            <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#24483B]/10 text-[#24483B]">
               {activeChapter.num}/{CHAPTERS.length}
             </span>
           </div>
 
           {/* Chapter Links */}
-          <nav className="space-y-1.5" role="navigation">
+          <nav className="space-y-1.5" role="navigation" aria-label="Folio chapters">
             {CHAPTERS.map((ch) => {
               const isActive = ch.id === activeId;
               return (
-                <LiquidGlassButton
+                <RailItemButton
                   key={ch.id}
+                  ch={ch}
+                  isActive={isActive}
                   onClick={() => scrollTo(ch.id)}
-                  aria-current={isActive ? "step" : undefined}
-                  className={`w-full group flex items-center justify-between gap-2.5 px-2 py-1.5 rounded-lg text-left transition-all cursor-pointer ${
-                    isActive
-                      ? "bg-[#24483B] text-[#FDFBF7] shadow-xs"
-                      : "text-[#202923]/70 hover:bg-[#F5EFE6] hover:text-[#202923]"
-                  }`}
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span
-                      className={`text-[10px] font-mono font-semibold transition-colors ${
-                        isActive ? "text-[#C6A46A]" : "text-[#24483B]/60 group-hover:text-[#24483B]"
-                      }`}
-                    >
-                      {ch.num}
-                    </span>
-                    {isExpanded && (
-                      <span className="text-xs font-serif truncate font-normal">
-                        {ch.title}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Bullet Dot indicator */}
-                  <div
-                    className={`w-1.5 h-1.5 rounded-full shrink-0 transition-transform ${
-                      isActive
-                        ? "bg-[#C6A46A] scale-125"
-                        : "bg-[#24483B]/25 group-hover:bg-[#24483B]/60"
-                    }`}
-                  />
-                </LiquidGlassButton>
+                />
               );
             })}
           </nav>
 
-          {/* Active Chapter Tagline (when expanded) */}
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="pt-2 mt-2 border-t border-[#24483B]/10 text-[11px] font-sans text-[#202923]/70 leading-snug"
-              >
-                <span className="font-semibold text-[#24483B] block">Current Focus:</span>
-                {activeChapter.tagline}
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Active Chapter Tagline */}
+          <div className="pt-2 mt-2 border-t border-[#24483B]/10 text-[11px] font-sans text-[#202923]/80 leading-snug">
+            <span className="font-semibold text-[#24483B] block">Current Focus:</span>
+            <span className="italic">{activeChapter.tagline}</span>
+          </div>
 
           {/* Quick Back to Top */}
           {hasScrolled && (
-            <LiquidGlassButton
-              onClick={scrollToTop}
-              title="Return to folio beginning"
-              aria-label="Scroll back to top"
-              className="mt-2 pt-2 border-t border-[#24483B]/10 w-full flex items-center justify-center gap-1.5 text-[11px] font-mono text-[#24483B] hover:text-[#C6A46A] transition-colors py-1 cursor-pointer"
-            >
-              <ChevronUp className="w-3.5 h-3.5" />
-              <span>Top</span>
-            </LiquidGlassButton>
+            <RailTopButton onClick={scrollToTop} />
           )}
         </div>
       </aside>
@@ -197,5 +150,168 @@ export function ScrollNavigator() {
         </LiquidGlassButton>
       </aside>
     </>
+  );
+}
+
+interface RailItemButtonProps {
+  ch: Chapter;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+function RailItemButton({ ch, isActive, onClick }: RailItemButtonProps) {
+  const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [offset, setOffset] = React.useState({ x: 0, y: 0 });
+  const [tilt, setTilt] = React.useState({ x: 0, y: 0 });
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMousePos({ x, y });
+    setIsHovered(true);
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const maxOffset = 6;
+    setOffset({
+      x: Math.max(-maxOffset, Math.min(maxOffset, (x - centerX) * 0.18)),
+      y: Math.max(-maxOffset, Math.min(maxOffset, (y - centerY) * 0.18)),
+    });
+    setTilt({
+      x: -((y - centerY) / Math.max(centerY, 1)) * 3.5,
+      y: ((x - centerX) / Math.max(centerX, 1)) * 3.5,
+    });
+  };
+
+  const handlePointerLeave = () => {
+    setIsHovered(false);
+    setOffset({ x: 0, y: 0 });
+    setTilt({ x: 0, y: 0 });
+  };
+
+  const glowBackground = isHovered
+    ? isActive
+      ? `radial-gradient(120px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.45) 0%, rgba(198, 164, 106, 0.25) 45%, transparent 75%)`
+      : `radial-gradient(120px circle at ${mousePos.x}px ${mousePos.y}px, rgba(198, 164, 106, 0.60) 0%, rgba(36, 72, 59, 0.15) 45%, transparent 75%)`
+    : undefined;
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      onPointerEnter={handlePointerMove}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      aria-current={isActive ? "step" : undefined}
+      style={{
+        transform: isHovered
+          ? `perspective(400px) translate3d(${offset.x.toFixed(1)}px, ${offset.y.toFixed(1)}px, 2px) rotateX(${tilt.x.toFixed(1)}deg) rotateY(${tilt.y.toFixed(1)}deg)`
+          : undefined,
+        transition: isHovered
+          ? "transform 75ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 200ms ease, box-shadow 200ms ease"
+          : "transform 300ms cubic-bezier(0.16, 1, 0.3, 1), background-color 250ms ease, box-shadow 250ms ease",
+      }}
+      className={`relative w-full group flex items-center justify-between gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition-colors cursor-pointer overflow-hidden ${
+        isActive
+          ? "bg-[#24483B] text-[#FDFBF7] shadow-sm font-medium"
+          : "text-[#1C2620] hover:bg-[#F2ECE1] hover:text-[#24483B]"
+      }`}
+    >
+      {/* Light glow sheen inside button */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -inset-px rounded-lg overflow-hidden transition-opacity duration-150"
+        style={{
+          opacity: isHovered ? 1 : 0,
+          background: glowBackground,
+        }}
+      />
+
+      <div className="relative z-10 flex items-center gap-2 min-w-0">
+        <span
+          className={`text-[10px] font-mono font-bold transition-colors ${
+            isActive ? "text-[#C6A46A]" : "text-[#24483B]/70 group-hover:text-[#24483B]"
+          }`}
+        >
+          {ch.num}
+        </span>
+        <span
+          className={`text-xs font-serif font-medium truncate ${
+            isActive ? "text-[#FDFBF7]" : "text-[#1C2620] group-hover:text-[#24483B]"
+          }`}
+        >
+          {ch.title}
+        </span>
+      </div>
+
+      {/* Bullet Dot indicator */}
+      <div
+        className={`relative z-10 w-1.5 h-1.5 rounded-full shrink-0 transition-transform ${
+          isActive
+            ? "bg-[#C6A46A] scale-125 shadow-[0_0_6px_#C6A46A]"
+            : "bg-[#24483B]/30 group-hover:bg-[#24483B]/70"
+        }`}
+      />
+    </button>
+  );
+}
+
+function RailTopButton({ onClick }: { onClick: () => void }) {
+  const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [offset, setOffset] = React.useState({ x: 0, y: 0 });
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMousePos({ x, y });
+    setIsHovered(true);
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    setOffset({
+      x: Math.max(-4, Math.min(4, (x - centerX) * 0.15)),
+      y: Math.max(-4, Math.min(4, (y - centerY) * 0.15)),
+    });
+  };
+
+  const handlePointerLeave = () => {
+    setIsHovered(false);
+    setOffset({ x: 0, y: 0 });
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      onPointerEnter={handlePointerMove}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      title="Return to folio beginning"
+      aria-label="Scroll back to top"
+      style={{
+        transform: isHovered
+          ? `translate3d(${offset.x.toFixed(1)}px, ${offset.y.toFixed(1)}px, 0)`
+          : undefined,
+        transition: isHovered
+          ? "transform 75ms ease, color 150ms ease"
+          : "transform 250ms ease, color 200ms ease",
+      }}
+      className="relative mt-2 pt-2 border-t border-[#24483B]/10 w-full flex items-center justify-center gap-1.5 text-[11px] font-mono font-medium text-[#24483B] hover:text-[#C6A46A] py-1 cursor-pointer overflow-hidden rounded-md"
+    >
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -inset-px rounded-md overflow-hidden transition-opacity duration-150"
+        style={{
+          opacity: isHovered ? 1 : 0,
+          background: `radial-gradient(100px circle at ${mousePos.x}px ${mousePos.y}px, rgba(198, 164, 106, 0.40), transparent 70%)`,
+        }}
+      />
+      <ChevronUp className="w-3.5 h-3.5 relative z-10" />
+      <span className="relative z-10">Back to Top</span>
+    </button>
   );
 }
