@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Libre_Baskerville, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { LayoutShell } from "@/components/site/layout-shell";
+import { Analytics } from "@vercel/analytics/next";
 
 
 const inter = Inter({
@@ -64,6 +65,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${libreBaskerville.variable} ${spaceGrotesk.variable}`}>
       <body className="antialiased min-h-screen bg-ivory text-navy flex flex-col justify-between selection:bg-sage selection:text-ivory">
         <LayoutShell>{children}</LayoutShell>
+        <Analytics />
       </body>
     </html>
   );
